@@ -8,8 +8,7 @@ disableKinds = ["taxonomy", "term"]
 [params]
   description = "AI-powered session transcription and clinical note generation for behavioral health — running entirely on your hardware. No patient data in the cloud."
   tagline = "Clinical AI That Stays On Your Premises"
-  # Formspree endpoint — replace XXXXXXXX with your Formspree form ID
-  formspreeID = "XXXXXXXX"
+  formspreeID = "mwvreeno"
   twitterHandle = "@CoalescentEm"
   ogImage = "/img/og-kerrigan.png"
 
