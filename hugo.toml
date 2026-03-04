@@ -1,0 +1,9 @@
+baseURL = 'https://kerri.jhax.dev/'
+languageCode = 'en-us'
+title = 'Kerrigan'
+
+[params]
+  description = "Kerrigan — coming soon."
+  tagline = "Coming Soon"
+  ctaText = ""
+  ctaURL = ""

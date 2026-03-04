@@ -1,0 +1,11 @@
+{{ define "main" }}
+<main class="landing">
+  <div class="container">
+    <h1 class="logo">{{ .Site.Title }}</h1>
+    <p class="tagline">{{ .Site.Params.tagline }}</p>
+    {{ if .Site.Params.ctaText }}
+    <a class="cta" href="{{ .Site.Params.ctaURL }}">{{ .Site.Params.ctaText }}</a>
+    {{ end }}
+  </div>
+</main>
+{{ end }}
