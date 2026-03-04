@@ -1,11 +1,583 @@
 {{ define "main" }}
-<main class="landing">
-  <div class="container">
-    <h1 class="logo">{{ .Site.Title }}</h1>
-    <p class="tagline">{{ .Site.Params.tagline }}</p>
-    {{ if .Site.Params.ctaText }}
-    <a class="cta" href="{{ .Site.Params.ctaURL }}">{{ .Site.Params.ctaText }}</a>
-    {{ end }}
+
+<!-- ┌──────────────────────────────────────────────────────────────┐
+     │  NAV                                                         │
+     └──────────────────────────────────────────────────────────────┘ -->
+<nav class="site-nav">
+  <a href="/" class="nav-logo">Kerrig<span>an</span></a>
+  <a href="#waitlist" class="btn-primary" style="padding:0.6rem 1.4rem;font-size:0.875rem;">
+    Join Waitlist →
+  </a>
+</nav>
+
+
+<!-- ┌──────────────────────────────────────────────────────────────┐
+     │  HERO                                                        │
+     └──────────────────────────────────────────────────────────────┘ -->
+<section class="hero section-container" style="max-width:100%;padding-left:0;padding-right:0;">
+  <div class="section-container">
+    <div style="max-width:760px;">
+      <span class="section-eyebrow">AI Clinical Documentation · Behavioral Health · Local Only</span>
+
+      <h1 class="hero-title">
+        Be fully present<br>
+        with your clients.<br>
+        <span class="highlight">Let Kerrigan handle the charts.</span>
+      </h1>
+
+      <p class="hero-sub">
+        AI-powered session transcription and clinical note generation built for
+        behavioral health clinicians — all processing runs on <em>your</em> hardware.
+        No patient audio ever reaches an external server.
+      </p>
+
+      <div class="hero-cta-row">
+        <a href="#waitlist" class="btn-primary">
+          Join the Early Access Waitlist →
+        </a>
+        <a href="#how-it-works" class="btn-secondary">
+          See how it works ↓
+        </a>
+      </div>
+
+      <div class="hero-badges">
+        <span class="badge badge-sage">✓ HIPAA Compliant</span>
+        <span class="badge badge-cerulean">⬡ Local-Only Processing</span>
+        <span class="badge badge-cerulean">✕ No Cloud PHI</span>
+        <span class="badge badge-amber">⊕ Zoom Compatible</span>
+      </div>
+    </div>
   </div>
-</main>
+</section>
+
+
+<!-- ┌──────────────────────────────────────────────────────────────┐
+     │  PAIN — Three problems behavioral health clinicians know    │
+     └──────────────────────────────────────────────────────────────┘ -->
+<section class="section-pad band" style="position:relative;z-index:1;">
+  <div class="section-container">
+    <span class="section-eyebrow">The Problem</span>
+    <h2 class="section-title">Documentation is stealing your clinical life.</h2>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;margin-top:2.5rem;">
+
+      <div class="pain-card">
+        <div class="icon-circle icon-caution">⏱</div>
+        <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:0.6rem;color:var(--light);">
+          Hours of after-hours charting
+        </h3>
+        <p style="font-size:0.9rem;line-height:1.6;color:var(--muted);">
+          A 50-minute therapy session can demand 30–45 minutes of documentation.
+          Across a full caseload, that's hours every evening — unpaid, exhausting,
+          and the leading driver of clinician burnout.
+        </p>
+      </div>
+
+      <div class="pain-card">
+        <div class="icon-circle icon-caution">👁</div>
+        <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:0.6rem;color:var(--light);">
+          Split attention breaks the alliance
+        </h3>
+        <p style="font-size:0.9rem;line-height:1.6;color:var(--muted);">
+          Note-taking during a session forces you to divide attention between the
+          client in front of you and the chart you're building. Your clients feel it.
+          Your therapeutic outcomes reflect it.
+        </p>
+      </div>
+
+      <div class="pain-card">
+        <div class="icon-circle icon-caution">☁</div>
+        <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:0.6rem;color:var(--light);">
+          Cloud tools process your clients' words
+        </h3>
+        <p style="font-size:0.9rem;line-height:1.6;color:var(--muted);">
+          Every major AI scribe sends session audio to external servers. In behavioral
+          health — where clients share trauma, addiction histories, and legal
+          vulnerabilities — that's a risk your clients never consented to.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ┌──────────────────────────────────────────────────────────────┐
+     │  HOW IT WORKS                                                │
+     └──────────────────────────────────────────────────────────────┘ -->
+<section id="how-it-works" class="section-pad" style="position:relative;z-index:1;">
+  <div class="section-container">
+    <span class="section-eyebrow">How It Works</span>
+    <h2 class="section-title">One session. No charting. Clinical notes ready.</h2>
+    <p class="section-sub">From audio capture to EHR-ready notes — all on your own hardware.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;margin-top:2.5rem;">
+
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.6rem;color:var(--light);">
+          Record or connect
+        </h3>
+        <p style="font-size:0.875rem;line-height:1.6;color:var(--muted);">
+          Open the Kerrigan desktop app before your session. Record in-person audio
+          directly or integrate with Zoom for telehealth. No push-to-talk required —
+          just have a natural conversation.
+        </p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.6rem;color:var(--light);">
+          Local transcription
+        </h3>
+        <p style="font-size:0.875rem;line-height:1.6;color:var(--muted);">
+          Whisper-powered transcription runs entirely on your hardware. Speaker
+          diarization automatically separates clinician and client voices. No internet
+          connection required during processing.
+        </p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.6rem;color:var(--light);">
+          AI generates the note
+        </h3>
+        <p style="font-size:0.875rem;line-height:1.6;color:var(--muted);">
+          A locally-hosted LLM translates the transcript into a structured clinical
+          note — SOAP, DAP, GIRP, or progress note format. Review, edit, and push
+          to your EHR with one click.
+        </p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">4</div>
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.6rem;color:var(--light);">
+          Chat over the transcript
+        </h3>
+        <p style="font-size:0.875rem;line-height:1.6;color:var(--muted);">
+          Ask clinically-grounded questions about the session. Surface key themes,
+          risk indicators, or treatment plan updates. Context-aware AI that knows
+          the full transcript — not just a snippet.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ┌──────────────────────────────────────────────────────────────┐
+     │  LOCAL-ONLY DIFFERENTIATOR                                   │
+     └──────────────────────────────────────────────────────────────┘ -->
+<section class="section-pad band" style="position:relative;z-index:1;">
+  <div class="section-container">
+    <div class="two-col-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;">
+
+      <div>
+        <span class="section-eyebrow" style="color:var(--sage);">The Kerrigan Difference</span>
+        <h2 class="section-title">
+          Your patients' most vulnerable words<br>
+          <span style="color:var(--cerulean);">never leave your building.</span>
+        </h2>
+        <p class="section-sub">
+          Every other AI scribe platform sends session audio to external cloud servers
+          for processing. Kerrigan is different — by design. All transcription and AI
+          inference runs on hardware you control.
+        </p>
+      </div>
+
+      <div class="local-only-block">
+        <div class="local-only-bullet">
+          <span class="bullet-icon">✓</span>
+          <p class="bullet-text">
+            <strong>Transcription runs on-premise</strong> via a locally-hosted Whisper model.
+            No audio uploaded to any external API.
+          </p>
+        </div>
+        <div class="local-only-bullet">
+          <span class="bullet-icon">✓</span>
+          <p class="bullet-text">
+            <strong>Note generation uses a local LLM.</strong> No OpenAI API calls.
+            No Anthropic. No Google. Your PHI never touches their servers.
+          </p>
+        </div>
+        <div class="local-only-bullet">
+          <span class="bullet-icon">✓</span>
+          <p class="bullet-text">
+            <strong>No patient audio stored in the cloud</strong> — ever. Records
+            live only on your hardware and are subject solely to your retention policy.
+          </p>
+        </div>
+        <div class="local-only-bullet">
+          <span class="bullet-icon">✓</span>
+          <p class="bullet-text">
+            <strong>Works offline</strong> after initial install. Internet outages
+            do not interrupt your clinical workflow.
+          </p>
+        </div>
+        <div class="local-only-bullet" style="margin-bottom:0;">
+          <span class="bullet-icon">✓</span>
+          <p class="bullet-text">
+            <strong>Air-gap ready</strong> for high-security environments — substance
+            abuse treatment, forensic settings, court-ordered therapy.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ┌──────────────────────────────────────────────────────────────┐
+     │  COMPARISON TABLE                                            │
+     └──────────────────────────────────────────────────────────────┘ -->
+<section class="section-pad" style="position:relative;z-index:1;">
+  <div class="section-container">
+    <span class="section-eyebrow">Competitive Comparison</span>
+    <h2 class="section-title">The only AI scribe built for data sovereignty.</h2>
+    <p class="section-sub">
+      Cloud-based competitors process your session audio on external servers.
+      Kerrigan doesn't.
+    </p>
+
+    <div style="overflow-x:auto;margin-top:2.5rem;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="kerrigan-col">Kerrigan</th>
+            <th>Abridge</th>
+            <th>Freed</th>
+            <th>Nabla</th>
+            <th>DeepScribe</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Audio processing location</td>
+            <td class="kerrigan-col"><span class="check">On-premise</span></td>
+            <td><span class="cross">Cloud</span></td>
+            <td><span class="cross">Cloud</span></td>
+            <td><span class="cross">Cloud</span></td>
+            <td><span class="cross">Cloud</span></td>
+          </tr>
+          <tr>
+            <td>LLM inference location</td>
+            <td class="kerrigan-col"><span class="check">On-premise</span></td>
+            <td><span class="cross">Cloud</span></td>
+            <td><span class="cross">Cloud</span></td>
+            <td><span class="cross">Cloud</span></td>
+            <td><span class="cross">Cloud</span></td>
+          </tr>
+          <tr>
+            <td>PHI leaves premises</td>
+            <td class="kerrigan-col"><span class="check">Never</span></td>
+            <td><span class="cross">Yes</span></td>
+            <td><span class="cross">Yes</span></td>
+            <td><span class="cross">Yes</span></td>
+            <td><span class="cross">Yes</span></td>
+          </tr>
+          <tr>
+            <td>Offline capable</td>
+            <td class="kerrigan-col"><span class="check">✓</span></td>
+            <td><span class="cross">✕</span></td>
+            <td><span class="cross">✕</span></td>
+            <td><span class="cross">✕</span></td>
+            <td><span class="cross">✕</span></td>
+          </tr>
+          <tr>
+            <td>Behavioral health focus</td>
+            <td class="kerrigan-col"><span class="check">✓ Core focus</span></td>
+            <td>Enterprise</td>
+            <td>General</td>
+            <td>General</td>
+            <td>Oncology</td>
+          </tr>
+          <tr>
+            <td>Speaker diarization</td>
+            <td class="kerrigan-col"><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>Zoom integration</td>
+            <td class="kerrigan-col"><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="cross">✕</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>HIPAA compliant</td>
+            <td class="kerrigan-col"><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<!-- ┌──────────────────────────────────────────────────────────────┐
+     │  FEATURES                                                    │
+     └──────────────────────────────────────────────────────────────┘ -->
+<section class="section-pad band" style="position:relative;z-index:1;">
+  <div class="section-container">
+    <span class="section-eyebrow">Features</span>
+    <h2 class="section-title">Everything you need. Nothing you don't.</h2>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.25rem;margin-top:2.5rem;">
+
+      <div class="feature-card">
+        <div class="icon-circle icon-cerulean">🎙</div>
+        <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:0.5rem;color:var(--light);">Ambient Capture</h3>
+        <p style="font-size:0.875rem;line-height:1.6;color:var(--muted);">
+          Session audio captured passively — no push-to-talk, no pauses.
+          Have a natural conversation while Kerrigan listens.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon-circle icon-cerulean">👥</div>
+        <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:0.5rem;color:var(--light);">Speaker Diarization</h3>
+        <p style="font-size:0.875rem;line-height:1.6;color:var(--muted);">
+          Automatically separates clinician and client voices in the transcript.
+          Your notes reflect who said what.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon-circle icon-cerulean">📄</div>
+        <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:0.5rem;color:var(--light);">Multi-Format Notes</h3>
+        <p style="font-size:0.875rem;line-height:1.6;color:var(--muted);">
+          SOAP, DAP, GIRP, progress notes, and customizable templates — formatted
+          for your specialty and review style.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon-circle icon-amber">📹</div>
+        <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:0.5rem;color:var(--light);">Zoom Integration</h3>
+        <p style="font-size:0.875rem;line-height:1.6;color:var(--muted);">
+          Direct integration with Zoom for telehealth sessions. Recordings stay
+          local and are never uploaded for processing.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon-circle icon-amber">⚡</div>
+        <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:0.5rem;color:var(--light);">EHR-Ready Output</h3>
+        <p style="font-size:0.875rem;line-height:1.6;color:var(--muted);">
+          Notes formatted for copy-paste or direct push to major EHR systems.
+          Clean formatting that meets your documentation standards.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon-circle icon-sage">💬</div>
+        <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:0.5rem;color:var(--light);">Context-Aware Chat</h3>
+        <p style="font-size:0.875rem;line-height:1.6;color:var(--muted);">
+          Ask questions about the session transcript. Surface risk indicators,
+          treatment themes, or quote exact client language — all grounded
+          in the full session context.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ┌──────────────────────────────────────────────────────────────┐
+     │  SPECIALTIES                                                 │
+     └──────────────────────────────────────────────────────────────┘ -->
+<section class="section-pad-sm" style="position:relative;z-index:1;">
+  <div class="section-container" style="text-align:center;">
+    <span class="section-eyebrow">Built For Behavioral Health</span>
+    <h2 class="section-title" style="margin:0 auto 0.75rem;">
+      Designed around the complexity of mental health documentation.
+    </h2>
+    <p class="section-sub" style="margin:0 auto 2rem;">
+      Not a general-purpose scribe retrofitted for therapy — a tool built from
+      the ground up for the narrative, relational, and clinical nuance of
+      behavioral health work.
+    </p>
+    <div style="display:flex;flex-wrap:wrap;gap:0.6rem;justify-content:center;">
+      <span class="specialty-pill">🧠 Psychotherapy</span>
+      <span class="specialty-pill">💊 Psychiatry</span>
+      <span class="specialty-pill">🤝 Social Work (LCSW)</span>
+      <span class="specialty-pill">📋 Counseling (LPC / LPCC)</span>
+      <span class="specialty-pill">🏥 Outpatient Clinics</span>
+      <span class="specialty-pill">🏠 IOP / PHP Programs</span>
+      <span class="specialty-pill">⚖️ Substance Use Treatment</span>
+      <span class="specialty-pill">🔒 Forensic Settings</span>
+      <span class="specialty-pill">👶 Child & Adolescent</span>
+      <span class="specialty-pill">💑 Couples Therapy</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ┌──────────────────────────────────────────────────────────────┐
+     │  FOR DIRECTORS                                               │
+     └──────────────────────────────────────────────────────────────┘ -->
+<section class="section-pad band" style="position:relative;z-index:1;">
+  <div class="section-container">
+      <div class="two-col-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;">
+      <div>
+        <span class="section-eyebrow">For Practice Directors</span>
+        <h2 class="section-title">
+          Reduce burnout.<br>Reduce risk.<br>
+          <span style="color:var(--cerulean);">For your entire practice.</span>
+        </h2>
+        <p class="section-sub">
+          When clinicians spend less time charting, they see more clients, experience
+          less burnout, and stay longer. Kerrigan compounds those benefits with a
+          data sovereignty posture no cloud tool can match.
+        </p>
+        <a href="#waitlist" class="btn-primary" style="margin-top:1.75rem;display:inline-flex;">
+          Get Early Access for Your Practice →
+        </a>
+      </div>
+
+      <div>
+        <div class="sacred-card" style="padding:1.5rem;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
+            <div class="director-stat" style="border-right:1px solid var(--glass-border);border-bottom:1px solid var(--glass-border);">
+              <span class="director-stat-number">2h+</span>
+              <span class="director-stat-label">Saved per clinician<br>per day</span>
+            </div>
+            <div class="director-stat" style="border-bottom:1px solid var(--glass-border);">
+              <span class="director-stat-number">0</span>
+              <span class="director-stat-label">Patient audio records<br>in the cloud</span>
+            </div>
+            <div class="director-stat" style="border-right:1px solid var(--glass-border);">
+              <span class="director-stat-number">100%</span>
+              <span class="director-stat-label">On-premise —<br>air-gap capable</span>
+            </div>
+            <div class="director-stat">
+              <span class="director-stat-number">↓</span>
+              <span class="director-stat-label">Reduced PHI exposure<br>surface area</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:1rem;padding:1.25rem 1.5rem;border-radius:var(--radius);background:var(--amber-dim);border:1px solid var(--amber-border);">
+          <p style="font-size:0.875rem;line-height:1.65;color:var(--light);">
+            <strong style="color:var(--amber);">Note on 42 CFR Part 2 &amp; HIPAA:</strong>
+            Substance abuse treatment records carry stricter disclosure protections than
+            standard HIPAA. Kerrigan's local-only architecture means those records never
+            enter an external system — eliminating an entire category of compliance risk.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ┌──────────────────────────────────────────────────────────────┐
+     │  WAITLIST FORM                                               │
+     └──────────────────────────────────────────────────────────────┘ -->
+<section id="waitlist" class="section-pad" style="position:relative;z-index:1;">
+  <div class="section-container">
+    <div style="max-width:680px;margin:0 auto;text-align:center;">
+      <span class="section-eyebrow" style="color:var(--amber);">Early Access</span>
+      <h2 class="section-title">
+        Be among the first clinics<br>to go AI-native — privately.
+      </h2>
+      <p class="section-sub" style="margin:0 auto 2rem;">
+        We're onboarding a small cohort of behavioral health practices to pilot
+        Kerrigan in Q2 2026. Waitlist members get priority access, dedicated
+        onboarding support, and founding-member pricing.
+      </p>
+    </div>
+
+    <div class="waitlist-form-wrap" style="max-width:600px;margin:0 auto;">
+      {{/* Replace XXXXXXXX in hugo.toml with your Formspree form ID */}}
+      <form
+        action="https://formspree.io/f/{{ .Site.Params.formspreeID }}"
+        method="POST"
+      >
+        <div class="form-row">
+          <input
+            class="form-input"
+            type="text"
+            name="name"
+            placeholder="Your name (optional)"
+            autocomplete="name"
+          >
+          <input
+            class="form-input"
+            type="email"
+            name="email"
+            placeholder="Work email address *"
+            required
+            autocomplete="email"
+          >
+        </div>
+        <div class="form-row">
+          <input
+            class="form-input"
+            type="text"
+            name="organization"
+            placeholder="Practice / clinic name (optional)"
+          >
+          <select class="form-select" name="practice_type">
+            <option value="" disabled selected>Practice type…</option>
+            <option value="solo">Solo practice</option>
+            <option value="group">Group practice (2–10 clinicians)</option>
+            <option value="outpatient_clinic">Outpatient clinic (11–50 clinicians)</option>
+            <option value="large_org">Large organization (50+)</option>
+            <option value="iop_php">IOP / PHP program</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <button type="submit" class="form-submit">
+          Reserve My Spot on the Waitlist →
+        </button>
+        <input type="hidden" name="_subject" value="Kerrigan Waitlist Signup">
+        <input type="hidden" name="_next" value="https://kerri.jhax.dev/?joined=true">
+      </form>
+      <p class="form-privacy">
+        No spam. We'll only contact you about early access. You can read our
+        <a href="/privacy" style="color:var(--cerulean);text-decoration:underline;">Privacy Policy</a>.
+        Patient data is never collected through this form.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ┌──────────────────────────────────────────────────────────────┐
+     │  FOOTER                                                      │
+     └──────────────────────────────────────────────────────────────┘ -->
+<footer class="site-footer" style="position:relative;z-index:1;">
+  <div style="display:flex;flex-direction:column;gap:0.4rem;">
+    <span class="footer-logo">Kerrig<span>an</span></span>
+    <span style="font-size:0.75rem;color:var(--muted);">by Coalescent Emergence</span>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center;">
+    <span class="badge badge-sage" style="font-size:0.7rem;">✓ HIPAA</span>
+    <span class="badge badge-cerulean" style="font-size:0.7rem;">⬡ Local-Only</span>
+    <span class="badge badge-cerulean" style="font-size:0.7rem;">✕ No Cloud PHI</span>
+  </div>
+
+  <nav class="footer-links">
+    <a href="/privacy">Privacy Policy</a>
+    <a href="mailto:hello@coalescentemergence.com">Contact</a>
+    <a href="https://github.com/Coalescent-Emergence" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+
+  <span class="footer-copy">© 2026 Coalescent Emergence. All rights reserved.</span>
+</footer>
+
 {{ end }}

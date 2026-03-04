@@ -1,9 +1,17 @@
 baseURL = 'https://kerri.jhax.dev/'
 languageCode = 'en-us'
 title = 'Kerrigan'
+enableRobotsTXT = true
+pluralizelisttitles = false
+disableKinds = ["taxonomy", "term"]
 
 [params]
-  description = "Kerrigan — coming soon."
-  tagline = "Coming Soon"
-  ctaText = ""
-  ctaURL = ""
+  description = "AI-powered session transcription and clinical note generation for behavioral health — running entirely on your hardware. No patient data in the cloud."
+  tagline = "Clinical AI That Stays On Your Premises"
+  # Formspree endpoint — replace XXXXXXXX with your Formspree form ID
+  formspreeID = "XXXXXXXX"
+  twitterHandle = "@CoalescentEm"
+  ogImage = "/img/og-kerrigan.png"
+
+[markup.goldmark.renderer]
+  unsafe = true

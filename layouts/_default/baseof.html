@@ -1,13 +1,62 @@
 <!DOCTYPE html>
-<html lang="{{ .Site.LanguageCode }}">
+<html lang="{{ .Site.LanguageCode }}" class="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="{{ .Site.Params.description }}">
-  <title>{{ .Site.Title }}</title>
+
+  {{/* ── SEO ─────────────────────────────────────── */}}
+  <title>{{ if .IsHome }}{{ .Site.Title }} — {{ .Site.Params.tagline }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+  <meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  {{ with .Keywords }}<meta name="keywords" content="{{ delimit . ", " }}">{{ end }}
+  <link rel="canonical" href="{{ .Permalink }}">
+
+  {{/* ── Open Graph ──────────────────────────────── */}}
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ .Permalink }}">
+  <meta property="og:title" content="{{ .Title }}">
+  <meta property="og:description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  <meta property="og:image" content="{{ .Site.BaseURL }}{{ .Site.Params.ogImage }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="{{ .Site.Params.twitterHandle }}">
+
+  {{/* ── Fonts ───────────────────────────────────── */}}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  {{/* ── Tailwind CDN with custom config ───────── */}}
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'void':         '#011627',
+            'void-mid':     '#021e3a',
+            'void-light':   '#032d5a',
+            'cerulean':     '#0097c4',
+            'cerulean-dim': 'rgba(0,151,196,0.15)',
+            'amber':        '#ff9f1c',
+            'amber-dim':    'rgba(255,159,28,0.12)',
+            'sage':         '#4caf82',
+            'caution':      '#e05252',
+            'light':        '#f5f9ff',
+            'muted':        '#8ab4c8',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          backdropBlur: { xs: '2px' },
+        }
+      }
+    }
+  </script>
+
+  {{/* ── Custom styles ───────────────────────────── */}}
   <link rel="stylesheet" href="/css/main.css">
 </head>
-<body>
+<body class="bg-void text-light antialiased">
   {{ block "main" . }}{{ end }}
 </body>
 </html>
