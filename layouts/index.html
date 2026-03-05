@@ -27,7 +27,7 @@
 
       <p class="hero-sub">
         AI-powered session transcription and clinical note generation built for
-        behavioral health clinicians — all processing runs on <em>your</em> hardware.
+        behavioral health clinicians — all processing runs on hardware in your building.
         No patient audio ever reaches an external server.
       </p>
 
@@ -45,6 +45,7 @@
         <span class="badge badge-cerulean">⬡ Local-Only Processing</span>
         <span class="badge badge-cerulean">✕ No Cloud PHI</span>
         <span class="badge badge-amber">⊕ Zoom Compatible</span>
+        <span class="badge badge-amber">⚖ 42 CFR Part 2 Ready</span>
       </div>
     </div>
   </div>
@@ -95,6 +96,9 @@
           health — where clients share trauma, addiction histories, and legal
           vulnerabilities — that's a risk your clients never consented to.
         </p>
+        <p style="font-size:0.8rem;margin-top:0.75rem;padding:0.6rem 0.75rem;border-radius:var(--radius-sm);background:var(--amber-dim);border-left:3px solid var(--amber);color:var(--amber);font-weight:600;line-height:1.5;">
+          ⚖ Substance abuse records fall under 42 CFR Part 2 — stricter than HIPAA. External processing creates a disclosure exposure that local-only architecture eliminates entirely.
+        </p>
       </div>
 
     </div>
@@ -109,7 +113,7 @@
   <div class="section-container">
     <span class="section-eyebrow">How It Works</span>
     <h2 class="section-title">One session. No charting. Clinical notes ready.</h2>
-    <p class="section-sub">From audio capture to EHR-ready notes — all on your own hardware.</p>
+    <p class="section-sub">From audio capture to EHR-ready notes — processed on your Kerrigan device, never in the cloud.</p>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;margin-top:2.5rem;">
 
@@ -119,9 +123,10 @@
           Record or connect
         </h3>
         <p style="font-size:0.875rem;line-height:1.6;color:var(--muted);">
-          Open the Kerrigan desktop app before your session. Record in-person audio
-          directly or integrate with Zoom for telehealth. No push-to-talk required —
-          just have a natural conversation.
+          Open the Kerrigan app on your computer before your session. It connects
+          to your practice's Kerrigan device — the on-site backend that handles all
+          processing. Record in-person or connect via Zoom. No push-to-talk, no
+          configuration. Just have a natural conversation.
         </p>
       </div>
 
@@ -131,9 +136,9 @@
           Local transcription
         </h3>
         <p style="font-size:0.875rem;line-height:1.6;color:var(--muted);">
-          Whisper-powered transcription runs entirely on your hardware. Speaker
-          diarization automatically separates clinician and client voices. No internet
-          connection required during processing.
+          Whisper-powered transcription runs entirely on your Kerrigan device.
+          Speaker diarization automatically separates clinician and client voices.
+          Nothing leaves your building during processing.
         </p>
       </div>
 
@@ -143,9 +148,9 @@
           AI generates the note
         </h3>
         <p style="font-size:0.875rem;line-height:1.6;color:var(--muted);">
-          A locally-hosted LLM translates the transcript into a structured clinical
-          note — SOAP, DAP, GIRP, or progress note format. Review, edit, and push
-          to your EHR with one click.
+          A locally-hosted LLM on your Kerrigan device translates the transcript
+          into a structured clinical note — SOAP, DAP, GIRP, or progress note
+          format. Review, edit, and push to your EHR with one click.
         </p>
       </div>
 
@@ -162,6 +167,12 @@
       </div>
 
     </div>
+
+    <!-- TODO: Insert demo output panel here — show a short anonymized transcript
+         excerpt on the left and the generated SOAP/DAP note on the right.
+         This is the highest-conversion asset to add pre-launch. Use real or
+         realistic mock output. Consider a before/after toggle or side-by-side layout. -->
+
   </div>
 </section>
 
@@ -211,19 +222,126 @@
         <div class="local-only-bullet">
           <span class="bullet-icon">✓</span>
           <p class="bullet-text">
-            <strong>Works offline</strong> after initial install. Internet outages
-            do not interrupt your clinical workflow.
+            <strong>Fully offline after initial setup.</strong> Once provisioned,
+            Kerrigan requires no internet connection. Suitable for high-security
+            environments — substance abuse treatment, forensic settings, court-ordered therapy.
           </p>
         </div>
         <div class="local-only-bullet" style="margin-bottom:0;">
           <span class="bullet-icon">✓</span>
           <p class="bullet-text">
-            <strong>Air-gap ready</strong> for high-security environments — substance
-            abuse treatment, forensic settings, court-ordered therapy.
+            <strong>Ships as a managed appliance.</strong> We provision and ship
+            a dedicated device to your practice. Plug it in — it configures itself.
+            No IT project, no hardware sourcing, no cloud accounts.
           </p>
         </div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+
+<!-- ┌──────────────────────────────────────────────────────────────┐
+     │  DEPLOYMENT                                                  │
+     └──────────────────────────────────────────────────────────────┘ -->
+<section class="section-pad" style="position:relative;z-index:1;">
+  <div class="section-container">
+    <span class="section-eyebrow">Deployment</span>
+    <h2 class="section-title">Plug it in. It configures itself.</h2>
+    <p class="section-sub">
+      Kerrigan ships as a managed appliance — a dedicated device that sits on
+      your practice network, provisions itself on first boot, and runs all
+      processing locally from that point forward. No cloud accounts, no IT project,
+      no hardware to source.
+    </p>
+
+    <!-- Primary: Managed Appliance -->
+    <div class="sacred-card" style="margin-top:2.5rem;padding:2rem 2.5rem;border:1px solid var(--cerulean);">
+      <div style="display:flex;align-items:flex-start;gap:1.5rem;">
+        <div style="font-size:2.25rem;line-height:1;flex-shrink:0;">🖥</div>
+        <div style="flex:1;">
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.6rem;flex-wrap:wrap;">
+            <h3 style="font-size:1.15rem;font-weight:700;color:var(--light);margin:0;">Managed Appliance</h3>
+            <span class="badge badge-sage" style="font-size:0.7rem;">Recommended</span>
+          </div>
+          <p style="font-size:0.9rem;line-height:1.7;color:var(--muted);margin:0 0 1.25rem;">
+            We ship a preconfigured device to your practice. Connect it to your
+            network and it auto-provisions — installing the Kerrigan backend, AI
+            models, and security configuration automatically. Clinicians install a
+            lightweight app on their computers; everything else is handled for you.
+          </p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0.6rem;">
+            <div style="display:flex;gap:0.5rem;align-items:flex-start;">
+              <span style="color:var(--sage);font-weight:700;flex-shrink:0;">✓</span>
+              <span style="font-size:0.825rem;color:var(--muted);line-height:1.5;">No hardware to source or spec</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:flex-start;">
+              <span style="color:var(--sage);font-weight:700;flex-shrink:0;">✓</span>
+              <span style="font-size:0.825rem;color:var(--muted);line-height:1.5;">Auto-configures on first boot</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:flex-start;">
+              <span style="color:var(--sage);font-weight:700;flex-shrink:0;">✓</span>
+              <span style="font-size:0.825rem;color:var(--muted);line-height:1.5;">Remote updates we manage for you</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:flex-start;">
+              <span style="color:var(--sage);font-weight:700;flex-shrink:0;">✓</span>
+              <span style="font-size:0.825rem;color:var(--muted);line-height:1.5;">PHI stays physically in your building</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:flex-start;">
+              <span style="color:var(--sage);font-weight:700;flex-shrink:0;">✓</span>
+              <span style="font-size:0.825rem;color:var(--muted);line-height:1.5;">Fully offline after initial setup</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:flex-start;">
+              <span style="color:var(--sage);font-weight:700;flex-shrink:0;">✓</span>
+              <span style="font-size:0.825rem;color:var(--muted);line-height:1.5;">One device serves your entire practice</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Secondary: Alternative options -->
+    <div style="margin-top:2rem;">
+      <p style="font-size:0.75rem;color:var(--muted);text-align:center;margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.08em;">Alternative options for specific environments</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+
+        <div style="padding:1.25rem 1.5rem;border-radius:var(--radius);border:1px solid var(--glass-border);background:var(--surface);">
+          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.6rem;">
+            <span style="font-size:1.1rem;">🌐</span>
+            <h4 style="font-size:0.95rem;font-weight:700;color:var(--light);margin:0;">Customer-Managed VPS</h4>
+          </div>
+          <p style="font-size:0.825rem;line-height:1.6;color:var(--muted);margin:0 0 0.75rem;">
+            Run Kerrigan's backend on a dedicated server in a data center you
+            control. The server contract stays in your name — we handle
+            installation and ongoing maintenance. PHI remains in your
+            infrastructure throughout.
+          </p>
+          <p style="font-size:0.75rem;color:var(--muted);line-height:1.5;padding:0.5rem 0.75rem;background:rgba(255,255,255,0.03);border-radius:4px;border-left:2px solid var(--glass-border);">
+            Best for practices with existing cloud infrastructure or those
+            that prefer datacenter redundancy over on-site hardware.
+          </p>
+        </div>
+
+        <div style="padding:1.25rem 1.5rem;border-radius:var(--radius);border:1px solid var(--glass-border);background:var(--surface);">
+          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.6rem;flex-wrap:wrap;">
+            <span style="font-size:1.1rem;">🏗</span>
+            <h4 style="font-size:0.95rem;font-weight:700;color:var(--light);margin:0;">Own Hardware</h4>
+            <span class="badge" style="font-size:0.65rem;background:rgba(255,255,255,0.05);color:var(--muted);border:1px solid var(--glass-border);">IT staff required</span>
+          </div>
+          <p style="font-size:0.825rem;line-height:1.6;color:var(--muted);margin:0 0 0.75rem;">
+            Install Kerrigan on hardware you already own. We provide
+            specifications and a fully automated installer — but ongoing
+            hardware management, maintenance, and failure response are
+            your responsibility.
+          </p>
+          <p style="font-size:0.75rem;color:var(--muted);line-height:1.5;padding:0.5rem 0.75rem;background:rgba(255,255,255,0.03);border-radius:4px;border-left:2px solid var(--glass-border);">
+            Suited to hospital systems and larger organizations with
+            dedicated IT staff. Not recommended for solo or small-group practices.
+          </p>
+        </div>
+
+      </div>
     </div>
   </div>
 </section>
@@ -317,6 +435,14 @@
             <td><span class="check">✓</span></td>
             <td><span class="check">✓</span></td>
             <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>42 CFR Part 2 (substance abuse records)</td>
+            <td class="kerrigan-col"><span class="check">No external exposure</span></td>
+            <td><span class="cross">Cloud exposure</span></td>
+            <td><span class="cross">Cloud exposure</span></td>
+            <td><span class="cross">Cloud exposure</span></td>
+            <td><span class="cross">Cloud exposure</span></td>
           </tr>
         </tbody>
       </table>
@@ -421,6 +547,9 @@
       <span class="specialty-pill">👶 Child & Adolescent</span>
       <span class="specialty-pill">💑 Couples Therapy</span>
     </div>
+    <p style="margin-top:1.5rem;font-size:0.8rem;padding:0.75rem 1rem;border-radius:var(--radius-sm);background:var(--amber-dim);border:1px solid var(--amber-border);color:var(--amber);max-width:680px;margin-left:auto;margin-right:auto;text-align:left;line-height:1.6;">
+      <strong>For substance use treatment &amp; forensic settings:</strong> Records governed by 42 CFR Part 2 (SAMHSA) carry disclosure restrictions beyond standard HIPAA. Any cloud-based AI scribe creates a third-party system exposure for those records. Kerrigan's local-only architecture is the only approach that removes that risk entirely.
+    </p>
   </div>
 </section>
 
@@ -460,7 +589,7 @@
             </div>
             <div class="director-stat" style="border-right:1px solid var(--glass-border);">
               <span class="director-stat-number">100%</span>
-              <span class="director-stat-label">On-premise —<br>air-gap capable</span>
+              <span class="director-stat-label">On-premise —<br>your building, your data</span>
             </div>
             <div class="director-stat">
               <span class="director-stat-number">↓</span>
@@ -494,9 +623,11 @@
         Be among the first clinics<br>to go AI-native — privately.
       </h2>
       <p class="section-sub" style="margin:0 auto 2rem;">
-        We're onboarding a small cohort of behavioral health practices to pilot
-        Kerrigan in Q2 2026. Waitlist members get priority access, dedicated
-        onboarding support, and founding-member pricing.
+        Kerrigan is currently in alpha with individual therapists.
+        We're targeting <strong style="color:var(--amber);">early April</strong> to open
+        onboarding for our first practice cohort — a small group that will shape
+        the product's direction from day one. Waitlist members get priority access,
+        dedicated onboarding support, and founding-member pricing.
       </p>
     </div>
 

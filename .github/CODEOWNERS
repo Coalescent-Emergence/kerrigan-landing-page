@@ -1,0 +1,10 @@
+# CODEOWNERS — kerrigan-landing-page
+# Format: <pattern> <owner>
+
+# Global default — solo founder owns everything
+* @jay13jay
+
+# Governance and architecture decisions always require founder review
+docs/decisions/ @jay13jay
+.github/workflows/ @jay13jay
+.github/CODEOWNERS @jay13jay
