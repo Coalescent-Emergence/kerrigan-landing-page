@@ -5,7 +5,7 @@
   <a href="/" class="nav-logo">Kerrig<span>an</span></a>
 </nav>
 
-<!-- Thank-you section -->
+{{ if eq .RelPermalink "/thank-you/" }}
 <section style="position:relative;z-index:1;min-height:calc(100vh - 65px);display:flex;align-items:center;padding:4rem 1.5rem;">
   <div class="section-container" style="max-width:680px;margin:0 auto;text-align:center;">
 
@@ -98,17 +98,18 @@
       </div>
     </div>
 
-    <!-- Contact fallback -->
-    <p style="margin-top:2rem;font-size:0.8rem;color:rgba(138,180,200,0.5);">
-      Questions in the meantime?
-      <a href="mailto:hello@coalescentemergence.com"
-         style="color:var(--cerulean);text-decoration:underline;">
-        hello@coalescentemergence.com
-      </a>
-    </p>
-
   </div>
 </section>
+{{ else }}
+<section style="position:relative;z-index:1;padding:4rem 1.5rem;">
+  <div class="section-container" style="max-width:860px;margin:0 auto;">
+    <h1 class="section-title" style="font-size:clamp(2rem,4.5vw,3rem);margin-bottom:1.5rem;">{{ .Title }}</h1>
+    <div class="sacred-card" style="padding:2rem;">
+      {{ .Content }}
+    </div>
+  </div>
+</section>
+{{ end }}
 
 <!-- Footer -->
 <footer class="site-footer" style="position:relative;z-index:1;">
@@ -118,7 +119,6 @@
   </div>
   <nav class="footer-links">
     <a href="/privacy">Privacy Policy</a>
-    <a href="mailto:hello@coalescentemergence.com">Contact</a>
   </nav>
   <span class="footer-copy">© 2026 Coalescent Emergence. All rights reserved.</span>
 </footer>
