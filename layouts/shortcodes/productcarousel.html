@@ -1,0 +1,107 @@
+{{- $title := .Get "title" | default "Product Demo Walkthrough" -}}
+{{- $id := printf "pc-%d" now.UnixNano -}}
+{{- $resources := .Page.Resources.Match "screenshots/*" -}}
+{{- $allImages := slice -}}
+{{- range $resources -}}
+  {{- if eq .MediaType.MainType "image" -}}
+    {{- $allImages = $allImages | append . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $kuiImages := slice -}}
+{{- range $allImages -}}
+  {{- if strings.HasPrefix .Name "kui-" -}}
+    {{- $kuiImages = $kuiImages | append . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $baseImages := $allImages -}}
+{{- if gt (len $kuiImages) 0 -}}
+  {{- $baseImages = $kuiImages -}}
+{{- end -}}
+
+{{- $orderedNames := slice
+  "kui-dashboard-astral-dark.png"
+  "kui-live-session-blurred.png"
+  "kui-transcript-viewer-blurred.png"
+  "kui-global-chat-forest-dark.png"
+  "kui-zoom-dialog-forest-dark.png"
+  "kui-dashboard-clinical-light.png"
+  "kui-dashboard-forest-dark.png"
+-}}
+
+{{- $images := slice -}}
+{{- range $orderedNames -}}
+  {{- $matched := where $baseImages "Name" . -}}
+  {{- if gt (len $matched) 0 -}}
+    {{- $images = $images | append (index $matched 0) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- range sort $baseImages "Name" "asc" -}}
+  {{- if not (in $orderedNames .Name) -}}
+    {{- $images = $images | append . -}}
+  {{- end -}}
+{{- end -}}
+
+<section class="product-carousel sacred-card" id="{{ $id }}" data-carousel>
+  <div class="product-carousel__header">
+    <h2 class="product-carousel__title">{{ $title }}</h2>
+    <div class="product-carousel__controls">
+      <button type="button" class="pc-btn" data-prev aria-label="Previous slide">←</button>
+      <button type="button" class="pc-btn" data-next aria-label="Next slide">→</button>
+    </div>
+  </div>
+
+  {{ if gt (len $images) 0 }}
+    <div class="product-carousel__viewport">
+      {{ range $i, $img := $images }}
+        {{ $caption := $img.Name | strings.TrimSuffix (path.Ext $img.Name) | replace "-" " " | title }}
+        {{ if eq $img.Name "kui-dashboard-astral-dark.png" }}{{ $caption = "Dashboard — Astral (Dark)" }}{{ end }}
+        {{ if eq $img.Name "kui-live-session-blurred.png" }}{{ $caption = "Live Session (Transcript Blurred)" }}{{ end }}
+        {{ if eq $img.Name "kui-transcript-viewer-blurred.png" }}{{ $caption = "Transcript Viewer (Blurred)" }}{{ end }}
+        {{ if eq $img.Name "kui-global-chat-forest-dark.png" }}{{ $caption = "AI Chat Panel — Forest (Dark)" }}{{ end }}
+        {{ if eq $img.Name "kui-zoom-dialog-forest-dark.png" }}{{ $caption = "Zoom Transcription Entry" }}{{ end }}
+        {{ if eq $img.Name "kui-dashboard-clinical-light.png" }}{{ $caption = "Dashboard — Clinical (Light)" }}{{ end }}
+        {{ if eq $img.Name "kui-dashboard-forest-dark.png" }}{{ $caption = "Dashboard — Forest (Dark)" }}{{ end }}
+        <figure class="product-carousel__slide {{ if eq $i 0 }}is-active{{ end }}" data-slide="{{ $i }}">
+          <img src="{{ $img.RelPermalink }}" alt="{{ $caption }} screenshot" loading="lazy" />
+          <figcaption>{{ $caption }}</figcaption>
+        </figure>
+      {{ end }}
+    </div>
+
+    <div class="product-carousel__dots" role="tablist" aria-label="Slides">
+      {{ range $i, $_ := $images }}
+        <button type="button" class="pc-dot {{ if eq $i 0 }}is-active{{ end }}" data-dot="{{ $i }}" aria-label="Go to slide {{ add $i 1 }}"></button>
+      {{ end }}
+    </div>
+  {{ else }}
+    <div class="product-carousel__empty">
+      No screenshots found. Add images under <strong>content/product-demo/screenshots/</strong>.
+    </div>
+  {{ end }}
+</section>
+
+<script>
+(() => {
+  const root = document.getElementById('{{ $id }}');
+  if (!root) return;
+  const slides = Array.from(root.querySelectorAll('[data-slide]'));
+  const dots = Array.from(root.querySelectorAll('[data-dot]'));
+  const prev = root.querySelector('[data-prev]');
+  const next = root.querySelector('[data-next]');
+  if (!slides.length) return;
+
+  let index = 0;
+  const render = (nextIndex) => {
+    index = (nextIndex + slides.length) % slides.length;
+    slides.forEach((slide, i) => slide.classList.toggle('is-active', i === index));
+    dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
+  };
+
+  prev?.addEventListener('click', () => render(index - 1));
+  next?.addEventListener('click', () => render(index + 1));
+  dots.forEach((dot, i) => dot.addEventListener('click', () => render(i)));
+})();
+</script>

@@ -1,0 +1,16 @@
+{{ $images := .Page.Resources.Match "screenshots/*" }}
+{{ if gt (len $images) 0 }}
+<div class="demo-grid">
+  {{ range $images }}
+    {{ $title := .Name | strings.TrimSuffix (path.Ext .Name) | replace "-" " " | title }}
+    <article class="demo-shot sacred-card">
+      <h2>{{ $title }}</h2>
+      <img src="{{ .RelPermalink }}" alt="{{ $title }} screenshot" loading="lazy" />
+    </article>
+  {{ end }}
+</div>
+{{ else }}
+<div class="sacred-card" style="padding:1rem;">
+  <p style="margin:0;color:var(--muted);">No screenshots found yet. Add files under <strong>content/product-demo/screenshots/</strong>.</p>
+</div>
+{{ end }}

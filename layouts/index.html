@@ -5,7 +5,7 @@
      └──────────────────────────────────────────────────────────────┘ -->
 <nav class="site-nav">
   <a href="/" class="nav-logo">Kerrig<span>an</span></a>
-  <a href="#waitlist" class="btn-primary" style="padding:0.6rem 1.4rem;font-size:0.875rem;">
+  <a href="#waitlist" class="btn-primary" style="padding:0.6rem 1.4rem;font-size:0.875rem;" data-analytics-event="cta_click_waitlist" data-analytics-label="nav_join_waitlist">
     Join Waitlist →
   </a>
 </nav>
@@ -32,10 +32,10 @@
       </p>
 
       <div class="hero-cta-row">
-        <a href="#waitlist" class="btn-primary">
+        <a href="#waitlist" class="btn-primary" data-analytics-event="cta_click_waitlist" data-analytics-label="hero_join_waitlist">
           Join the Early Access Waitlist →
         </a>
-        <a href="#how-it-works" class="btn-secondary">
+        <a href="#how-it-works" class="btn-secondary" data-analytics-event="cta_click_how_it_works" data-analytics-label="hero_see_how_it_works">
           See how it works ↓
         </a>
       </div>
@@ -634,6 +634,7 @@
     <div class="waitlist-form-wrap" style="max-width:600px;margin:0 auto;">
       {{/* Replace XXXXXXXX in hugo.toml with your Formspree form ID */}}
       <form
+        id="waitlist-form"
         action="https://formspree.io/f/{{ .Site.Params.formspreeID }}"
         method="POST"
       >
@@ -671,7 +672,7 @@
             <option value="other">Other</option>
           </select>
         </div>
-        <button type="submit" class="form-submit">
+        <button type="submit" class="form-submit" data-analytics-event="cta_click_waitlist_submit" data-analytics-label="waitlist_form_submit_button">
           Reserve My Spot on the Waitlist →
         </button>
         <input type="hidden" name="_subject" value="Kerrigan Waitlist Signup">
@@ -679,7 +680,7 @@
       </form>
       <p class="form-privacy">
         No spam. We'll only contact you about early access. You can read our
-        <a href="/privacy" style="color:var(--cerulean);text-decoration:underline;">Privacy Policy</a>.
+        <a href="/privacy" style="color:var(--cerulean);text-decoration:underline;" data-analytics-event="privacy_click" data-analytics-label="waitlist_privacy_link">Privacy Policy</a>.
         Patient data is never collected through this form.
       </p>
     </div>

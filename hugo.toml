@@ -12,5 +12,12 @@ disableKinds = ["taxonomy", "term"]
   twitterHandle = "@CoalescentEm"
   ogImage = "/img/og-kerrigan.png"
 
+  # Analytics (opt-in; disabled by default until keys are set)
+  analyticsEnabled = false
+  posthogKey = ""
+  posthogHost = "https://us.i.posthog.com"
+  clarityProjectId = ""
+  ga4MeasurementId = ""
+
 [markup.goldmark.renderer]
   unsafe = true

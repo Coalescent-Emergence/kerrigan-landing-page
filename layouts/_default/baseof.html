@@ -55,6 +55,114 @@
 
   {{/* ── Custom styles ───────────────────────────── */}}
   <link rel="stylesheet" href="/css/main.css">
+
+  {{ if .Site.Params.analyticsEnabled }}
+    {{ with .Site.Params.posthogKey }}
+      <script>
+        !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once unregister identify alias set_config reset opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing start_batch_senders stop_batch_senders set_person_properties set_person_properties_for_flags remove_person_properties group set_group_properties set_group_properties_once remove_group_properties reset_group_properties reset_group_properties_once capture_once capture_analytics random_url random_key isFeatureEnabled get_distinct_id getGroups get_session_id get_session_replay_url get_property set_property get_feature_flag get_feature_flag_payload reload_feature_flags updateEarlyAccessFeatureEnrollment getFlags get_flag_variants register_for_session remove_for_session unregister_for_session",n=0;n<o.split(" ").length;n++)g(u,o.split(" ")[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+        posthog.init('{{ . }}', {
+          api_host: '{{ $.Site.Params.posthogHost }}',
+          person_profiles: 'identified_only',
+          capture_pageview: true,
+          capture_pageleave: true,
+        });
+      </script>
+    {{ end }}
+
+    {{ with .Site.Params.ga4MeasurementId }}
+      <script async src="https://www.googletagmanager.com/gtag/js?id={{ . }}"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ . }}');
+      </script>
+    {{ end }}
+
+    {{ with .Site.Params.clarityProjectId }}
+      <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "{{ . }}");
+      </script>
+    {{ end }}
+
+    <script>
+      (function () {
+        const fired = new Set();
+
+        function once(key, fn) {
+          if (fired.has(key)) return;
+          fired.add(key);
+          fn();
+        }
+
+        function trackEvent(name, props) {
+          const eventProps = props || {};
+          if (window.posthog && typeof window.posthog.capture === 'function') {
+            window.posthog.capture(name, eventProps);
+          }
+          if (typeof window.gtag === 'function') {
+            window.gtag('event', name, eventProps);
+          }
+          if (typeof window.clarity === 'function') {
+            window.clarity('event', name);
+          }
+        }
+
+        function getUtmProps() {
+          const params = new URLSearchParams(window.location.search);
+          const keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+          const props = {};
+          keys.forEach((key) => {
+            const value = params.get(key);
+            if (value) props[key] = value;
+          });
+          return props;
+        }
+
+        const baseProps = {
+          page_path: window.location.pathname,
+          referrer: document.referrer || '',
+          ...getUtmProps(),
+        };
+
+        once('page_load', function () {
+          trackEvent('lp_page_view', baseProps);
+        });
+
+        if (window.location.pathname.startsWith('/privacy')) {
+          once('privacy_view', function () {
+            trackEvent('privacy_view', baseProps);
+          });
+        }
+
+        document.addEventListener('click', function (event) {
+          const target = event.target.closest('[data-analytics-event]');
+          if (!target) return;
+          const name = target.getAttribute('data-analytics-event');
+          const label = target.getAttribute('data-analytics-label') || '';
+          trackEvent(name, { ...baseProps, label });
+        });
+
+        const waitlistForm = document.getElementById('waitlist-form');
+        if (waitlistForm) {
+          let formStarted = false;
+          waitlistForm.addEventListener('input', function () {
+            if (formStarted) return;
+            formStarted = true;
+            trackEvent('waitlist_form_start', baseProps);
+          });
+
+          waitlistForm.addEventListener('submit', function () {
+            trackEvent('waitlist_form_submit', baseProps);
+          });
+        }
+      })();
+    </script>
+  {{ end }}
 </head>
 <body class="bg-void text-light antialiased">
   {{ block "main" . }}{{ end }}

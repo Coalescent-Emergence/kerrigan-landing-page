@@ -737,6 +737,130 @@ body::before {
   color: var(--light);
 }
 
+/* ── Draft product demo page ───────────────────────────────────── */
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.demo-shot {
+  padding: 1rem;
+}
+
+.demo-shot h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+  color: var(--light);
+}
+
+.demo-shot p {
+  margin: 0 0 0.85rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.demo-shot img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.product-carousel {
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.product-carousel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.product-carousel__title {
+  margin: 0;
+  font-size: clamp(1rem, 2.3vw, 1.3rem);
+  color: var(--light);
+}
+
+.product-carousel__controls {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.pc-btn {
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--light);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.pc-btn:hover {
+  border-color: var(--cerulean-border);
+  background: var(--cerulean-dim);
+}
+
+.product-carousel__slide {
+  display: none;
+  margin: 0;
+}
+
+.product-carousel__slide.is-active {
+  display: block;
+}
+
+.product-carousel__slide img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.product-carousel__slide figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.product-carousel__dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 0.75rem;
+}
+
+.pc-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(138, 180, 200, 0.45);
+  cursor: pointer;
+}
+
+.pc-dot.is-active {
+  background: var(--cerulean);
+}
+
+.product-carousel__empty {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px dashed var(--glass-border);
+}
+
 /* ── Responsive ─────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .hero { padding-top: 3.5rem; }
@@ -749,6 +873,8 @@ body::before {
   .legal-shell { padding: 3rem 1rem; }
   .legal-card { padding: 1.35rem; }
   .legal-section-card { padding: 1.1rem 1rem; }
+  .demo-shot { padding: 0.9rem; }
+  .product-carousel { padding: 0.8rem; }
 }
 /* Two-column grid sections → single column on mobile */
 @media (max-width: 640px) {
