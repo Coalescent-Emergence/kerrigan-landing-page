@@ -630,6 +630,14 @@ body::before {
   line-height: 1.75;
 }
 
+.legal-intro {
+  margin-bottom: 1.5rem;
+}
+
+.legal-intro strong {
+  color: var(--light);
+}
+
 .legal-content p {
   margin-bottom: 1rem;
 }
@@ -687,6 +695,48 @@ body::before {
   margin: 1.4rem 0;
 }
 
+.legal-section-card {
+  padding: 1.35rem 1.5rem;
+  margin-bottom: 1rem;
+  border-color: rgba(0, 151, 196, 0.26);
+  background: linear-gradient(135deg, rgba(2, 30, 58, 0.78) 0%, rgba(2, 30, 58, 0.58) 100%);
+}
+
+.legal-card-title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+  line-height: 1.35;
+  font-weight: 800;
+  color: var(--light);
+  letter-spacing: -0.01em;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid rgba(0, 151, 196, 0.18);
+}
+
+.legal-card-body {
+  color: var(--muted);
+}
+
+.legal-card-body p:last-child,
+.legal-card-body ul:last-child,
+.legal-card-body ol:last-child {
+  margin-bottom: 0;
+}
+
+.legal-card-body ul,
+.legal-card-body ol {
+  margin: 0.2rem 0 0.9rem 1.15rem;
+  padding-left: 0.2rem;
+}
+
+.legal-card-body li {
+  margin-bottom: 0.4rem;
+}
+
+.legal-card-body strong {
+  color: var(--light);
+}
+
 /* ── Responsive ─────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .hero { padding-top: 3.5rem; }
@@ -698,6 +748,7 @@ body::before {
   .site-footer { flex-direction: column; text-align: center; }
   .legal-shell { padding: 3rem 1rem; }
   .legal-card { padding: 1.35rem; }
+  .legal-section-card { padding: 1.1rem 1rem; }
 }
 /* Two-column grid sections → single column on mobile */
 @media (max-width: 640px) {
