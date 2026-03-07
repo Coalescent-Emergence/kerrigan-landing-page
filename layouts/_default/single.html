@@ -101,11 +101,13 @@
   </div>
 </section>
 {{ else }}
-<section style="position:relative;z-index:1;padding:4rem 1.5rem;">
+<section class="legal-shell">
   <div class="section-container" style="max-width:860px;margin:0 auto;">
     <h1 class="section-title" style="font-size:clamp(2rem,4.5vw,3rem);margin-bottom:1.5rem;">{{ .Title }}</h1>
-    <div class="sacred-card" style="padding:2rem;">
+    <div class="sacred-card legal-card">
+      <div class="legal-content">
       {{ .Content }}
+      </div>
     </div>
   </div>
 </section>
