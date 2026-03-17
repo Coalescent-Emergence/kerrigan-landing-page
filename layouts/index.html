@@ -5,7 +5,7 @@
      └──────────────────────────────────────────────────────────────┘ -->
 <nav class="site-nav">
   <a href="/" class="nav-logo">Kerrig<span>an</span></a>
-  <a href="#waitlist" class="btn-primary" style="padding:0.6rem 1.4rem;font-size:0.875rem;" data-analytics-event="cta_click_waitlist" data-analytics-label="nav_join_waitlist">
+  <a href="#waitlist" class="btn-primary nav-cta" data-analytics-event="cta_click_waitlist" data-analytics-label="nav_join_waitlist">
     Join Waitlist →
   </a>
 </nav>
@@ -14,15 +14,14 @@
 <!-- ┌──────────────────────────────────────────────────────────────┐
      │  HERO                                                        │
      └──────────────────────────────────────────────────────────────┘ -->
-<section class="hero section-container" style="max-width:100%;padding-left:0;padding-right:0;">
+<section class="hero hero-shell">
   <div class="section-container">
-    <div style="max-width:760px;">
+    <div class="hero-copy">
       <span class="section-eyebrow">AI Clinical Documentation · Behavioral Health · Local Only</span>
 
       <h1 class="hero-title">
-        Be fully present<br>
-        with your clients.<br>
-        <span class="highlight">Let Kerrigan handle the charts.</span>
+        Be fully present with your clients.
+        <span class="highlight hero-highlight">Let Kerrigan handle the charts.</span>
       </h1>
 
       <p class="hero-sub">
@@ -60,7 +59,7 @@
     <span class="section-eyebrow">The Problem</span>
     <h2 class="section-title">Documentation is stealing your clinical life.</h2>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;margin-top:2.5rem;">
+    <div class="card-grid card-grid-pain">
 
       <div class="pain-card">
         <div class="icon-circle icon-caution">⏱</div>
@@ -115,7 +114,7 @@
     <h2 class="section-title">One session. No charting. Clinical notes ready.</h2>
     <p class="section-sub">From audio capture to EHR-ready notes — processed on your Kerrigan device, never in the cloud.</p>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;margin-top:2.5rem;">
+    <div class="card-grid card-grid-steps">
 
       <div class="step-card">
         <div class="step-number">1</div>
@@ -182,13 +181,13 @@
      └──────────────────────────────────────────────────────────────┘ -->
 <section class="section-pad band" style="position:relative;z-index:1;">
   <div class="section-container">
-    <div class="two-col-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;">
+    <div class="two-col-grid two-col-grid-center">
 
       <div>
-        <span class="section-eyebrow" style="color:var(--sage);">The Kerrigan Difference</span>
+        <span class="section-eyebrow eyebrow-sage">The Kerrigan Difference</span>
         <h2 class="section-title">
           Your patients' most vulnerable words<br>
-          <span style="color:var(--cerulean);">never leave your building.</span>
+          <span class="text-cerulean">never leave your building.</span>
         </h2>
         <p class="section-sub">
           Every other AI scribe platform sends session audio to external cloud servers
@@ -227,7 +226,7 @@
             environments — substance abuse treatment, forensic settings, court-ordered therapy.
           </p>
         </div>
-        <div class="local-only-bullet" style="margin-bottom:0;">
+        <div class="local-only-bullet">
           <span class="bullet-icon">✓</span>
           <p class="bullet-text">
             <strong>Ships as a managed appliance.</strong> We provision and ship
@@ -257,44 +256,44 @@
     </p>
 
     <!-- Primary: Managed Appliance -->
-    <div class="sacred-card" style="margin-top:2.5rem;padding:2rem 2.5rem;border:1px solid var(--cerulean);">
-      <div style="display:flex;align-items:flex-start;gap:1.5rem;">
-        <div style="font-size:2.25rem;line-height:1;flex-shrink:0;">🖥</div>
-        <div style="flex:1;">
-          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.6rem;flex-wrap:wrap;">
-            <h3 style="font-size:1.15rem;font-weight:700;color:var(--light);margin:0;">Managed Appliance</h3>
-            <span class="badge badge-sage" style="font-size:0.7rem;">Recommended</span>
+    <div class="sacred-card deployment-primary">
+      <div class="deployment-primary-body">
+        <div class="deployment-primary-icon">🖥</div>
+        <div class="deployment-primary-copy">
+          <div class="deployment-primary-header">
+            <h3 class="deployment-primary-title">Managed Appliance</h3>
+            <span class="badge badge-sage deployment-badge">Recommended</span>
           </div>
-          <p style="font-size:0.9rem;line-height:1.7;color:var(--muted);margin:0 0 1.25rem;">
+          <p class="deployment-primary-text">
             We ship a preconfigured device to your practice. Connect it to your
             network and it auto-provisions — installing the Kerrigan backend, AI
             models, and security configuration automatically. Clinicians install a
             lightweight app on their computers; everything else is handled for you.
           </p>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0.6rem;">
-            <div style="display:flex;gap:0.5rem;align-items:flex-start;">
-              <span style="color:var(--sage);font-weight:700;flex-shrink:0;">✓</span>
-              <span style="font-size:0.825rem;color:var(--muted);line-height:1.5;">No hardware to source or spec</span>
+          <div class="deployment-feature-grid">
+            <div class="deployment-feature-item">
+              <span class="deployment-check">✓</span>
+              <span class="deployment-feature-text">No hardware to source or spec</span>
             </div>
-            <div style="display:flex;gap:0.5rem;align-items:flex-start;">
-              <span style="color:var(--sage);font-weight:700;flex-shrink:0;">✓</span>
-              <span style="font-size:0.825rem;color:var(--muted);line-height:1.5;">Auto-configures on first boot</span>
+            <div class="deployment-feature-item">
+              <span class="deployment-check">✓</span>
+              <span class="deployment-feature-text">Auto-configures on first boot</span>
             </div>
-            <div style="display:flex;gap:0.5rem;align-items:flex-start;">
-              <span style="color:var(--sage);font-weight:700;flex-shrink:0;">✓</span>
-              <span style="font-size:0.825rem;color:var(--muted);line-height:1.5;">Remote updates we manage for you</span>
+            <div class="deployment-feature-item">
+              <span class="deployment-check">✓</span>
+              <span class="deployment-feature-text">Remote updates we manage for you</span>
             </div>
-            <div style="display:flex;gap:0.5rem;align-items:flex-start;">
-              <span style="color:var(--sage);font-weight:700;flex-shrink:0;">✓</span>
-              <span style="font-size:0.825rem;color:var(--muted);line-height:1.5;">PHI stays physically in your building</span>
+            <div class="deployment-feature-item">
+              <span class="deployment-check">✓</span>
+              <span class="deployment-feature-text">PHI stays physically in your building</span>
             </div>
-            <div style="display:flex;gap:0.5rem;align-items:flex-start;">
-              <span style="color:var(--sage);font-weight:700;flex-shrink:0;">✓</span>
-              <span style="font-size:0.825rem;color:var(--muted);line-height:1.5;">Fully offline after initial setup</span>
+            <div class="deployment-feature-item">
+              <span class="deployment-check">✓</span>
+              <span class="deployment-feature-text">Fully offline after initial setup</span>
             </div>
-            <div style="display:flex;gap:0.5rem;align-items:flex-start;">
-              <span style="color:var(--sage);font-weight:700;flex-shrink:0;">✓</span>
-              <span style="font-size:0.825rem;color:var(--muted);line-height:1.5;">One device serves your entire practice</span>
+            <div class="deployment-feature-item">
+              <span class="deployment-check">✓</span>
+              <span class="deployment-feature-text">One device serves your entire practice</span>
             </div>
           </div>
         </div>
@@ -302,40 +301,40 @@
     </div>
 
     <!-- Secondary: Alternative options -->
-    <div style="margin-top:2rem;">
-      <p style="font-size:0.75rem;color:var(--muted);text-align:center;margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.08em;">Alternative options for specific environments</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+    <div class="deployment-alternatives">
+      <p class="deployment-alt-label">Alternative options for specific environments</p>
+      <div class="deployment-options">
 
-        <div style="padding:1.25rem 1.5rem;border-radius:var(--radius);border:1px solid var(--glass-border);background:var(--surface);">
-          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.6rem;">
-            <span style="font-size:1.1rem;">🌐</span>
-            <h4 style="font-size:0.95rem;font-weight:700;color:var(--light);margin:0;">Customer-Managed VPS</h4>
+        <div class="deployment-option-card">
+          <div class="deployment-option-header">
+            <span class="deployment-option-icon">🌐</span>
+            <h4 class="deployment-option-title">Customer-Managed VPS</h4>
           </div>
-          <p style="font-size:0.825rem;line-height:1.6;color:var(--muted);margin:0 0 0.75rem;">
+          <p class="deployment-option-text">
             Run Kerrigan's backend on a dedicated server in a data center you
             control. The server contract stays in your name — we handle
             installation and ongoing maintenance. PHI remains in your
             infrastructure throughout.
           </p>
-          <p style="font-size:0.75rem;color:var(--muted);line-height:1.5;padding:0.5rem 0.75rem;background:rgba(255,255,255,0.03);border-radius:4px;border-left:2px solid var(--glass-border);">
+          <p class="deployment-option-note">
             Best for practices with existing cloud infrastructure or those
             that prefer datacenter redundancy over on-site hardware.
           </p>
         </div>
 
-        <div style="padding:1.25rem 1.5rem;border-radius:var(--radius);border:1px solid var(--glass-border);background:var(--surface);">
-          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.6rem;flex-wrap:wrap;">
-            <span style="font-size:1.1rem;">🏗</span>
-            <h4 style="font-size:0.95rem;font-weight:700;color:var(--light);margin:0;">Own Hardware</h4>
-            <span class="badge" style="font-size:0.65rem;background:rgba(255,255,255,0.05);color:var(--muted);border:1px solid var(--glass-border);">IT staff required</span>
+        <div class="deployment-option-card">
+          <div class="deployment-option-header deployment-option-header-wrap">
+            <span class="deployment-option-icon">🏗</span>
+            <h4 class="deployment-option-title">Own Hardware</h4>
+            <span class="badge badge-muted deployment-badge-small">IT staff required</span>
           </div>
-          <p style="font-size:0.825rem;line-height:1.6;color:var(--muted);margin:0 0 0.75rem;">
+          <p class="deployment-option-text">
             Install Kerrigan on hardware you already own. We provide
             specifications and a fully automated installer — but ongoing
             hardware management, maintenance, and failure response are
             your responsibility.
           </p>
-          <p style="font-size:0.75rem;color:var(--muted);line-height:1.5;padding:0.5rem 0.75rem;background:rgba(255,255,255,0.03);border-radius:4px;border-left:2px solid var(--glass-border);">
+          <p class="deployment-option-note">
             Suited to hospital systems and larger organizations with
             dedicated IT staff. Not recommended for solo or small-group practices.
           </p>
@@ -359,7 +358,7 @@
       Kerrigan doesn't.
     </p>
 
-    <div style="overflow-x:auto;margin-top:2.5rem;">
+    <div class="compare-table-shell compare-desktop">
       <table class="compare-table">
         <thead>
           <tr>
@@ -447,6 +446,107 @@
         </tbody>
       </table>
     </div>
+
+    <div class="compare-mobile">
+      <article class="compare-mobile-card sacred-card">
+        <h3 class="compare-mobile-title">Audio processing location</h3>
+        <div class="compare-mobile-grid">
+          <div class="compare-mobile-item compare-mobile-item-kerrigan"><span class="compare-mobile-competitor">Kerrigan</span><span class="check">On-premise</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Abridge</span><span class="cross">Cloud</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Freed</span><span class="cross">Cloud</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Nabla</span><span class="cross">Cloud</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">DeepScribe</span><span class="cross">Cloud</span></div>
+        </div>
+      </article>
+
+      <article class="compare-mobile-card sacred-card">
+        <h3 class="compare-mobile-title">LLM inference location</h3>
+        <div class="compare-mobile-grid">
+          <div class="compare-mobile-item compare-mobile-item-kerrigan"><span class="compare-mobile-competitor">Kerrigan</span><span class="check">On-premise</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Abridge</span><span class="cross">Cloud</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Freed</span><span class="cross">Cloud</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Nabla</span><span class="cross">Cloud</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">DeepScribe</span><span class="cross">Cloud</span></div>
+        </div>
+      </article>
+
+      <article class="compare-mobile-card sacred-card">
+        <h3 class="compare-mobile-title">PHI leaves premises</h3>
+        <div class="compare-mobile-grid">
+          <div class="compare-mobile-item compare-mobile-item-kerrigan"><span class="compare-mobile-competitor">Kerrigan</span><span class="check">Never</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Abridge</span><span class="cross">Yes</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Freed</span><span class="cross">Yes</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Nabla</span><span class="cross">Yes</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">DeepScribe</span><span class="cross">Yes</span></div>
+        </div>
+      </article>
+
+      <article class="compare-mobile-card sacred-card">
+        <h3 class="compare-mobile-title">Offline capable</h3>
+        <div class="compare-mobile-grid">
+          <div class="compare-mobile-item compare-mobile-item-kerrigan"><span class="compare-mobile-competitor">Kerrigan</span><span class="check">✓</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Abridge</span><span class="cross">✕</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Freed</span><span class="cross">✕</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Nabla</span><span class="cross">✕</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">DeepScribe</span><span class="cross">✕</span></div>
+        </div>
+      </article>
+
+      <article class="compare-mobile-card sacred-card">
+        <h3 class="compare-mobile-title">Behavioral health focus</h3>
+        <div class="compare-mobile-grid">
+          <div class="compare-mobile-item compare-mobile-item-kerrigan"><span class="compare-mobile-competitor">Kerrigan</span><span class="check">✓ Core focus</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Abridge</span><span>Enterprise</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Freed</span><span>General</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Nabla</span><span>General</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">DeepScribe</span><span>Oncology</span></div>
+        </div>
+      </article>
+
+      <article class="compare-mobile-card sacred-card">
+        <h3 class="compare-mobile-title">Speaker diarization</h3>
+        <div class="compare-mobile-grid">
+          <div class="compare-mobile-item compare-mobile-item-kerrigan"><span class="compare-mobile-competitor">Kerrigan</span><span class="check">✓</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Abridge</span><span class="check">✓</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Freed</span><span class="check">✓</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Nabla</span><span class="check">✓</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">DeepScribe</span><span class="check">✓</span></div>
+        </div>
+      </article>
+
+      <article class="compare-mobile-card sacred-card">
+        <h3 class="compare-mobile-title">Zoom integration</h3>
+        <div class="compare-mobile-grid">
+          <div class="compare-mobile-item compare-mobile-item-kerrigan"><span class="compare-mobile-competitor">Kerrigan</span><span class="check">✓</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Abridge</span><span class="check">✓</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Freed</span><span class="cross">✕</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Nabla</span><span class="check">✓</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">DeepScribe</span><span class="check">✓</span></div>
+        </div>
+      </article>
+
+      <article class="compare-mobile-card sacred-card">
+        <h3 class="compare-mobile-title">HIPAA compliant</h3>
+        <div class="compare-mobile-grid">
+          <div class="compare-mobile-item compare-mobile-item-kerrigan"><span class="compare-mobile-competitor">Kerrigan</span><span class="check">✓</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Abridge</span><span class="check">✓</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Freed</span><span class="check">✓</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Nabla</span><span class="check">✓</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">DeepScribe</span><span class="check">✓</span></div>
+        </div>
+      </article>
+
+      <article class="compare-mobile-card sacred-card">
+        <h3 class="compare-mobile-title">42 CFR Part 2 exposure</h3>
+        <div class="compare-mobile-grid">
+          <div class="compare-mobile-item compare-mobile-item-kerrigan"><span class="compare-mobile-competitor">Kerrigan</span><span class="check">No external exposure</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Abridge</span><span class="cross">Cloud exposure</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Freed</span><span class="cross">Cloud exposure</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Nabla</span><span class="cross">Cloud exposure</span></div>
+          <div class="compare-mobile-item"><span class="compare-mobile-competitor">DeepScribe</span><span class="cross">Cloud exposure</span></div>
+        </div>
+      </article>
+    </div>
   </div>
 </section>
 
@@ -459,7 +559,7 @@
     <span class="section-eyebrow">Features</span>
     <h2 class="section-title">Everything you need. Nothing you don't.</h2>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.25rem;margin-top:2.5rem;">
+    <div class="card-grid card-grid-features">
 
       <div class="feature-card">
         <div class="icon-circle icon-cerulean">🎙</div>
@@ -488,7 +588,7 @@
         </p>
       </div>
 
-      <div class="feature-card">
+      <div class="feature-card glow-amber">
         <div class="icon-circle icon-amber">📹</div>
         <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:0.5rem;color:var(--light);">Zoom Integration</h3>
         <p style="font-size:0.875rem;line-height:1.6;color:var(--muted);">
@@ -497,7 +597,7 @@
         </p>
       </div>
 
-      <div class="feature-card">
+      <div class="feature-card glow-amber">
         <div class="icon-circle icon-amber">⚡</div>
         <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:0.5rem;color:var(--light);">EHR-Ready Output</h3>
         <p style="font-size:0.875rem;line-height:1.6;color:var(--muted);">
@@ -506,7 +606,7 @@
         </p>
       </div>
 
-      <div class="feature-card">
+      <div class="feature-card glow-sage">
         <div class="icon-circle icon-sage">💬</div>
         <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:0.5rem;color:var(--light);">Context-Aware Chat</h3>
         <p style="font-size:0.875rem;line-height:1.6;color:var(--muted);">
@@ -525,29 +625,29 @@
      │  SPECIALTIES                                                 │
      └──────────────────────────────────────────────────────────────┘ -->
 <section class="section-pad-sm" style="position:relative;z-index:1;">
-  <div class="section-container" style="text-align:center;">
+  <div class="section-container specialties-section">
     <span class="section-eyebrow">Built For Behavioral Health</span>
-    <h2 class="section-title" style="margin:0 auto 0.75rem;">
+    <h2 class="section-title specialties-title">
       Designed around the complexity of mental health documentation.
     </h2>
-    <p class="section-sub" style="margin:0 auto 2rem;">
+    <p class="section-sub specialties-sub">
       Not a general-purpose scribe retrofitted for therapy — a tool built from
       the ground up for the narrative, relational, and clinical nuance of
       behavioral health work.
     </p>
-    <div style="display:flex;flex-wrap:wrap;gap:0.6rem;justify-content:center;">
-      <span class="specialty-pill">🧠 Psychotherapy</span>
-      <span class="specialty-pill">💊 Psychiatry</span>
-      <span class="specialty-pill">🤝 Social Work (LCSW)</span>
+    <div class="specialty-pill-cloud">
+      <span class="specialty-pill glow-pink">🧠 Psychotherapy</span>
+      <span class="specialty-pill glow-caution">💊 Psychiatry</span>
+      <span class="specialty-pill glow-amber">🤝 Social Work (LCSW)</span>
       <span class="specialty-pill">📋 Counseling (LPC / LPCC)</span>
-      <span class="specialty-pill">🏥 Outpatient Clinics</span>
-      <span class="specialty-pill">🏠 IOP / PHP Programs</span>
-      <span class="specialty-pill">⚖️ Substance Use Treatment</span>
-      <span class="specialty-pill">🔒 Forensic Settings</span>
-      <span class="specialty-pill">👶 Child & Adolescent</span>
-      <span class="specialty-pill">💑 Couples Therapy</span>
+      <span class="specialty-pill glow-purple">🏥 Outpatient Clinics</span>
+      <span class="specialty-pill glow-amber">🏠 IOP / PHP Programs</span>
+      <span class="specialty-pill glow-amber">⚖️ Substance Use Treatment</span>
+      <span class="specialty-pill glow-caution">🔒 Forensic Settings</span>
+      <span class="specialty-pill glow-amber">👶 Child & Adolescent</span>
+      <span class="specialty-pill glow-pink">💑 Couples Therapy</span>
     </div>
-    <p style="margin-top:1.5rem;font-size:0.8rem;padding:0.75rem 1rem;border-radius:var(--radius-sm);background:var(--amber-dim);border:1px solid var(--amber-border);color:var(--amber);max-width:680px;margin-left:auto;margin-right:auto;text-align:left;line-height:1.6;">
+    <p class="specialty-callout">
       <strong>For substance use treatment &amp; forensic settings:</strong> Records governed by 42 CFR Part 2 (SAMHSA) carry disclosure restrictions beyond standard HIPAA. Any cloud-based AI scribe creates a third-party system exposure for those records. Kerrigan's local-only architecture is the only approach that removes that risk entirely.
     </p>
   </div>
@@ -559,48 +659,48 @@
      └──────────────────────────────────────────────────────────────┘ -->
 <section class="section-pad band" style="position:relative;z-index:1;">
   <div class="section-container">
-      <div class="two-col-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;">
+      <div class="two-col-grid two-col-grid-start">
       <div>
         <span class="section-eyebrow">For Practice Directors</span>
         <h2 class="section-title">
           Reduce burnout.<br>Reduce risk.<br>
-          <span style="color:var(--cerulean);">For your entire practice.</span>
+          <span class="text-cerulean">For your entire practice.</span>
         </h2>
         <p class="section-sub">
           When clinicians spend less time charting, they see more clients, experience
           less burnout, and stay longer. Kerrigan compounds those benefits with a
           data sovereignty posture no cloud tool can match.
         </p>
-        <a href="#waitlist" class="btn-primary" style="margin-top:1.75rem;display:inline-flex;">
+        <a href="#waitlist" class="btn-primary directors-cta">
           Get Early Access for Your Practice →
         </a>
       </div>
 
       <div>
-        <div class="sacred-card" style="padding:1.5rem;">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
-            <div class="director-stat" style="border-right:1px solid var(--glass-border);border-bottom:1px solid var(--glass-border);">
+        <div class="sacred-card director-card">
+          <div class="director-stats-grid">
+            <div class="director-stat glow-amber">
               <span class="director-stat-number">2h+</span>
               <span class="director-stat-label">Saved per clinician<br>per day</span>
             </div>
-            <div class="director-stat" style="border-bottom:1px solid var(--glass-border);">
+            <div class="director-stat glow-sage">
               <span class="director-stat-number">0</span>
               <span class="director-stat-label">Patient audio records<br>in the cloud</span>
             </div>
-            <div class="director-stat" style="border-right:1px solid var(--glass-border);">
+            <div class="director-stat glow-purple">
               <span class="director-stat-number">100%</span>
               <span class="director-stat-label">On-premise —<br>your building, your data</span>
             </div>
-            <div class="director-stat">
+            <div class="director-stat glow-sage">
               <span class="director-stat-number">↓</span>
               <span class="director-stat-label">Reduced PHI exposure<br>surface area</span>
             </div>
           </div>
         </div>
 
-        <div style="margin-top:1rem;padding:1.25rem 1.5rem;border-radius:var(--radius);background:var(--amber-dim);border:1px solid var(--amber-border);">
-          <p style="font-size:0.875rem;line-height:1.65;color:var(--light);">
-            <strong style="color:var(--amber);">Note on 42 CFR Part 2 &amp; HIPAA:</strong>
+        <div class="director-note">
+          <p class="director-note-text">
+            <strong class="text-amber">Note on 42 CFR Part 2 &amp; HIPAA:</strong>
             Substance abuse treatment records carry stricter disclosure protections than
             standard HIPAA. Kerrigan's local-only architecture means those records never
             enter an external system — eliminating an entire category of compliance risk.
@@ -617,21 +717,21 @@
      └──────────────────────────────────────────────────────────────┘ -->
 <section id="waitlist" class="section-pad" style="position:relative;z-index:1;">
   <div class="section-container">
-    <div style="max-width:680px;margin:0 auto;text-align:center;">
-      <span class="section-eyebrow" style="color:var(--amber);">Early Access</span>
+    <div class="waitlist-intro">
+      <span class="section-eyebrow eyebrow-amber">Early Access</span>
       <h2 class="section-title">
         Be among the first clinics<br>to go AI-native — privately.
       </h2>
-      <p class="section-sub" style="margin:0 auto 2rem;">
+      <p class="section-sub waitlist-sub">
         Kerrigan is currently in alpha with individual therapists.
-        We're targeting <strong style="color:var(--amber);">early April</strong> to open
+        We're targeting <strong class="text-amber">early April</strong> to open
         onboarding for our first practice cohort — a small group that will shape
         the product's direction from day one. Waitlist members get priority access,
         dedicated onboarding support, and founding-member pricing.
       </p>
     </div>
 
-    <div class="waitlist-form-wrap" style="max-width:600px;margin:0 auto;">
+    <div class="waitlist-form-wrap waitlist-form-shell">
       {{/* Replace XXXXXXXX in hugo.toml with your Formspree form ID */}}
       <form
         id="waitlist-form"
@@ -664,6 +764,7 @@
           >
           <select class="form-select" name="practice_type">
             <option value="" disabled selected>Practice type…</option>
+            <option value="individual">Individual Therapist</option>
             <option value="solo">Solo practice</option>
             <option value="group">Group practice (2–10 clinicians)</option>
             <option value="outpatient_clinic">Outpatient clinic (11–50 clinicians)</option>
@@ -680,7 +781,7 @@
       </form>
       <p class="form-privacy">
         No spam. We'll only contact you about early access. You can read our
-        <a href="/privacy" style="color:var(--cerulean);text-decoration:underline;" data-analytics-event="privacy_click" data-analytics-label="waitlist_privacy_link">Privacy Policy</a>.
+        <a href="/privacy" class="text-link" data-analytics-event="privacy_click" data-analytics-label="waitlist_privacy_link">Privacy Policy</a>.
         Patient data is never collected through this form.
       </p>
     </div>
@@ -692,15 +793,15 @@
      │  FOOTER                                                      │
      └──────────────────────────────────────────────────────────────┘ -->
 <footer class="site-footer" style="position:relative;z-index:1;">
-  <div style="display:flex;flex-direction:column;gap:0.4rem;">
+  <div class="footer-brand">
     <span class="footer-logo">Kerrig<span>an</span></span>
-    <span style="font-size:0.75rem;color:var(--muted);">by Coalescent Emergence</span>
+    <span class="footer-brand-copy">by Coalescent Emergence</span>
   </div>
 
-  <div style="display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center;">
-    <span class="badge badge-sage" style="font-size:0.7rem;">✓ HIPAA</span>
-    <span class="badge badge-cerulean" style="font-size:0.7rem;">⬡ Local-Only</span>
-    <span class="badge badge-cerulean" style="font-size:0.7rem;">✕ No Cloud PHI</span>
+  <div class="footer-badges">
+    <span class="badge badge-sage footer-badge">✓ HIPAA</span>
+    <span class="badge badge-cerulean footer-badge">⬡ Local-Only</span>
+    <span class="badge badge-cerulean footer-badge">✕ No Cloud PHI</span>
   </div>
 
   <nav class="footer-links">
