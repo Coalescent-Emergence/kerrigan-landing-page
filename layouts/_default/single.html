@@ -100,6 +100,44 @@
 
   </div>
 </section>
+{{ else if eq .RelPermalink "/success/" }}
+<section style="position:relative;z-index:1;min-height:calc(100vh - 65px);display:flex;align-items:center;padding:4rem 1.5rem;">
+  <div class="section-container" style="max-width:680px;margin:0 auto;text-align:center;">
+    
+    <!-- Icon -->
+    <div style="display:inline-flex;align-items:center;justify-content:center;
+                width:4.5rem;height:4.5rem;border-radius:50%;
+                background:var(--cerulean-dim);border:1px solid rgba(89,161,255,0.4);
+                font-size:2rem;margin-bottom:1.75rem;">
+      🎉
+    </div>
+
+    <span class="section-eyebrow" style="color:var(--cerulean);">Subscription Active</span>
+
+    <h1 class="section-title" style="font-size:clamp(2rem,4.5vw,3rem);margin-top:0.5rem;">
+      Welcome to Kerrigan.
+    </h1>
+
+    <p style="margin-top:1.25rem;font-size:1.1rem;line-height:1.7;color:var(--muted);max-width:540px;margin-left:auto;margin-right:auto;">
+      Your subscription was successful. You now have full access to Kerrigan's private, on-device clinical intelligence.
+    </p>
+
+    <!-- Action Buttons -->
+    <div style="margin-top:2.75rem;display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;">
+      <a href="http://localhost:5173"
+         class="btn-primary"
+         style="font-size:0.95rem;padding:0.75rem 1.75rem;">
+        Launch Kerrigan App
+      </a>
+      <a href="/"
+         class="btn-secondary"
+         style="font-size:0.95rem;padding:0.75rem 1.75rem;">
+        Back to Home
+      </a>
+    </div>
+
+  </div>
+</section>
 {{ else }}
 <section class="legal-shell">
   <div class="section-container" style="max-width:860px;margin:0 auto;">

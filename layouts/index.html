@@ -5,8 +5,8 @@
      └──────────────────────────────────────────────────────────────┘ -->
 <nav class="site-nav">
   <a href="/" class="nav-logo">Kerrig<span>an</span></a>
-  <a href="#waitlist" class="btn-primary nav-cta" data-analytics-event="cta_click_waitlist" data-analytics-label="nav_join_waitlist">
-    Join Waitlist →
+  <a href="#pricing" class="btn-primary nav-cta" data-analytics-event="cta_click_pricing" data-analytics-label="nav_view_pricing">
+    View Pricing
   </a>
 </nav>
 
@@ -31,8 +31,8 @@
       </p>
 
       <div class="hero-cta-row">
-        <a href="#waitlist" class="btn-primary" data-analytics-event="cta_click_waitlist" data-analytics-label="hero_join_waitlist">
-          Join the Early Access Waitlist →
+        <a href="#pricing" class="btn-primary" data-analytics-event="cta_click_pricing" data-analytics-label="hero_view_pricing">
+          Subscribe Now →
         </a>
         <a href="#how-it-works" class="btn-secondary" data-analytics-event="cta_click_how_it_works" data-analytics-label="hero_see_how_it_works">
           See how it works ↓
@@ -671,8 +671,8 @@
           less burnout, and stay longer. Kerrigan compounds those benefits with a
           data sovereignty posture no cloud tool can match.
         </p>
-        <a href="#waitlist" class="btn-primary directors-cta">
-          Get Early Access for Your Practice →
+        <a href="#pricing" class="btn-primary directors-cta">
+          View Pricing Plans →
         </a>
       </div>
 
@@ -713,80 +713,89 @@
 
 
 <!-- ┌──────────────────────────────────────────────────────────────┐
-     │  WAITLIST FORM                                               │
+     │  PRICING                                                     │
      └──────────────────────────────────────────────────────────────┘ -->
-<section id="waitlist" class="section-pad" style="position:relative;z-index:1;">
+<section id="pricing" class="section-pad" style="position:relative;z-index:1;">
   <div class="section-container">
-    <div class="waitlist-intro">
-      <span class="section-eyebrow eyebrow-amber">Early Access</span>
+    <div class="pricing-intro" style="text-align:center;margin-bottom:3rem;">
+      <span class="section-eyebrow eyebrow-amber">Pricing</span>
       <h2 class="section-title">
-        Be among the first clinics<br>to go AI-native — privately.
+        Simple, transparent pricing for your practice.
       </h2>
-      <p class="section-sub waitlist-sub">
-        Kerrigan is currently in alpha with individual therapists.
-        We're targeting <strong class="text-amber">early April</strong> to open
-        onboarding for our first practice cohort — a small group that will shape
-        the product's direction from day one. Waitlist members get priority access,
-        dedicated onboarding support, and founding-member pricing.
+      <p class="section-sub pricing-sub" style="max-width:600px;margin:1rem auto 0;color:var(--muted);">
+        Choose the plan that fits your clinical volume. All plans include the local-only Kerrigan appliance and full feature set.
       </p>
     </div>
 
-    <div class="waitlist-form-wrap waitlist-form-shell">
-      {{/* Replace XXXXXXXX in hugo.toml with your Formspree form ID */}}
-      <form
-        id="waitlist-form"
-        action="https://formspree.io/f/{{ .Site.Params.formspreeID }}"
-        method="POST"
-      >
-        <div class="form-row">
-          <input
-            class="form-input"
-            type="text"
-            name="name"
-            placeholder="Your name (optional)"
-            autocomplete="name"
-          >
-          <input
-            class="form-input"
-            type="email"
-            name="email"
-            placeholder="Work email address *"
-            required
-            autocomplete="email"
-          >
-        </div>
-        <div class="form-row">
-          <input
-            class="form-input"
-            type="text"
-            name="organization"
-            placeholder="Practice / clinic name (optional)"
-          >
-          <select class="form-select" name="practice_type">
-            <option value="" disabled selected>Practice type…</option>
-            <option value="individual">Individual Therapist</option>
-            <option value="solo">Solo practice</option>
-            <option value="group">Group practice (2–10 clinicians)</option>
-            <option value="outpatient_clinic">Outpatient clinic (11–50 clinicians)</option>
-            <option value="large_org">Large organization (50+)</option>
-            <option value="iop_php">IOP / PHP program</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        <button type="submit" class="form-submit" data-analytics-event="cta_click_waitlist_submit" data-analytics-label="waitlist_form_submit_button">
-          Reserve My Spot on the Waitlist →
-        </button>
-        <input type="hidden" name="_subject" value="Kerrigan Waitlist Signup">
-        <input type="hidden" name="_next" value="https://kerrigan.jhax.dev/thank-you/">
-      </form>
-      <p class="form-privacy">
-        No spam. We'll only contact you about early access. You can read our
-        <a href="/privacy" class="text-link" data-analytics-event="privacy_click" data-analytics-label="waitlist_privacy_link">Privacy Policy</a>.
-        Patient data is never collected through this form.
-      </p>
+    <div class="pricing-grid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:2rem;max-width:1100px;margin:0 auto;">
+      
+      <!-- Founder -->
+      <div class="pricing-card sacred-card" style="padding:2rem;display:flex;flex-direction:column;align-items:center;text-align:center;border:1px solid var(--border);">
+        <h3 style="font-size:1.5rem;font-weight:700;margin-bottom:0.5rem;color:var(--light);">Founder</h3>
+        <div style="font-size:2.5rem;font-weight:800;color:var(--light);margin-bottom:1rem;">$69.99<span style="font-size:1rem;color:var(--muted);font-weight:400;">/mo</span></div>
+        <p style="font-size:0.9rem;color:var(--muted);margin-bottom:2rem;flex-grow:1;">Early adopter tier for solo practitioners with light clinical volume.</p>
+        <button class="btn-primary" onclick="openCheckout('founder')" style="width:100%;">Subscribe</button>
+      </div>
+
+      <!-- Basic -->
+      <div class="pricing-card sacred-card" style="padding:2rem;display:flex;flex-direction:column;align-items:center;text-align:center;border:1px solid var(--border);">
+        <h3 style="font-size:1.5rem;font-weight:700;margin-bottom:0.5rem;color:var(--light);">Basic</h3>
+        <div style="font-size:2.5rem;font-weight:800;color:var(--light);margin-bottom:1rem;">$99.99<span style="font-size:1rem;color:var(--muted);font-weight:400;">/mo</span></div>
+        <p style="font-size:0.9rem;color:var(--muted);margin-bottom:2rem;flex-grow:1;">Standard tier for solo practitioners with average clinical volume.</p>
+        <button class="btn-primary" onclick="openCheckout('basic')" style="width:100%;">Subscribe</button>
+      </div>
+
+      <!-- Pro -->
+      <div class="pricing-card sacred-card" style="position:relative;padding:2rem;display:flex;flex-direction:column;align-items:center;text-align:center;border:2px solid var(--sage);box-shadow:0 0 20px rgba(135, 186, 171, 0.15);">
+        <div style="position:absolute;top:-12px;background:var(--sage);color:var(--bg);font-size:0.75rem;font-weight:700;padding:2px 12px;border-radius:12px;text-transform:uppercase;letter-spacing:0.5px;">Most Popular</div>
+        <h3 style="font-size:1.5rem;font-weight:700;margin-bottom:0.5rem;color:var(--light);">Pro</h3>
+        <div style="font-size:2.5rem;font-weight:800;color:var(--light);margin-bottom:1rem;">$149.99<span style="font-size:1rem;color:var(--muted);font-weight:400;">/mo</span></div>
+        <p style="font-size:0.9rem;color:var(--muted);margin-bottom:2rem;flex-grow:1;">Advanced tier for full-time clinicians with high volume.</p>
+        <button class="btn-primary" onclick="openCheckout('pro')" style="width:100%;background:var(--sage);color:var(--bg);">Subscribe</button>
+      </div>
+
+      <!-- Integrator -->
+      <div class="pricing-card sacred-card" style="padding:2rem;display:flex;flex-direction:column;align-items:center;text-align:center;border:1px solid var(--border);">
+        <h3 style="font-size:1.5rem;font-weight:700;margin-bottom:0.5rem;color:var(--light);">Integrator</h3>
+        <div style="font-size:2.5rem;font-weight:800;color:var(--light);margin-bottom:1rem;">$249.99<span style="font-size:1rem;color:var(--muted);font-weight:400;">/mo</span></div>
+        <p style="font-size:0.9rem;color:var(--muted);margin-bottom:2rem;flex-grow:1;">Premium tier for small group practices (up to 3 clinicians).</p>
+        <button class="btn-primary" onclick="openCheckout('integrator')" style="width:100%;">Subscribe</button>
+      </div>
+
     </div>
   </div>
 </section>
+
+<!-- ┌──────────────────────────────────────────────────────────────┐
+     │  SIGNUP MODAL                                                │
+     └──────────────────────────────────────────────────────────────┘ -->
+<div id="checkout-modal" class="modal-overlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:9999;align-items:center;justify-content:center;backdrop-filter:blur(5px);">
+  <div class="modal-content sacred-card" style="width:100%;max-width:400px;padding:2rem;position:relative;margin:0 1rem;">
+    <button onclick="closeCheckout()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--muted);font-size:1.5rem;cursor:pointer;">&times;</button>
+    <h3 style="font-size:1.5rem;font-weight:700;margin-bottom:1.5rem;color:var(--light);text-align:center;">Subscribe to Kerrigan</h3>
+    
+    <div id="checkout-error" style="display:none;background:var(--caution-dim);color:var(--caution);padding:0.75rem;border-radius:var(--radius-sm);margin-bottom:1rem;font-size:0.9rem;border-left:3px solid var(--caution);"></div>
+
+    <form id="checkout-form" onsubmit="submitCheckout(event)">
+      <input type="hidden" id="checkout-tier" name="tier_id">
+      
+      <div style="margin-bottom:1rem;">
+        <label for="checkout-name" style="display:block;font-size:0.875rem;color:var(--light);margin-bottom:0.5rem;text-align:left;">Full Name</label>
+        <input type="text" id="checkout-name" name="name" class="form-input" required style="width:100%;box-sizing:border-box;">
+      </div>
+      
+      <div style="margin-bottom:1.5rem;">
+        <label for="checkout-email" style="display:block;font-size:0.875rem;color:var(--light);margin-bottom:0.5rem;text-align:left;">Email Address</label>
+        <input type="email" id="checkout-email" name="email" class="form-input" required style="width:100%;box-sizing:border-box;">
+      </div>
+
+      <button type="submit" id="checkout-submit-btn" class="btn-primary" style="width:100%;">
+        <span id="checkout-btn-text">Proceed to Checkout</span>
+        <span id="checkout-btn-loading" style="display:none;">Processing...</span>
+      </button>
+    </form>
+  </div>
+</div>
 
 
 <!-- ┌──────────────────────────────────────────────────────────────┐

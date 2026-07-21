@@ -147,17 +147,17 @@
           trackEvent(name, { ...baseProps, label });
         });
 
-        const waitlistForm = document.getElementById('waitlist-form');
-        if (waitlistForm) {
+        const checkoutForm = document.getElementById('checkout-form');
+        if (checkoutForm) {
           let formStarted = false;
-          waitlistForm.addEventListener('input', function () {
+          checkoutForm.addEventListener('input', function () {
             if (formStarted) return;
             formStarted = true;
-            trackEvent('waitlist_form_start', baseProps);
+            trackEvent('checkout_form_start', baseProps);
           });
 
-          waitlistForm.addEventListener('submit', function () {
-            trackEvent('waitlist_form_submit', baseProps);
+          checkoutForm.addEventListener('submit', function () {
+            trackEvent('checkout_form_submit', baseProps);
           });
         }
       })();
@@ -166,5 +166,6 @@
 </head>
 <body class="bg-void text-light antialiased">
   {{ block "main" . }}{{ end }}
+  <script src="/js/checkout.js"></script>
 </body>
 </html>

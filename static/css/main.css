@@ -1687,3 +1687,38 @@ body::before {
 }
 
 .cta:hover { opacity: 0.85; }
+
+/* ── Pricing Grid & Cards ────────────────────────────────────────── */
+.pricing-card {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pricing-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--cerulean);
+  box-shadow: 0 20px 40px rgba(0, 151, 196, 0.2), inset 0 0 20px rgba(0, 151, 196, 0.1);
+}
+
+.pricing-card:nth-child(3):hover {
+  border-color: var(--sage);
+  box-shadow: 0 20px 40px rgba(76, 175, 130, 0.25), inset 0 0 20px rgba(76, 175, 130, 0.15);
+}
+
+/* ── Checkout Modal ──────────────────────────────────────────────── */
+.modal-overlay {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.modal-content {
+  animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; backdrop-filter: blur(0px); }
+  to { opacity: 1; backdrop-filter: blur(5px); }
+}
+
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
