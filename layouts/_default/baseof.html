@@ -54,6 +54,10 @@
   </script>
 
   {{/* ── Custom styles ───────────────────────────── */}}
+  {{ $designSystem := resources.Get "css/design-system.css" }}
+  {{ if $designSystem }}
+  <link rel="stylesheet" href="{{ $designSystem.RelPermalink }}">
+  {{ end }}
   <link rel="stylesheet" href="/css/main.css">
 
   {{ if .Site.Params.analyticsEnabled }}
@@ -164,7 +168,7 @@
     </script>
   {{ end }}
 </head>
-<body class="bg-void text-light antialiased">
+<body style="background-color: var(--color-bg-canvas); color: var(--color-text-primary); font-family: var(--font-body);">
   {{ block "main" . }}{{ end }}
   <script src="/js/checkout.js"></script>
 </body>
