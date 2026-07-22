@@ -6,61 +6,57 @@
 </nav>
 
 {{ if eq .RelPermalink "/thank-you/" }}
-<section style="position:relative;z-index:1;min-height:calc(100vh - 65px);display:flex;align-items:center;padding:4rem 1.5rem;">
+<section class="section-pad">
   <div class="section-container" style="max-width:680px;margin:0 auto;text-align:center;">
 
     <!-- Icon -->
-    <div style="display:inline-flex;align-items:center;justify-content:center;
-                width:4.5rem;height:4.5rem;border-radius:50%;
-                background:var(--sage-dim);border:1px solid rgba(76,175,130,0.4);
-                font-size:2rem;margin-bottom:1.75rem;">
+    <div class="icon-circle icon-sage" style="width:4.5rem;height:4.5rem;font-size:2rem;margin:0 auto var(--wp-space-6);">
       ✓
     </div>
 
-    <span class="section-eyebrow" style="color:var(--sage);">Waitlist Confirmed</span>
+    <span class="section-eyebrow">Waitlist Confirmed</span>
 
-    <h1 class="section-title" style="font-size:clamp(2rem,4.5vw,3rem);margin-top:0.5rem;">
+    <h1 class="section-title">
       You're on the list.
     </h1>
 
-    <p style="margin-top:1.25rem;font-size:1.1rem;line-height:1.7;color:var(--muted);max-width:540px;margin-left:auto;margin-right:auto;">
+    <p class="section-sub" style="margin:var(--wp-space-5) auto 0;">
       We'll be in touch when your spot in the early access pilot opens up — likely
-      <strong style="color:var(--light);">Q2 2026.</strong> No spam, just one
+      <strong>Q2 2026.</strong> No spam, just one
       email when it's your turn.
     </p>
 
     <!-- What to expect cards -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
-                gap:1rem;margin-top:2.75rem;text-align:left;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:var(--wp-space-4);margin-top:var(--wp-space-8);text-align:left;">
 
-      <div class="sacred-card" style="padding:1.5rem;">
-        <div class="icon-circle icon-cerulean" style="margin-bottom:0.75rem;">📬</div>
-        <h3 style="font-size:0.9rem;font-weight:700;color:var(--light);margin-bottom:0.4rem;">
+      <div class="sacred-card">
+        <div class="icon-circle icon-cerulean">📬</div>
+        <h3 class="card-title" style="font-size:var(--wp-text-sm);">
           Onboarding email
         </h3>
-        <p style="font-size:0.825rem;line-height:1.55;color:var(--muted);">
+        <p style="font-size:var(--wp-text-xs);margin-bottom:0;">
           We'll send clear setup instructions with everything you need to get
           Kerrigan running on your hardware.
         </p>
       </div>
 
-      <div class="sacred-card" style="padding:1.5rem;">
-        <div class="icon-circle icon-amber" style="margin-bottom:0.75rem;">🎯</div>
-        <h3 style="font-size:0.9rem;font-weight:700;color:var(--light);margin-bottom:0.4rem;">
+      <div class="sacred-card">
+        <div class="icon-circle icon-amber">🎯</div>
+        <h3 class="card-title" style="font-size:var(--wp-text-sm);">
           Founding-member pricing
         </h3>
-        <p style="font-size:0.825rem;line-height:1.55;color:var(--muted);">
+        <p style="font-size:var(--wp-text-xs);margin-bottom:0;">
           Early access members lock in discounted pricing that stays in place as
           long as you remain a subscriber.
         </p>
       </div>
 
-      <div class="sacred-card" style="padding:1.5rem;">
-        <div class="icon-circle icon-sage" style="margin-bottom:0.75rem;">🤝</div>
-        <h3 style="font-size:0.9rem;font-weight:700;color:var(--light);margin-bottom:0.4rem;">
+      <div class="sacred-card">
+        <div class="icon-circle icon-sage">🤝</div>
+        <h3 class="card-title" style="font-size:var(--wp-text-sm);">
           Dedicated support
         </h3>
-        <p style="font-size:0.825rem;line-height:1.55;color:var(--muted);">
+        <p style="font-size:var(--wp-text-xs);margin-bottom:0;">
           Direct line to the team during the pilot — your feedback shapes the
           features that ship next.
         </p>
@@ -69,30 +65,25 @@
     </div>
 
     <!-- Share nudge -->
-    <div style="margin-top:2.5rem;padding:1.5rem 1.75rem;
-                background:var(--cerulean-dim);border:1px solid var(--cerulean-border);
-                border-radius:var(--radius);">
-      <p style="font-size:0.9rem;line-height:1.6;color:var(--muted);">
-        <strong style="color:var(--light);">Know another clinician drowning in notes?</strong>
+    <div class="alert alert-info" style="margin-top:var(--wp-space-8);flex-direction:column;align-items:center;text-align:center;">
+      <p style="font-size:var(--wp-text-sm);margin-bottom:var(--wp-space-4);">
+        <strong>Know another clinician drowning in notes?</strong>
         Sharing the waitlist with a colleague moves both of you to the front of
         the pilot queue.
       </p>
-      <div style="margin-top:1rem;display:flex;flex-wrap:wrap;gap:0.75rem;justify-content:center;">
+      <div style="display:flex;flex-wrap:wrap;gap:var(--wp-space-3);justify-content:center;">
         <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fkerrigan.jhax.dev"
            target="_blank" rel="noopener"
-           class="btn-secondary"
-           style="font-size:0.85rem;padding:0.6rem 1.25rem;">
+           class="btn btn-secondary">
           Share on LinkedIn
         </a>
         <a href="https://twitter.com/intent/tweet?text=Just+joined+the+Kerrigan+waitlist+%E2%80%94+AI+clinical+notes+that+never+leave+your+building.+%F0%9F%94%92&url=https%3A%2F%2Fkerrigan.jhax.dev"
            target="_blank" rel="noopener"
-           class="btn-secondary"
-           style="font-size:0.85rem;padding:0.6rem 1.25rem;">
+           class="btn btn-secondary">
           Share on X
         </a>
         <a href="/"
-           class="btn-secondary"
-           style="font-size:0.85rem;padding:0.6rem 1.25rem;">
+           class="btn btn-secondary">
           ← Back to site
         </a>
       </div>
@@ -101,37 +92,32 @@
   </div>
 </section>
 {{ else if eq .RelPermalink "/success/" }}
-<section style="position:relative;z-index:1;min-height:calc(100vh - 65px);display:flex;align-items:center;padding:4rem 1.5rem;">
+<section class="section-pad">
   <div class="section-container" style="max-width:680px;margin:0 auto;text-align:center;">
     
     <!-- Icon -->
-    <div style="display:inline-flex;align-items:center;justify-content:center;
-                width:4.5rem;height:4.5rem;border-radius:50%;
-                background:var(--cerulean-dim);border:1px solid rgba(89,161,255,0.4);
-                font-size:2rem;margin-bottom:1.75rem;">
+    <div class="icon-circle icon-cerulean" style="width:4.5rem;height:4.5rem;font-size:2rem;margin:0 auto var(--wp-space-6);">
       🎉
     </div>
 
-    <span class="section-eyebrow" style="color:var(--cerulean);">Subscription Active</span>
+    <span class="section-eyebrow">Subscription Active</span>
 
-    <h1 class="section-title" style="font-size:clamp(2rem,4.5vw,3rem);margin-top:0.5rem;">
+    <h1 class="section-title">
       Welcome to Kerrigan.
     </h1>
 
-    <p style="margin-top:1.25rem;font-size:1.1rem;line-height:1.7;color:var(--muted);max-width:540px;margin-left:auto;margin-right:auto;">
+    <p class="section-sub" style="margin:var(--wp-space-5) auto 0;">
       Your subscription was successful. You now have full access to Kerrigan's private, on-device clinical intelligence.
     </p>
 
     <!-- Action Buttons -->
-    <div style="margin-top:2.75rem;display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;">
+    <div style="margin-top:var(--wp-space-8);display:flex;flex-wrap:wrap;gap:var(--wp-space-4);justify-content:center;">
       <a href="http://localhost:5173"
-         class="btn-primary"
-         style="font-size:0.95rem;padding:0.75rem 1.75rem;">
+         class="btn btn-primary">
         Launch Kerrigan App
       </a>
       <a href="/"
-         class="btn-secondary"
-         style="font-size:0.95rem;padding:0.75rem 1.75rem;">
+         class="btn btn-secondary">
         Back to Home
       </a>
     </div>
@@ -141,8 +127,8 @@
 {{ else }}
 <section class="legal-shell">
   <div class="section-container" style="max-width:860px;margin:0 auto;">
-    <h1 class="section-title" style="font-size:clamp(2rem,4.5vw,3rem);margin-bottom:1.5rem;">{{ .Title }}</h1>
-    <div class="legal-card">
+    <h1 class="section-title" style="margin-bottom:var(--wp-space-6);">{{ .Title }}</h1>
+    <div class="legal-card sacred-card">
       <div class="legal-content">
       {{ .Content }}
       </div>
@@ -152,10 +138,10 @@
 {{ end }}
 
 <!-- Footer -->
-<footer class="site-footer" style="position:relative;z-index:1;">
-  <div style="display:flex;flex-direction:column;gap:0.4rem;">
+<footer class="site-footer">
+  <div class="footer-brand">
     <span class="footer-logo">Kerrig<span>an</span></span>
-    <span style="font-size:0.75rem;color:var(--muted);">by Coalescent Emergence</span>
+    <span class="footer-brand-copy">by Coalescent Emergence</span>
   </div>
   <nav class="footer-links">
     <a href="/privacy">Privacy Policy</a>
