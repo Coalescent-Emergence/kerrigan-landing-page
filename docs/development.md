@@ -55,7 +55,7 @@ Controls the homepage `title`, `description`, and `keywords` (used for SEO). The
 
 ```yaml
 ---
-title: "Kerrigan — Clinical AI That Stays On Your Premises"
+title: "Kerrigan — Secure Cloud AI for Behavioral Health Documentation"
 description: "..."
 keywords: ["keyword1", "keyword2"]
 ---

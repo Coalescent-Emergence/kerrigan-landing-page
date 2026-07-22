@@ -1,6 +1,6 @@
 # GitHub Copilot Instructions for kerrigan-landing-page
 
-This repository contains the public-facing landing page for **Kerrigan** — AI-powered session transcription and clinical note generation for behavioral health, running entirely on-premises.
+This repository contains the public-facing landing page for **Kerrigan** — AI-powered session transcription and clinical note generation for behavioral health, powered by secure, zero-retention cloud AI architecture.
 
 ## Tech Stack
 

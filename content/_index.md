@@ -1,5 +1,5 @@
 ---
-title: "Kerrigan — Clinical AI That Stays On Your Premises"
-description: "AI-powered session transcription and clinical note generation for behavioral health clinics. All processing runs locally on your hardware — no patient audio ever reaches an external server."
-keywords: ["AI clinical notes", "behavioral health transcription", "HIPAA compliant AI scribe", "local AI therapy notes", "on-premise clinical documentation", "SOAP notes AI", "therapy session transcription"]
+title: "Kerrigan — Secure Cloud AI for Behavioral Health Documentation"
+description: "AI-powered session transcription and clinical note generation for behavioral health clinics. High-throughput, HIPAA-compliant cloud architecture with end-to-end encryption."
+keywords: ["AI clinical notes", "behavioral health transcription", "HIPAA compliant AI scribe", "cloud AI therapy notes", "secure clinical documentation", "SOAP notes AI", "therapy session transcription"]
 ---
