@@ -3,9 +3,9 @@
 <!-- ┌──────────────────────────────────────────────────────────────┐
      │  NAV                                                         │
      └──────────────────────────────────────────────────────────────┘ -->
-<nav class="site-nav">
-  <a href="/" class="nav-logo">Kerrig<span>an</span></a>
-  <a href="#pricing" class="btn-primary nav-cta" data-analytics-event="cta_click_pricing" data-analytics-label="nav_view_pricing">
+<nav style="display: flex; align-items: center; justify-content: space-between; padding: var(--wp-space-4) var(--gutter-desktop); background-color: var(--color-bg-canvas); border-bottom: 1px solid var(--color-border); position: sticky; top: 0; z-index: 100;">
+  <a href="/" style="font-family: var(--font-heading); font-size: var(--wp-text-xl); font-weight: 700; color: var(--color-text-primary); text-decoration: none; min-height: 44px; display: inline-flex; align-items: center;">Kerrig<span class="text-gradient">an</span></a>
+  <a href="#pricing" class="btn-primary" data-analytics-event="cta_click_pricing" data-analytics-label="nav_view_pricing">
     View Pricing
   </a>
 </nav>
@@ -14,23 +14,23 @@
 <!-- ┌──────────────────────────────────────────────────────────────┐
      │  HERO                                                        │
      └──────────────────────────────────────────────────────────────┘ -->
-<section class="hero hero-shell">
-  <div class="section-container">
-    <div class="hero-copy">
-      <span class="section-eyebrow">AI Clinical Documentation · Behavioral Health · Local Only</span>
+<section style="padding: var(--wp-space-16) var(--gutter-desktop); background-color: var(--color-bg-canvas); min-height: calc(100vh - 65px); display: flex; align-items: center;">
+  <div style="max-width: 1100px; margin: 0 auto; width: 100%;">
+    <div style="max-width: 760px;">
+      <span style="font-family: var(--font-code); font-size: var(--wp-text-xs); text-transform: uppercase; color: var(--color-accent-secondary); margin-bottom: var(--wp-space-4); display: block; letter-spacing: 0.05em;">AI Clinical Documentation · Behavioral Health · Local Only</span>
 
-      <h1 class="hero-title">
-        Be fully present with your clients.
-        <span class="highlight hero-highlight">Let Kerrigan handle the charts.</span>
+      <h1 style="margin-bottom: var(--wp-space-6);">
+        Be fully present with your clients.<br>
+        <span class="text-gradient">Let Kerrigan handle the charts.</span>
       </h1>
 
-      <p class="hero-sub">
+      <p style="font-size: var(--wp-text-lg); color: var(--color-text-secondary); margin-bottom: var(--wp-space-8); max-width: 600px;">
         AI-powered session transcription and clinical note generation built for
         behavioral health clinicians — all processing runs on hardware in your building.
         No patient audio ever reaches an external server.
       </p>
 
-      <div class="hero-cta-row">
+      <div style="display: flex; gap: var(--wp-space-4); margin-bottom: var(--wp-space-8); flex-wrap: wrap;">
         <a href="#pricing" class="btn-primary" data-analytics-event="cta_click_pricing" data-analytics-label="hero_view_pricing">
           Subscribe Now →
         </a>
@@ -39,12 +39,12 @@
         </a>
       </div>
 
-      <div class="hero-badges">
-        <span class="badge badge-sage">✓ HIPAA Compliant</span>
-        <span class="badge badge-cerulean">⬡ Local-Only Processing</span>
-        <span class="badge badge-cerulean">✕ No Cloud PHI</span>
-        <span class="badge badge-amber">⊕ Zoom Compatible</span>
-        <span class="badge badge-amber">⚖ 42 CFR Part 2 Ready</span>
+      <div style="display: flex; gap: var(--wp-space-2); flex-wrap: wrap;">
+        <span style="font-family: var(--font-code); font-size: var(--wp-text-xs); padding: var(--wp-space-1) var(--wp-space-2); background-color: var(--color-status-success-bg); color: var(--color-status-success-text); border: 1px solid var(--color-status-success-border);">✓ HIPAA Compliant</span>
+        <span style="font-family: var(--font-code); font-size: var(--wp-text-xs); padding: var(--wp-space-1) var(--wp-space-2); background-color: var(--color-status-info-bg); color: var(--color-status-info-text); border: 1px solid var(--color-status-info-border);">⬡ Local-Only Processing</span>
+        <span style="font-family: var(--font-code); font-size: var(--wp-text-xs); padding: var(--wp-space-1) var(--wp-space-2); background-color: var(--color-status-info-bg); color: var(--color-status-info-text); border: 1px solid var(--color-status-info-border);">✕ No Cloud PHI</span>
+        <span style="font-family: var(--font-code); font-size: var(--wp-text-xs); padding: var(--wp-space-1) var(--wp-space-2); background-color: var(--color-status-warning-bg); color: var(--color-status-warning-text); border: 1px solid var(--color-status-warning-border);">⊕ Zoom Compatible</span>
+        <span style="font-family: var(--font-code); font-size: var(--wp-text-xs); padding: var(--wp-space-1) var(--wp-space-2); background-color: var(--color-status-warning-bg); color: var(--color-status-warning-text); border: 1px solid var(--color-status-warning-border);">⚖ 42 CFR Part 2 Ready</span>
       </div>
     </div>
   </div>
