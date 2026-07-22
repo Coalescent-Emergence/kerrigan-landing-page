@@ -352,8 +352,8 @@
       Kerrigan doesn't.
     </p>
 
-    <div class="compare-table-shell compare-desktop">
-      <table class="compare-table">
+    <div class="table-container compare-desktop">
+      <table class="table-brutalist compare-table">
         <thead>
           <tr>
             <th></th>
@@ -665,7 +665,7 @@
           less burnout, and stay longer. Kerrigan compounds those benefits with a
           data sovereignty posture no cloud tool can match.
         </p>
-        <a href="#pricing" class="btn-primary directors-cta">
+        <a href="#pricing" class="btn btn-primary directors-cta">
           View Pricing Plans →
         </a>
       </div>
@@ -728,7 +728,7 @@
         <h3 style="font-size:1.5rem;font-weight:700;margin-bottom:0.5rem;color:var(--light);">Founder</h3>
         <div style="font-size:2.5rem;font-weight:800;color:var(--light);margin-bottom:1rem;">$69.99<span style="font-size:1rem;color:var(--muted);font-weight:400;">/mo</span></div>
         <p style="font-size:0.9rem;color:var(--muted);margin-bottom:2rem;flex-grow:1;">Early adopter tier for solo practitioners with light clinical volume.</p>
-        <button class="btn-primary" onclick="openCheckout('founder')" style="width:100%;">Subscribe</button>
+        <button class="btn btn-primary" onclick="openCheckout('founder')" style="width:100%;">Subscribe</button>
       </div>
 
       <!-- Basic -->
@@ -736,7 +736,7 @@
         <h3 style="font-size:1.5rem;font-weight:700;margin-bottom:0.5rem;color:var(--light);">Basic</h3>
         <div style="font-size:2.5rem;font-weight:800;color:var(--light);margin-bottom:1rem;">$99.99<span style="font-size:1rem;color:var(--muted);font-weight:400;">/mo</span></div>
         <p style="font-size:0.9rem;color:var(--muted);margin-bottom:2rem;flex-grow:1;">Standard tier for solo practitioners with average clinical volume.</p>
-        <button class="btn-primary" onclick="openCheckout('basic')" style="width:100%;">Subscribe</button>
+        <button class="btn btn-primary" onclick="openCheckout('basic')" style="width:100%;">Subscribe</button>
       </div>
 
       <!-- Pro -->
@@ -745,7 +745,7 @@
         <h3 style="font-size:1.5rem;font-weight:700;margin-bottom:0.5rem;color:var(--light);">Pro</h3>
         <div style="font-size:2.5rem;font-weight:800;color:var(--light);margin-bottom:1rem;">$149.99<span style="font-size:1rem;color:var(--muted);font-weight:400;">/mo</span></div>
         <p style="font-size:0.9rem;color:var(--muted);margin-bottom:2rem;flex-grow:1;">Advanced tier for full-time clinicians with high volume.</p>
-        <button class="btn-primary" onclick="openCheckout('pro')" style="width:100%;background:var(--sage);color:var(--bg);">Subscribe</button>
+        <button class="btn btn-primary" onclick="openCheckout('pro')" style="width:100%;background:var(--sage);color:var(--bg);">Subscribe</button>
       </div>
 
       <!-- Integrator -->
@@ -753,7 +753,7 @@
         <h3 style="font-size:1.5rem;font-weight:700;margin-bottom:0.5rem;color:var(--light);">Integrator</h3>
         <div style="font-size:2.5rem;font-weight:800;color:var(--light);margin-bottom:1rem;">$249.99<span style="font-size:1rem;color:var(--muted);font-weight:400;">/mo</span></div>
         <p style="font-size:0.9rem;color:var(--muted);margin-bottom:2rem;flex-grow:1;">Premium tier for small group practices (up to 3 clinicians).</p>
-        <button class="btn-primary" onclick="openCheckout('integrator')" style="width:100%;">Subscribe</button>
+        <button class="btn btn-primary" onclick="openCheckout('integrator')" style="width:100%;">Subscribe</button>
       </div>
 
     </div>
@@ -768,22 +768,22 @@
     <button onclick="closeCheckout()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--muted);font-size:1.5rem;cursor:pointer;">&times;</button>
     <h3 style="font-size:1.5rem;font-weight:700;margin-bottom:1.5rem;color:var(--light);text-align:center;">Subscribe to Kerrigan</h3>
     
-    <div id="checkout-error" style="display:none;background:var(--caution-dim);color:var(--caution);padding:0.75rem;border-radius:var(--radius-sm);margin-bottom:1rem;font-size:0.9rem;border-left:3px solid var(--caution);"></div>
+    <div id="checkout-error" class="alert alert-warning" style="display:none; margin-bottom:1rem;"></div>
 
     <form id="checkout-form" onsubmit="submitCheckout(event)">
       <input type="hidden" id="checkout-tier" name="tier_id">
       
-      <div style="margin-bottom:1rem;">
-        <label for="checkout-name" style="display:block;font-size:0.875rem;color:var(--light);margin-bottom:0.5rem;text-align:left;">Full Name</label>
-        <input type="text" id="checkout-name" name="name" class="form-input" required style="width:100%;box-sizing:border-box;">
+      <div class="form-group">
+        <label for="checkout-name" class="form-label">Full Name</label>
+        <input type="text" id="checkout-name" name="name" class="input-field" required>
       </div>
       
-      <div style="margin-bottom:1.5rem;">
-        <label for="checkout-email" style="display:block;font-size:0.875rem;color:var(--light);margin-bottom:0.5rem;text-align:left;">Email Address</label>
-        <input type="email" id="checkout-email" name="email" class="form-input" required style="width:100%;box-sizing:border-box;">
+      <div class="form-group">
+        <label for="checkout-email" class="form-label">Email Address</label>
+        <input type="email" id="checkout-email" name="email" class="input-field" required>
       </div>
 
-      <button type="submit" id="checkout-submit-btn" class="btn-primary" style="width:100%;">
+      <button type="submit" id="checkout-submit-btn" class="btn btn-primary" style="width:100%;">
         <span id="checkout-btn-text">Proceed to Checkout</span>
         <span id="checkout-btn-loading" style="display:none;">Processing...</span>
       </button>
