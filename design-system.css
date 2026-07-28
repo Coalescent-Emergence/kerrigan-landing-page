@@ -13,26 +13,26 @@
    * ======================================================================== */
   
   /* Cyber-Monochrome Palette */
-  --wp-color-black: #0a0a0c;         /* True black for maximum OLED power savings */
-  --wp-color-charcoal-950: #121214;  /* Deep off-black */
-  --wp-color-charcoal-900: #121214;  /* Rich dark gray */
-  --wp-color-charcoal-800: #1a1a1e;  /* Container background */
-  --wp-color-charcoal-700: #26262b;  /* Border baseline */
+  --wp-color-black: #000000;         /* Pitch black OLED canvas */
+  --wp-color-charcoal-950: #09090b;  /* Deep off-black */
+  --wp-color-charcoal-900: #0d0d10;  /* Rich dark gray */
+  --wp-color-charcoal-800: #121215;  /* Container background */
+  --wp-color-charcoal-700: #27272a;  /* Border baseline */
   --wp-color-charcoal-600: #3f3f46;  /* Inactive states */
   --wp-color-charcoal-400: #a1a1aa;  /* Muted text */
   --wp-color-charcoal-300: #d4d4d8;  /* Brighter muted text */
   --wp-color-white: #ffffff;         /* Pure white */
   
   /* Saturated High-Impact Acid Accents (2026 Tactile Brutalism) */
-  --wp-color-acid-neon: #20be3b;     /* Acid Lime / Chartreuse primary accent */
-  --wp-color-acid-cyan: #1a5fb4;     /* High-impact cyan */
-  --wp-color-acid-magenta: #0038ff;  /* Hot magenta */
+  --wp-color-acid-neon: #00e5ff;     /* Surgical Cyan primary accent */
+  --wp-color-acid-cyan: #3b82f6;     /* Electric Cobalt secondary accent */
+  --wp-color-acid-magenta: #10b981;  /* Telemetry Emerald tertiary accent */
   
   /* Standard Alerts/Feedback Primitives */
   --wp-color-error: #ef4444;
-  --wp-color-success: #22c55e;
+  --wp-color-success: #10b981;
   --wp-color-warning: #f59e0b;
-  --wp-color-info: #3b82f6;
+  --wp-color-info: #00e5ff;
 
   /* Typography Scale (Major Second Ratio) */
   --wp-font-inter: 'Inter', system-ui, -apple-system, sans-serif;

@@ -4,7 +4,29 @@
      │  NAV                                                         │
      └──────────────────────────────────────────────────────────────┘ -->
 <nav class="site-nav">
-  <a href="/" class="nav-logo">Kerrig<span class="text-gradient">an</span></a>
+  <a href="/" class="inline-flex items-center gap-3 select-none text-decoration-none">
+    <div class="relative flex items-center justify-center p-1 bg-[var(--color-bg-container)] border border-[var(--color-border)] rounded-none logo-subtle-breathe h-7 w-7" style="width: 28px; height: 28px;">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full overflow-visible">
+        <defs>
+          <linearGradient id="kerrigan-ecg-grad-nav" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="var(--color-accent-primary)" />
+            <stop offset="45%" stop-color="var(--color-accent-primary)" />
+            <stop offset="50%" stop-color="#ffffff" />
+            <stop offset="55%" stop-color="var(--color-accent-tertiary)" />
+            <stop offset="100%" stop-color="var(--color-accent-tertiary)" />
+          </linearGradient>
+        </defs>
+        <path d="M0,16 L6,16 Q8,12 10,16 L11.5,16 L12.5,19.5 L14.5,2.5 L16.5,29.5 L18,16 L19.5,16 Q22.5,11.5 25,16 L32,16" stroke="var(--color-border)" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity="0.6" />
+        <path d="M0,16 L6,16 Q8,12 10,16 L11.5,16 L12.5,19.5 L14.5,2.5 L16.5,29.5 L18,16 L19.5,16 Q22.5,11.5 25,16 L32,16" stroke="url(#kerrigan-ecg-grad-nav)" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter" class="ekg-line-flow" />
+      </svg>
+    </div>
+    <div class="flex items-center gap-1.5 font-heading font-bold text-lg uppercase tracking-wider">
+      <span class="text-[var(--color-text-primary)]">Kerrigan</span>
+      <span class="text-xs px-1.5 py-0.5 bg-[var(--color-accent-primary)] text-[var(--color-text-inverse)] font-mono font-bold tracking-normal">
+        UI
+      </span>
+    </div>
+  </a>
   <a href="#pricing" class="btn btn-primary" data-analytics-event="cta_click_pricing" data-analytics-label="nav_view_pricing">
     View Pricing
   </a>
