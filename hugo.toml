@@ -1,5 +1,6 @@
 baseURL = 'https://kerrigan.jhax.dev/'
-languageCode = 'en-us'
+defaultContentLanguage = 'en'
+locale = 'en-us'
 title = 'Kerrigan'
 enableRobotsTXT = true
 pluralizelisttitles = false
