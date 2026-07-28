@@ -1316,6 +1316,41 @@ code, pre {
   -webkit-text-fill-color: transparent;
 }
 
+/* ==========================================================================
+   * LOGO EKG FLOW & SUBTLE BREATHE ANIMATIONS
+   * ========================================================================== */
+@keyframes logo-subtle-breathe {
+  0%, 100% {
+    border-color: var(--color-border);
+    box-shadow: 0 0 0px transparent;
+  }
+  50% {
+    border-color: rgba(0, 229, 255, 0.45);
+    box-shadow: 0 0 6px rgba(0, 229, 255, 0.25);
+  }
+}
+
+.logo-subtle-breathe {
+  will-change: border-color, box-shadow;
+  animation: logo-subtle-breathe 4s ease-in-out infinite;
+}
+
+@keyframes ekg-monitor-sweep {
+  0% {
+    stroke-dashoffset: 72;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.ekg-line-flow {
+  stroke-dasharray: 48 24;
+  will-change: stroke-dashoffset;
+  animation: ekg-monitor-sweep 2.0s linear infinite;
+}
+
+
 /* Hero Section Spacing & Layout */
 .hero {
   padding-top: var(--wp-space-16);
