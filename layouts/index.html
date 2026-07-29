@@ -4,29 +4,7 @@
      │  NAV                                                         │
      └──────────────────────────────────────────────────────────────┘ -->
 <nav class="site-nav">
-  <a href="/" class="nav-logo" style="gap: 12px;">
-    <div class="logo-subtle-breathe" style="position: relative; display: flex; align-items: center; justify-content: center; padding: 4px; background-color: var(--color-bg-container); border: 1px solid var(--color-border); width: 28px; height: 28px; box-sizing: border-box;">
-      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%; overflow: visible;">
-        <defs>
-          <linearGradient id="kerrigan-ecg-grad-nav" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="var(--color-accent-primary)" />
-            <stop offset="45%" stop-color="var(--color-accent-primary)" />
-            <stop offset="50%" stop-color="#ffffff" />
-            <stop offset="55%" stop-color="var(--color-accent-tertiary)" />
-            <stop offset="100%" stop-color="var(--color-accent-tertiary)" />
-          </linearGradient>
-        </defs>
-        <path d="M0,16 L6,16 Q8,12 10,16 L11.5,16 L12.5,19.5 L14.5,2.5 L16.5,29.5 L18,16 L19.5,16 Q22.5,11.5 25,16 L32,16" stroke="var(--color-border)" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity="0.6" />
-        <path d="M0,16 L6,16 Q8,12 10,16 L11.5,16 L12.5,19.5 L14.5,2.5 L16.5,29.5 L18,16 L19.5,16 Q22.5,11.5 25,16 L32,16" stroke="url(#kerrigan-ecg-grad-nav)" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter" class="ekg-line-flow" />
-      </svg>
-    </div>
-    <div style="display: flex; align-items: center; gap: 6px; font-family: var(--font-heading); font-weight: 700; font-size: 1.125rem; text-transform: uppercase; letter-spacing: 0.05em;">
-      <span style="color: var(--color-text-primary);">Kerrigan&trade;</span>
-      <span style="font-size: 0.75rem; padding: 2px 6px; background-color: var(--color-accent-primary); color: var(--color-text-inverse); font-family: var(--font-code); font-weight: 700; letter-spacing: normal;">
-        UI
-      </span>
-    </div>
-  </a>
+  {{ partial "logo.html" . }}
   <a href="#pricing" class="btn btn-primary" data-analytics-event="cta_click_pricing" data-analytics-label="nav_view_pricing">
     View Pricing
   </a>
@@ -80,7 +58,7 @@
     <span class="section-eyebrow">The Problem</span>
     <h2 class="section-title">Documentation is stealing your clinical life.</h2>
 
-    <div class="bento-grid" style="margin-top: var(--wp-space-8);">
+    <div class="bento-grid mt-8">
 
       <div class="card card-brutalist bento-col-4">
         <div class="card-subtitle">⏱</div>
@@ -319,7 +297,7 @@
       Generic cloud scribes retain audio and train on client data. Kerrigan guarantees zero data retention and total HIPAA compliance.
     </p>
 
-    <div class="table-container compare-desktop" style="margin-top: var(--wp-space-8);">
+    <div class="table-container compare-desktop mt-8">
       <table class="table-brutalist compare-table">
         <thead>
           <tr>
@@ -520,7 +498,7 @@
     <span class="section-eyebrow">Features</span>
     <h2 class="section-title">Everything you need. Nothing you don't.</h2>
 
-    <div class="bento-grid" style="margin-top: var(--wp-space-8);">
+    <div class="bento-grid mt-8">
 
       <div class="card card-brutalist bento-col-4">
         <div class="card-subtitle">🎙</div>
@@ -763,8 +741,8 @@
      └──────────────────────────────────────────────────────────────┘ -->
 <footer class="site-footer">
   <div class="footer-brand">
-    <span class="footer-logo">Kerrig<span>an</span></span>
-    <span class="footer-brand-copy">by LatentWorx LTD</span>
+    {{ partial "logo.html" . }}
+    <span class="footer-brand-copy mt-2">by LatentWorx LTD</span>
   </div>
 
   <div class="footer-badges">
@@ -778,7 +756,7 @@
     <a href="https://github.com/LatentWorx" target="_blank" rel="noopener">GitHub</a>
   </nav>
 
-  <span class="footer-copy" style="margin-bottom: 0.5rem; display: block;">Kerrigan&trade; is a trademark of LatentWorx LTD.</span>
+  <span class="footer-copy">Kerrigan&trade; is a trademark of LatentWorx LTD.</span>
   <span class="footer-copy">© 2026 LatentWorx LTD. All rights reserved.</span>
 </footer>
 

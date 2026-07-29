@@ -2,7 +2,7 @@
 
 <!-- Minimal nav -->
 <nav class="site-nav">
-  <a href="/" class="nav-logo">Kerrig<span>an&trade;</span></a>
+  {{ partial "logo.html" . }}
 </nav>
 
 {{ if eq .RelPermalink "/thank-you/" }}
@@ -213,8 +213,8 @@
 <!-- Footer -->
 <footer class="site-footer">
   <div class="footer-brand">
-    <span class="footer-logo">Kerrig<span>an</span></span>
-    <span class="footer-brand-copy">by LatentWorx LTD</span>
+    {{ partial "logo.html" . }}
+    <span class="footer-brand-copy" style="margin-top: 8px;">by LatentWorx LTD</span>
   </div>
   <nav class="footer-links">
     <a href="/privacy">Privacy Policy</a>

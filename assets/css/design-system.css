@@ -161,16 +161,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(0, 240, 255, 0.05) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 80% 110%, rgba(212, 255, 0, 0.03) 0%, transparent 60%);
-  z-index: 0;
-}
+
 
 /* Variable Fonts & Viewport-Scaled Typography (2026 Editorial Boldness) */
 h1, h2, h3, h4, h5, h6 {
@@ -1088,8 +1079,6 @@ code, pre {
 }
 
 .footer-brand { display: flex; flex-direction: column; gap: var(--wp-space-1); }
-.footer-logo { font-family: var(--font-heading); font-size: var(--wp-text-base); font-weight: 800; letter-spacing: -0.02em; color: var(--color-text-primary); }
-.footer-logo span { color: var(--color-accent-secondary); }
 .footer-brand-copy { font-size: var(--wp-text-xs); color: var(--color-text-secondary); }
 
 .footer-badges { display: flex; flex-wrap: wrap; gap: var(--wp-space-2); align-items: center; }
@@ -1107,7 +1096,12 @@ code, pre {
 }
 
 .footer-links a:hover { color: var(--color-accent-secondary); }
-.footer-copy { font-size: var(--wp-text-xs); color: var(--color-text-secondary); }
+.footer-copy {
+  font-size: var(--wp-text-xs);
+  color: var(--color-text-secondary);
+  display: block;
+  margin-bottom: var(--wp-space-2);
+}
 
 /* Badges */
 .badge {
@@ -1439,4 +1433,36 @@ code, pre {
   .specialty-pill {
     width: 100%;
   }
+}
+
+/* ==========================================================================
+   * UTILITY CLASSES & LOGO
+   * ========================================================================== */
+.mt-2 { margin-top: var(--wp-space-2); }
+.mt-4 { margin-top: var(--wp-space-4); }
+.mt-6 { margin-top: var(--wp-space-6); }
+.mt-8 { margin-top: var(--wp-space-8); }
+
+.logo-container {
+  gap: 12px;
+  text-decoration: none;
+}
+.logo-type {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.logo-badge {
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  background-color: var(--color-accent-primary);
+  color: var(--color-text-inverse);
+  font-family: var(--font-code);
+  font-weight: 700;
+  letter-spacing: 0.1em;
 }
