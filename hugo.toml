@@ -10,7 +10,7 @@ disableKinds = ["taxonomy", "term"]
   description = "AI-powered session transcription and clinical note generation for behavioral health — built on secure, HIPAA-compliant cloud architecture with end-to-end encryption."
   tagline = "Enterprise Cloud AI for Behavioral Health Clinical Documentation"
   formspreeID = "mwvreeno"
-  twitterHandle = "@CoalescentEm"
+  twitterHandle = "@LatentWorx"
   ogImage = "/img/og-kerrigan.png"
 
   # Analytics (opt-in; disabled by default until keys are set)

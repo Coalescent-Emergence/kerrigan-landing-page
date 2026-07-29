@@ -15,16 +15,15 @@ This repository contains the public-facing landing page for **Kerrigan** — AI-
 This is a **marketing / waitlist site**, not application code. It is:
 - The primary public entry point for the Kerrigan product
 - U5 (Pilot Launch) scope — part of the `mvp-control-plane` planning structure
-- Subject to the same governance rules as all Coalescent-Emergence repositories
+- Subject to the same governance rules as all LatentWorx-LTD repositories
 
-## Organization Governance
+## Core Workflows
+This repository participates in the LatentWorx-LTD planning and agent framework:
 
-This repository participates in the Coalescent-Emergence planning and agent framework:
-
-- **Org ADRs**: [`org-dot-github/docs/decisions/`](https://github.com/Coalescent-Emergence/.github/tree/main/docs/decisions)
-- **Repo ADRs**: [`docs/decisions/`](./docs/decisions/README.md)
-- **Control plane primer**: [`mvp-control-plane/docs/primers/kerrigan-landing-page.md`](https://github.com/Coalescent-Emergence/mvp-control-plane/blob/main/docs/primers/kerrigan-landing-page.md)
-- **AI Playbook**: [`org-dot-github/AI_PLAYBOOK.md`](https://github.com/Coalescent-Emergence/.github/blob/main/AI_PLAYBOOK.md)
+- **Org ADRs**: [`org-dot-github/docs/decisions/`](https://github.com/LatentWorx-LTD/.github/tree/main/docs/decisions)
+- **State Matrices**: Each issue corresponds to a Trello Card containing a verifiable State Matrix.
+- **Control plane primer**: [`mvp-control-plane/docs/primers/kerrigan-landing-page.md`](https://github.com/LatentWorx-LTD/mvp-control-plane/blob/main/docs/primers/kerrigan-landing-page.md)
+- **AI Playbook**: [`org-dot-github/AI_PLAYBOOK.md`](https://github.com/LatentWorx-LTD/.github/blob/main/AI_PLAYBOOK.md)
 - **AI agents** (org-level, inherited automatically): Technical Decomposer, Architecture Guardian, ADR Generator, MVP Clarifier, Story Generator
 
 ## Guidelines

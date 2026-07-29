@@ -78,6 +78,6 @@ Chosen option: **Hugo**, because it provides fast builds, a content-first Markdo
 
 ## Links
 
-* [Org ADR-0001: Multi-Repo Architecture](https://github.com/Coalescent-Emergence/.github/tree/main/docs/decisions/0001-multi-repo-architecture.md)
+* [Org ADR-0001: Multi-Repo Architecture](https://github.com/LatentWorx-LTD/.github/tree/main/docs/decisions/0001-multi-repo-architecture.md)
 * [deploy.yml](../../.github/workflows/deploy.yml)
 * [Hugo documentation](https://gohugo.io/documentation/)

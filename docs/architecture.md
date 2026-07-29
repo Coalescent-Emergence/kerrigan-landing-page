@@ -79,5 +79,5 @@ kerrigan-landing-page/
 
 ## Related
 
-- [mvp-control-plane primer](https://github.com/Coalescent-Emergence/mvp-control-plane/blob/main/docs/primers/kerrigan-landing-page.md)
-- [Kerrigan backend primer](https://github.com/Coalescent-Emergence/mvp-control-plane/blob/main/docs/primers/kerrigan.md)
+- [mvp-control-plane primer](https://github.com/LatentWorx-LTD/mvp-control-plane/blob/main/docs/primers/kerrigan-landing-page.md)
+- [Kerrigan backend primer](https://github.com/LatentWorx-LTD/mvp-control-plane/blob/main/docs/primers/kerrigan.md)

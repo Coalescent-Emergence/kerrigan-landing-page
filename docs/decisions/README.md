@@ -2,7 +2,7 @@
 
 This directory contains **repository-specific** ADRs for `kerrigan-landing-page`.
 
-For **organization-wide** ADRs, see [`.github/docs/decisions/`](https://github.com/Coalescent-Emergence/.github/tree/main/docs/decisions).
+For **organization-wide** ADRs, see [`.github/docs/decisions/`](https://github.com/LatentWorx-LTD/.github/tree/main/docs/decisions).
 
 ## What Goes Here
 
@@ -40,6 +40,6 @@ ADR linting is enforced by the `adr-guard` org workflow when files in this direc
 
 ## References
 
-- [Org ADR README](https://github.com/Coalescent-Emergence/.github/tree/main/docs/decisions/README.md)
+- [Org ADR README](https://github.com/LatentWorx-LTD/.github/tree/main/docs/decisions/README.md)
 - [MADR Documentation](https://adr.github.io/madr/)
-- [AI Playbook](https://github.com/Coalescent-Emergence/.github/blob/main/AI_PLAYBOOK.md)
+- [AI Playbook](https://github.com/LatentWorx-LTD/.github/blob/main/AI_PLAYBOOK.md)

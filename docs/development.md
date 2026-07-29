@@ -34,7 +34,7 @@ choco install hugo-extended
 
 ```bash
 # Clone
-git clone https://github.com/Coalescent-Emergence/kerrigan-landing-page
+git clone https://github.com/LatentWorx-LTD/kerrigan-landing-page
 cd kerrigan-landing-page
 
 # Start dev server with live reload
