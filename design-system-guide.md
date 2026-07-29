@@ -108,7 +108,7 @@ The Bento Grid (modular block layout) works by dividing dense content into neat 
   <div class="card card-brutalist bento-col-8">
     <span class="card-subtitle">Featured Dashboard</span>
     <h3 class="card-title">Transcription Activity</h3>
-    <p>All transcribing processes execute in our secure, zero-retention cloud enclave.</p>
+    <p>All transcribing processes execute in our secure, encrypted cloud enclave.</p>
   </div>
   
   <!-- Supporting 1x1 Detail -->
