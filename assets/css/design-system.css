@@ -711,9 +711,33 @@ code, pre {
   border-bottom: 2px solid var(--color-accent-primary);
 }
 
+/* ==========================================================================
+   * KERRIGAN HALO PULSE ANIMATION
+   * ========================================================================== */
+@keyframes kerrigan-halo-pulse {
+  0% {
+    text-shadow: 
+      0 0 4px rgba(212, 255, 0, 0.3), 
+      0 0 10px rgba(212, 255, 0, 0.1);
+  }
+  50% {
+    text-shadow: 
+      0 0 8px rgba(212, 255, 0, 0.6), 
+      0 0 16px rgba(212, 255, 0, 0.3),
+      0 0 24px rgba(212, 255, 0, 0.1);
+  }
+  100% {
+    text-shadow: 
+      0 0 4px rgba(212, 255, 0, 0.3), 
+      0 0 10px rgba(212, 255, 0, 0.1);
+  }
+}
+
 .compare-table thead th.kerrigan-col {
   color: var(--color-accent-primary);
   background: var(--color-bg-container);
+  animation: kerrigan-halo-pulse 3s infinite ease-in-out;
+  position: relative;
 }
 
 .compare-table tbody td.kerrigan-col {
@@ -767,6 +791,11 @@ code, pre {
 .compare-mobile-competitor {
   font-weight: 600;
   color: var(--color-text-primary);
+}
+
+.compare-mobile-item-kerrigan .compare-mobile-competitor {
+  color: var(--color-accent-primary);
+  animation: kerrigan-halo-pulse 3s infinite ease-in-out;
 }
 
 /* ==========================================================================
@@ -1350,25 +1379,83 @@ code, pre {
   animation: ekg-monitor-sweep 2.0s linear infinite;
 }
 
-@keyframes danger-pulse {
-  0%, 100% {
-    color: var(--color-status-error-text);
-    text-shadow: 0 0 0px transparent;
-  }
-  50% {
-    color: #ff6b6b;
-    text-shadow: 0 0 8px rgba(255, 107, 107, 0.6);
-  }
+@keyframes threat-sweep {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+.danger-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: help;
+  padding: 4px 0; /* Add slight padding so lines don't clip text */
+}
+
+.danger-container::before,
+.danger-container::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg, 
+    transparent 0%, 
+    rgba(239, 68, 68, 0.4) 30%, 
+    rgba(255, 255, 255, 0.9) 50%, 
+    rgba(239, 68, 68, 0.4) 70%, 
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: threat-sweep 3s linear infinite;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.danger-container::before {
+  top: 0;
+}
+
+.danger-container::after {
+  bottom: 0;
+  animation-direction: reverse;
+}
+
+/* Delay staggers horizontally across columns (desktop) */
+td:nth-child(3) .danger-container::before, td:nth-child(3) .danger-container::after { animation-delay: -0.4s; }
+td:nth-child(4) .danger-container::before, td:nth-child(4) .danger-container::after { animation-delay: -1.2s; }
+td:nth-child(5) .danger-container::before, td:nth-child(5) .danger-container::after { animation-delay: -1.8s; }
+td:nth-child(6) .danger-container::before, td:nth-child(6) .danger-container::after { animation-delay: -2.7s; }
+
+/* Delay staggers vertically in mobile list */
+.compare-mobile-item:nth-child(2) .danger-container::before, .compare-mobile-item:nth-child(2) .danger-container::after { animation-delay: -0.4s; }
+.compare-mobile-item:nth-child(3) .danger-container::before, .compare-mobile-item:nth-child(3) .danger-container::after { animation-delay: -1.2s; }
+.compare-mobile-item:nth-child(4) .danger-container::before, .compare-mobile-item:nth-child(4) .danger-container::after { animation-delay: -1.8s; }
+.compare-mobile-item:nth-child(5) .danger-container::before, .compare-mobile-item:nth-child(5) .danger-container::after { animation-delay: -2.7s; }
+
+/* Alternating directions for rows (desktop) and items (mobile) */
+tr:nth-child(even) .danger-container::before,
+.compare-mobile-item:nth-child(even) .danger-container::before {
+  animation-direction: reverse; /* Flips top to sweep Left */
+}
+
+tr:nth-child(even) .danger-container::after,
+.compare-mobile-item:nth-child(even) .danger-container::after {
+  animation-direction: normal; /* Flips bottom to sweep Right */
 }
 
 .danger-pulse-text {
-  will-change: color, text-shadow;
-  animation: danger-pulse 2s ease-in-out infinite;
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  cursor: help;
-  position: relative;
+  color: var(--color-status-error-text);
+}
+
+.danger-pulse-text svg {
+  color: var(--color-status-warning-text);
+  filter: drop-shadow(0 0 5px rgba(245, 158, 11, 0.6));
+  transform: scale(1.1);
 }
 
 .danger-tooltip {
@@ -1379,9 +1466,10 @@ code, pre {
   transform: translateX(-50%);
   width: max-content;
   max-width: 280px;
-  background-color: var(--color-bg-elevated);
+  background-color: rgba(20, 20, 20, 0.95);
+  backdrop-filter: blur(8px);
   border: 1px solid var(--color-status-error-border);
-  color: var(--color-text);
+  color: #ffffff;
   text-align: left;
   padding: 12px;
   border-radius: var(--wp-radius-sm);
@@ -1389,7 +1477,7 @@ code, pre {
   font-size: 0.8rem;
   opacity: 0;
   transition: opacity 0.3s;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.8);
   pointer-events: none;
   font-weight: normal;
   text-transform: none;
@@ -1406,10 +1494,11 @@ code, pre {
   margin-bottom: 4px;
 }
 
-.danger-pulse-text:hover .danger-tooltip {
+.danger-container:hover .danger-tooltip {
   visibility: visible;
   opacity: 1;
 }
+
 
 
 
