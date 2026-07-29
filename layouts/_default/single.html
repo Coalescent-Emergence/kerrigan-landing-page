@@ -110,12 +110,85 @@
       Your subscription was successful. You now have full access to Kerrigan's private, on-device clinical intelligence.
     </p>
 
+    <!-- Credentials Modal -->
+    <dialog id="credentials-modal" style="padding:var(--wp-space-6); background:var(--wp-color-charcoal-800); border:1px solid var(--color-border); border-radius:var(--wp-radius-md); color:var(--color-text-primary); max-width:400px; margin:auto; box-shadow:0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+      <h3 style="font-size:var(--wp-text-lg); margin-bottom:var(--wp-space-2);">Temporary Credentials</h3>
+      <p style="font-size:var(--wp-text-sm); color:var(--wp-color-charcoal-400); margin-bottom:var(--wp-space-4);">Please save your temporary password. You will need it to log in.</p>
+      
+      <div style="margin-bottom:var(--wp-space-4); text-align:left;">
+        <label class="form-label" style="display:block; margin-bottom:var(--wp-space-1);">Email</label>
+        <input id="modal-email" class="input-field" type="text" readonly style="width:100%; cursor:text;">
+      </div>
+      
+      <div style="margin-bottom:var(--wp-space-5); text-align:left;">
+        <label class="form-label" style="display:block; margin-bottom:var(--wp-space-1);">Temporary Password</label>
+        <div style="display:flex; gap:var(--wp-space-2);">
+          <input id="modal-password" class="input-field" type="text" readonly style="flex-grow:1; font-family:monospace; cursor:text;">
+          <button id="copy-pwd-btn" class="btn btn-secondary">Copy</button>
+        </div>
+      </div>
+      
+      <button id="close-modal-btn" class="btn btn-primary" style="width:100%;">I have saved my password</button>
+    </dialog>
+
+    <style>
+      dialog::backdrop {
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(4px);
+      }
+    </style>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Parse from hash fragment to avoid server logs
+        const hashParams = new URLSearchParams(window.location.hash.substring(1));
+        const email = hashParams.get('email');
+        const tmp = hashParams.get('tmp');
+        
+        if (email && tmp) {
+          document.getElementById('modal-email').value = email;
+          document.getElementById('modal-password').value = tmp;
+          
+          const modal = document.getElementById('credentials-modal');
+          modal.showModal();
+
+          document.getElementById('copy-pwd-btn').addEventListener('click', () => {
+            navigator.clipboard.writeText(tmp).then(() => {
+              const btn = document.getElementById('copy-pwd-btn');
+              btn.textContent = 'Copied!';
+              setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+            });
+          });
+
+          document.getElementById('close-modal-btn').addEventListener('click', () => {
+            modal.close();
+          });
+          
+          // Pass credentials to the app launch button via hash fragment
+          const launchBtn = document.getElementById('launch-app-btn');
+          if (launchBtn) {
+            const hostname = window.location.hostname || "localhost";
+            const isLocal = hostname === "localhost" || hostname === "127.0.0.1" || window.location.port === "1313";
+            const appUrl = isLocal ? "http://localhost:8083" : "https://app.kerrigan.jhax.dev";
+            launchBtn.href = `${appUrl}/#email=${encodeURIComponent(email)}&tmp=${encodeURIComponent(tmp)}`;
+          }
+
+          // Clean up URL to prevent leaking the password
+          window.history.replaceState({}, document.title, window.location.pathname + window.location.search);
+        }
+      });
+    </script>
+
     <!-- Action Buttons -->
     <div style="margin-top:var(--wp-space-8);display:flex;flex-wrap:wrap;gap:var(--wp-space-4);justify-content:center;">
-      <a href="http://localhost:5173"
-         class="btn btn-primary">
-        Launch Kerrigan App
-      </a>
+    <script>
+      function getAppUrl() {
+        const hostname = window.location.hostname || "localhost";
+        const isLocal = hostname === "localhost" || hostname === "127.0.0.1" || window.location.port === "1313";
+        return isLocal ? "http://localhost:8083" : "https://app.kerrigan.jhax.dev";
+      }
+      document.write(`<a href="${getAppUrl()}" id="launch-app-btn" class="btn btn-primary">Launch Kerrigan App</a>`);
+    </script>
       <a href="/"
          class="btn btn-secondary">
         Back to Home

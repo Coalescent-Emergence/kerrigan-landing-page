@@ -1,4 +1,12 @@
-const API_URL = "http://localhost:8080/api"; // TODO: read from config or environment
+function getApiUrl() {
+    if (window.API_URL) return window.API_URL;
+    const hostname = window.location.hostname || "localhost";
+    if (hostname === "localhost" || hostname === "127.0.0.1" || window.location.port === "1313" || window.location.port === "8181") {
+        return `http://${hostname}:8088/api`;
+    }
+    return "/api";
+}
+const API_URL = getApiUrl();
 
 function openCheckout(tierId) {
     document.getElementById('checkout-tier').value = tierId;
