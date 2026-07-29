@@ -692,6 +692,12 @@ code, pre {
 .table-brutalist td {
   padding: var(--wp-space-4);
   border-bottom: 1px solid var(--color-border);
+  min-width: 140px;
+}
+
+.table-brutalist th:first-child,
+.table-brutalist td:first-child {
+  min-width: 220px;
 }
 
 .table-brutalist th {
@@ -1343,6 +1349,68 @@ code, pre {
   will-change: stroke-dashoffset;
   animation: ekg-monitor-sweep 2.0s linear infinite;
 }
+
+@keyframes danger-pulse {
+  0%, 100% {
+    color: var(--color-status-error-text);
+    text-shadow: 0 0 0px transparent;
+  }
+  50% {
+    color: #ff6b6b;
+    text-shadow: 0 0 8px rgba(255, 107, 107, 0.6);
+  }
+}
+
+.danger-pulse-text {
+  will-change: color, text-shadow;
+  animation: danger-pulse 2s ease-in-out infinite;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: help;
+  position: relative;
+}
+
+.danger-tooltip {
+  visibility: hidden;
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 280px;
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-status-error-border);
+  color: var(--color-text);
+  text-align: left;
+  padding: 12px;
+  border-radius: var(--wp-radius-sm);
+  z-index: 100;
+  font-size: 0.8rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  pointer-events: none;
+  font-weight: normal;
+  text-transform: none;
+  text-shadow: none;
+  line-height: 1.4;
+}
+
+.danger-tooltip ul {
+  margin: 8px 0 0 0;
+  padding-left: 16px;
+}
+
+.danger-tooltip li {
+  margin-bottom: 4px;
+}
+
+.danger-pulse-text:hover .danger-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
 
 
 /* Hero Section Spacing & Layout */
