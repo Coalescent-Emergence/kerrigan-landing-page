@@ -725,31 +725,32 @@ code, pre {
 @keyframes kerrigan-halo-pulse {
   0% {
     text-shadow: 
-      0 0 4px rgba(0, 229, 255, 0.4), 
-      0 0 10px rgba(0, 229, 255, 0.2);
+      0 0 4px rgba(0, 229, 255, 0.6), 
+      0 0 10px rgba(0, 229, 255, 0.4);
   }
   50% {
     text-shadow: 
-      0 0 8px rgba(0, 229, 255, 0.8), 
-      0 0 16px rgba(0, 229, 255, 0.5),
-      0 0 24px rgba(0, 229, 255, 0.3);
+      0 0 4px rgba(255, 255, 255, 0.8),
+      0 0 12px rgba(0, 229, 255, 0.9), 
+      0 0 22px rgba(0, 229, 255, 0.6),
+      0 0 32px rgba(0, 229, 255, 0.3);
   }
   100% {
     text-shadow: 
-      0 0 4px rgba(0, 229, 255, 0.4), 
-      0 0 10px rgba(0, 229, 255, 0.2);
+      0 0 4px rgba(0, 229, 255, 0.6), 
+      0 0 10px rgba(0, 229, 255, 0.4);
   }
 }
 
 .compare-table thead th.kerrigan-col {
-  color: var(--color-accent-primary);
+  color: var(--wp-color-white);
   background: var(--color-bg-container);
   animation: kerrigan-halo-pulse 3s infinite ease-in-out;
   position: relative;
 }
 
 .compare-table tbody td.kerrigan-col {
-  background: rgba(212, 255, 0, 0.05);
+  background: rgba(0, 229, 255, 0.05);
   color: var(--color-text-primary);
   font-weight: 700;
 }
@@ -793,7 +794,7 @@ code, pre {
 
 .compare-mobile-item-kerrigan {
   border-color: var(--color-accent-primary);
-  background: rgba(212, 255, 0, 0.08);
+  background: rgba(0, 229, 255, 0.08);
 }
 
 .compare-mobile-competitor {
@@ -802,7 +803,7 @@ code, pre {
 }
 
 .compare-mobile-item-kerrigan .compare-mobile-competitor {
-  color: var(--color-accent-primary);
+  color: var(--wp-color-white);
   animation: kerrigan-halo-pulse 3s infinite ease-in-out;
 }
 
