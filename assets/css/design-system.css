@@ -151,6 +151,11 @@
   padding: 0;
 }
 
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 body {
   background-color: var(--color-bg-canvas);
   color: var(--color-text-primary);
@@ -1555,6 +1560,9 @@ tr:nth-child(even) .danger-container::after,
 }
 
 @media (max-width: 768px) {
+  html {
+    scroll-padding-top: 80px;
+  }
   .bento-col-3, .bento-col-4, .bento-col-6, .bento-col-8 {
     grid-column: span 12;
   }
