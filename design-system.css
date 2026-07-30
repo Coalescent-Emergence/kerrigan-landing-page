@@ -950,6 +950,16 @@ code, pre {
   }
 }
 
+.pricing-card:active {
+  border-color: var(--color-accent-secondary);
+  box-shadow: 0 0 16px rgba(0, 229, 255, 0.4);
+}
+
+.pricing-card.pricing-card-popular:active {
+  border-color: var(--color-accent-secondary);
+  box-shadow: 0 0 24px rgba(0, 229, 255, 0.6);
+}
+
 .pricing-card-popular {
   position: relative;
   border: 2px solid var(--color-accent-primary);
