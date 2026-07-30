@@ -26,9 +26,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
   {{/* ── Custom Design System ────────────────────── */}}
-  {{ $designSystem := resources.Get "css/design-system.css" }}
+  {{ $designSystem := resources.Get "css/design-system.css" | minify | fingerprint }}
   {{ if $designSystem }}
-  <link rel="stylesheet" href="{{ $designSystem.RelPermalink }}">
+  <link rel="stylesheet" href="{{ $designSystem.RelPermalink }}" integrity="{{ $designSystem.Data.Integrity }}">
   {{ end }}
 
   {{ if .Site.Params.analyticsEnabled }}
