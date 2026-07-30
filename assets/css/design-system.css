@@ -1545,13 +1545,6 @@ tr:nth-child(even) .danger-container::after,
 }
 
 @media (max-width: 768px) {
-  html {
-    scroll-snap-type: y mandatory;
-    scroll-padding-top: 80px; /* Offset for sticky nav */
-  }
-  section {
-    scroll-snap-align: start;
-  }
   .bento-col-3, .bento-col-4, .bento-col-6, .bento-col-8 {
     grid-column: span 12;
   }
