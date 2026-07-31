@@ -84,7 +84,7 @@ hugo --gc --minify
 Deployment is fully automated via `.github/workflows/deploy.yml`:
 - Trigger: push to `main`
 - Build: Hugo extended v0.128.0 with `--minify`
-- Deploy: GitHub Pages to `kerrigan.jhax.dev`
+- Deploy: GitHub Pages to `latentworx.com`
 
 No manual deployment steps are needed. All changes to `main` go live within ~1 minute.
 

@@ -1,6 +1,6 @@
 ---
 title: "Privacy Policy"
-description: "Kerrigan waitlist and website privacy policy (US-only)."
+description: "Kerrigan website and subscription privacy policy (US-only)."
 ---
 
 **Last Updated:** March 6, 2026

@@ -114,8 +114,8 @@ The Bento Grid (modular block layout) works by dividing dense content into neat 
   <!-- Supporting 1x1 Detail -->
   <div class="card bento-col-4">
     <span class="card-subtitle">Status</span>
-    <h3 class="card-title">Network Offline Capable</h3>
-    <p>Fully functional without internet connections [144].</p>
+    <h3 class="card-title">Cloud Native</h3>
+    <p>Always connected to our secure cloud enclave.</p>
   </div>
 </div>
 ```

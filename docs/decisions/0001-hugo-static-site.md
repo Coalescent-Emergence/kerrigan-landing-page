@@ -69,7 +69,7 @@ Chosen option: **Hugo**, because it provides fast builds, a content-first Markdo
 
 * Site passes `hugo build --minify` with zero warnings in CI
 * Lighthouse score ≥ 90 on Performance, SEO, and Accessibility
-* Deployment to `kerrigan.jhax.dev` succeeds via existing `deploy.yml` on every push to `main`
+* Deployment to `latentworx.com` succeeds via existing `deploy.yml` on every push to `main`
 
 ### Revisit Criteria
 

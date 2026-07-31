@@ -44,7 +44,7 @@ kerrigan-landing-page/
 │       ├── single.html        # Single page template
 │       └── taxonomy.html      # Taxonomy page (unused; disableKinds applied)
 ├── static/
-│   ├── CNAME                  # kerrigan.jhax.dev
+│   ├── CNAME                  # latentworx.com
 │   └── css/
 │       └── main.css           # All site styles
 ├── docs/                      # Governance and architectural documentation

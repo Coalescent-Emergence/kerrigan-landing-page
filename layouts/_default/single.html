@@ -68,16 +68,15 @@
     <div class="alert alert-info" style="margin-top:var(--wp-space-8);flex-direction:column;align-items:center;text-align:center;">
       <p style="font-size:var(--wp-text-sm);margin-bottom:var(--wp-space-4);">
         <strong>Know another clinician drowning in notes?</strong>
-        Sharing the waitlist with a colleague moves both of you to the front of
-        the pilot queue.
+        Sharing Kerrigan with a colleague helps us support more behavioral health providers.
       </p>
       <div style="display:flex;flex-wrap:wrap;gap:var(--wp-space-3);justify-content:center;">
-        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fkerrigan.jhax.dev"
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Flatentworx.com"
            target="_blank" rel="noopener"
            class="btn btn-secondary">
           Share on LinkedIn
         </a>
-        <a href="https://twitter.com/intent/tweet?text=Just+joined+the+Kerrigan+waitlist+%E2%80%94+AI+clinical+notes+that+never+leave+your+building.+%F0%9F%94%92&url=https%3A%2F%2Fkerrigan.jhax.dev"
+        <a href="https://twitter.com/intent/tweet?text=Just+subscribed+to+Kerrigan+%E2%80%94+secure+AI+clinical+notes+for+behavioral+health.+%F0%9F%94%92&url=https%3A%2F%2Flatentworx.com"
            target="_blank" rel="noopener"
            class="btn btn-secondary">
           Share on X
@@ -169,7 +168,7 @@
           if (launchBtn) {
             const hostname = window.location.hostname || "localhost";
             const isLocal = hostname === "localhost" || hostname === "127.0.0.1" || window.location.port === "1313";
-            const appUrl = isLocal ? "http://localhost:8083" : "https://app.kerrigan.jhax.dev";
+            const appUrl = isLocal ? "http://localhost:8083" : "https://app.latentworx.com";
             launchBtn.href = `${appUrl}/#email=${encodeURIComponent(email)}&tmp=${encodeURIComponent(tmp)}`;
           }
 
@@ -185,7 +184,7 @@
       function getAppUrl() {
         const hostname = window.location.hostname || "localhost";
         const isLocal = hostname === "localhost" || hostname === "127.0.0.1" || window.location.port === "1313";
-        return isLocal ? "http://localhost:8083" : "https://app.kerrigan.jhax.dev";
+        return isLocal ? "http://localhost:8083" : "https://app.latentworx.com";
       }
       document.write(`<a href="${getAppUrl()}" id="launch-app-btn" class="btn btn-primary">Launch Kerrigan App</a>`);
     </script>

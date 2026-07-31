@@ -8,7 +8,7 @@ This repository contains the public-facing landing page for **Kerrigan** — AI-
 - **Deployment**: GitHub Pages via GitHub Actions (`.github/workflows/deploy.yml`)
 - **Styles**: Custom CSS at `static/css/main.css`
 - **Forms**: Formspree (waitlist capture, ID: `mwvreeno`)
-- **Domain**: `kerrigan.jhax.dev`
+- **Domain**: `latentworx.com`
 
 ## Repository Purpose
 
