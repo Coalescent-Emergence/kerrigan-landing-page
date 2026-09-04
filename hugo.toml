@@ -7,8 +7,8 @@ pluralizelisttitles = false
 disableKinds = ["taxonomy", "term"]
 
 [params]
-  description = "AI-powered session transcription and clinical note generation for behavioral health — built on secure, HIPAA-compliant cloud architecture with end-to-end encryption."
-  tagline = "Enterprise Cloud AI for Behavioral Health Clinical Documentation"
+  description = "An AI scribe for behavioral health and substance use treatment. Live in-session transcription in about two seconds, note drafts in seconds, and transcription that runs on our own GPUs."
+  tagline = "AI Clinical Notes for Behavioral Health & Substance Use Treatment"
   formspreeID = "mwvreeno"
   twitterHandle = "@LatentWorx"
   ogImage = "/img/og-kerrigan.png"

@@ -5,33 +5,38 @@
      └──────────────────────────────────────────────────────────────┘ -->
 <nav class="site-nav">
   {{ partial "logo.html" . }}
-  <a href="#pricing" class="btn btn-primary" data-analytics-event="cta_click_pricing" data-analytics-label="nav_view_pricing">
-    View Pricing
+  <a href="#access" class="btn btn-primary" data-analytics-event="cta_click_access" data-analytics-label="nav_request_access">
+    Request access
   </a>
 </nav>
 
 
 <!-- ┌──────────────────────────────────────────────────────────────┐
-     │  HERO                                                        │
+     │  HERO — leads with Part 2 + speed                            │
      └──────────────────────────────────────────────────────────────┘ -->
 <section class="hero">
   <div class="section-container">
     <div class="hero-copy">
-      <span class="section-eyebrow">AI Clinical Documentation · Behavioral Health · Secure Cloud AI</span>
+      <span class="section-eyebrow">AI Clinical Documentation · Behavioral Health &amp; SUD Treatment</span>
 
       <h1 class="section-title">
-        Be fully present with your clients.<br>
-        <span class="text-gradient">Let Kerrigan&trade; handle the charts.</span>
+        Built for 42 CFR Part 2 realities.<br>
+        <span class="text-gradient">Fast enough to finish in the room.</span>
       </h1>
 
       <p class="section-sub">
-        AI-powered session transcription and clinical note generation built for
-        behavioral health clinicians — driven by a secure cloud-based AI pipeline that processes session audio in real time with enterprise-grade encryption and zero local hardware maintenance.
+        Kerrigan&trade; is an AI scribe for behavioral health and substance use treatment.
+        The transcript appears while you are still talking. The note draft is ready
+        seconds after you stop.
+      </p>
+
+      <p class="section-sub">
+        Most scribes record first and process later. Kerrigan does not.
       </p>
 
       <div class="hero-cta-row">
-        <a href="#pricing" class="btn btn-primary" data-analytics-event="cta_click_pricing" data-analytics-label="hero_view_pricing">
-          Subscribe Now →
+        <a href="#access" class="btn btn-primary" data-analytics-event="cta_click_access" data-analytics-label="hero_request_access">
+          Request access →
         </a>
         <a href="#how-it-works" class="btn btn-secondary" data-analytics-event="cta_click_how_it_works" data-analytics-label="hero_see_how_it_works">
           See how it works ↓
@@ -39,11 +44,10 @@
       </div>
 
       <div class="hero-badges">
-        <span class="badge badge-sage">✓ HIPAA Compliant Cloud</span>
-        <span class="badge badge-cerulean">⬡ Enterprise Cloud Architecture</span>
-        <span class="badge badge-cerulean">⚡ Instant Cloud Deployment</span>
-        <span class="badge badge-amber">⊕ Telehealth Ready</span>
-        <span class="badge badge-amber">⚖ 42 CFR Part 2 Ready</span>
+        <span class="badge badge-amber">⚖ Built for 42 CFR Part 2 work</span>
+        <span class="badge badge-cerulean">⚡ Live transcript, ~2s</span>
+        <span class="badge badge-cerulean">⬡ Transcription on our own GPUs</span>
+        <span class="badge badge-sage">◎ ASAM 6-dimension notes</span>
       </div>
     </div>
   </div>
@@ -51,7 +55,123 @@
 
 
 <!-- ┌──────────────────────────────────────────────────────────────┐
-     │  PAIN — Three problems behavioral health clinicians know    │
+     │  PART 2 — the lead differentiator                            │
+     └──────────────────────────────────────────────────────────────┘ -->
+<section id="part-2" class="section-pad band">
+  <div class="section-container">
+    <div class="two-col-grid two-col-grid-start">
+
+      <div>
+        <span class="section-eyebrow">Why We Built This</span>
+        <h2 class="section-title">
+          Part 2 records are held to a<br>
+          <span class="text-gradient">stricter standard than HIPAA.</span>
+        </h2>
+        <p class="section-sub">
+          If your program is federally assisted and treats substance use disorder,
+          42 CFR Part 2 governs your patient records. Disclosure rules are tighter
+          than HIPAA, consent requirements are specific, and the 2024 Final Rule
+          added obligations around counseling notes.
+        </p>
+        <p class="section-sub">
+          An AI scribe is not a neutral bystander to that. It creates a new system
+          holding the recording, the transcript, and everything a language model
+          did with them. That is the part the scribe market has not answered.
+        </p>
+      </div>
+
+      <div class="sacred-card">
+        <h3 class="card-title">The questions your compliance officer will ask</h3>
+        <div class="local-only-block">
+          <div class="local-only-bullet">
+            <span class="bullet-icon">→</span>
+            <p class="bullet-text">
+              <strong>Where does the audio go?</strong> To GPUs we run in our own
+              AWS account. It is not sent to a third-party transcription API.
+            </p>
+          </div>
+          <div class="local-only-bullet">
+            <span class="bullet-icon">→</span>
+            <p class="bullet-text">
+              <strong>Who can change a note?</strong> Only a clinician who approves
+              the change. Every revision is a reviewed diff, versioned, with rollback.
+            </p>
+          </div>
+          <div class="local-only-bullet">
+            <span class="bullet-icon">→</span>
+            <p class="bullet-text">
+              <strong>What is on the record?</strong> Administrative actions write to
+              an append-only audit log the application itself cannot rewrite.
+            </p>
+          </div>
+          <div class="local-only-bullet">
+            <span class="bullet-icon">→</span>
+            <p class="bullet-text">
+              <strong>What leaves the system?</strong> Nothing without a clinician
+              exporting it. Exports are recorded with the exact body that was copied.
+            </p>
+          </div>
+        </div>
+        <p style="font-size:var(--wp-text-xs);margin-top:var(--wp-space-5);margin-bottom:0;">
+          We give you architecture, documentation, and straight answers. We do not
+          offer legal advice, and we do not claim to make your program compliant —
+          that determination is yours and your compliance officer's to make.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ┌──────────────────────────────────────────────────────────────┐
+     │  SPEED — the second differentiator                           │
+     └──────────────────────────────────────────────────────────────┘ -->
+<section class="section-pad">
+  <div class="section-container">
+    <span class="section-eyebrow">Speed</span>
+    <h2 class="section-title">The note is done before you've walked to the next room.</h2>
+    <p class="section-sub">
+      Kerrigan transcribes live. Words land on screen during the session, not after
+      it. When the session ends the transcript is already complete, so the note
+      draft starts immediately instead of starting from a file in a queue.
+    </p>
+
+    <div class="bento-grid mt-8">
+
+      <div class="card card-brutalist bento-col-6">
+        <div class="card-subtitle">⚡</div>
+        <h3 class="card-title">~2 seconds to on-screen transcript</h3>
+        <p>
+          Speech to visible text during the session. You can watch it, correct the
+          record in the moment, and catch a misheard name while the client is still
+          in the room.
+        </p>
+      </div>
+
+      <div class="card card-brutalist bento-col-6">
+        <div class="card-subtitle">◷</div>
+        <h3 class="card-title">~3 seconds to a note draft</h3>
+        <p>
+          Average time from ending a session to a draft on screen. Not a queue
+          position, not an email later — a draft you review while the session is
+          still fresh.
+        </p>
+      </div>
+
+    </div>
+
+    <p class="section-sub mt-8" style="font-size:var(--wp-text-sm);">
+      Both figures are founder-measured on our production stack, not vendor
+      benchmarks. Real-world timing varies with session length, audio quality,
+      and network conditions. Ask us to demo it live and time it yourself.
+    </p>
+  </div>
+</section>
+
+
+<!-- ┌──────────────────────────────────────────────────────────────┐
+     │  PAIN                                                        │
      └──────────────────────────────────────────────────────────────┘ -->
 <section class="section-pad band">
   <div class="section-container">
@@ -64,9 +184,9 @@
         <div class="card-subtitle">⏱</div>
         <h3 class="card-title">Hours of after-hours charting</h3>
         <p>
-          A 50-minute therapy session can demand 30–45 minutes of documentation.
-          Across a full caseload, that's hours every evening — unpaid, exhausting,
-          and the leading driver of clinician burnout.
+          A 50-minute session can demand 30–45 minutes of documentation. Across a
+          full caseload that is hours every evening — unpaid, exhausting, and a
+          well-documented driver of clinician burnout.
         </p>
       </div>
 
@@ -75,20 +195,19 @@
         <h3 class="card-title">Split attention breaks the alliance</h3>
         <p>
           Note-taking during a session forces you to divide attention between the
-          client in front of you and the chart you're building. Your clients feel it.
-          Your therapeutic outcomes reflect it.
+          client in front of you and the chart you are building. Your clients
+          feel it.
         </p>
       </div>
 
       <div class="card card-brutalist bento-col-4">
-        <div class="card-subtitle">☁</div>
-        <h3 class="card-title">Unsecure cloud scribes create data leaks</h3>
+        <div class="card-subtitle">⏳</div>
+        <h3 class="card-title">Record-then-wait breaks the loop</h3>
         <p>
-          Legacy AI scribes store audio on generic third-party servers with unclear data retention policies. In behavioral health, unmanaged cloud processing risks exposing sensitive client records.
+          Scribes that upload audio and process it later hand you a draft long
+          after the session has left your head. Reviewing a note you no longer
+          remember clearly is slower, and it is where errors enter the chart.
         </p>
-        <div class="alert alert-warning">
-          <p>⚖ Substance abuse records fall under 42 CFR Part 2 — stricter than HIPAA. Kerrigan's end-to-end encrypted cloud pipeline guarantees full data sovereignty without hardware burden.</p>
-        </div>
       </div>
 
     </div>
@@ -102,42 +221,48 @@
 <section id="how-it-works" class="section-pad">
   <div class="section-container">
     <span class="section-eyebrow">How It Works</span>
-    <h2 class="section-title">One session. No charting. Clinical notes ready.</h2>
-    <p class="section-sub">From audio capture to EHR-ready notes — powered by Kerrigan's secure, secure cloud AI pipeline.</p>
+    <h2 class="section-title">One session. No charting. A note you approve.</h2>
+    <p class="section-sub">Four steps. Nothing to install.</p>
 
     <div class="card-grid card-grid-steps">
 
       <div class="step-card">
         <div class="step-number">1</div>
-        <h3 class="card-title">Record or connect</h3>
+        <h3 class="card-title">Start a session in the browser</h3>
         <p>
-          Connect to Kerrigan's secure cloud API from any browser or desktop app — no hardware setup or local servers required. Record in-person or telehealth sessions. No push-to-talk, no configuration. Just have a natural conversation.
+          In-person or telehealth. Kerrigan works with the Zoom sessions you already
+          run — capture live, or import the transcript afterward and review speaker
+          attribution. No push-to-talk, no configuration.
         </p>
       </div>
 
       <div class="step-card">
         <div class="step-number">2</div>
-        <h3 class="card-title">High-accuracy cloud transcription</h3>
+        <h3 class="card-title">Watch the transcript build</h3>
         <p>
-          Cloud Whisper models process encrypted audio streams in real time with automatic speaker diarization separating clinician and client voices.
+          WhisperX runs on GPUs in our own AWS account and streams text back in about
+          two seconds. If your connection drops or the browser reloads, the session
+          checkpoints and resumes rather than losing the audio.
         </p>
       </div>
 
       <div class="step-card">
         <div class="step-number">3</div>
-        <h3 class="card-title">AI generates the note</h3>
+        <h3 class="card-title">Get the note draft</h3>
         <p>
-          Fine-tuned clinical LLMs in our secure cloud pipeline translate the transcript into a structured clinical note — SOAP, DAP, GIRP, or progress note format. Review, edit, and easily copy-paste to your EHR.
+          ASAM 6-dimension, DAP, or narrative progress note. A draft model writes,
+          a second model critiques it against a rubric, and the draft is revised
+          before you ever see it.
         </p>
       </div>
 
       <div class="step-card">
         <div class="step-number">4</div>
-        <h3 class="card-title">Chat over the transcript</h3>
+        <h3 class="card-title">Review, revise, export</h3>
         <p>
-          Ask clinically-grounded questions about the session. Surface key themes,
-          risk indicators, or treatment plan updates. Context-aware AI that knows
-          the full transcript — not just a snippet.
+          Ask questions about the transcript. Request a change and Kerrigan shows you
+          a diff — nothing enters the note until you approve it. Copy the finished
+          note into your EHR.
         </p>
       </div>
 
@@ -147,20 +272,22 @@
 
 
 <!-- ┌──────────────────────────────────────────────────────────────┐
-     │  LOCAL-ONLY DIFFERENTIATOR                                   │
+     │  ARCHITECTURE — what is actually true about the stack        │
      └──────────────────────────────────────────────────────────────┘ -->
 <section class="section-pad band">
   <div class="section-container">
     <div class="two-col-grid two-col-grid-center">
 
       <div>
-        <span class="section-eyebrow">The Kerrigan Difference</span>
+        <span class="section-eyebrow">Architecture</span>
         <h2 class="section-title">
-          Your patients' most vulnerable words<br>
-          <span class="text-gradient">protected by encrypted cloud enclaves.</span>
+          We will tell you exactly<br>
+          <span class="text-gradient">where the audio goes.</span>
         </h2>
         <p class="section-sub">
-          Kerrigan's enterprise cloud architecture delivers instant high-throughput clinical documentation while maintaining strict HIPAA compliance and AES-256 encryption with per-therapist keys.
+          Most scribes will not name the models they use or the vendors that see
+          your session. Here is our stack in plain language, including the parts
+          that are still in progress.
         </p>
       </div>
 
@@ -168,304 +295,55 @@
         <div class="local-only-bullet">
           <span class="bullet-icon">✓</span>
           <p class="bullet-text">
-            Transcription runs in secure cloud enclaves via high-throughput Whisper models over TLS 1.3.
+            <strong>Transcription is ours.</strong> WhisperX on GPUs in our own AWS
+            account. Session audio is never sent to a third-party transcription
+            service.
           </p>
         </div>
         <div class="local-only-bullet">
           <span class="bullet-icon">✓</span>
           <p class="bullet-text">
-            Note generation uses open-weight models powered by our Clinical Reasoning Engine with full BAA coverage and zero model training on patient data.
+            <strong>Note generation runs on AWS Bedrock</strong> inside our AWS
+            account. Bedrock is a HIPAA-eligible AWS service and does not use
+            customer inference data to train models. We name it because you should
+            know it.
           </p>
         </div>
         <div class="local-only-bullet">
           <span class="bullet-icon">✓</span>
           <p class="bullet-text">
-            Zero data retention policy — session audio and transient drafts are deleted immediately after note confirmation.
+            <strong>Encrypted at rest across the stack</strong> with AWS KMS-managed
+            keys — databases, volumes, and object storage — and in transit over
+            TLS 1.3.
           </p>
         </div>
         <div class="local-only-bullet">
           <span class="bullet-icon">✓</span>
           <p class="bullet-text">
-            Instant cloud scalability — no hardware appliances to buy, provision, or maintain.
+            <strong>Administrative actions are logged immutably.</strong> The audit
+            log is append-only and enforced at the database, not by application
+            convention.
           </p>
         </div>
         <div class="local-only-bullet">
           <span class="bullet-icon">✓</span>
           <p class="bullet-text">
-            Zero IT overhead — seamlessly scales across your entire practice with web access and single sign-on.
+            <strong>Sessions survive failure.</strong> Live capture is checkpointed
+            and replayable, and audio is recoverable if a session ends badly. Built
+            after a real incident, not as a slogan.
+          </p>
+        </div>
+        <div class="local-only-bullet">
+          <span class="bullet-icon">○</span>
+          <p class="bullet-text">
+            <strong>Not yet:</strong> SOC 2, retention and deletion enforcement,
+            multi-clinician organization accounts, supervisor review, and EHR
+            write-back. We would rather you hear that from us than find it in
+            diligence.
           </p>
         </div>
       </div>
 
-    </div>
-  </div>
-</section>
-
-
-<!-- ┌──────────────────────────────────────────────────────────────┐
-     │  DEPLOYMENT                                                  │
-     └──────────────────────────────────────────────────────────────┘ -->
-<section class="section-pad">
-  <div class="section-container">
-    <span class="section-eyebrow">Deployment</span>
-    <h2 class="section-title">Instant Enterprise Cloud Provisioning.</h2>
-    <p class="section-sub">
-      Kerrigan operates on dedicated, HIPAA-compliant cloud infrastructure — providing instant account setup, zero local hardware requirements, and automated zero-downtime model updates.
-    </p>
-
-    <!-- Primary: Managed Cloud Tenant -->
-    <div class="sacred-card deployment-primary">
-      <div class="deployment-primary-body">
-        <div class="deployment-primary-icon">☁</div>
-        <div class="deployment-primary-copy">
-          <div class="deployment-primary-header">
-            <h3 class="deployment-primary-title">Managed Cloud Tenant (SaaS)</h3>
-            <span class="badge badge-sage deployment-badge">Recommended</span>
-          </div>
-          <p class="deployment-primary-text">
-            We provision a dedicated, isolated cloud tenant for your practice. Clinicians log in via web browser or mobile app — all AI models, security policies, and BAA protections are active immediately.
-          </p>
-          <div class="deployment-feature-grid">
-            <div class="deployment-feature-item">
-              <span class="deployment-check">✓</span>
-              <span class="deployment-feature-text">Zero local hardware requirements</span>
-            </div>
-            <div class="deployment-feature-item">
-              <span class="deployment-check">✓</span>
-              <span class="deployment-feature-text">Instant provisioning in &lt; 5 minutes</span>
-            </div>
-            <div class="deployment-feature-item">
-              <span class="deployment-check">✓</span>
-              <span class="deployment-feature-text">Automated cloud model &amp; security updates</span>
-            </div>
-            <div class="deployment-feature-item">
-              <span class="deployment-check">✓</span>
-              <span class="deployment-feature-text">AES-256 encrypted PHI with Zero Data Retention</span>
-            </div>
-            <div class="deployment-feature-item">
-              <span class="deployment-check">✓</span>
-              <span class="deployment-feature-text">TLS 1.3 high-throughput cloud streaming</span>
-            </div>
-            <div class="deployment-feature-item">
-              <span class="deployment-check">✓</span>
-              <span class="deployment-feature-text">Scales seamlessly from solo providers to health systems</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Secondary: Alternative options -->
-    <div class="deployment-alternatives">
-      <p class="deployment-alt-label">Alternative options for specific environments</p>
-      <div class="deployment-options">
-
-        <div class="deployment-option-card sacred-card">
-          <div class="deployment-option-header">
-            <span class="deployment-option-icon">🌐</span>
-            <h4 class="deployment-option-title">Dedicated VPC Deployment</h4>
-          </div>
-          <p class="deployment-option-text">
-            Deploy Kerrigan within your enterprise AWS/GCP virtual private cloud for custom network isolation and audit controls.
-          </p>
-        </div>
-
-        <div class="deployment-option-card sacred-card">
-          <div class="deployment-option-header">
-            <span class="deployment-option-icon">🏢</span>
-            <h4 class="deployment-option-title">Hybrid Enterprise Gateway</h4>
-          </div>
-          <p class="deployment-option-text">
-            For large hospital networks requiring custom enterprise integrations while leveraging Kerrigan's secure AI pipeline.
-          </p>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ┌──────────────────────────────────────────────────────────────┐
-     │  COMPARISON TABLE                                            │
-     └──────────────────────────────────────────────────────────────┘ -->
-<section class="section-pad">
-  <div class="section-container">
-    <span class="section-eyebrow">Competitive Comparison</span>
-    <h2 class="section-title">The only AI scribe built for data sovereignty.</h2>
-    <p class="section-sub">
-      Generic cloud scribes retain audio and train on client data. Kerrigan guarantees end-to-end encryption with per-therapist keys and total HIPAA compliance.
-    </p>
-
-    <div class="table-container compare-desktop mt-8">
-      <table class="table-brutalist compare-table">
-        <thead>
-          <tr>
-            <th></th>
-            <th class="kerrigan-col">Kerrigan</th>
-            <th>Abridge</th>
-            <th>Freed</th>
-            <th>Nabla</th>
-            <th>DeepScribe</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Behavioral health focus</td>
-            <td class="kerrigan-col"><span class="check">✓ Core focus</span></td>
-            <td>Enterprise</td>
-            <td>General</td>
-            <td>General</td>
-            <td>Oncology</td>
-          </tr>
-          <tr>
-            <td>42 CFR Part 2 (substance abuse records)</td>
-            <td class="kerrigan-col"><span class="check">Encrypted Enclave</span></td>
-            <td><span class="cross">Cloud Exposure</span></td>
-            <td><span class="cross">Cloud Exposure</span></td>
-            <td><span class="cross">Cloud Exposure</span></td>
-            <td><span class="cross">Cloud Exposure</span></td>
-          </tr>
-          <tr>
-            <td>AI Inference Isolation</td>
-            <td class="kerrigan-col"><span class="check">HIPAA Bedrock (Isolated)</span></td>
-            <td><span class="danger-container"><span class="cross danger-pulse-text"><svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Shared APIs</span><div class="danger-tooltip"><strong>⚠️ Security Risks:</strong><ul><li>PHI leaves the secure perimeter</li><li>Subject to 3rd-party terms & outages</li></ul></div></span></td>
-            <td><span class="danger-container"><span class="cross danger-pulse-text"><svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Shared APIs</span><div class="danger-tooltip"><strong>⚠️ Security Risks:</strong><ul><li>PHI leaves the secure perimeter</li><li>Subject to 3rd-party terms & outages</li></ul></div></span></td>
-            <td><span class="danger-container"><span class="cross danger-pulse-text"><svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Shared APIs</span><div class="danger-tooltip"><strong>⚠️ Security Risks:</strong><ul><li>PHI leaves the secure perimeter</li><li>Subject to 3rd-party terms & outages</li></ul></div></span></td>
-            <td><span class="danger-container"><span class="cross danger-pulse-text"><svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Shared APIs</span><div class="danger-tooltip"><strong>⚠️ Security Risks:</strong><ul><li>PHI leaves the secure perimeter</li><li>Subject to 3rd-party terms & outages</li></ul></div></span></td>
-          </tr>
-          <tr>
-            <td>Data Mining Policy</td>
-            <td class="kerrigan-col"><span class="check">✓ Zero Mining / Training</span></td>
-            <td><span class="cross">May train on data</span></td>
-            <td><span class="cross">Relies on 3rd parties</span></td>
-            <td><span class="cross">Relies on 3rd parties</span></td>
-            <td><span class="cross">May train on data</span></td>
-          </tr>
-          <tr>
-            <td>Audio processing location</td>
-            <td class="kerrigan-col"><span class="check">Encrypted Cloud Enclave</span></td>
-            <td><span class="cross">Standard Public Cloud</span></td>
-            <td><span class="cross">Standard Public Cloud</span></td>
-            <td><span class="cross">Standard Public Cloud</span></td>
-            <td><span class="cross">Standard Public Cloud</span></td>
-          </tr>
-          <tr>
-            <td>Clinician Setup</td>
-            <td class="kerrigan-col"><span class="check">✓ Zero App Install</span></td>
-            <td><span class="cross">App Required</span></td>
-            <td><span class="check">✓ Zero App Install</span></td>
-            <td><span class="check">✓ Zero App Install</span></td>
-            <td><span class="cross">App Required (iOS)</span></td>
-          </tr>
-          <tr>
-            <td>Speaker diarization</td>
-            <td class="kerrigan-col"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>HIPAA compliant</td>
-            <td class="kerrigan-col"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="compare-mobile">
-      <article class="compare-mobile-card sacred-card">
-        <h3 class="compare-mobile-title">Behavioral health focus</h3>
-        <div class="compare-mobile-grid">
-          <div class="compare-mobile-item compare-mobile-item-kerrigan"><span class="compare-mobile-competitor">Kerrigan</span><span class="check">✓ Core focus</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Abridge</span><span>Enterprise</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Freed</span><span>General</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Nabla</span><span>General</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">DeepScribe</span><span>Oncology</span></div>
-        </div>
-      </article>
-
-      <article class="compare-mobile-card sacred-card">
-        <h3 class="compare-mobile-title">42 CFR Part 2 (substance abuse records)</h3>
-        <div class="compare-mobile-grid">
-          <div class="compare-mobile-item compare-mobile-item-kerrigan"><span class="compare-mobile-competitor">Kerrigan</span><span class="check">Encrypted Enclave</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Abridge</span><span class="cross">Cloud Exposure</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Freed</span><span class="cross">Cloud Exposure</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Nabla</span><span class="cross">Cloud Exposure</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">DeepScribe</span><span class="cross">Cloud Exposure</span></div>
-        </div>
-      </article>
-
-      <article class="compare-mobile-card sacred-card">
-        <h3 class="compare-mobile-title">AI Inference Isolation</h3>
-        <div class="compare-mobile-grid">
-          <div class="compare-mobile-item compare-mobile-item-kerrigan"><span class="compare-mobile-competitor">Kerrigan</span><span class="check">HIPAA Bedrock (Isolated)</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Abridge</span><span class="danger-container" style="text-align: right;"><span class="cross danger-pulse-text"><svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77-1.333.192 3 1.732 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Shared APIs</span><div class="danger-tooltip" style="right:0; left:auto; transform:none;"><strong>⚠️ Security Risks:</strong><ul><li>PHI leaves the secure perimeter</li><li>Subject to 3rd-party terms & outages</li></ul></div></span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Freed</span><span class="danger-container" style="text-align: right;"><span class="cross danger-pulse-text"><svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77-1.333.192 3 1.732 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Shared APIs</span><div class="danger-tooltip" style="right:0; left:auto; transform:none;"><strong>⚠️ Security Risks:</strong><ul><li>PHI leaves the secure perimeter</li><li>Subject to 3rd-party terms & outages</li></ul></div></span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Nabla</span><span class="danger-container" style="text-align: right;"><span class="cross danger-pulse-text"><svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77-1.333.192 3 1.732 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Shared APIs</span><div class="danger-tooltip" style="right:0; left:auto; transform:none;"><strong>⚠️ Security Risks:</strong><ul><li>PHI leaves the secure perimeter</li><li>Subject to 3rd-party terms & outages</li></ul></div></span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">DeepScribe</span><span class="danger-container" style="text-align: right;"><span class="cross danger-pulse-text"><svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77-1.333.192 3 1.732 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Shared APIs</span><div class="danger-tooltip" style="right:0; left:auto; transform:none;"><strong>⚠️ Security Risks:</strong><ul><li>PHI leaves the secure perimeter</li><li>Subject to 3rd-party terms & outages</li></ul></div></span></div>
-        </div>
-      </article>
-
-      <article class="compare-mobile-card sacred-card">
-        <h3 class="compare-mobile-title">Data Mining Policy</h3>
-        <div class="compare-mobile-grid">
-          <div class="compare-mobile-item compare-mobile-item-kerrigan"><span class="compare-mobile-competitor">Kerrigan</span><span class="check">✓ Zero Mining / Training</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Abridge</span><span class="cross">May train on data</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Freed</span><span class="cross">Relies on 3rd parties</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Nabla</span><span class="cross">Relies on 3rd parties</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">DeepScribe</span><span class="cross">May train on data</span></div>
-        </div>
-      </article>
-
-      <article class="compare-mobile-card sacred-card">
-        <h3 class="compare-mobile-title">Audio processing location</h3>
-        <div class="compare-mobile-grid">
-          <div class="compare-mobile-item compare-mobile-item-kerrigan"><span class="compare-mobile-competitor">Kerrigan</span><span class="check">Encrypted Cloud Enclave</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Abridge</span><span class="cross">Standard Public Cloud</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Freed</span><span class="cross">Standard Public Cloud</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Nabla</span><span class="cross">Standard Public Cloud</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">DeepScribe</span><span class="cross">Standard Public Cloud</span></div>
-        </div>
-      </article>
-
-      <article class="compare-mobile-card sacred-card">
-        <h3 class="compare-mobile-title">Clinician Setup</h3>
-        <div class="compare-mobile-grid">
-          <div class="compare-mobile-item compare-mobile-item-kerrigan"><span class="compare-mobile-competitor">Kerrigan</span><span class="check">✓ Zero App Install</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Abridge</span><span class="cross">App Required</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Freed</span><span class="check">✓ Zero App Install</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Nabla</span><span class="check">✓ Zero App Install</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">DeepScribe</span><span class="cross">App Required (iOS)</span></div>
-        </div>
-      </article>
-
-      <article class="compare-mobile-card sacred-card">
-        <h3 class="compare-mobile-title">Speaker diarization</h3>
-        <div class="compare-mobile-grid">
-          <div class="compare-mobile-item compare-mobile-item-kerrigan"><span class="compare-mobile-competitor">Kerrigan</span><span class="check">✓</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Abridge</span><span class="check">✓</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Freed</span><span class="check">✓</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Nabla</span><span class="check">✓</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">DeepScribe</span><span class="check">✓</span></div>
-        </div>
-      </article>
-
-      <article class="compare-mobile-card sacred-card">
-        <h3 class="compare-mobile-title">HIPAA compliant</h3>
-        <div class="compare-mobile-grid">
-          <div class="compare-mobile-item compare-mobile-item-kerrigan"><span class="compare-mobile-competitor">Kerrigan</span><span class="check">✓</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Abridge</span><span class="check">✓</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Freed</span><span class="check">✓</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">Nabla</span><span class="check">✓</span></div>
-          <div class="compare-mobile-item"><span class="compare-mobile-competitor">DeepScribe</span><span class="check">✓</span></div>
-        </div>
-      </article>
     </div>
   </div>
 </section>
@@ -474,7 +352,7 @@
 <!-- ┌──────────────────────────────────────────────────────────────┐
      │  FEATURES                                                    │
      └──────────────────────────────────────────────────────────────┘ -->
-<section class="section-pad band">
+<section class="section-pad">
   <div class="section-container">
     <span class="section-eyebrow">Features</span>
     <h2 class="section-title">Everything you need. Nothing you don't.</h2>
@@ -483,56 +361,57 @@
 
       <div class="card card-brutalist bento-col-4">
         <div class="card-subtitle">🎙</div>
-        <h3 class="card-title">Ambient Capture</h3>
+        <h3 class="card-title">Live Ambient Capture</h3>
         <p>
-          Session audio captured passively — no push-to-talk, no pauses.
-          Have a natural conversation while Kerrigan listens.
+          Session audio captured passively, transcribed as you speak. No push-to-talk,
+          no pauses, nothing to install.
         </p>
       </div>
 
       <div class="card card-brutalist bento-col-4">
-        <div class="card-subtitle">👥</div>
-        <h3 class="card-title">Speaker Diarization</h3>
+        <div class="card-subtitle">◎</div>
+        <h3 class="card-title">ASAM, DAP &amp; Narrative Notes</h3>
         <p>
-          Automatically separates clinician and client voices in the transcript.
-          Your notes reflect who said what.
-        </p>
-      </div>
-
-      <div class="card card-brutalist bento-col-4">
-        <div class="card-subtitle">📄</div>
-        <h3 class="card-title">Multi-Format Notes</h3>
-        <p>
-          SOAP, DAP, GIRP, progress notes, and customizable templates — formatted
-          for your specialty and review style.
+          ASAM 6-dimension assessments, DAP progress notes, and narrative format —
+          each written, critiqued against a rubric, and revised before you see the
+          draft.
         </p>
       </div>
 
       <div class="card card-brutalist bento-col-4">
         <div class="card-subtitle">📹</div>
-        <h3 class="card-title">Zoom Integration</h3>
+        <h3 class="card-title">Works With Your Zoom Sessions</h3>
         <p>
-          Capture audio from telehealth sessions directly from your device.
-          processing ensures zero session recording retention.
+          Capture telehealth sessions live from your device, or import the Zoom
+          transcript afterward and review speaker attribution before the note is
+          written. In daily use by our pilot cohort.
         </p>
       </div>
 
       <div class="card card-brutalist bento-col-4">
-        <div class="card-subtitle">⚡</div>
-        <h3 class="card-title">EHR-Ready Output</h3>
+        <div class="card-subtitle">✎</div>
+        <h3 class="card-title">Nothing Changes Without You</h3>
         <p>
-          Notes formatted for easy copy-paste to major EHR systems.
-          Clean formatting that meets your documentation standards.
+          Ask for a revision and Kerrigan proposes a diff. You approve or you don't.
+          Every version is retained and any version can be restored.
         </p>
       </div>
 
       <div class="card card-brutalist bento-col-4">
         <div class="card-subtitle">💬</div>
-        <h3 class="card-title">Context-Aware Chat</h3>
+        <h3 class="card-title">Chat Over the Transcript</h3>
         <p>
-          Ask questions about the session transcript. Surface risk indicators,
-          treatment themes, or quote exact client language — all grounded
-          in the full session context.
+          Ask questions about the session. Surface risk indicators, treatment themes,
+          or exact client language — grounded in the full transcript, not a snippet.
+        </p>
+      </div>
+
+      <div class="card card-brutalist bento-col-4">
+        <div class="card-subtitle">📋</div>
+        <h3 class="card-title">EHR Copy-Out With a Trail</h3>
+        <p>
+          Notes formatted for clean copy-paste into your EHR. Each export records the
+          exact body that left the system.
         </p>
       </div>
 
@@ -548,27 +427,33 @@
   <div class="section-container specialties-section">
     <span class="section-eyebrow">Built For Behavioral Health</span>
     <h2 class="section-title specialties-title">
-      Designed around the complexity of mental health documentation.
+      Designed around the complexity of behavioral health documentation.
     </h2>
     <p class="section-sub specialties-sub">
-      Not a general-purpose scribe retrofitted for therapy — a tool built from
-      the ground up for the narrative, relational, and clinical nuance of
-      behavioral health work.
+      Not a general-purpose medical scribe retrofitted for therapy — a tool built for
+      the narrative, relational, and regulatory reality of behavioral health and
+      substance use treatment.
     </p>
     <div class="specialty-pill-cloud">
+      <span class="specialty-pill">⚖️ Substance Use Treatment</span>
       <span class="specialty-pill">🧠 Psychotherapy</span>
       <span class="specialty-pill">💊 Psychiatry</span>
       <span class="specialty-pill">🤝 Social Work (LCSW)</span>
       <span class="specialty-pill">📋 Counseling (LPC / LPCC)</span>
       <span class="specialty-pill">🏥 Outpatient Clinics</span>
       <span class="specialty-pill">🏠 IOP / PHP Programs</span>
-      <span class="specialty-pill">⚖️ Substance Use Treatment</span>
-      <span class="specialty-pill">🔒 Forensic Settings</span>
-      <span class="specialty-pill">👶 Child & Adolescent</span>
+      <span class="specialty-pill">👶 Child &amp; Adolescent</span>
       <span class="specialty-pill">💑 Couples Therapy</span>
     </div>
     <p class="specialty-callout">
-      <strong>For substance use treatment &amp; forensic settings:</strong> Records governed by 42 CFR Part 2 (SAMHSA) carry disclosure restrictions beyond standard HIPAA. Any cloud-based AI scribe creates a third-party system exposure for those records. Kerrigan's encrypted cloud enclave is designed specifically to fulfill 42 CFR Part 2 requirements without data retention risk.
+      <strong>A note on 42 CFR Part 2:</strong> records from federally assisted
+      substance use disorder programs carry disclosure restrictions beyond HIPAA.
+      Any AI scribe creates an additional system holding those recordings and
+      transcripts. We built Kerrigan with that in mind — transcription on our own
+      hardware, named vendors, clinician-gated changes, and an immutable
+      administrative audit trail. Whether a given deployment satisfies Part 2 for
+      your program is a determination for you and your compliance officer; we will
+      answer any architecture question you need to make it.
     </p>
   </div>
 </section>
@@ -581,50 +466,44 @@
   <div class="section-container">
       <div class="two-col-grid two-col-grid-start">
       <div>
-        <span class="section-eyebrow">For Practice Directors</span>
+        <span class="section-eyebrow">For Clinical Directors</span>
         <h2 class="section-title">
           Reduce burnout.<br>Reduce risk.<br>
-          <span class="text-gradient">For your entire practice.</span>
+          <span class="text-gradient">Know what you bought.</span>
         </h2>
         <p class="section-sub">
-          When clinicians spend less time charting, they see more clients, experience
-          less burnout, and stay longer. Kerrigan compounds those benefits with a
-          data sovereignty posture no cloud tool can match.
+          When clinicians spend less time charting they see more clients, burn out
+          less, and stay longer. That case is only worth making if the tool holds up
+          under review — so we publish what Kerrigan does, what it does not do yet,
+          and which vendors touch your data.
         </p>
-        <a href="#pricing" class="btn btn-primary directors-cta">
-          View Pricing Plans →
+        <a href="#access" class="btn btn-primary directors-cta" data-analytics-event="cta_click_access" data-analytics-label="directors_request_access">
+          Request access →
         </a>
       </div>
 
       <div>
         <div class="sacred-card director-card">
-          <div class="director-stats-grid">
-            <div class="director-stat">
-              <span class="director-stat-number">2h+</span>
-              <span class="director-stat-label">Saved per clinician<br>per day</span>
+          <h3 class="card-title">What we will put in front of you</h3>
+          <div class="local-only-block">
+            <div class="local-only-bullet">
+              <span class="bullet-icon">✓</span>
+              <p class="bullet-text">A live demo where you time the transcript and the note draft yourself.</p>
             </div>
-            <div class="director-stat">
-              <span class="director-stat-number">0</span>
-              <span class="director-stat-label">Patient audio records<br>retained</span>
+            <div class="local-only-bullet">
+              <span class="bullet-icon">✓</span>
+              <p class="bullet-text">A written description of the data flow, naming every vendor that processes session data.</p>
             </div>
-            <div class="director-stat">
-              <span class="director-stat-number">100%</span>
-              <span class="director-stat-label">Zero Retention —<br>transient cloud processing</span>
+            <div class="local-only-bullet">
+              <span class="bullet-icon">✓</span>
+              <p class="bullet-text">A current, honest list of gaps — certifications, retention enforcement, and org features we have not shipped.</p>
             </div>
-            <div class="director-stat">
-              <span class="director-stat-number">↓</span>
-              <span class="director-stat-label">Reduced PHI exposure<br>surface area</span>
+            <div class="local-only-bullet">
+              <span class="bullet-icon">✓</span>
+              <p class="bullet-text">Direct access to the people who build it, not a sales channel.</p>
             </div>
           </div>
         </div>
-
-        <div class="director-note">
-          <p class="director-note-text">
-            <strong>Note on 42 CFR Part 2 &amp; HIPAA:</strong>
-            Substance abuse treatment records carry stricter disclosure protections than
-            standard HIPAA. Kerrigan's encrypted cloud architecture ensures those records are encrypted with per-therapist keys — ensuring only you can access your patient data.
-          </p>
-        </div>
       </div>
     </div>
   </div>
@@ -632,89 +511,70 @@
 
 
 <!-- ┌──────────────────────────────────────────────────────────────┐
-     │  PRICING                                                     │
+     │  ACCESS — replaces pricing tiers + checkout modal            │
      └──────────────────────────────────────────────────────────────┘ -->
-<section id="pricing" class="section-pad">
+<section id="access" class="section-pad">
   <div class="section-container">
     <div class="pricing-intro">
-      <span class="section-eyebrow">Pricing</span>
+      <span class="section-eyebrow">Access</span>
       <h2 class="section-title">
-        Simple, transparent pricing for your practice.
+        Request access.
       </h2>
       <p class="section-sub pricing-sub">
-        Choose the plan that fits your clinical volume. All plans include full access to Kerrigan's secure cloud platform, open-weight models powered by our Clinical Reasoning Engine, and BAA protection.
+        Kerrigan is in a limited pilot with behavioral health and substance use
+        treatment clinicians. Accounts are provisioned by hand so we can walk each
+        one through setup. Tell us about your practice and we will get back to you.
       </p>
     </div>
 
-    <div class="pricing-grid">
-      
-      <!-- Founder -->
-      <div class="pricing-card sacred-card">
-        <h3 class="pricing-card-title">Founder</h3>
-        <div class="pricing-card-price">$69.99<span class="pricing-card-period">/mo</span></div>
-        <p class="pricing-card-desc">Early adopter tier for solo practitioners with light clinical volume.</p>
-        <button class="btn btn-primary" onclick="openCheckout('founder')" style="width:100%;" disabled>Subscribe</button>
-      </div>
+    <div class="sacred-card" style="max-width:560px;margin:var(--wp-space-8) auto 0;">
+      <form action="https://formspree.io/f/{{ .Site.Params.formspreeID }}"
+            method="POST"
+            data-analytics-event="access_form_submit"
+            data-analytics-label="access_request">
 
-      <!-- Basic -->
-      <div class="pricing-card sacred-card">
-        <h3 class="pricing-card-title">Basic</h3>
-        <div class="pricing-card-price">$99.99<span class="pricing-card-period">/mo</span></div>
-        <p class="pricing-card-desc">Standard tier for solo practitioners with average clinical volume.</p>
-        <button class="btn btn-primary" onclick="openCheckout('basic')" style="width:100%;" disabled>Subscribe</button>
-      </div>
+        <input type="hidden" name="_subject" value="Kerrigan access request">
+        <input type="hidden" name="_next" value="{{ absURL "thank-you/" }}">
+        <div style="position:absolute;left:-9999px;" aria-hidden="true">
+          <label for="access-company">Company</label>
+          <input type="text" id="access-company" name="_gotcha" tabindex="-1" autocomplete="off">
+        </div>
 
-      <!-- Pro -->
-      <div class="pricing-card sacred-card pricing-card-popular">
-        <div class="pricing-popular-badge">Most Popular</div>
-        <h3 class="pricing-card-title">Pro</h3>
-        <div class="pricing-card-price">$149.99<span class="pricing-card-period">/mo</span></div>
-        <p class="pricing-card-desc">Advanced tier for full-time clinicians with high volume.</p>
-        <button class="btn btn-primary" onclick="openCheckout('pro')" style="width:100%;" disabled>Subscribe</button>
-      </div>
+        <div class="form-group">
+          <label for="access-name" class="form-label">Name</label>
+          <input type="text" id="access-name" name="name" class="input-field" autocomplete="name" required>
+        </div>
 
-      <!-- Integrator -->
-      <div class="pricing-card sacred-card">
-        <h3 class="pricing-card-title">Integrator</h3>
-        <div class="pricing-card-price">$249.99<span class="pricing-card-period">/mo</span></div>
-        <p class="pricing-card-desc">Premium tier for small group practices (up to 3 clinicians).</p>
-        <button class="btn btn-primary" onclick="openCheckout('integrator')" style="width:100%;" disabled>Subscribe</button>
-      </div>
+        <div class="form-group">
+          <label for="access-email" class="form-label">Work email</label>
+          <input type="email" id="access-email" name="email" class="input-field" autocomplete="email" required>
+        </div>
 
+        <div class="form-group">
+          <label for="access-practice" class="form-label">Practice or program</label>
+          <input type="text" id="access-practice" name="practice" class="input-field" autocomplete="organization">
+        </div>
+
+        <div class="form-group">
+          <label for="access-context" class="form-label">
+            What are you documenting, and how many clinicians? <span style="opacity:0.6;">(optional)</span>
+          </label>
+          <textarea id="access-context" name="context" class="input-field" rows="4"
+                    style="resize:vertical;min-height:6rem;"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%;">
+          Request access
+        </button>
+
+        <p style="font-size:var(--wp-text-xs);margin:var(--wp-space-4) 0 0;text-align:center;">
+          No patient information in this form, please. We read every submission
+          ourselves. See our <a href="/privacy">Privacy Policy</a>.
+        </p>
+      </form>
     </div>
   </div>
 </section>
-
-<!-- ┌──────────────────────────────────────────────────────────────┐
-     │  SIGNUP MODAL                                                │
-     └──────────────────────────────────────────────────────────────┘ -->
-<div id="checkout-modal" class="modal-overlay">
-  <div class="modal-content sacred-card">
-    <button onclick="closeCheckout()" class="modal-close-btn" aria-label="Close checkout modal">&times;</button>
-    <h3 style="font-size:var(--wp-text-2xl);font-weight:700;margin-bottom:var(--wp-space-6);color:var(--color-text-primary);text-align:center;">Subscribe to Kerrigan</h3>
-    
-    <div id="checkout-error" class="alert alert-warning" style="display:none; margin-bottom:var(--wp-space-4);"></div>
-
-    <form id="checkout-form" onsubmit="submitCheckout(event)">
-      <input type="hidden" id="checkout-tier" name="tier_id">
-      
-      <div class="form-group">
-        <label for="checkout-name" class="form-label">Full Name</label>
-        <input type="text" id="checkout-name" name="name" class="input-field" required>
-      </div>
-      
-      <div class="form-group">
-        <label for="checkout-email" class="form-label">Email Address</label>
-        <input type="email" id="checkout-email" name="email" class="input-field" required>
-      </div>
-
-      <button type="submit" id="checkout-submit-btn" class="btn btn-primary" style="width:100%;">
-        <span id="checkout-btn-text">Proceed to Checkout</span>
-        <span id="checkout-btn-loading" style="display:none;">Processing...</span>
-      </button>
-    </form>
-  </div>
-</div>
 
 
 <!-- ┌──────────────────────────────────────────────────────────────┐
@@ -727,9 +587,8 @@
   </div>
 
   <div class="footer-badges">
-    <span class="badge badge-sage footer-badge">✓ HIPAA</span>
-    <span class="badge badge-cerulean footer-badge">☁ BAA's</span>
-    <span class="badge badge-cerulean footer-badge">🔒 Encrypted TLS 1.3</span>
+    <span class="badge badge-cerulean footer-badge">🔒 Encrypted in transit &amp; at rest</span>
+    <span class="badge badge-cerulean footer-badge">⬡ Transcription on our own GPUs</span>
   </div>
 
   <nav class="footer-links">

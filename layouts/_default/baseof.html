@@ -122,17 +122,17 @@
           trackEvent(name, { ...baseProps, label });
         });
 
-        const checkoutForm = document.getElementById('checkout-form');
-        if (checkoutForm) {
+        const accessForm = document.querySelector('#access form');
+        if (accessForm) {
           let formStarted = false;
-          checkoutForm.addEventListener('input', function () {
+          accessForm.addEventListener('input', function () {
             if (formStarted) return;
             formStarted = true;
-            trackEvent('checkout_form_start', baseProps);
+            trackEvent('access_form_start', baseProps);
           });
 
-          checkoutForm.addEventListener('submit', function () {
-            trackEvent('checkout_form_submit', baseProps);
+          accessForm.addEventListener('submit', function () {
+            trackEvent('access_form_submit', baseProps);
           });
         }
       })();
@@ -141,6 +141,5 @@
 </head>
 <body>
   {{ block "main" . }}{{ end }}
-  <script src="/js/checkout.js"></script>
 </body>
 </html>
