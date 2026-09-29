@@ -9,3 +9,13 @@ resources/_gen/
 .editor.pid
 .hugo.log
 .hugo.pid
+
+# Local dev artifacts. This repository is PUBLIC and deploys from main, so
+# anything swept in by `git add -A` becomes world-readable. Keep scratch
+# output and agent working files out.
+scratch/
+.agents/
+design-slideshow.md
+design-slideshow.pdf
+docs/design-slideshow.*
+static/docs/
