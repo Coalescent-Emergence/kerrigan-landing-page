@@ -10,6 +10,20 @@ disableKinds = ["taxonomy", "term"]
   description = "An AI scribe for behavioral health and substance use treatment. Live in-session transcription in about two seconds, note drafts in seconds, and transcription that runs on our own GPUs."
   tagline = "AI Clinical Notes for Behavioral Health & Substance Use Treatment"
   formspreeID = "mwvreeno"
+
+  # ── GO-LIVE GATE ──────────────────────────────────────────────────────────
+  # Self-serve signup is OFF. While false, the pricing section renders prices
+  # only and routes to the Request-access form: no Subscribe button, no signup
+  # URL, and no checkout code reach the built HTML at all.
+  #
+  # This is surface reduction, NOT the security control. The control is the
+  # server refusing an unconfigured or unauthorised checkout. Do not enable
+  # this until that refusal is proven in production.
+  #
+  # To go live, BOTH must be set: signupsEnabled = true AND a non-empty
+  # signupUrl. Enabling with an empty signupUrl fails the build.
+  signupsEnabled = false
+  signupUrl = ""
   twitterHandle = "@LatentWorx"
   ogImage = "/img/og-kerrigan.png"
 

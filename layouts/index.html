@@ -5,6 +5,7 @@
      └──────────────────────────────────────────────────────────────┘ -->
 <nav class="site-nav">
   {{ partial "logo.html" . }}
+  <a href="#pricing" class="nav-link" data-analytics-event="nav_click" data-analytics-label="nav_pricing">Pricing</a>
   <a href="#access" class="btn btn-primary" data-analytics-event="cta_click_access" data-analytics-label="nav_request_access">
     Request access
   </a>
@@ -511,7 +512,77 @@
 
 
 <!-- ┌──────────────────────────────────────────────────────────────┐
-     │  ACCESS — replaces pricing tiers + checkout modal            │
+     │  PRICING — two rungs. Buttons gated on params.signupsEnabled  │
+     └──────────────────────────────────────────────────────────────┘ -->
+{{- $signups := and .Site.Params.signupsEnabled (ne .Site.Params.signupUrl "") -}}
+{{- if and .Site.Params.signupsEnabled (eq .Site.Params.signupUrl "") -}}
+  {{- errorf "signupsEnabled is true but signupUrl is empty: refusing to build a Subscribe button with no destination." -}}
+{{- end -}}
+<section id="pricing" class="section-pad">
+  <div class="section-container">
+    <div class="pricing-intro">
+      <span class="section-eyebrow">Pricing</span>
+      <h2 class="section-title">
+        Two plans. No note caps.
+      </h2>
+      <p class="section-sub pricing-sub">
+        Unlimited notes on both plans, with no per-note caps. The only difference
+        between them is the rate, and whether the founding ten are still open.
+      </p>
+    </div>
+
+    <div class="pricing-grid">
+
+      <!-- Founder -->
+      <div class="pricing-card sacred-card pricing-card-popular">
+        <div class="pricing-popular-badge">First 10 clinicians</div>
+        <h3 class="pricing-card-title">Founder</h3>
+        <div class="pricing-card-price">$69.99<span class="pricing-card-period">/mo</span></div>
+        <p class="pricing-card-desc">
+          For the first ten clinicians who help us shape it. This rate is held for
+          good, in exchange for telling us honestly where it falls short.
+        </p>
+        {{- if $signups }}
+        <a href="{{ .Site.Params.signupUrl }}?plan=founder" class="btn btn-primary" style="width:100%;"
+           data-analytics-event="cta_click_subscribe" data-analytics-label="pricing_founder">Start 14-day trial</a>
+        {{- else }}
+        <a href="#access" class="btn btn-primary" style="width:100%;"
+           data-analytics-event="cta_click_access" data-analytics-label="pricing_founder">Request access &rarr;</a>
+        {{- end }}
+      </div>
+
+      <!-- Solo -->
+      <div class="pricing-card sacred-card">
+        <h3 class="pricing-card-title">Solo</h3>
+        <div class="pricing-card-price">$99.99<span class="pricing-card-period">/mo</span></div>
+        <p class="pricing-card-desc">
+          The standing price for a solo clinician. Same product, same unlimited
+          notes &mdash; the Founder rate is simply closed once the ten are taken.
+        </p>
+        {{- if $signups }}
+        <a href="{{ .Site.Params.signupUrl }}?plan=solo" class="btn btn-primary" style="width:100%;"
+           data-analytics-event="cta_click_subscribe" data-analytics-label="pricing_solo">Start 14-day trial</a>
+        {{- else }}
+        <a href="#access" class="btn btn-primary" style="width:100%;"
+           data-analytics-event="cta_click_access" data-analytics-label="pricing_solo">Request access &rarr;</a>
+        {{- end }}
+      </div>
+
+    </div>
+
+    <p class="section-sub" style="text-align:center;margin-top:var(--wp-space-6);">
+      {{- if $signups }}
+      14 days, no card required.
+      {{- else }}
+      Self-serve signup is not open yet. Accounts are provisioned by hand, and the
+      trial is 14 days with no card either way.
+      {{- end }}
+    </p>
+  </div>
+</section>
+
+<!-- ┌──────────────────────────────────────────────────────────────┐
+     │  ACCESS — hand-provisioned while the signup gate is closed   │
      └──────────────────────────────────────────────────────────────┘ -->
 <section id="access" class="section-pad">
   <div class="section-container">

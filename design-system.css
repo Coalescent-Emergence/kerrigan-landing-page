@@ -1119,6 +1119,23 @@ code, pre {
   border-bottom: 1px solid var(--color-border);
 }
 
+/* Text link in the nav bar. margin-left:auto keeps the logo left and groups
+   the remaining nav items against the CTA on the right, since .site-nav is
+   space-between and gained a third child. */
+.nav-link {
+  margin-left: auto;
+  font-size: var(--wp-text-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible {
+  color: var(--color-text-primary);
+  text-decoration: underline;
+}
+
 .nav-logo {
   font-family: var(--font-heading);
   font-size: var(--wp-text-xl);
