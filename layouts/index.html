@@ -599,13 +599,24 @@
     </div>
 
     <div class="sacred-card" style="max-width:560px;margin:var(--wp-space-8) auto 0;">
+      {{/* No data-analytics-* on the form itself: the delegated click handler in
+           baseof.html would count any click inside it as a submit. The submit
+           listener there fires access_form_submit once, on submit. */}}
       <form action="https://formspree.io/f/{{ .Site.Params.formspreeID }}"
-            method="POST"
-            data-analytics-event="access_form_submit"
-            data-analytics-label="access_request">
+            method="POST">
 
         <input type="hidden" name="_subject" value="Kerrigan access request">
         <input type="hidden" name="_next" value="{{ absURL "thank-you/" }}">
+
+        {{/* Populated client-side from first-touch attribution; see baseof.html */}}
+        <input type="hidden" name="utm_source" id="access-utm-source" value="">
+        <input type="hidden" name="utm_medium" id="access-utm-medium" value="">
+        <input type="hidden" name="utm_campaign" id="access-utm-campaign" value="">
+        <input type="hidden" name="utm_term" id="access-utm-term" value="">
+        <input type="hidden" name="utm_content" id="access-utm-content" value="">
+        <input type="hidden" name="referrer" id="access-referrer" value="">
+        <input type="hidden" name="landing_page" id="access-landing-page" value="">
+
         <div style="position:absolute;left:-9999px;" aria-hidden="true">
           <label for="access-company">Company</label>
           <input type="text" id="access-company" name="_gotcha" tabindex="-1" autocomplete="off">
