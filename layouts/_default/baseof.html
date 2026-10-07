@@ -16,7 +16,9 @@
   <meta property="og:url" content="{{ .Permalink }}">
   <meta property="og:title" content="{{ .Title }}">
   <meta property="og:description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
-  <meta property="og:image" content="{{ .Site.BaseURL }}{{ .Site.Params.ogImage }}">
+  <meta property="og:image" content="{{ .Site.Params.ogImage | absURL }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="{{ .Site.Params.twitterHandle }}">
 
@@ -122,8 +124,12 @@
           trackEvent(name, { ...baseProps, label });
         });
 
-        const accessForm = document.querySelector('#access form');
-        if (accessForm) {
+        // This script runs in <head>, before the form exists, so the form is
+        // looked up once the document has parsed. Wired inline it found nothing
+        // and neither listener was ever attached.
+        function wireAccessForm() {
+          const accessForm = document.querySelector('#access form');
+          if (!accessForm) return;
           let formStarted = false;
           accessForm.addEventListener('input', function () {
             if (formStarted) return;
@@ -132,8 +138,23 @@
           });
 
           accessForm.addEventListener('submit', function () {
-            trackEvent('access_form_submit', baseProps);
+            // person_profiles is identified_only, so without identify() no person
+            // is ever created. Identifying by email merges the visitor's earlier
+            // anonymous page views into the request (gtm/analytics-spec.md section 3).
+            var emailEl = accessForm.querySelector('input[name="email"]');
+            var nameEl = accessForm.querySelector('input[name="name"]');
+            if (emailEl && emailEl.value && window.posthog && typeof window.posthog.identify === 'function') {
+              var email = emailEl.value.trim().toLowerCase();
+              posthog.identify(email, { email: email, name: nameEl ? nameEl.value : '' });
+            }
+            trackEvent('access_form_submit', { ...baseProps, label: 'access_request' });
           });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', wireAccessForm);
+        } else {
+          wireAccessForm();
         }
       })();
     </script>
@@ -141,5 +162,58 @@
 </head>
 <body>
   {{ block "main" . }}{{ end }}
+
+  {{/* First-touch attribution capture: runs regardless of analyticsEnabled so
+       every Formspree lead carries real source data instead of showing $direct. */}}
+  <script>
+    (function () {
+      var STORAGE_KEY = 'kerrigan_attribution';
+      var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+
+      function readStored() {
+        try {
+          return JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '{}');
+        } catch (e) {
+          return {};
+        }
+      }
+
+      function writeStored(data) {
+        try {
+          sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        } catch (e) {}
+      }
+
+      var attribution = readStored();
+      if (!attribution.captured) {
+        var params = new URLSearchParams(window.location.search);
+        attribution = {
+          captured: true,
+          referrer: document.referrer || '',
+          landing_page: window.location.pathname,
+        };
+        UTM_KEYS.forEach(function (key) {
+          var value = params.get(key);
+          if (value) attribution[key] = value;
+        });
+        writeStored(attribution);
+      }
+
+      var fieldMap = {
+        utm_source: 'access-utm-source',
+        utm_medium: 'access-utm-medium',
+        utm_campaign: 'access-utm-campaign',
+        utm_term: 'access-utm-term',
+        utm_content: 'access-utm-content',
+        referrer: 'access-referrer',
+        landing_page: 'access-landing-page',
+      };
+
+      Object.keys(fieldMap).forEach(function (key) {
+        var el = document.getElementById(fieldMap[key]);
+        if (el && attribution[key]) el.value = attribution[key];
+      });
+    })();
+  </script>
 </body>
 </html>
