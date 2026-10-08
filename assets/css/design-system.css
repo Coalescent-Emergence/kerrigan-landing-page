@@ -1649,3 +1649,46 @@ tr:nth-child(even) .danger-container::after,
   font-weight: 700;
   letter-spacing: 0.1em;
 }
+
+/* ==========================================================================
+   * ARTICLES
+   * ========================================================================== */
+.article-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--wp-space-4);
+}
+
+.article-list-title {
+  margin: var(--wp-space-2) 0;
+}
+
+.article-list-title a {
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.article-list-title a:hover,
+.article-list-title a:focus-visible {
+  color: var(--color-accent-primary);
+}
+
+.article-list-desc {
+  color: var(--color-text-secondary);
+  margin-bottom: 0;
+}
+
+.article-meta {
+  font-family: var(--font-code);
+  font-size: var(--wp-text-xs);
+  color: var(--color-text-secondary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.article-back {
+  font-size: var(--wp-text-sm);
+  color: var(--color-accent-secondary);
+}

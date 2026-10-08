@@ -1,0 +1,33 @@
+{{ define "main" }}
+
+<nav class="site-nav">
+  {{ partial "logo.html" . }}
+</nav>
+
+<section class="legal-shell">
+  <div class="section-container" style="max-width:860px;margin:0 auto;">
+    <h1 class="section-title" style="margin-bottom:var(--wp-space-3);">{{ .Title }}</h1>
+    {{ with .Description }}<p class="section-sub" style="margin:0 0 var(--wp-space-8);">{{ . }}</p>{{ end }}
+
+    {{ $pages := .Pages.ByDate.Reverse }}
+    {{ if $pages }}
+    <ol class="article-list">
+      {{ range $pages }}
+      <li class="sacred-card article-list-item">
+        <time class="article-meta" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+        <h2 class="card-title article-list-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+        {{ with .Description }}<p class="article-list-desc">{{ . }}</p>{{ end }}
+      </li>
+      {{ end }}
+    </ol>
+    {{ else }}
+    <div class="legal-card sacred-card">
+      <p class="legal-content" style="margin:0;">Articles are coming. Check back soon.</p>
+    </div>
+    {{ end }}
+  </div>
+</section>
+
+{{ partial "site-footer.html" . }}
+
+{{ end }}
