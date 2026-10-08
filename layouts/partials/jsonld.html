@@ -1,0 +1,46 @@
+{{/* Structured data. Organization on every page; Article for pages in the
+     articles section; VideoObject when front matter carries a `video` map.
+     Nothing here declares the home page's own address: the home page has no
+     canonical or og:url on purpose (see baseof.html), and only Organization,
+     whose url is the company's, renders there. */}}
+{{ $logo := .Site.Params.ogImage | absURL }}
+{{ $org := dict
+  "@context" "https://schema.org"
+  "@type" "Organization"
+  "name" "LatentWorx"
+  "url" "https://latentworx.com/"
+  "logo" $logo
+}}
+<script type="application/ld+json">{{ $org | jsonify | safeJS }}</script>
+
+{{ $description := .Site.Params.description }}{{ with .Description }}{{ $description = . }}{{ end }}
+{{ $image := .Site.Params.ogImage }}{{ with .Params.image }}{{ $image = . }}{{ end }}
+
+{{ if and .IsPage (eq .Section "articles") }}
+{{ $publisher := dict "@type" "Organization" "name" "LatentWorx" "logo" (dict "@type" "ImageObject" "url" $logo) }}
+{{ $article := dict
+  "@context" "https://schema.org"
+  "@type" "Article"
+  "headline" .Title
+  "description" $description
+  "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")
+  "author" (dict "@type" "Organization" "name" "LatentWorx" "url" "https://latentworx.com/")
+  "publisher" $publisher
+  "image" ($image | absURL)
+  "mainEntityOfPage" (dict "@type" "WebPage" "@id" .Permalink)
+}}
+{{ if not .Lastmod.IsZero }}{{ $article = merge $article (dict "dateModified" (.Lastmod.Format "2006-01-02T15:04:05Z07:00")) }}{{ end }}
+{{ with .Keywords }}{{ $article = merge $article (dict "keywords" (delimit . ", ")) }}{{ end }}
+<script type="application/ld+json">{{ $article | jsonify | safeJS }}</script>
+{{ end }}
+
+{{/* Hugo lowercases front-matter keys, so thumbnailUrl arrives as thumbnailurl. */}}
+{{ with .Params.video }}
+{{ $v := dict "@context" "https://schema.org" "@type" "VideoObject" "name" (.name | default $.Title) "description" (.description | default $description) }}
+{{ with .thumbnailurl }}{{ $v = merge $v (dict "thumbnailUrl" (. | absURL)) }}{{ end }}
+{{ with .uploaddate }}{{ $v = merge $v (dict "uploadDate" (time.Format "2006-01-02T15:04:05Z07:00" .)) }}{{ end }}
+{{ with .duration }}{{ $v = merge $v (dict "duration" .) }}{{ end }}
+{{ with .contenturl }}{{ $v = merge $v (dict "contentUrl" (. | absURL)) }}{{ end }}
+{{ with .embedurl }}{{ $v = merge $v (dict "embedUrl" .) }}{{ end }}
+<script type="application/ld+json">{{ $v | jsonify | safeJS }}</script>
+{{ end }}
