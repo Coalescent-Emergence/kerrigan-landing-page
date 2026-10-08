@@ -8,12 +8,15 @@
   <title>{{ if .IsHome }}{{ .Site.Title }} — {{ .Site.Params.tagline }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
   <meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
   {{ with .Keywords }}<meta name="keywords" content="{{ delimit . ", " }}">{{ end }}
-  <link rel="canonical" href="{{ .Permalink }}">
+  {{/* The home page declares no canonical or og:url. LinkedIn points a post's
+       preview card at the declared address, which dropped the post's tags from
+       every card click (found 2026-10-08). Other pages keep theirs. */}}
+  {{ if not .IsHome }}<link rel="canonical" href="{{ .Permalink }}">{{ end }}
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
   {{/* ── Open Graph ──────────────────────────────── */}}
   <meta property="og:type" content="website">
-  <meta property="og:url" content="{{ .Permalink }}">
+  {{ if not .IsHome }}<meta property="og:url" content="{{ .Permalink }}">{{ end }}
   <meta property="og:title" content="{{ .Title }}">
   <meta property="og:description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
   <meta property="og:image" content="{{ .Site.Params.ogImage | absURL }}">
@@ -184,6 +187,14 @@
         } catch (e) {}
       }
 
+      function referrerHost(ref) {
+        try {
+          return new URL(ref).hostname;
+        } catch (e) {
+          return '';
+        }
+      }
+
       var attribution = readStored();
       if (!attribution.captured) {
         var params = new URLSearchParams(window.location.search);
@@ -196,6 +207,12 @@
           var value = params.get(key);
           if (value) attribution[key] = value;
         });
+        // No tags on arrival but the visitor came from LinkedIn: name the source
+        // and say it was inferred, so it is never mistaken for a tagged click.
+        if (!attribution.utm_source && /(^|\.)(linkedin\.com|lnkd\.in)$/.test(referrerHost(attribution.referrer))) {
+          attribution.utm_source = 'linkedin';
+          attribution.utm_medium = 'inferred-from-referrer';
+        }
         writeStored(attribution);
       }
 
