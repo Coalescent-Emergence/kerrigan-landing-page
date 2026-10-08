@@ -1,0 +1,49 @@
+{{/* Two modes.
+     Self-hosted: {{< video src="/video/x.mp4" poster="/img/x.jpg" captions="/video/x.vtt" >}}
+     YouTube:     {{< video youtube="ID" title="..." [poster="/img/x.jpg"] >}}
+     The YouTube mode loads nothing from YouTube until the visitor clicks: the
+     iframe (youtube-nocookie.com) is swapped in by a small inline script. The
+     preview image is the given poster, else YouTube's thumbnail, lazy-loaded. */}}
+{{ $title := .Get "title" | default "Video" }}
+{{ with .Get "youtube" }}
+  {{ $id := . }}
+  {{ $poster := printf "https://i.ytimg.com/vi/%s/hqdefault.jpg" $id }}
+  {{ with $.Get "poster" }}{{ $poster = . | relURL }}{{ end }}
+  <figure class="video-embed">
+    <button type="button" class="video-facade" data-youtube-id="{{ $id }}" data-title="{{ $title }}" aria-label="Play video: {{ $title }}">
+      <img src="{{ $poster }}" alt="" loading="lazy" decoding="async" width="480" height="360">
+      <span class="video-play" aria-hidden="true">&#9654;</span>
+    </button>
+    {{ with $.Get "title" }}<figcaption class="video-caption">{{ . }}</figcaption>{{ end }}
+  </figure>
+  {{ if not ($.Page.Store.Get "videoFacadeScript") }}
+  {{ $.Page.Store.Set "videoFacadeScript" true }}
+  <script>
+    document.addEventListener('click', function (event) {
+      var btn = event.target.closest('.video-facade');
+      if (!btn) return;
+      var iframe = document.createElement('iframe');
+      iframe.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(btn.dataset.youtubeId) + '?autoplay=1&rel=0';
+      iframe.title = btn.dataset.title || 'Video';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.className = 'video-frame';
+      btn.replaceWith(iframe);
+      iframe.focus();
+    });
+  </script>
+  {{ end }}
+{{ else }}
+  {{ with .Get "src" }}
+  <figure class="video-embed">
+    <video class="video-frame" controls preload="none" playsinline{{ with $.Get "poster" }} poster="{{ . | relURL }}"{{ end }}{{ with $.Get "title" }} aria-label="{{ . }}"{{ end }}>
+      <source src="{{ . | relURL }}"{{ if strings.HasSuffix . ".webm" }} type="video/webm"{{ else if strings.HasSuffix . ".mp4" }} type="video/mp4"{{ end }}>
+      {{ with $.Get "captions" }}<track kind="captions" srclang="en" label="English" src="{{ . | relURL }}" default>{{ end }}
+      Your browser cannot play this video. <a href="{{ . | relURL }}">Download it</a>.
+    </video>
+    {{ with $.Get "title" }}<figcaption class="video-caption">{{ . }}</figcaption>{{ end }}
+  </figure>
+  {{ else }}
+  {{ errorf "video shortcode needs src= or youtube= (%s)" $.Position }}
+  {{ end }}
+{{ end }}
