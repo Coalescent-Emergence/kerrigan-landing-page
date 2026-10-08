@@ -12,6 +12,7 @@
        preview card at the declared address, which dropped the post's tags from
        every card click (found 2026-10-08). Other pages keep theirs. */}}
   {{ if not .IsHome }}<link rel="canonical" href="{{ .Permalink }}">{{ end }}
+  {{ if .Params.noindex }}<meta name="robots" content="noindex">{{ end }}
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
   {{/* ── Open Graph ──────────────────────────────── */}}
