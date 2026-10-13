@@ -72,6 +72,17 @@
   </div>
 </section>
 {{ else }}
+{{/* Unfinished-page gate: a page built from content/*.md through this generic
+     template cannot publish while it still carries an unfilled owner-value
+     marker. The two agreement documents at /legal/baa/ and /legal/qsoa/ are
+     NOT rendered through this template (they use layouts/legal/single.html,
+     reading static/legal/*.md directly) and are deliberately exempt: the app
+     enforces the same rejection on those files at the point it shows them to
+     a customer, so they are allowed to carry [[OWNER_ markers here. */}}
+{{ $rendered := printf "%s" .Content }}
+{{ if in $rendered "[[OWNER_" }}
+  {{ errorf "%s still contains an unfilled [[OWNER_ marker and cannot be published. Fill every marker (see legal/clickthrough/OWNER-VALUES.md) before merging." .File.Path }}
+{{ end }}
 <section class="legal-shell">
   <div class="section-container" style="max-width:860px;margin:0 auto;">
     <h1 class="section-title" style="margin-bottom:var(--wp-space-6);">{{ .Title }}</h1>
@@ -92,7 +103,9 @@
   </div>
   <nav class="footer-links">
     <a href="/privacy">Privacy Policy</a>
+    <a href="/terms">Terms of Service</a>
     <a href="/refunds">Refunds &amp; Cancellation</a>
+    <a href="/legal/">Agreements</a>
   </nav>
   <span class="footer-copy" style="margin-bottom: 0.5rem; display: block;">Kerrigan&trade; is a trademark of LatentWorx LTD.</span>
   <span class="footer-copy">© 2026 LatentWorx LTD. All rights reserved.</span>
