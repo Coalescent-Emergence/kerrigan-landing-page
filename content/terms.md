@@ -12,7 +12,7 @@ If you use the Service on behalf of a clinic, practice or program, you are confi
 {{< /legalcard >}}
 
 {{< legalcard title="2. Accounts and sign-in" >}}
-You create an account by completing sign-up through the Service. There are no passwords: you sign in with a single-use link sent to the account email address. Keep that inbox secure — anyone who can read it can sign in as you.
+You create an account by completing sign-up through the Service. You sign in with a single-use link sent to the account email address. Keep that inbox secure — anyone who can read it can sign in as you.
 
 You are responsible for the accuracy of the information on your account and for activity that happens under it. Tell us right away if you believe your account email has been compromised.
 {{< /legalcard >}}
@@ -28,9 +28,9 @@ Current plans and prices are posted on the [pricing section](/#pricing) of this 
 {{< /legalcard >}}
 
 {{< legalcard title="5. Billing conduct" >}}
-We will never charge you without your consent. Automatic renewal is never on by default for a subscription — it is only ever active if you turn it on. We will not charge a renewal without telling you first.
+Nothing is charged until you add a card, and adding a card is how you agree to a paid subscription that renews automatically each month. A trial with no card ends on its own and is never charged. Before your first charge after a trial, and before each monthly renewal, our payment provider (Stripe) emails a reminder to your account email address.
 
-Billing is monthly. If you ask for a refund within 7 days of a charge, you get a full refund; after 7 days, a refund is prorated for the unused part of that billing period. Cancelling your subscription is no harder than signing up for it. Full detail on renewals, cancellation and refunds is on the [Refunds, Renewals and Cancellation](/refunds) page, which forms part of these Terms.
+Billing is monthly. If you ask for a refund within 7 days of a charge, you get a full refund; after 7 days, a refund is prorated for the unused part of that billing period. You cancel from the billing page in the app, which opens our payment provider's customer portal, or by emailing [support@latentworx.com](mailto:support@latentworx.com) and we will cancel it for you. Cancelling stops future charges. Full detail on renewals, cancellation and refunds is on the [Refunds, Renewals and Cancellation](/refunds) page, which forms part of these Terms.
 {{< /legalcard >}}
 
 {{< legalcard title="6. Acceptable use" >}}

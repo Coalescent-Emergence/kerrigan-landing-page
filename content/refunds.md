@@ -5,8 +5,8 @@ description: "How Kerrigan handles trials, renewals, cancellation and refunds."
 
 **Last Updated:** October 12, 2026
 
-{{< legalcard title="1. Where this stands today" >}}
-Self-serve signup is not open yet, and accounts are set up by hand. Until that changes, everything on this page is handled by a person through our [contact form](/#access).
+{{< legalcard title="1. Who handles this" >}}
+Refunds and any billing question are handled by a person. Email [support@latentworx.com](mailto:support@latentworx.com) or use the [contact form](/#access).
 {{< /legalcard >}}
 
 {{< legalcard title="2. Trial" >}}
@@ -14,17 +14,17 @@ Every plan starts with a 14-day free trial. We do not ask for a card to start it
 {{< /legalcard >}}
 
 {{< legalcard title="3. Plans" >}}
-Billing is monthly only. Founder is $69.99 a month for the first ten clinicians, held for as long as the account stays open. Solo is $99.99 a month. Neither plan caps the number of notes you write. See [current pricing](/#pricing).
+Billing is monthly only. Founder is $69.99 a month for the first ten accounts, and the price stays the same for as long as that subscription stays active. Solo is $99.99 a month. Neither plan caps the number of notes you write. See [current pricing](/#pricing).
 {{< /legalcard >}}
 
 {{< legalcard title="4. Renewals" >}}
-We never charge a renewal without your consent. Automatic renewal is never on by default — it happens only if you opt in. We will not charge a renewal without telling you first.
+Nothing is charged until you add a card. Adding a card is how you agree to a paid subscription, and it then renews automatically each month. A trial with no card is never charged. Before your first charge after a trial, and before each monthly renewal, our payment provider (Stripe) emails a reminder to your account email address.
 {{< /legalcard >}}
 
 {{< legalcard title="5. Cancellation" >}}
-Cancelling is no harder than signing up. Today you cancel the same way you sign up: send us a note through the [contact form](/#access). Billing, including cancellation, will move to your account page in the app.
+Cancel from the billing page in the app, which opens our payment provider's customer portal. If you would rather not use it, email [support@latentworx.com](mailto:support@latentworx.com) and we will cancel it for you. Cancelling stops future charges.
 {{< /legalcard >}}
 
 {{< legalcard title="6. Refunds" >}}
-Ask and you get one. A refund requested within 7 days of the charge is full; after 7 days it is prorated for the unused part of the billing period. Ask through the [contact form](/#access).
+Ask and you get one. A refund requested within 7 days of the charge is full; after 7 days it is prorated for the unused part of the billing period. Ask by emailing [support@latentworx.com](mailto:support@latentworx.com) or through the [contact form](/#access); we process refunds by hand.
 {{< /legalcard >}}
