@@ -20,6 +20,12 @@
     <div class="legal-card sacred-card">
       <div class="legal-content">
         {{ $raw := readFile .Params.rawSource }}
+        {{/* Exhibit B (safeguards) is never published on this site: owner
+             decision 2026-10-16, on request only. A re-copy of the full
+             agreement from the legal repo fails the build here. */}}
+        {{ if or (in $raw "Safeguards Operating Today") (in $raw "Not in Place as of the Effective Date") }}
+          {{ errorf "%s carries the full Exhibit B (safeguards), which is not published. Replace it with the on-request notice (static/legal/README.md)." .Params.rawSource }}
+        {{ end }}
         {{ $raw | markdownify }}
       </div>
     </div>

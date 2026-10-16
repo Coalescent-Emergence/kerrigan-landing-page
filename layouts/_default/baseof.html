@@ -6,6 +6,7 @@
 
   {{/* ── SEO ─────────────────────────────────────── */}}
   <title>{{ if .IsHome }}{{ .Site.Title }} — {{ .Site.Params.tagline }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+  {{ if .Params.noindex }}<meta name="robots" content="noindex">{{ end }}
   <meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
   {{ with .Keywords }}<meta name="keywords" content="{{ delimit . ", " }}">{{ end }}
   {{/* The home page declares no canonical or og:url. LinkedIn points a post's

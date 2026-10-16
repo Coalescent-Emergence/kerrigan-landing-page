@@ -1,7 +1,11 @@
 # /legal/ — agreement documents the app loads
 
-`baa.md` and `qsoa.md` in this directory are byte-for-byte copies of
-`LatentWorx-Beck/legal/clickthrough/{baa,qsoa}.md`. **These two files are what
+`qsoa.md` in this directory is a byte-for-byte copy of
+`LatentWorx-Beck/legal/clickthrough/qsoa.md`. `baa.md` is a copy of
+`clickthrough/baa.md` with Exhibit B (safeguards) replaced by a short
+on-request notice: Exhibit B is never published here (owner decision
+2026-10-16). The build fails if the full Exhibit B is copied back in. The app
+must load the full BAA, Exhibit B included, from a private source. **These two files are what
 customers accept.** Editing one and merging that change changes the agreement
 for every existing customer, who must re-accept it before their next
 recording (see that repo's `clickthrough/README.md`).
