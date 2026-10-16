@@ -1,0 +1,45 @@
+{{ define "main" }}
+
+{{/* This page has NO [[OWNER_ build-gate check (see layouts/_default/single.html
+     for the one that applies to ordinary content pages). That is deliberate:
+     static/legal/{baa,qsoa}.md are allowed to carry [[OWNER_...]] markers
+     until the founder fills in OWNER-VALUES.md, because the Kerrigan app
+     enforces the same rejection at the point it would show one of these
+     documents to a customer. This page renders whatever is in the file,
+     markers and all, so a visitor who finds this URL today sees the same
+     unfinished state the app would refuse to show a customer — not a
+     falsely-finished copy. */}}
+
+<!-- Minimal nav -->
+<nav class="site-nav">
+  {{ partial "logo.html" . }}
+</nav>
+
+<section class="legal-shell">
+  <div class="section-container" style="max-width:860px;margin:0 auto;">
+    <div class="legal-card sacred-card">
+      <div class="legal-content">
+        {{ $raw := readFile .Params.rawSource }}
+        {{ $raw | markdownify }}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-brand">
+    {{ partial "logo.html" . }}
+    <span class="footer-brand-copy" style="margin-top: 8px;">by LatentWorx LTD</span>
+  </div>
+  <nav class="footer-links">
+    <a href="/privacy">Privacy Policy</a>
+    <a href="/terms">Terms of Service</a>
+    <a href="/refunds">Refunds &amp; Cancellation</a>
+    <a href="/legal/">Agreements</a>
+  </nav>
+  <span class="footer-copy" style="margin-bottom: 0.5rem; display: block;">Kerrigan&trade; is a trademark of LatentWorx LTD.</span>
+  <span class="footer-copy">© 2026 LatentWorx LTD. All rights reserved.</span>
+</footer>
+
+{{ end }}
