@@ -2,7 +2,7 @@
 
 This Business Associate Agreement ("**BAA**") is entered into on the date Customer accepts it electronically through the Services, as LatentWorx's records show (the "**Effective Date**"), between:
 
-- **LatentWorx, Ltd.**, a [[OWNER_LATENTWORX_STATE]] company with its principal address at [[OWNER_LATENTWORX_ADDRESS]] ("**LatentWorx**"); and
+- **LatentWorx, Ltd.**, a Delaware company ("**LatentWorx**"); and
 - **[[CUSTOMER_LEGAL_NAME]]**, a [[CUSTOMER_ENTITY_TYPE_AND_STATE]] with its principal address at [[CUSTOMER_ADDRESS]] ("**Customer**").
 
 LatentWorx and Customer are each a "**Party**" and together the "**Parties**."
@@ -141,7 +141,7 @@ LatentWorx will:
 
 5.3 **New Subcontractors.** LatentWorx will give Customer at least thirty (30) days' written notice before a new Subcontractor creates, receives, maintains or transmits Customer's PHI, by notice under Section 12.5 with an updated Exhibit C. No PHI will reach the new Subcontractor before that period ends unless Customer consents in writing. If Customer objects in writing within that period on reasonable privacy or security grounds, the Parties will discuss the objection in good faith, and LatentWorx will not permit the new Subcontractor to handle Customer's PHI while the objection is unresolved. If the Parties cannot resolve it, Customer may terminate this BAA and the Underlying Agreement by written notice given within thirty (30) days after the discussions end. On that termination LatentWorx will refund prepaid fees for the unused term and provide the return under Section 9.1 at no charge; the Underlying Agreement governs any other refund. If a change is needed urgently to address a security risk or to comply with law, LatentWorx may make it on shorter notice, given as soon as practicable, and Customer's termination right under this Section still applies. In every case, Section 5.2 must be met before the new Subcontractor receives PHI.
 
-5.4 **Data location.** LatentWorx stores and processes PHI only in AWS regions located in the United States, and requires each Subcontractor that stores or processes PHI to do the same. Transit of encrypted data, and connections a user initiates from outside the United States, are not storage or processing. Exhibit A, Section 3.2 describes the regions and the edge network. LatentWorx will not move storage or processing of PHI outside the United States without Customer's prior written consent.
+5.4 **Data location.** LatentWorx stores and processes PHI only in AWS regions located in the United States, and requires each Subcontractor that stores or processes PHI to do the same. Transit of data, and connections a user initiates from outside the United States, are not storage or processing. Handling of a connection by the AWS network services described in Exhibit A, Section 3.1(b), at the AWS location that receives it, may occur outside the United States and is the only exception to this Section. Exhibit A, Section 3.2 describes the regions. LatentWorx will not move storage or processing of PHI outside the United States without Customer's prior written consent.
 
 5.5 **Subcontractor breaches.** If LatentWorx learns of a pattern of activity or practice of a Subcontractor that is a material breach of its agreement, LatentWorx will take reasonable steps to cure the breach or end the violation and, if those steps are unsuccessful, will terminate the arrangement if feasible (45 C.F.R. § 164.504(e)(1)(iii)). LatentWorx is responsible to Customer for its Subcontractors' compliance with the terms this BAA requires them to accept, subject to Section 10. LatentWorx itself remains bound by Section 2.10 for any Part 2 Record in a Subcontractor's possession.
 
@@ -173,7 +173,7 @@ Customer will:
 
 7.6 **Part 2 status.** State through the Services, when accepting this BAA, whether Customer is a part 2 program under 42 C.F.R. Part 2, and tell LatentWorx in writing before that changes. If Customer is a part 2 program, Customer will not send Part 2 Records through the Services until Customer has accepted the QSOA through the Services.
 
-7.7 **Departed users.** Tell LatentWorx in writing within [[OWNER_USER_DEPROVISION_NOTICE_DAYS]] business days after any user's access to the Services should end, so that LatentWorx can remove that user's access.
+7.7 **Intentionally omitted.**
 
 7.8 **Exported PHI.** Be responsible for notes, transcripts and other PHI after a Customer user copies or exports them out of the Services. LatentWorx is not responsible for PHI once it has left the Services at a Customer user's direction.
 
@@ -211,7 +211,7 @@ Customer will:
 
 in each case to the extent arising from the Indemnifying Party's breach of this BAA or violation of HIPAA or 42 C.F.R. Part 2, and excluding any portion caused by the indemnified Party's own breach, negligence, misconduct or instructions. For a third-party claim, the indemnified Party will give prompt written notice of the claim, let the Indemnifying Party control the defense and settlement (but no settlement may admit fault for, or bind, the indemnified Party without its consent), and cooperate at the Indemnifying Party's expense. Any investigation, audit or proceeding by the Secretary, a state attorney general or another regulator against the indemnified Party is controlled by the indemnified Party, at the Indemnifying Party's expense to the extent this Section 10.1 provides, subject to Section 10.2.
 
-10.2 **Shared, mutual cap.** Each Party's total aggregate liability arising out of or relating to PHI or Part 2 Records under this BAA, the QSOA and the Underlying Agreement combined, including under Section 10.1, will not exceed the greater of (a) the fees Customer paid to LatentWorx under the Underlying Agreement in the twelve (12) months before the first event giving rise to any liability, and (b) [[OWNER_LIABILITY_SUPERCAP]]. This cap is not additional to any cap in the Underlying Agreement: liability subject to it does not also count against, and is not also recoverable under, any cap in the Underlying Agreement.
+10.2 **Shared, mutual cap.** Each Party's total aggregate liability arising out of or relating to PHI or Part 2 Records under this BAA, the QSOA and the Underlying Agreement combined, including under Section 10.1, will not exceed the fees Customer paid to LatentWorx under the Underlying Agreement in the twelve (12) months before the first event giving rise to any liability. This cap is not additional to any cap in the Underlying Agreement: liability subject to it does not also count against, and is not also recoverable under, any cap in the Underlying Agreement.
 
 10.3 **Exclusion of consequential damages.** Neither Party is liable to the other for any indirect, incidental, special, consequential or punitive damages, or lost profits or revenue, arising out of or relating to this BAA, even if advised of their possibility. This Section 10.3 does not limit amounts payable under Section 10.1.
 
@@ -239,9 +239,9 @@ in each case to the extent arising from the Indemnifying Party's breach of this 
 
 12.4 **Precedence.** In any conflict concerning the use, disclosure or safeguarding of PHI, this BAA controls over the Underlying Agreement to the extent of the conflict. The Underlying Agreement controls on every other matter, including warranties, disclaimers and dispute resolution, and on limitations of liability except as Section 10 provides. On any matter governed by 42 C.F.R. Part 2, the QSOA controls over this BAA.
 
-12.5 **Notices.** Notices under this BAA must be in writing and are effective when delivered by email with confirmation of transmission, by a recognized courier, or by certified mail, to:
+12.5 **Notices.** Notices under this BAA must be in writing. Notices to LatentWorx must be sent by email; notices to Customer may be sent by email, by a recognized courier, or by certified mail. An email notice is effective when sent with confirmation of transmission, and any other notice when delivered. Notices go to:
 
-- **LatentWorx:** [[OWNER_LATENTWORX_ADDRESS]]; email support@latentworx.com. Security Incident and Breach matters: [[OWNER_LATENTWORX_SECURITY_CONTACT]].
+- **LatentWorx:** email support@latentworx.com. Security Incident and Breach matters: security@latentworx.com.
 - **Customer:** Attention [[CUSTOMER_SIGNATORY_NAME]], [[CUSTOMER_ADDRESS]]; email: the email address registered to Customer's account in the Services.
 
 Notices under Section 4 may also be given by the channels in Exhibit D. A Party may change its notice details by notice to the other.
@@ -252,9 +252,9 @@ Notices under Section 4 may also be given by the channels in Exhibit D. A Party 
 
 12.8 **Governing law and venue.**
 
-(a) **Governing law.** This BAA is governed by federal law and, to the extent not preempted, the laws of the State of [[OWNER_LATENTWORX_STATE]], without regard to its conflict-of-laws rules.
+(a) **Governing law.** This BAA is governed by federal law and, to the extent not preempted, the laws of the State of Delaware, without regard to its conflict-of-laws rules.
 
-(b) **Venue.** Venue: the state and federal courts located in [[OWNER_VENUE]].
+(b) **Venue.** Venue: the state and federal courts located in Pierce County, Washington, which have exclusive jurisdiction over any dispute arising out of or relating to this BAA.
 
 12.9 **Entire agreement.** This BAA, with its Exhibits, is the Parties' entire agreement on its subject and supersedes any earlier business associate agreement or terms between them on that subject, other than the QSOA. It may be amended only in writing signed by both Parties, except that LatentWorx may update Exhibit C under Section 5.3.
 
@@ -270,7 +270,7 @@ Notices under Section 4 may also be given by the channels in Exhibit D. A Party 
 
 **Acceptance by Customer.** Customer accepts this BAA electronically through the Services. Acceptance by [[CUSTOMER_SIGNATORY_NAME]], [[CUSTOMER_SIGNATORY_TITLE]], on the date LatentWorx's records show for that acceptance, binds Customer. That date is the Effective Date.
 
-**LatentWorx.** LatentWorx offers this BAA through the Services on the authority of [[OWNER_LATENTWORX_SIGNATORY_NAME]], [[OWNER_LATENTWORX_SIGNATORY_TITLE]], and is bound by it when it makes the Services available to Customer after that acceptance. No separate signature by LatentWorx is required.
+**LatentWorx.** LatentWorx offers this BAA through the Services and is bound by it when it makes the Services available to Customer after that acceptance. No separate signature by LatentWorx is required.
 
 **References to signing.** In this BAA and its Exhibits, a reference to an agreement being signed or executed, to a signature page or to a date of signature means its acceptance in this way and the date of that acceptance.
 
@@ -326,7 +326,7 @@ This Exhibit A forms part of the Business Associate Agreement above between Late
 
 (a) **Clinician's browser**: the clinician starts a live session or imports a session transcript.
 
-(b) **Cloudflare edge**: the connection is routed through Cloudflare, which terminates TLS encryption at its network edge before forwarding the request to LatentWorx's AWS account, and can therefore read the content of the request, including PHI, in unencrypted form at its edge.
+(b) **AWS network**: the connection reaches LatentWorx's AWS account through AWS network services covered by LatentWorx's agreement with AWS (Exhibit C). Those services may end the connection's TLS encryption at the AWS location that receives it, and so handle the content of the request, including PHI, in unencrypted form there, and forward the request to the Services' ingress inside LatentWorx's cluster over a new encrypted connection.
 
 (c) **LatentWorx AWS account**: the compute, storage and inference described in (d) to (i) run in a single-tenant AWS account controlled by LatentWorx.
 
@@ -342,9 +342,7 @@ This Exhibit A forms part of the Business Associate Agreement above between Late
 
 (i) **LLM trace store**: copies of note-generation prompts and outputs are held in an in-cluster trace store (Langfuse), which keeps them in a ClickHouse database on Amazon EBS volumes and in a KMS-encrypted Amazon S3 bucket. A daily job deletes these copies once they are fourteen (14) days old.
 
-3.2 **Data location.** LatentWorx stores and processes PHI and Part 2 Records only in AWS regions located in the United States (us-west-2 and, for AWS Bedrock inference, us-east-1), and requires each Subcontractor storing or processing such records to do the same. Cloudflare's edge, through which encrypted traffic passes and at which it is decrypted, processes traffic at [[OWNER_CLOUDFLARE_PROCESSING_LOCATION]]. Transit of encrypted data, and connections a user initiates from outside the United States, are not storage or processing. LatentWorx will not move storage or processing outside the United States without Customer's prior written consent.
-
-3.3 **Cloudflare.** Cloudflare's role and agreement status are set out in Exhibit C. Its Business Associate Agreement status is [[OWNER_CLOUDFLARE_BAA_STATUS]].
+3.2 **Data location.** LatentWorx stores and processes PHI and Part 2 Records only in AWS regions located in the United States (us-west-2 and, for AWS Bedrock inference, us-east-1), and requires each Subcontractor storing or processing such records to do the same. The AWS network services described in Section 3.1(b) may handle a connection, including in unencrypted form, at the AWS location that receives it, which is not limited to those regions and may be outside the United States. Transit of encrypted data, and connections a user initiates from outside the United States, are not storage or processing. LatentWorx will not move storage or processing outside the United States without Customer's prior written consent.
 
 ### 4. What LatentWorx Does Not Do
 
@@ -378,7 +376,7 @@ This Exhibit B describes the safeguards LatentWorx operates as of the Effective 
 
 (a) **Encryption at rest.** PHI at rest in the production systems listed in Exhibit A is encrypted with AWS KMS.
 
-(b) **Encryption in transit.** Connections from users' browsers to the Cloudflare edge use TLS. Cloudflare decrypts that traffic at its edge (Exhibit A, Section 3.1(b); Exhibit C). Traffic from the edge to LatentWorx's AWS account is not encrypted on the hop from Cloudflare's connector (cloudflared) to the Services' ingress inside LatentWorx's cluster, which is plain HTTP. This Exhibit makes no statement about encryption of traffic inside LatentWorx's cluster.
+(b) **Encryption in transit.** Connections from users' browsers to the Services use TLS. AWS network services that carry the connection may end TLS at the AWS location that receives it and forward it to the Services' ingress inside LatentWorx's cluster over a new TLS connection (Exhibit A, Section 3.1(b); Exhibit C). This Exhibit makes no statement about encryption of traffic inside LatentWorx's cluster.
 
 (c) **Access mediation.** Application access to each stored record and object is mediated by a database row scoped to the customer. Customers are separated logically, not physically, within one AWS account and one cluster, by application and database access scoping. Access to stored PHI is restricted to LatentWorx personnel who need it to operate and support the Services. Those personnel, where they have infrastructure access, can reach all customers' stored data.
 
@@ -410,7 +408,6 @@ The following safeguards are not in place as of the Effective Date. Customer sho
 | Per-tenant storage separation for audio | All customers' audio is held in one bucket without per-tenant prefixes. |
 | IAM privilege separation | One operations IAM key is shared between two roles. |
 | Network policy enforcement in the cluster | Not enforced. |
-| End-to-end encryption past the edge | Cloudflare decrypts PHI at its edge. Cloudflare's BAA status is [[OWNER_CLOUDFLARE_BAA_STATUS]] (Exhibit C). |
 | Third-party security attestation | No third-party security attestation exists. An independent security audit is under consideration; none has been engaged. |
 
 The status of LatentWorx's agreement with AWS is stated in Exhibit C. The status of in-product display of the 42 C.F.R. § 2.32 notice is stated in Exhibit E, Section 2.2, where the QSOA applies.
@@ -443,8 +440,7 @@ This Exhibit C lists each Subcontractor that creates, receives, maintains or tra
 
 | Subcontractor | Role in the data path | Data it can access |
 |---|---|---|
-| Amazon Web Services, Inc. ("**AWS**") | Hosts LatentWorx's AWS account: compute (including the GPU infrastructure for self-hosted transcription and the Kubernetes cluster that runs the PostgreSQL application database and the LLM trace store), Amazon EBS volumes, Amazon S3, AWS Key Management Service, and AWS Bedrock model inference | All categories of PHI and Part 2 Records described in Exhibit A, Section 2 |
-| Cloudflare, Inc. ("**Cloudflare**") | Edge network: terminates TLS for connections to the Services | PHI and Part 2 Records in transit, in unencrypted form at its edge, before they reach LatentWorx's AWS account |
+| Amazon Web Services, Inc. ("**AWS**") | Hosts LatentWorx's AWS account: compute (including the GPU infrastructure for self-hosted transcription and the Kubernetes cluster that runs the PostgreSQL application database and the LLM trace store), Amazon EBS volumes, Amazon S3, AWS Key Management Service, and AWS Bedrock model inference; and carries connections to the Services through AWS network services (Exhibit A, Section 3.1(b)) | All categories of PHI and Part 2 Records described in Exhibit A, Section 2 |
 | None | Not applicable | Not applicable |
 
 #### 1.2 Agreements and commitments
@@ -453,15 +449,14 @@ Each row states the agreement LatentWorx requires from the Subcontractor, that a
 
 | Subcontractor | Agreement required | Agreement status and date | Storage and processing location | No-training term |
 |---|---|---|---|---|
-| AWS | AWS Business Associate Addendum, accepted through AWS Artifact | In place. AWS Business Associate Addendum accepted through AWS Artifact, effective 2026-10-09 | us-west-2; AWS Bedrock inference in us-east-1 | AWS Business Associate Addendum, effective 2026-10-09: on acceptance, the account is opted out of AWS service teams storing and using its Customer Content for service improvement purposes |
-| Cloudflare | Business Associate Agreement | [[OWNER_CLOUDFLARE_BAA_STATUS]] | [[OWNER_CLOUDFLARE_PROCESSING_LOCATION]] | [[OWNER_CLOUDFLARE_DATA_USE_TERM]] |
+| AWS | AWS Business Associate Addendum, accepted through AWS Artifact | In place. AWS Business Associate Addendum accepted through AWS Artifact, effective 2026-10-09 | us-west-2; AWS Bedrock inference in us-east-1; AWS network services at the AWS location that receives a connection (Exhibit A, Section 3.2) | AWS Business Associate Addendum, effective 2026-10-09: on acceptance, the account is opted out of AWS service teams storing and using its Customer Content for service improvement purposes |
 | None | Not applicable | Not applicable | Not applicable | Not applicable |
 
 ### 2. Subcontractor Flow-Down
 
 2.1 LatentWorx will not permit a Subcontractor to create, receive, maintain or transmit PHI or Part 2 Records unless it has first agreed in writing to the same restrictions and conditions that apply to LatentWorx under the BAA, and for Part 2 Records as the QSOA provides, with respect to that information, and to comply with the applicable requirements of Subpart C of 45 C.F.R. Part 164 (45 C.F.R. §§ 164.504(e)(2)(ii)(D), 164.502(e)(1)(ii), 164.308(b)(2), 164.314(a)(2)(i)(B), 164.504(e)(5)). Each Subcontractor listed in Section 1 has executed such an agreement, stated with its date in Section 1.2, as BAA Section 5.1 represents. LatentWorx will not accept PHI or Part 2 Records until this is true.
 
-2.2 LatentWorx treats AWS and Cloudflare as business-associate subcontractors, so its flow-down to them follows 45 C.F.R. § 164.504(e)(5) rather than 42 C.F.R. § 2.33(c). LatentWorx does not represent that any Subcontractor has signed terms specific to 42 C.F.R. Part 2. For Part 2 Records in a Subcontractor's possession, LatentWorx itself remains bound by its duty to resist in judicial proceedings (QSOA Section 6) and its duty not to use records against patients (QSOA Section 5.6).
+2.2 LatentWorx treats AWS as a business-associate subcontractor, so its flow-down to it follows 45 C.F.R. § 164.504(e)(5) rather than 42 C.F.R. § 2.33(c). LatentWorx does not represent that any Subcontractor has signed terms specific to 42 C.F.R. Part 2. For Part 2 Records in a Subcontractor's possession, LatentWorx itself remains bound by its duty to resist in judicial proceedings (QSOA Section 6) and its duty not to use records against patients (QSOA Section 5.6).
 
 2.3 If LatentWorx engages a Subcontractor that is not itself a business associate for the service it provides, LatentWorx's written contract with it will also meet 42 C.F.R. § 2.33(c) for any Part 2 Records it receives.
 
@@ -483,8 +478,8 @@ This Exhibit D sets out the procedure for LatentWorx's reporting obligations und
 
 | Side | Role | Name | Contact |
 |---|---|---|---|
-| LatentWorx | Privacy and security contact | [[OWNER_LATENTWORX_SECURITY_CONTACT_NAME]] | [[OWNER_LATENTWORX_SECURITY_CONTACT]] |
-| LatentWorx | Notice address | — | support@latentworx.com / [[OWNER_LATENTWORX_ADDRESS]] |
+| LatentWorx | Privacy and security contact | Privacy and Security Officer | security@latentworx.com |
+| LatentWorx | Notice address | — | support@latentworx.com (email only) |
 | Customer | Privacy officer | [[CUSTOMER_SIGNATORY_NAME]], [[CUSTOMER_SIGNATORY_TITLE]], until Customer names another person by notice | The email address registered to Customer's account in the Services |
 | Customer | Notice address | — | [[CUSTOMER_ADDRESS]] |
 

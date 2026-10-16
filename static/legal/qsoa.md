@@ -2,7 +2,7 @@
 
 This Qualified Service Organization Agreement (this "**QSOA**") is entered into on the date the Program accepts it electronically through the Services, as LatentWorx's records show (the "**Effective Date**"), between:
 
-- **LatentWorx, Ltd.**, a [[OWNER_LATENTWORX_STATE]] company, [[OWNER_LATENTWORX_ADDRESS]] ("**LatentWorx**"); and
+- **LatentWorx, Ltd.**, a Delaware company ("**LatentWorx**"); and
 - **[[CUSTOMER_LEGAL_NAME]]**, a [[CUSTOMER_ENTITY_TYPE_AND_STATE]], [[CUSTOMER_ADDRESS]] (the "**Program**").
 
 LatentWorx and the Program are each a "**Party**" and together the "**Parties**."
@@ -242,9 +242,9 @@ Even then, the definition does not include medication prescription and monitorin
 
 15.1 **No third-party beneficiaries.** Nothing in this QSOA gives any person other than the Parties any right or remedy, including patients.
 
-15.2 **Notices.** Notices under this QSOA must be in writing and sent by email with a copy by mail or courier:
+15.2 **Notices.** Notices under this QSOA must be in writing and sent by email. Notices to the Program are also sent with a copy by mail or courier:
 
-- to LatentWorx: [[OWNER_LATENTWORX_ADDRESS]], support@latentworx.com; privacy and security matters also to [[OWNER_LATENTWORX_SECURITY_CONTACT]];
+- to LatentWorx: support@latentworx.com; privacy and security matters also to security@latentworx.com;
 - to the Program: [[CUSTOMER_ADDRESS]], the email address registered to the Program's account in the Services, attention [[CUSTOMER_SIGNATORY_NAME]].
 
 Security Incident, Breach and Legal Demand notices may be given by email alone, and are effective when sent.
@@ -253,7 +253,7 @@ Security Incident, Breach and Legal Demand notices may be given by email alone, 
 
 15.4 **Interpretation.** Any ambiguity is resolved in favor of the meaning that lets both Parties comply with Part 2.
 
-15.5 **Governing law and venue.** This QSOA is governed by federal law, and otherwise by the laws of [[OWNER_LATENTWORX_STATE]], without regard to conflict-of-laws rules. Venue is as the BAA provides.
+15.5 **Governing law and venue.** This QSOA is governed by federal law, and otherwise by the laws of the State of Delaware, without regard to conflict-of-laws rules. Venue is as the BAA provides.
 
 15.6 **Amendment and waiver.** Except under Section 14, this QSOA may be amended only in a writing signed by both Parties. A waiver is effective only in writing.
 
@@ -265,7 +265,7 @@ Security Incident, Breach and Legal Demand notices may be given by email alone, 
 
 **Acceptance by the Program.** The Program accepts this QSOA electronically through the Services. Acceptance by [[CUSTOMER_SIGNATORY_NAME]], [[CUSTOMER_SIGNATORY_TITLE]], on the date LatentWorx's records show for that acceptance, binds the Program. That date is the Effective Date.
 
-**LatentWorx.** LatentWorx offers this QSOA through the Services on the authority of [[OWNER_LATENTWORX_SIGNATORY_NAME]], [[OWNER_LATENTWORX_SIGNATORY_TITLE]], and is bound by it when it makes the Services available to the Program after that acceptance. No separate signature by LatentWorx is required.
+**LatentWorx.** LatentWorx offers this QSOA through the Services and is bound by it when it makes the Services available to the Program after that acceptance. No separate signature by LatentWorx is required.
 
 **References to signing.** In this QSOA and Exhibit E, a reference to an agreement being signed or executed, to a signature page or to a date of signature means its acceptance in this way and the date of that acceptance.
 

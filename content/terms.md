@@ -48,7 +48,7 @@ We work to keep the Service available and performing well, but we do not guarant
 {{< /legalcard >}}
 
 {{< legalcard title="9. Limitation of liability" >}}
-To the extent the law allows, neither party's total liability arising out of these Terms will exceed the greater of (a) the fees you paid us in the 12 months before the claim, or (b) [[OWNER_LIABILITY_SUPERCAP]]. Neither party is liable for indirect, incidental, consequential, special or punitive damages, or for lost profits or lost data, even if advised they were possible. This section does not limit liability where the law does not allow a limit, and does not limit either party's obligations under the BAA or QSOA for a breach involving protected health information or Part 2 records.
+To the extent the law allows, neither party's total liability arising out of these Terms will exceed the fees you paid us in the 12 months before the claim. Neither party is liable for indirect, incidental, consequential, special or punitive damages, or for lost profits or lost data, even if advised they were possible. This section does not limit liability where the law does not allow a limit, and does not limit either party's obligations under the BAA or QSOA for a breach involving protected health information or Part 2 records.
 {{< /legalcard >}}
 
 {{< legalcard title="10. Termination" >}}
@@ -60,9 +60,9 @@ We may update these Terms as the Service changes. If we make a material change, 
 {{< /legalcard >}}
 
 {{< legalcard title="12. Governing law" >}}
-These Terms are governed by the laws of the State of [[OWNER_LATENTWORX_STATE]], without regard to its conflict-of-laws rules.
+These Terms are governed by the laws of the State of Delaware, without regard to its conflict-of-laws rules.
 {{< /legalcard >}}
 
 {{< legalcard title="13. Contact" >}}
-Questions about these Terms, or about your account or data, go to [support@latentworx.com](mailto:support@latentworx.com). LatentWorx, Ltd. is organized in the State of [[OWNER_LATENTWORX_STATE]], with its principal address at [[OWNER_LATENTWORX_ADDRESS]].
+Questions about these Terms, or about your account or data, go to [support@latentworx.com](mailto:support@latentworx.com). LatentWorx, Ltd. is organized in the State of Delaware.
 {{< /legalcard >}}
