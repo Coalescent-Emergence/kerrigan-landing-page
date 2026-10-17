@@ -1,4 +1,10 @@
 {{ define "main" }}
+{{- /* Signup gate: one variable, read by the nav, hero, directors and access sections
+       as well as pricing. While off, every button leads to the request-access form. */ -}}
+{{- $signups := and .Site.Params.signupsEnabled (ne .Site.Params.signupUrl "") -}}
+{{- if and .Site.Params.signupsEnabled (eq .Site.Params.signupUrl "") -}}
+  {{- errorf "signupsEnabled is true but signupUrl is empty: refusing to build a Subscribe button with no destination." -}}
+{{- end -}}
 
 <!-- ┌──────────────────────────────────────────────────────────────┐
      │  NAV                                                         │
@@ -6,9 +12,15 @@
 <nav class="site-nav">
   {{ partial "logo.html" . }}
   <a href="#pricing" class="nav-link" data-analytics-event="nav_click" data-analytics-label="nav_pricing">Pricing</a>
+  {{- if $signups }}
+  <a href="{{ .Site.Params.signupUrl }}" class="btn btn-primary" data-analytics-event="cta_click_subscribe" data-analytics-label="nav_start_trial">
+    Start 14-day trial
+  </a>
+  {{- else }}
   <a href="#access" class="btn btn-primary" data-analytics-event="cta_click_access" data-analytics-label="nav_request_access">
     Request access
   </a>
+  {{- end }}
 </nav>
 
 
@@ -36,9 +48,15 @@
       </p>
 
       <div class="hero-cta-row">
+        {{- if $signups }}
+        <a href="{{ .Site.Params.signupUrl }}" class="btn btn-primary" data-analytics-event="cta_click_subscribe" data-analytics-label="hero_start_trial">
+          Start 14-day trial →
+        </a>
+        {{- else }}
         <a href="#access" class="btn btn-primary" data-analytics-event="cta_click_access" data-analytics-label="hero_request_access">
           Request access →
         </a>
+        {{- end }}
         <a href="#how-it-works" class="btn btn-secondary" data-analytics-event="cta_click_how_it_works" data-analytics-label="hero_see_how_it_works">
           See how it works ↓
         </a>
@@ -478,9 +496,15 @@
           under review — so we publish what Kerrigan does, what it does not do yet,
           and which vendors touch your data.
         </p>
+        {{- if $signups }}
+        <a href="#access" class="btn btn-primary directors-cta" data-analytics-event="cta_click_access" data-analytics-label="directors_talk_to_us">
+          Talk to us about your program →
+        </a>
+        {{- else }}
         <a href="#access" class="btn btn-primary directors-cta" data-analytics-event="cta_click_access" data-analytics-label="directors_request_access">
           Request access →
         </a>
+        {{- end }}
       </div>
 
       <div>
@@ -514,10 +538,6 @@
 <!-- ┌──────────────────────────────────────────────────────────────┐
      │  PRICING — two rungs. Buttons gated on params.signupsEnabled  │
      └──────────────────────────────────────────────────────────────┘ -->
-{{- $signups := and .Site.Params.signupsEnabled (ne .Site.Params.signupUrl "") -}}
-{{- if and .Site.Params.signupsEnabled (eq .Site.Params.signupUrl "") -}}
-  {{- errorf "signupsEnabled is true but signupUrl is empty: refusing to build a Subscribe button with no destination." -}}
-{{- end -}}
 <section id="pricing" class="section-pad">
   <div class="section-container">
     <div class="pricing-intro">
@@ -583,11 +603,23 @@
 </section>
 
 <!-- ┌──────────────────────────────────────────────────────────────┐
-     │  ACCESS — hand-provisioned while the signup gate is closed   │
+     │  ACCESS — a person for programs; hand-provisioning while     │
+     │  the signup gate is closed                                   │
      └──────────────────────────────────────────────────────────────┘ -->
 <section id="access" class="section-pad">
   <div class="section-container">
     <div class="pricing-intro">
+      {{- if $signups }}
+      <span class="section-eyebrow">Programs</span>
+      <h2 class="section-title">
+        Running a program? Talk to us.
+      </h2>
+      <p class="section-sub pricing-sub">
+        The trial above is for a single clinician. If you run a program or a group
+        practice &mdash; several clinicians, a compliance officer, a Part 2
+        determination to make &mdash; tell us about it and a person will reply.
+      </p>
+      {{- else }}
       <span class="section-eyebrow">Access</span>
       <h2 class="section-title">
         Request access.
@@ -597,6 +629,7 @@
         treatment clinicians. Accounts are provisioned by hand so we can walk each
         one through setup. Tell us about your practice and we will get back to you.
       </p>
+      {{- end }}
     </div>
 
     <div class="sacred-card" style="max-width:560px;margin:var(--wp-space-8) auto 0;">
@@ -606,7 +639,7 @@
       <form action="https://formspree.io/f/{{ .Site.Params.formspreeID }}"
             method="POST">
 
-        <input type="hidden" name="_subject" value="Kerrigan access request">
+        <input type="hidden" name="_subject" value="{{ if $signups }}Kerrigan program inquiry{{ else }}Kerrigan access request{{ end }}">
         <input type="hidden" name="_next" value="{{ absURL "thank-you/" }}">
 
         {{/* Populated client-side from first-touch attribution; see baseof.html */}}
@@ -647,7 +680,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary" style="width:100%;">
-          Request access
+          {{ if $signups }}Talk to us{{ else }}Request access{{ end }}
         </button>
 
         <p style="font-size:var(--wp-text-xs);margin:var(--wp-space-4) 0 0;text-align:center;">
