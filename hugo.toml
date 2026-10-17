@@ -22,8 +22,12 @@ disableKinds = ["taxonomy", "term"]
   #
   # To go live, BOTH must be set: signupsEnabled = true AND a non-empty
   # signupUrl. Enabling with an empty signupUrl fails the build.
-  signupsEnabled = false
-  signupUrl = ""
+  #
+  # DO NOT MERGE until production signup has been proven end to end
+  # (real signup -> real charge/trial start -> app access) and the owner
+  # says to open the gate. See PR body.
+  signupsEnabled = true
+  signupUrl = "https://ui.latentworx.com/signup"
   twitterHandle = "@LatentWorx"
   ogImage = "/img/og-kerrigan.png"
 
