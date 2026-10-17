@@ -5,6 +5,7 @@
   {{ partial "logo.html" . }}
 </nav>
 
+{{- $signups := and .Site.Params.signupsEnabled (ne .Site.Params.signupUrl "") -}}
 {{ if eq .RelPermalink "/thank-you/" }}
 <section class="section-pad">
   <div class="section-container" style="max-width:680px;margin:0 auto;text-align:center;">
@@ -14,14 +15,14 @@
       ✓
     </div>
 
-    <span class="section-eyebrow">Request Received</span>
+    <span class="section-eyebrow">{{ if $signups }}Message Received{{ else }}Request Received{{ end }}</span>
 
     <h1 class="section-title">
       We got it.
     </h1>
 
     <p class="section-sub" style="margin:var(--wp-space-5) auto 0;">
-      A real person reads every access request. We'll reply from a LatentWorx
+      A real person reads every {{ if $signups }}message{{ else }}access request{{ end }}. We'll reply from a LatentWorx
       address — usually within a few business days. No drip sequence, no spam.
     </p>
 
@@ -45,8 +46,8 @@
           Hands-on setup
         </h3>
         <p style="font-size:var(--wp-text-xs);margin-bottom:0;">
-          Pilot accounts are provisioned by hand. We walk you through the first
-          session rather than dropping you into an empty app.
+          {{ if $signups }}We set up a program's accounts with you and walk your clinicians{{ else }}Pilot accounts are provisioned by hand. We walk you{{ end }} through the first
+          session rather than dropping {{ if $signups }}them{{ else }}you{{ end }} into an empty app.
         </p>
       </div>
 
