@@ -12,7 +12,7 @@ disableKinds = ["taxonomy", "term"]
   formspreeID = "mwvreeno"
 
   # ── GO-LIVE GATE ──────────────────────────────────────────────────────────
-  # Self-serve signup is OFF. While false, the pricing section renders prices
+  # Self-serve signup is ON since 2026-10-17. While false, the pricing section renders prices
   # only and routes to the Request-access form: no Subscribe button, no signup
   # URL, and no checkout code reach the built HTML at all.
   #
@@ -22,10 +22,6 @@ disableKinds = ["taxonomy", "term"]
   #
   # To go live, BOTH must be set: signupsEnabled = true AND a non-empty
   # signupUrl. Enabling with an empty signupUrl fails the build.
-  #
-  # DO NOT MERGE until production signup has been proven end to end
-  # (real signup -> real charge/trial start -> app access) and the owner
-  # says to open the gate. See PR body.
   signupsEnabled = true
   signupUrl = "https://ui.latentworx.com/signup"
   twitterHandle = "@LatentWorx"
