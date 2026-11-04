@@ -2,7 +2,7 @@
 title: "AI documentation tools and 42 CFR Part 2: what clinical directors need to verify"
 description: "42 CFR Part 2 AI scribe guide: what the rule says about records, QSOs and vendors, and what to verify with your compliance officer."
 date: 2026-10-08
-lastmod: 2026-10-08
+lastmod: 2026-11-04
 slug: ai-scribes-42-cfr-part-2
 keywords:
   - 42 CFR Part 2 AI scribe
@@ -124,9 +124,9 @@ We cover most of these, with what good and bad answers sound like, in [the quest
 
 We build Kerrigan for this buyer, so here is where it stands, gaps included.
 
-Kerrigan is built for 42 CFR Part 2 workflows: attested revisions, versioned notes, an immutable admin audit log, and ID-tagged deletion with a recorded reason. Your client's voice is transcribed on our own GPUs and never reaches a third-party transcription API. Note inference runs inside our own AWS account, under a BAA whose terms bar training on your data, so AWS is in the path for note drafting. What we tell your counselors: "Nothing changes your note without you approving the diff."
+Kerrigan is built for 42 CFR Part 2 workflows: attested revisions, versioned notes, an immutable admin audit log, and ID-tagged deletion with a recorded reason. Audio recorded in Kerrigan is transcribed on our own GPUs and never sent to a third-party transcription API. A transcript you import from Zoom was made by Zoom. Note generation runs on AWS Bedrock inside our own AWS account, under our AWS Business Associate Addendum. AWS states it does not use Bedrock inputs or outputs to train models. AWS is in the path for note drafting. What we tell your counselors: "Nothing changes your note in Kerrigan without you approving the diff."
 
-What is not done yet. Note access is logged; logging of transcript and audio reads is written but not yet confirmed running in production. Session audio is kept, and no automatic purge enforces a retention period yet. On QSOA and BAA paperwork, our founder will answer you directly.
+What is not done yet. Note reads, and transcript and audio reads from the session screen, are logged. The session list, imported transcripts and chat drafts are not logged yet, so score that answer as partial. Session audio is kept, and no automatic purge enforces a retention period yet. On QSOA and BAA paperwork, our founder will answer you directly, and our agreements are published at [/legal/](/legal/).
 
 None of that settles anything for your program. Your compliance officer does. Bring this list and ask us every question on it.
 
