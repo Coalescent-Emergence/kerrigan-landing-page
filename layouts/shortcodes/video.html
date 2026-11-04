@@ -1,14 +1,14 @@
 {{/* Two modes.
      Self-hosted: {{< video src="/video/x.mp4" poster="/img/x.jpg" captions="/video/x.vtt" >}}
-     YouTube:     {{< video youtube="ID" title="..." [poster="/img/x.jpg"] >}}
+     YouTube:     {{< video youtube="ID" title="..." poster="/img/x.jpg" >}}
      The YouTube mode loads nothing from YouTube until the visitor clicks: the
      iframe (youtube-nocookie.com) is swapped in by a small inline script. The
-     preview image is the given poster, else YouTube's thumbnail, lazy-loaded. */}}
+     preview image is the required poster, lazy-loaded. */}}
 {{ $title := .Get "title" | default "Video" }}
 {{ with .Get "youtube" }}
   {{ $id := . }}
-  {{ $poster := printf "https://i.ytimg.com/vi/%s/hqdefault.jpg" $id }}
-  {{ with $.Get "poster" }}{{ $poster = . | relURL }}{{ end }}
+  {{ $poster := "" }}
+  {{ with $.Get "poster" }}{{ $poster = . | relURL }}{{ else }}{{ errorf "video shortcode in youtube mode needs poster= (%s)" $.Position }}{{ end }}
   <figure class="video-embed">
     <button type="button" class="video-facade" data-youtube-id="{{ $id }}" data-title="{{ $title }}" aria-label="Play video: {{ $title }}">
       <img src="{{ $poster }}" alt="" loading="lazy" decoding="async" width="480" height="360">
@@ -23,7 +23,7 @@
       var btn = event.target.closest('.video-facade');
       if (!btn) return;
       var iframe = document.createElement('iframe');
-      iframe.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(btn.dataset.youtubeId) + '?autoplay=1&rel=0';
+      iframe.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(btn.dataset.youtubeId) + '?autoplay=1&rel=0&cc_load_policy=1';
       iframe.title = btn.dataset.title || 'Video';
       iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
       iframe.allowFullscreen = true;
