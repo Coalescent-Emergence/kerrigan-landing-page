@@ -1,0 +1,25 @@
+{{ define "main" }}
+
+<!-- Minimal nav -->
+<nav class="site-nav">
+  {{ partial "logo.html" . }}
+</nav>
+
+<section class="legal-shell">
+  <div class="section-container" style="max-width:860px;margin:0 auto;">
+    <h1 class="section-title" style="margin-bottom:var(--wp-space-6);">{{ .Title }}</h1>
+    <div class="legal-card sacred-card">
+      <div class="legal-content">
+        {{ .Content }}
+        <ul>
+          <li><a href="/legal/baa/">Business Associate Agreement</a></li>
+          <li><a href="/legal/qsoa/">Qualified Service Organization Agreement</a> (42 C.F.R. Part 2)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{ partial "site-footer.html" . }}
+
+{{ end }}

@@ -40,4 +40,4 @@ This repository participates in the LatentWorx-LTD planning and agent framework:
 
 Changes beyond routine content updates should be linked to a control-plane child issue:
 - Initiative ID prefix: `MVP-U5` (Pilot Launch umbrella)
-- PR template is at [`.github/PULL_REQUEST_TEMPLATE.md`](./.github/PULL_REQUEST_TEMPLATE.md)
+- PR template is at [`.github/pull_request_template.md`](./.github/pull_request_template.md)
