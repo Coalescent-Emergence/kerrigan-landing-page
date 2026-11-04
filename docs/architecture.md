@@ -53,7 +53,7 @@ kerrigan-landing-page/
 │   └── decisions/             # Repository-specific ADRs
 └── .github/
     ├── copilot-instructions.md
-    ├── PULL_REQUEST_TEMPLATE.md
+    ├── pull_request_template.md
     └── workflows/
         └── deploy.yml         # Hugo build + GitHub Pages deploy
 ```

@@ -104,7 +104,7 @@ Piece plans live in `mvp-control-plane/docs/implementation/pieces/`.
 
 ### PR checklist
 
-See [`.github/PULL_REQUEST_TEMPLATE.md`](../.github/PULL_REQUEST_TEMPLATE.md).
+See [`.github/pull_request_template.md`](../.github/pull_request_template.md).
 
 ### ADRs
 

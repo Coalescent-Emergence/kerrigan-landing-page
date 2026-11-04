@@ -26,6 +26,13 @@ Delete any folded block that would be empty.
 - **Check it worked:** <one command or query, and the expected result>
 - **Rollback:** <revert, re-pin, or why revert is not safe>
 
+## Site checks
+- [ ] `hugo --gc --minify` builds clean (nothing builds before merge; merging publishes the site)
+- [ ] Changed pages checked in a browser at desktop and phone width
+- [ ] No PHI, secrets or private agreement text (the repo history is public; a revert does not un-publish)
+- [ ] SEO: description and keywords, canonical and og, noindex and sitemap right for changed pages
+- [ ] `docs/decisions/` edits follow MADR
+
 <details><summary>Approach</summary>
 
 <Alternatives considered or rejected, and why.>
