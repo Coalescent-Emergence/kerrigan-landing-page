@@ -1,0 +1,21 @@
+{{/* Root content adapter (Kerrigan tracker 249). It adds the /finder/ page
+     only while site.Params.finderEnabled is the boolean true. The test is
+     "eq ... true" on purpose: HUGO_PARAMS_FINDERENABLED=false arrives as the
+     string "false", which a plain "if" treats as true. It lives at the content
+     root because a content/finder/ adapter leaked an empty section page. */}}
+{{ if eq site.Params.finderEnabled true }}
+  {{ if not site.Params.finderApiBase }}
+    {{ errorf "finderEnabled is true but finderApiBase is empty: refusing to build a search page with no API." }}
+  {{ end }}
+  {{ $.AddPage (dict
+      "path" "finder"
+      "kind" "page"
+      "title" "Find a placement"
+      "layout" "finder"
+      "sitemap" (dict "disable" true)
+      "params" (dict
+        "noindex" true
+        "description" "Search Virginia addiction and mental health treatment listed on FindTreatment.gov, on a list and a map."
+      )
+  ) }}
+{{ end }}
