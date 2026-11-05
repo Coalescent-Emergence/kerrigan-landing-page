@@ -24,6 +24,15 @@ disableKinds = ["taxonomy", "term"]
   # signupUrl. Enabling with an empty signupUrl fails the build.
   signupsEnabled = true
   signupUrl = "https://ui.latentworx.com/signup"
+
+  # ── FINDER GATE (Kerrigan tracker 249, epic 191) ─────────────────────────
+  # While false, no finder page, header link or finder script is built.
+  # Surface reduction only. Use a real boolean, never the HUGO_PARAMS_ env var
+  # ("false" from env is a truthy string). The finder's sign-up link reuses
+  # signupUrl above. To run it locally, pass an untracked extra config file:
+  #   hugo server --config hugo.toml,/tmp/finder-on.toml
+  finderEnabled = false
+  finderApiBase = "https://api.jhax.dev/finder"
   twitterHandle = "@LatentWorx"
   ogImage = "/img/og-kerrigan.png"
 

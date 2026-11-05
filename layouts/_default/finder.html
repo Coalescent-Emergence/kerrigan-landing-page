@@ -1,0 +1,143 @@
+{{ define "main" }}
+{{- /* Search page (Kerrigan tracker 249). Built only through content/_content.gotmpl,
+       which adds this page while finderEnabled is the boolean true. Data comes from
+       the kerr-finder API at finderApiBase; assets/js/finder.js renders it. */ -}}
+{{- $signups := and site.Params.signupsEnabled (ne site.Params.signupUrl "") -}}
+{{- $signupHref := cond $signups site.Params.signupUrl "/#access" -}}
+{{- $css := resources.Get "css/finder.css" | minify | fingerprint -}}
+{{- $js := resources.Get "js/finder.js" | minify | fingerprint -}}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.css" integrity="sha384-uTttxo/aOKbdE5RlD/SPzSDoDmNvGlUYPjONi2MN/b7c9HPSvW07OIuyP7uL6jxK" crossorigin="anonymous">
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+
+<nav class="site-nav">
+  {{ partial "logo.html" . }}
+  {{ partial "finder-nav-link.html" (dict "current" true) }}
+</nav>
+
+<main id="finder" class="finder" data-api="{{ site.Params.finderApiBase }}" data-signup="{{ $signupHref }}">
+  <header class="finder-head">
+    <h1 class="finder-title">Find a placement</h1>
+    <p class="finder-lede">Virginia addiction and mental health treatment as listed on FindTreatment.gov. Where the directory says nothing about something you filter on, the result still shows, marked <strong>Unknown</strong>. Call the program to confirm before you refer.</p>
+  </header>
+
+  <details class="finder-filters" open>
+    <summary>Filters</summary>
+    <form id="finder-form" class="finder-form" autocomplete="off">
+      <div class="finder-row">
+        <label class="finder-text">Name or town contains
+          <input type="search" name="q" maxlength="100">
+        </label>
+        <label class="finder-text">Town (exact)
+          <input type="text" name="town" maxlength="60">
+        </label>
+      </div>
+
+      <fieldset><legend>Type of care</legend>
+        <label><input type="checkbox" name="domain" value="addiction"> Addiction</label>
+        <label><input type="checkbox" name="domain" value="mental_health"> Mental health</label>
+        <label><input type="checkbox" name="domain" value="recovery_housing"> Recovery housing</label>
+        <label><input type="checkbox" name="domain" value="crisis"> Crisis</label>
+      </fieldset>
+
+      <fieldset><legend>Setting</legend>
+        <label><input type="checkbox" name="setting" value="outpatient"> Outpatient</label>
+        <label><input type="checkbox" name="setting" value="intensive_outpatient"> Intensive outpatient</label>
+        <label><input type="checkbox" name="setting" value="day_treatment"> Day treatment / partial hospitalization</label>
+        <label><input type="checkbox" name="setting" value="residential"> Residential</label>
+        <label><input type="checkbox" name="setting" value="hospital_inpatient"> Hospital inpatient</label>
+        <label><input type="checkbox" name="setting" value="otp"> Opioid treatment program</label>
+      </fieldset>
+
+      <fieldset><legend>Withdrawal management</legend>
+        <label><input type="checkbox" name="wm" value="yes"> Offers withdrawal management (detox)</label>
+      </fieldset>
+
+      <fieldset><legend>Length of stay</legend>
+        <label><input type="checkbox" name="length" value="short_term"> Short-term residential</label>
+        <label><input type="checkbox" name="length" value="long_term"> Long-term residential</label>
+      </fieldset>
+
+      <fieldset><legend>Payment the program reports</legend>
+        <label><input type="checkbox" name="payment" value="medicaid"> Medicaid</label>
+        <label><input type="checkbox" name="payment" value="medicare"> Medicare</label>
+        <label><input type="checkbox" name="payment" value="private"> Private insurance</label>
+        <label><input type="checkbox" name="payment" value="sliding_fee"> Sliding fee scale</label>
+        <label><input type="checkbox" name="payment" value="state_funded"> State funded</label>
+      </fieldset>
+
+      <fieldset><legend>Medication for opioid use disorder</legend>
+        <label><input type="radio" name="moud" value="" checked> Any</label>
+        <label><input type="radio" name="moud" value="yes"> Accepts clients on methadone or buprenorphine</label>
+        <label><input type="radio" name="moud" value="no"> Does not</label>
+      </fieldset>
+
+      <fieldset><legend>Co-occurring disorders</legend>
+        <label><input type="checkbox" name="co_occurring" value="yes"> Treats co-occurring mental health and substance use</label>
+      </fieldset>
+
+      <fieldset><legend>Gender served</legend>
+        <label><input type="checkbox" name="gender" value="female"> Female</label>
+        <label><input type="checkbox" name="gender" value="male"> Male</label>
+      </fieldset>
+
+      <fieldset><legend>Age</legend>
+        <label><input type="checkbox" name="age" value="children"> Children / adolescents</label>
+        <label><input type="checkbox" name="age" value="young_adults"> Young adults</label>
+        <label><input type="checkbox" name="age" value="adults"> Adults</label>
+        <label><input type="checkbox" name="age" value="seniors"> Seniors</label>
+      </fieldset>
+
+      <fieldset><legend>Population</legend>
+        <label><input type="checkbox" name="population" value="pregnant_postpartum"> Pregnant / postpartum</label>
+        <label><input type="checkbox" name="population" value="veterans"> Veterans</label>
+        <label><input type="checkbox" name="population" value="justice_involved"> Justice involved</label>
+        <label><input type="checkbox" name="population" value="adolescents"> Adolescents</label>
+      </fieldset>
+
+      <fieldset><legend>Language</legend>
+        <label><input type="checkbox" name="language" value="spanish"> Spanish</label>
+        <label><input type="checkbox" name="language" value="asl"> Sign language (ASL)</label>
+        <label><input type="checkbox" name="language" value="arabic"> Arabic</label>
+        <label><input type="checkbox" name="language" value="chinese"> Chinese</label>
+        <label><input type="checkbox" name="language" value="russian"> Russian</label>
+      </fieldset>
+
+      <div class="finder-actions">
+        <button type="submit" class="btn btn-primary">Search</button>
+        <button type="reset" class="btn btn-secondary">Clear</button>
+      </div>
+    </form>
+  </details>
+
+  <section id="finder-crisis" class="finder-crisis" role="note" aria-label="Emergency and crisis numbers" hidden>
+    <p><strong>A medical emergency: call 911 or go to the nearest emergency department.</strong></p>
+    <p><strong>Crisis: call or text <a href="tel:988">988</a>.</strong></p>
+    <ul id="finder-crisis-extra" class="finder-crisis-extra"></ul>
+  </section>
+
+  <p id="finder-status" class="finder-status" role="status" aria-live="polite"></p>
+  <p id="finder-error" class="finder-error" role="alert" hidden></p>
+
+  <div class="finder-grid">
+    <section class="finder-list" aria-label="Results">
+      <ol id="finder-full" class="finder-results"></ol>
+      <h2 id="finder-partial-head" class="finder-partial-head" hidden></h2>
+      <ol id="finder-partial" class="finder-results"></ol>
+      <button id="finder-more" type="button" class="btn btn-secondary finder-more" hidden>Show more</button>
+    </section>
+    <section class="finder-mapwrap" aria-label="Map">
+      <div id="finder-map" class="finder-map"></div>
+      <button id="finder-area" type="button" class="btn btn-secondary finder-area" hidden>Search this map area</button>
+      <p id="finder-map-note" class="finder-map-note" hidden></p>
+    </section>
+  </div>
+
+  <p class="finder-signup">
+    <a href="{{ $signupHref }}" class="btn btn-primary" data-analytics-event="cta_click_subscribe" data-analytics-label="finder_signup">Save lists and see residence addresses with a Kerrigan account</a>
+  </p>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.js" integrity="sha384-5+cfbwT0iiub6VsQAdn6yz16nr6sDiQoHx6tm4O8OVYXHYOxcffFmCJBL0dgdvGp" crossorigin="anonymous" defer></script>
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{ end }}
