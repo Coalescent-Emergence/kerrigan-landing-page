@@ -173,7 +173,7 @@
     hideError();
     statusEl.textContent = 'Searching…';
     moreBtn.hidden = true;
-    if (!append) updateCrisis(state.params);
+    var cseq = append ? 0 : resetCrisis(state.params);
 
     return getJSON('/v1/search', q).then(function (body) {
       if (seq !== state.seq) return;
@@ -181,6 +181,10 @@
       state.total = typeof body.total === 'number' ? body.total : results.length;
       state.results = state.results.concat(results);
       state.offset = state.results.length;
+      if (!append) {
+        if (map && !parseBbox(params.bbox)) fitToResults(results);
+        lookupCrisis(params, cseq, crisisPoint(params, body, results));
+      }
       render();
     }).catch(function (err) {
       if (seq !== state.seq) return;
@@ -352,16 +356,64 @@
   }
 
   var crisisSeq = 0;
-  function updateCrisis(p) {
+  var crisisOn = false;
+
+  function median(a) {
+    var v = a.slice().sort(function (x, y) { return x - y; });
+    var m = v.length >> 1;
+    return v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2;
+  }
+
+  function validPoint(o) {
+    return !!o && typeof o.lat === 'number' && typeof o.lng === 'number' &&
+      Math.abs(o.lat) <= 90 && Math.abs(o.lng) <= 180;
+  }
+
+  // Where the crisis lookup is made, in order: the centre of a valid URL bbox;
+  // the origin the search itself resolved (body.origin {lat, lng}, if the API
+  // sends one); the median lat and median lng of the results that have
+  // coordinates; else null (statewide lines only, never the map's centre).
+  function crisisPoint(p, body, results) {
+    var c = bboxCentre(p.bbox);
+    if (c) return c;
+    if (body && validPoint(body.origin)) return { lat: body.origin.lat, lng: body.origin.lng };
+    var pts = results.filter(function (r) { return validPoint(r); });
+    if (!pts.length) return null;
+    return {
+      lat: median(pts.map(function (r) { return r.lat; })),
+      lng: median(pts.map(function (r) { return r.lng; }))
+    };
+  }
+
+  function fitToResults(results) {
+    var pts = results.filter(function (r) { return validPoint(r); });
+    if (!pts.length) return;
+    var w = Infinity, s = Infinity, e = -Infinity, n = -Infinity;
+    pts.forEach(function (r) {
+      w = Math.min(w, r.lng); e = Math.max(e, r.lng);
+      s = Math.min(s, r.lat); n = Math.max(n, r.lat);
+    });
+    try { map.fitBounds([[w, s], [e, n]], { animate: false, padding: 40, maxZoom: 13 }); } catch (err) { /* keep the current view */ }
+  }
+
+  // Called when a new search starts: show or hide the strip and drop stale
+  // content. Returns the sequence number the later lookup must still match.
+  function resetCrisis(p) {
     var cseq = ++crisisSeq;
     var domains = p.domain ? p.domain.split(',') : [];
-    var on = domains.indexOf('crisis') !== -1 || p.wm === 'yes';
-    crisisEl.hidden = !on;
+    crisisOn = domains.indexOf('crisis') !== -1 || p.wm === 'yes';
+    crisisEl.hidden = !crisisOn;
     clear(crisisExtra);
     crisisHead.hidden = true;
-    if (!on) return;
-    var c = bboxCentre(p.bbox) || (map ? map.getCenter() : { lng: VA_CENTER[0], lat: VA_CENTER[1] });
-    getJSON('/v1/crisis', { lat: c.lat.toFixed(4), lng: c.lng.toFixed(4) }).then(function (body) {
+    return cseq;
+  }
+
+  // Called once the first page of results is in. c is null when there is no
+  // point: the call then carries no lat/lng and the API answers statewide.
+  function lookupCrisis(p, cseq, c) {
+    if (!crisisOn || cseq !== crisisSeq) return;
+    var q = c ? { lat: c.lat.toFixed(4), lng: c.lng.toFixed(4) } : {};
+    getJSON('/v1/crisis', q).then(function (body) {
       if (!body || p !== state.params || cseq !== crisisSeq) return;
       clear(crisisExtra);
       var loc = body.locality, auth = body.authority;
