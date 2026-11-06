@@ -230,6 +230,8 @@
 .finder-facets dd { margin: 0; }
 .finder-unknown { color: var(--color-status-warning-text); }
 
+.finder-cert { margin: 0 0 var(--wp-space-1); font-size: var(--wp-text-sm); font-weight: 600; }
+.finder-support { margin: 0 0 var(--wp-space-1); font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
 .finder-checked { margin: 0; font-size: var(--wp-text-xs); color: var(--color-text-secondary); }
 .finder-unk-note { margin: 0 0 var(--wp-space-2); font-size: var(--wp-text-xs); color: var(--color-status-warning-text); }
 
