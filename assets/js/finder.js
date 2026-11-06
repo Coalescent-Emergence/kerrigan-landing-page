@@ -255,7 +255,11 @@
       li.appendChild(ph);
     }
 
-    if (typeof r.lat !== 'number' || typeof r.lng !== 'number') {
+    if (r.kind === 'residence') {
+      li.appendChild(el('p', 'finder-cert finder-cert-' + ((r.certification || {}).status || 'none'),
+        window.FinderCert.certLine(r.certification)));
+      if (r.support_level) li.appendChild(el('p', 'finder-support', 'Support level: ' + r.support_level));
+    } else if (typeof r.lat !== 'number' || typeof r.lng !== 'number') {
       li.appendChild(el('p', 'finder-nopin', 'No map location'));
     }
 
@@ -266,7 +270,7 @@
 
     var dl = el('dl', 'finder-facets');
     var facets = r.facets || {};
-    FACETS.forEach(function (pair) {
+    if (r.kind !== 'residence') FACETS.forEach(function (pair) {
       dl.appendChild(el('dt', null, pair[1]));
       var dd = el('dd');
       facetValue(pair[0], facets[pair[0]]).forEach(function (part, i) {
@@ -275,10 +279,10 @@
       });
       dl.appendChild(dd);
     });
-    li.appendChild(dl);
+    if (r.kind !== 'residence') li.appendChild(dl);
 
     var c = r.checked || {};
-    var line = 'Checked against ' + (c.source || 'FindTreatment.gov') + ' on ' + (c.on || 'an unknown date');
+    var line = 'Checked against ' + (c.source || (r.kind === 'residence' ? 'the DBHDS list' : 'FindTreatment.gov')) + ' on ' + (c.on || 'an unknown date');
     if (c.source_as_of) line += ' (source dated ' + c.source_as_of + ')';
     li.appendChild(el('p', 'finder-checked', line));
     return li;

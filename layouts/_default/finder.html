@@ -5,6 +5,7 @@
 {{- $signups := and site.Params.signupsEnabled (ne site.Params.signupUrl "") -}}
 {{- $signupHref := cond $signups site.Params.signupUrl "/#access" -}}
 {{- $css := resources.Get "css/finder.css" | minify | fingerprint -}}
+{{- $cert := resources.Get "js/finder-cert.js" | minify | fingerprint -}}
 {{- $js := resources.Get "js/finder.js" | minify | fingerprint -}}
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.css" integrity="sha384-uTttxo/aOKbdE5RlD/SPzSDoDmNvGlUYPjONi2MN/b7c9HPSvW07OIuyP7uL6jxK" crossorigin="anonymous">
@@ -140,5 +141,6 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.js" integrity="sha384-5+cfbwT0iiub6VsQAdn6yz16nr6sDiQoHx6tm4O8OVYXHYOxcffFmCJBL0dgdvGp" crossorigin="anonymous" defer></script>
+<script src="{{ $cert.RelPermalink }}" integrity="{{ $cert.Data.Integrity }}" defer></script>
 <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
 {{ end }}
