@@ -1,0 +1,5 @@
+# Dev-only overlay: turns the finder on. Used by deploy/Dockerfile.
+# The production build (.github/workflows/deploy.yml) does not read this file.
+# finderApiBase stays as set in hugo.toml.
+[params]
+  finderEnabled = true
