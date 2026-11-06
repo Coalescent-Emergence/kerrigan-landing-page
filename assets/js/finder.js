@@ -24,6 +24,7 @@
   var mapNote = document.getElementById('finder-map-note');
   var crisisEl = document.getElementById('finder-crisis');
   var crisisExtra = document.getElementById('finder-crisis-extra');
+  var crisisHead = document.getElementById('finder-crisis-head');
 
   // Filters in the API contract, in form order. Multi-valued ones are sent comma-joined.
   var FILTERS = ['q', 'town', 'domain', 'setting', 'wm', 'length', 'payment', 'moud',
@@ -59,6 +60,7 @@
 
   var state = { params: null, offset: 0, total: 0, results: [], bbox: null, seq: 0 };
   var map = null;
+  var initialBbox = '';
   var mapReady = false;
 
   // ── helpers ──────────────────────────────────────────────
@@ -307,19 +309,49 @@
   }
 
   // ── crisis strip ─────────────────────────────────────────
+  // Centre of a "west,south,east,north" bbox as {lat, lng}, or null if it is not one.
+  function bboxCentre(bbox) {
+    var b = String(bbox || '').split(',').map(Number);
+    if (b.length !== 4 || b.some(function (x) { return !isFinite(x); })) return null;
+    return { lng: (b[0] + b[2]) / 2, lat: (b[1] + b[3]) / 2 };
+  }
+
+  // <li> of a label and a tel: link; tail (hours, distance) follows as text.
+  function phoneItem(label, phone, tail) {
+    var li = el('li');
+    if (label) li.appendChild(document.createTextNode(label));
+    if (phone) {
+      var a = el('a', null, phone);
+      a.href = 'tel:' + String(phone).replace(/[^0-9+]/g, '');
+      li.appendChild(a);
+    }
+    if (tail) li.appendChild(document.createTextNode(tail));
+    return li;
+  }
+
   function updateCrisis(p) {
     var domains = p.domain ? p.domain.split(',') : [];
     var on = domains.indexOf('crisis') !== -1 || p.wm === 'yes';
     crisisEl.hidden = !on;
     clear(crisisExtra);
+    crisisHead.hidden = true;
     if (!on) return;
-    var c = map ? map.getCenter() : { lng: VA_CENTER[0], lat: VA_CENTER[1] };
+    var c = bboxCentre(p.bbox) || (map ? map.getCenter() : { lng: VA_CENTER[0], lat: VA_CENTER[1] });
     getJSON('/v1/crisis', { lat: c.lat.toFixed(4), lng: c.lng.toFixed(4) }).then(function (body) {
-      if (!body) return;
-      var items = [].concat(body.lines || [], body.emergency_departments || []);
-      items.forEach(function (it) {
-        var text = [it.name, it.phone, it.town].filter(Boolean).join(' · ');
-        if (text) crisisExtra.appendChild(el('li', null, text));
+      if (!body || p !== state.params) return;
+      var loc = body.locality, auth = body.authority;
+      if (loc && loc.name) {
+        crisisHead.textContent = 'Crisis lines for ' + loc.name + (auth && auth.name ? ' (' + auth.name + ')' : '');
+        crisisHead.hidden = false;
+      }
+      (body.lines || []).forEach(function (ln) {
+        if (ln.kind === '988' || !ln.phone) return; // 988 is fixed page text above
+        crisisExtra.appendChild(phoneItem((ln.name ? ln.name + ': ' : ''), ln.phone, ln.hours ? ' (' + ln.hours + ')' : ''));
+      });
+      (body.emergency_departments || []).slice(0, 3).forEach(function (ed) {
+        var where = [ed.name, ed.town].filter(Boolean).join(', ');
+        var dist = typeof ed.distance_km === 'number' ? ' · ' + ed.distance_km.toFixed(1) + ' km straight-line' : '';
+        crisisExtra.appendChild(phoneItem('Emergency department: ' + where + (ed.phone ? ' · ' : ''), ed.phone, dist));
       });
     }).catch(function () { /* the fixed 911 / 988 text stays; nothing else to add */ });
   }
@@ -379,6 +411,8 @@
       map.on('mouseenter', 'results-pins', function () { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', 'results-pins', function () { map.getCanvas().style.cursor = ''; });
       mapReady = true;
+      var wsen = initialBbox.split(',').map(Number);
+      if (wsen.length === 4 && wsen.every(isFinite)) map.fitBounds([[wsen[0], wsen[1]], [wsen[2], wsen[3]]], { animate: false });
       areaBtn.hidden = false;
       if (state.pending) { setPins(state.pending); state.pending = null; }
     });
@@ -414,6 +448,7 @@
 
   var initial = paramsFromLocation();
   writeForm(initial);
+  initialBbox = initial.bbox || '';
   initMap();
   search(initial, false);
 })();
