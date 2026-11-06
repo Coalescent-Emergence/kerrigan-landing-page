@@ -156,6 +156,8 @@
       });
   }
 
+  var TEL_RE = /^\+?[0-9\s().-]+$/;
+
   function search(params, append) {
     var seq = ++state.seq;
     if (!append) {
@@ -171,7 +173,7 @@
     hideError();
     statusEl.textContent = 'Searching…';
     moreBtn.hidden = true;
-    updateCrisis(state.params);
+    if (!append) updateCrisis(state.params);
 
     return getJSON('/v1/search', q).then(function (body) {
       if (seq !== state.seq) return;
@@ -239,9 +241,13 @@
 
     if (r.kind !== 'residence' && r.phone) {
       var ph = el('p', 'finder-phone');
-      var a = el('a', null, r.phone);
-      a.href = 'tel:' + String(r.phone).replace(/[^0-9+]/g, '');
-      ph.appendChild(a);
+      if (TEL_RE.test(String(r.phone))) {
+        var a = el('a', null, r.phone);
+        a.href = 'tel:' + String(r.phone).replace(/[^0-9+]/g, '');
+        ph.appendChild(a);
+      } else {
+        ph.appendChild(document.createTextNode(String(r.phone)));
+      }
       li.appendChild(ph);
     }
 
@@ -310,9 +316,21 @@
 
   // ── crisis strip ─────────────────────────────────────────
   // Centre of a "west,south,east,north" bbox as {lat, lng}, or null if it is not one.
+  function parseBbox(bbox) {
+    var parts = String(bbox || '').split(',');
+    if (parts.length !== 4) return null;
+    if (parts.some(function (x) { return x.trim() === ''; })) return null;
+    var b = parts.map(Number);
+    if (b.some(function (x) { return !isFinite(x); })) return null;
+    if (b[0] < -180 || b[0] > 180 || b[2] < -180 || b[2] > 180) return null;
+    if (b[1] < -90 || b[1] > 90 || b[3] < -90 || b[3] > 90) return null;
+    if (!(b[0] < b[2]) || !(b[1] < b[3])) return null;
+    return b;
+  }
+
   function bboxCentre(bbox) {
-    var b = String(bbox || '').split(',').map(Number);
-    if (b.length !== 4 || b.some(function (x) { return !isFinite(x); })) return null;
+    var b = parseBbox(bbox);
+    if (!b) return null;
     return { lng: (b[0] + b[2]) / 2, lat: (b[1] + b[3]) / 2 };
   }
 
@@ -321,15 +339,21 @@
     var li = el('li');
     if (label) li.appendChild(document.createTextNode(label));
     if (phone) {
-      var a = el('a', null, phone);
-      a.href = 'tel:' + String(phone).replace(/[^0-9+]/g, '');
-      li.appendChild(a);
+      if (TEL_RE.test(String(phone))) {
+        var a = el('a', null, phone);
+        a.href = 'tel:' + String(phone).replace(/[^0-9+]/g, '');
+        li.appendChild(a);
+      } else {
+        li.appendChild(document.createTextNode(String(phone)));
+      }
     }
     if (tail) li.appendChild(document.createTextNode(tail));
     return li;
   }
 
+  var crisisSeq = 0;
   function updateCrisis(p) {
+    var cseq = ++crisisSeq;
     var domains = p.domain ? p.domain.split(',') : [];
     var on = domains.indexOf('crisis') !== -1 || p.wm === 'yes';
     crisisEl.hidden = !on;
@@ -338,7 +362,8 @@
     if (!on) return;
     var c = bboxCentre(p.bbox) || (map ? map.getCenter() : { lng: VA_CENTER[0], lat: VA_CENTER[1] });
     getJSON('/v1/crisis', { lat: c.lat.toFixed(4), lng: c.lng.toFixed(4) }).then(function (body) {
-      if (!body || p !== state.params) return;
+      if (!body || p !== state.params || cseq !== crisisSeq) return;
+      clear(crisisExtra);
       var loc = body.locality, auth = body.authority;
       if (loc && loc.name) {
         crisisHead.textContent = 'Crisis lines for ' + loc.name + (auth && auth.name ? ' (' + auth.name + ')' : '');
@@ -411,8 +436,10 @@
       map.on('mouseenter', 'results-pins', function () { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', 'results-pins', function () { map.getCanvas().style.cursor = ''; });
       mapReady = true;
-      var wsen = initialBbox.split(',').map(Number);
-      if (wsen.length === 4 && wsen.every(isFinite)) map.fitBounds([[wsen[0], wsen[1]], [wsen[2], wsen[3]]], { animate: false });
+      var wsen = parseBbox(initialBbox);
+      if (wsen) {
+        try { map.fitBounds([[wsen[0], wsen[1]], [wsen[2], wsen[3]]], { animate: false }); } catch (e) { /* bad bbox: keep default view */ }
+      }
       areaBtn.hidden = false;
       if (state.pending) { setPins(state.pending); state.pending = null; }
     });
