@@ -24,6 +24,7 @@
   var mapNote = document.getElementById('finder-map-note');
   var crisisEl = document.getElementById('finder-crisis');
   var crisisExtra = document.getElementById('finder-crisis-extra');
+  var crisisHead = document.getElementById('finder-crisis-head');
 
   // Filters in the API contract, in form order. Multi-valued ones are sent comma-joined.
   var FILTERS = ['q', 'town', 'domain', 'setting', 'wm', 'length', 'payment', 'moud',
@@ -59,6 +60,7 @@
 
   var state = { params: null, offset: 0, total: 0, results: [], bbox: null, seq: 0 };
   var map = null;
+  var initialBbox = '';
   var mapReady = false;
 
   // ── helpers ──────────────────────────────────────────────
@@ -154,6 +156,8 @@
       });
   }
 
+  var TEL_RE = /^\+?[0-9\s().-]+$/;
+
   function search(params, append) {
     var seq = ++state.seq;
     if (!append) {
@@ -169,7 +173,7 @@
     hideError();
     statusEl.textContent = 'Searching…';
     moreBtn.hidden = true;
-    updateCrisis(state.params);
+    var cseq = append ? 0 : resetCrisis(state.params);
 
     return getJSON('/v1/search', q).then(function (body) {
       if (seq !== state.seq) return;
@@ -177,6 +181,10 @@
       state.total = typeof body.total === 'number' ? body.total : results.length;
       state.results = state.results.concat(results);
       state.offset = state.results.length;
+      if (!append) {
+        if (map && !parseBbox(params.bbox)) fitToResults(results);
+        lookupCrisis(params, cseq, crisisPoint(params, body, results));
+      }
       render();
     }).catch(function (err) {
       if (seq !== state.seq) return;
@@ -237,9 +245,13 @@
 
     if (r.kind !== 'residence' && r.phone) {
       var ph = el('p', 'finder-phone');
-      var a = el('a', null, r.phone);
-      a.href = 'tel:' + String(r.phone).replace(/[^0-9+]/g, '');
-      ph.appendChild(a);
+      if (TEL_RE.test(String(r.phone))) {
+        var a = el('a', null, r.phone);
+        a.href = 'tel:' + String(r.phone).replace(/[^0-9+]/g, '');
+        ph.appendChild(a);
+      } else {
+        ph.appendChild(document.createTextNode(String(r.phone)));
+      }
       li.appendChild(ph);
     }
 
@@ -307,19 +319,116 @@
   }
 
   // ── crisis strip ─────────────────────────────────────────
-  function updateCrisis(p) {
+  // Centre of a "west,south,east,north" bbox as {lat, lng}, or null if it is not one.
+  function parseBbox(bbox) {
+    var parts = String(bbox || '').split(',');
+    if (parts.length !== 4) return null;
+    if (parts.some(function (x) { return x.trim() === ''; })) return null;
+    var b = parts.map(Number);
+    if (b.some(function (x) { return !isFinite(x); })) return null;
+    if (b[0] < -180 || b[0] > 180 || b[2] < -180 || b[2] > 180) return null;
+    if (b[1] < -90 || b[1] > 90 || b[3] < -90 || b[3] > 90) return null;
+    if (!(b[0] < b[2]) || !(b[1] < b[3])) return null;
+    return b;
+  }
+
+  function bboxCentre(bbox) {
+    var b = parseBbox(bbox);
+    if (!b) return null;
+    return { lng: (b[0] + b[2]) / 2, lat: (b[1] + b[3]) / 2 };
+  }
+
+  // <li> of a label and a tel: link; tail (hours, distance) follows as text.
+  function phoneItem(label, phone, tail) {
+    var li = el('li');
+    if (label) li.appendChild(document.createTextNode(label));
+    if (phone) {
+      if (TEL_RE.test(String(phone))) {
+        var a = el('a', null, phone);
+        a.href = 'tel:' + String(phone).replace(/[^0-9+]/g, '');
+        li.appendChild(a);
+      } else {
+        li.appendChild(document.createTextNode(String(phone)));
+      }
+    }
+    if (tail) li.appendChild(document.createTextNode(tail));
+    return li;
+  }
+
+  var crisisSeq = 0;
+  var crisisOn = false;
+
+  function median(a) {
+    var v = a.slice().sort(function (x, y) { return x - y; });
+    var m = v.length >> 1;
+    return v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2;
+  }
+
+  function validPoint(o) {
+    return !!o && typeof o.lat === 'number' && typeof o.lng === 'number' &&
+      Math.abs(o.lat) <= 90 && Math.abs(o.lng) <= 180;
+  }
+
+  // Where the crisis lookup is made, in order: the centre of a valid URL bbox;
+  // the origin the search itself resolved (body.origin {lat, lng}, if the API
+  // sends one); the median lat and median lng of the results that have
+  // coordinates; else null (statewide lines only, never the map's centre).
+  function crisisPoint(p, body, results) {
+    var c = bboxCentre(p.bbox);
+    if (c) return c;
+    if (body && validPoint(body.origin)) return { lat: body.origin.lat, lng: body.origin.lng };
+    var pts = results.filter(function (r) { return validPoint(r); });
+    if (!pts.length) return null;
+    return {
+      lat: median(pts.map(function (r) { return r.lat; })),
+      lng: median(pts.map(function (r) { return r.lng; }))
+    };
+  }
+
+  function fitToResults(results) {
+    var pts = results.filter(function (r) { return validPoint(r); });
+    if (!pts.length) return;
+    var w = Infinity, s = Infinity, e = -Infinity, n = -Infinity;
+    pts.forEach(function (r) {
+      w = Math.min(w, r.lng); e = Math.max(e, r.lng);
+      s = Math.min(s, r.lat); n = Math.max(n, r.lat);
+    });
+    try { map.fitBounds([[w, s], [e, n]], { animate: false, padding: 40, maxZoom: 13 }); } catch (err) { /* keep the current view */ }
+  }
+
+  // Called when a new search starts: show or hide the strip and drop stale
+  // content. Returns the sequence number the later lookup must still match.
+  function resetCrisis(p) {
+    var cseq = ++crisisSeq;
     var domains = p.domain ? p.domain.split(',') : [];
-    var on = domains.indexOf('crisis') !== -1 || p.wm === 'yes';
-    crisisEl.hidden = !on;
+    crisisOn = domains.indexOf('crisis') !== -1 || p.wm === 'yes';
+    crisisEl.hidden = !crisisOn;
     clear(crisisExtra);
-    if (!on) return;
-    var c = map ? map.getCenter() : { lng: VA_CENTER[0], lat: VA_CENTER[1] };
-    getJSON('/v1/crisis', { lat: c.lat.toFixed(4), lng: c.lng.toFixed(4) }).then(function (body) {
-      if (!body) return;
-      var items = [].concat(body.lines || [], body.emergency_departments || []);
-      items.forEach(function (it) {
-        var text = [it.name, it.phone, it.town].filter(Boolean).join(' · ');
-        if (text) crisisExtra.appendChild(el('li', null, text));
+    crisisHead.hidden = true;
+    return cseq;
+  }
+
+  // Called once the first page of results is in. c is null when there is no
+  // point: the call then carries no lat/lng and the API answers statewide.
+  function lookupCrisis(p, cseq, c) {
+    if (!crisisOn || cseq !== crisisSeq) return;
+    var q = c ? { lat: c.lat.toFixed(4), lng: c.lng.toFixed(4) } : {};
+    getJSON('/v1/crisis', q).then(function (body) {
+      if (!body || p !== state.params || cseq !== crisisSeq) return;
+      clear(crisisExtra);
+      var loc = body.locality, auth = body.authority;
+      if (loc && loc.name) {
+        crisisHead.textContent = 'Crisis lines for ' + loc.name + (auth && auth.name ? ' (' + auth.name + ')' : '');
+        crisisHead.hidden = false;
+      }
+      (body.lines || []).forEach(function (ln) {
+        if (ln.kind === '988' || !ln.phone) return; // 988 is fixed page text above
+        crisisExtra.appendChild(phoneItem((ln.name ? ln.name + ': ' : ''), ln.phone, ln.hours ? ' (' + ln.hours + ')' : ''));
+      });
+      (body.emergency_departments || []).slice(0, 3).forEach(function (ed) {
+        var where = [ed.name, ed.town].filter(Boolean).join(', ');
+        var dist = typeof ed.distance_km === 'number' ? ' · ' + ed.distance_km.toFixed(1) + ' km straight-line' : '';
+        crisisExtra.appendChild(phoneItem('Emergency department: ' + where + (ed.phone ? ' · ' : ''), ed.phone, dist));
       });
     }).catch(function () { /* the fixed 911 / 988 text stays; nothing else to add */ });
   }
@@ -379,6 +488,10 @@
       map.on('mouseenter', 'results-pins', function () { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', 'results-pins', function () { map.getCanvas().style.cursor = ''; });
       mapReady = true;
+      var wsen = parseBbox(initialBbox);
+      if (wsen) {
+        try { map.fitBounds([[wsen[0], wsen[1]], [wsen[2], wsen[3]]], { animate: false }); } catch (e) { /* bad bbox: keep default view */ }
+      }
       areaBtn.hidden = false;
       if (state.pending) { setPins(state.pending); state.pending = null; }
     });
@@ -414,6 +527,7 @@
 
   var initial = paramsFromLocation();
   writeForm(initial);
+  initialBbox = initial.bbox || '';
   initMap();
   search(initial, false);
 })();

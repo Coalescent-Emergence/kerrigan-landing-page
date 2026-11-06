@@ -128,6 +128,7 @@
 
 .finder-crisis p { margin: 0 0 var(--wp-space-2); }
 .finder-crisis a { color: var(--color-text-primary); }
+.finder-crisis-head { margin: 0 0 var(--wp-space-2); font-size: var(--wp-text-base); }
 .finder-crisis-extra { margin: 0; padding-left: var(--wp-space-5); }
 .finder-crisis-extra:empty { display: none; }
 
