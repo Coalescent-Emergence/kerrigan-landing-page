@@ -1,0 +1,6 @@
+{"note":"Hand-written sample in the plan's field shape (kerr-finder not yet producing it); replace with a recorded response once unit D lands.",
+ "results":[
+ {"id":"r-fresh","kind":"residence","name":"Oxford House Cottonwood","vacancy":{"beds":2,"chips":["men","no children"],"posted_on":"2026-11-04","stale_after_days":7},"admission":{"operator_key":"oxford house"}},
+ {"id":"r-old","kind":"residence","name":"Oxford House Ellett","vacancy":{"beds":1,"chips":[],"posted_on":"2026-10-20","stale_after_days":7},"admission":{"operator_key":"oxford house"}},
+ {"id":"r-undated","kind":"residence","name":"Oxford House Undated","vacancy":{"beds":3,"chips":["women"],"posted_on":null,"stale_after_days":7},"admission":{"operator_key":"oxford house"}},
+ {"id":"r-dbhds","kind":"residence","name":"Some DBHDS Home","vacancy":null,"admission":null}]}

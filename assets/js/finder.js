@@ -259,6 +259,9 @@
       li.appendChild(el('p', 'finder-cert finder-cert-' + ((r.certification || {}).status || 'none'),
         window.FinderCert.certLine(r.certification)));
       if (r.support_level) li.appendChild(el('p', 'finder-support', 'Support level: ' + r.support_level));
+      window.FinderCert.vacancyView(r.vacancy, r.admission, new Date().toISOString().slice(0, 10)).forEach(function (ln) {
+        li.appendChild(el('p', ln.cls, ln.text));
+      });
     } else if (typeof r.lat !== 'number' || typeof r.lng !== 'number') {
       li.appendChild(el('p', 'finder-nopin', 'No map location'));
     }
