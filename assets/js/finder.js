@@ -10,7 +10,27 @@
   var API = (root.getAttribute('data-api') || '').replace(/\/+$/, '');
   var PAGE_SIZE = 200;
   var VA_CENTER = [-79.4, 37.5];
-  var STYLE_URL = 'https://tiles.openfreemap.org/styles/positron';
+  // Basemaps, all free and keyless: OpenFreeMap vector styles, and USGS National
+  // Map imagery (public domain, covers Virginia) for satellite.
+  var BASEMAPS = {
+    dark: 'https://tiles.openfreemap.org/styles/dark',
+    light: 'https://tiles.openfreemap.org/styles/positron',
+    streets: 'https://tiles.openfreemap.org/styles/liberty',
+    '3d': 'https://tiles.openfreemap.org/styles/liberty', // same style; its building layer shows from zoom 14 once the map is tilted
+    satellite: {
+      version: 8,
+      sources: { usgs: { type: 'raster', tileSize: 256, maxzoom: 16,
+        tiles: ['https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}'],
+        attribution: 'Imagery: USGS National Map' } },
+      layers: [{ id: 'usgs', type: 'raster', source: 'usgs' }]
+    }
+  };
+  var BASEMAP_KEY = 'finder-basemap';
+  function savedBasemap() {
+    try { var k = window.localStorage.getItem(BASEMAP_KEY); if (k && BASEMAPS[k]) return k; } catch (e) { /* storage blocked */ }
+    return 'dark';
+  }
+  var basemap = savedBasemap();
 
   var form = document.getElementById('finder-form');
   var details = root.querySelector('.finder-filters');
@@ -27,7 +47,8 @@
   var crisisHead = document.getElementById('finder-crisis-head');
 
   // Filters in the API contract, in form order. Multi-valued ones are sent comma-joined.
-  var FILTERS = ['q', 'town', 'domain', 'setting', 'wm', 'length', 'payment', 'moud',
+  // 'miles' is page-only: it becomes a map box around the place typed in q (see run).
+  var FILTERS = ['q', 'town', 'miles', 'domain', 'setting', 'wm', 'length', 'payment', 'moud',
     'co_occurring', 'gender', 'age', 'population', 'language'];
 
   var FILTER_NAMES = {
@@ -62,6 +83,7 @@
   var map = null;
   var initialBbox = '';
   var mapReady = false;
+  var lastFC = { type: 'FeatureCollection', features: [] };
 
   // ── helpers ──────────────────────────────────────────────
   function el(tag, cls, text) {
@@ -104,7 +126,7 @@
           if (v) vals.push(v);
         }
       });
-      if (vals.length) p[name] = vals.join(',');
+      if (vals.length && !(name === 'miles' && vals[0] === '0')) p[name] = vals.join(',');
     });
     return p;
   }
@@ -116,8 +138,88 @@
       Array.prototype.forEach.call(inputs, function (i) {
         if (i.type === 'checkbox') i.checked = vals.indexOf(i.value) !== -1;
         else if (i.type === 'radio') i.checked = vals.length ? vals.indexOf(i.value) !== -1 : i.value === '';
-        else i.value = vals.join(',');
+        else i.value = vals.length ? vals.join(',') : (i.type === 'range' ? '0' : '');
       });
+    });
+    syncReveal();
+    showMiles();
+  }
+
+  // A sub-choice shows only under the choice it belongs to, and is cleared when hidden.
+  function syncReveal() {
+    Array.prototype.forEach.call(form.querySelectorAll('[data-showif]'), function (box) {
+      var rule = box.getAttribute('data-showif').split('=');
+      var wanted = rule[1].split('|');
+      var on = Array.prototype.some.call(form.querySelectorAll('[name="' + rule[0] + '"]'), function (i) { return i.checked && wanted.indexOf(i.value) !== -1; });
+      box.hidden = !on;
+      if (!on) Array.prototype.forEach.call(box.querySelectorAll('input'), function (i) { i.checked = false; });
+    });
+  }
+
+  function showMiles() {
+    var r = form.querySelector('[name="miles"]');
+    var out = document.getElementById('finder-miles-out');
+    if (r && out) out.textContent = r.value === '0' ? 'Anywhere' : 'Within ' + r.value + ' miles';
+  }
+
+  // A distance is a map box around the town. The centre is the median of the
+  // points the town matches; the box replaces the town so neighbours are included.
+  // Returns the params the API takes. No matching place: the name search alone.
+  function run(userParams, append) {
+    return apiParamsFor(userParams).then(function (api) {
+      // A distance search frames the box it asked for (search() only frames results when no box was sent).
+      var wsen = (parseFloat(userParams.miles) > 0 && api.bbox) ? parseBbox(api.bbox) : null;
+      if (wsen && map && !append) {
+        try { map.fitBounds([[wsen[0], wsen[1]], [wsen[2], wsen[3]]], { animate: false }); } catch (e) { /* keep the view */ }
+      }
+      return search(api, append);
+    }).catch(function (err) {
+      showError('The search could not reach the directory (' + err.message + '). Check your connection and try again.');
+    });
+  }
+
+  // Counselors choose Outpatient; the directory also files day treatment and
+  // intensive outpatient there. Outpatient sends outpatient + day treatment;
+  // with "Intensive outpatient only" it sends intensive outpatient alone.
+  // Setting values combine as OR, so the narrowing choice replaces, never adds.
+  function mapSettingParams(api) {
+    if (!api.setting) return api;
+    var list = String(api.setting).split(',');
+    var only = list.indexOf('intensive_outpatient') !== -1;
+    var out = [];
+    list.forEach(function (v) {
+      if (v === 'outpatient') { if (only) out.push('intensive_outpatient'); else out.push('outpatient', 'day_treatment'); }
+      else if (v !== 'intensive_outpatient') out.push(v);
+    });
+    if (only && list.indexOf('outpatient') === -1) out.push('intensive_outpatient');
+    api.setting = out.join(',');
+    return api;
+  }
+
+  function apiParamsFor(userParams) {
+    return apiParamsBase(userParams).then(mapSettingParams);
+  }
+
+  function apiParamsBase(userParams) {
+    var miles = parseFloat(userParams.miles);
+    if (!(miles > 0) || !userParams.town) {
+      var plain = {};
+      Object.keys(userParams).forEach(function (k) { if (k !== 'miles') plain[k] = userParams[k]; });
+      return Promise.resolve(plain);
+    }
+    var probe = { town: userParams.town, limit: 100 };
+    return getJSON('/v1/search', probe).then(function (body) {
+      var pts = ((body && body.results) || []).filter(function (r) { return validPoint(r); });
+      var api = {};
+      Object.keys(userParams).forEach(function (k) { if (k !== 'miles') api[k] = userParams[k]; });
+      if (!pts.length) return api;
+      var lat = median(pts.map(function (r) { return r.lat; }));
+      var lng = median(pts.map(function (r) { return r.lng; }));
+      var dLat = miles / 69;
+      var dLng = miles / (69 * Math.max(0.2, Math.cos(lat * Math.PI / 180)));
+      delete api.town; // the box replaces the town so neighbouring towns count
+      api.bbox = [lng - dLng, lat - dLat, lng + dLng, lat + dLat].map(function (x) { return x.toFixed(5); }).join(',');
+      return api;
     });
   }
 
@@ -220,20 +322,174 @@
     return [['Unknown', true]];
   }
 
-  function renderItem(r) {
-    var li = el('li', 'finder-item');
-    li.id = 'finder-r-' + String(r.id).replace(/[^A-Za-z0-9_-]/g, '_');
-    li.setAttribute('data-id', String(r.id));
+  // Key facts as icons with hover text. Only answers the directory reports as yes are shown.
+  var ICONS = {
+    medicaid: { tip: 'Accepts Medicaid', body: '<path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/>' },
+    medicare: { tip: 'Accepts Medicare', body: '<rect x="3" y="6" width="18" height="12" rx="1"/><path d="M3 10h18M7 15h4"/>' },
+    mat: { tip: 'Medication for opioid use disorder (methadone or buprenorphine)', body: '<path d="M10.5 20.5a4.95 4.95 0 0 1-7-7l10-10a4.95 4.95 0 0 1 7 7z"/><path d="M8.5 8.5l7 7"/>' },
+    housing: { tip: 'Residential program (live-in housing)', body: '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>' },
+    detox: { tip: 'Offers withdrawal management (detox)', body: '<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>' },
+    dual: { tip: 'Treats co-occurring mental health and substance use', body: '<circle cx="9" cy="12" r="5"/><circle cx="15" cy="12" r="5"/>' }
+  };
 
-    if (r.type_label) li.appendChild(el('span', 'finder-chip', r.type_label));
-
-    var h = el('h3', null, r.name || '');
-    if (r.subname && r.subname !== r.name) {
-      h.appendChild(document.createTextNode(' '));
-      h.appendChild(el('span', 'finder-sub', '(' + r.subname + ')'));
+  function iconKeys(r) {
+    var f = r.facets || {};
+    var out = [];
+    var pay = f.payment && f.payment.value;
+    if (pay && typeof pay === 'object') {
+      if (pay.medicaid === 'yes') out.push('medicaid');
+      if (pay.medicare === 'yes') out.push('medicare');
     }
-    li.appendChild(h);
+    if (f.moud && f.moud.value === 'yes') out.push('mat');
+    var st = f.setting && f.setting.value;
+    if (Array.isArray(st) && st.indexOf('residential') !== -1) out.push('housing');
+    if (f.wm && f.wm.value === 'yes') out.push('detox');
+    if (f.co_occurring && f.co_occurring.value === 'yes') out.push('dual');
+    return out;
+  }
 
+  function iconStrip(r, labelled) {
+    var keys = iconKeys(r);
+    if (!keys.length) return null;
+    var wrap = el('span', 'finder-icons');
+    keys.forEach(function (k) {
+      var ic = el('span', 'finder-ico');
+      ic.setAttribute('data-k', k);
+      ic.setAttribute('data-tip', ICONS[k].tip);
+      ic.setAttribute('aria-label', ICONS[k].tip);
+      ic.setAttribute('role', 'img');
+      ic.tabIndex = 0;
+      ic.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONS[k].body + '</svg>';
+      if (labelled) ic.appendChild(el('span', 'finder-ico-label', ICONS[k].tip));
+      wrap.appendChild(ic);
+    });
+    if (labelled) wrap.className += ' is-labelled';
+    return wrap;
+  }
+
+  function compactTags(r) {
+    var f = r.facets || {};
+    var out = [];
+    var st = f.setting && f.setting.value;
+    if (Array.isArray(st) && st.length) {
+      var labels = Array.isArray(f.setting.labels) && f.setting.labels.length === st.length ? f.setting.labels : st.map(humanize);
+      labels.slice(0, 2).forEach(function (l) { out.push(l); });
+    }
+    return out;
+  }
+
+  // ── facts as a matrix: one row per fact, one icon per program ─────────
+  var MX_ROWS = [
+    ['Setting', 'setting', [['outpatient', 'Outpatient'], ['intensive_outpatient', 'Intensive outpatient'], ['day_treatment', 'Day treatment'], ['residential', 'Residential'], ['hospital_inpatient', 'Hospital inpatient'], ['otp', 'Opioid treatment program']]],
+    ['Length of stay', 'length', [['short_term', 'Short-term'], ['long_term', 'Long-term']]],
+    ['Services', 'wm', null, 'Withdrawal management'],
+    ['Services', 'moud', null, 'Medication for opioid use disorder'],
+    ['Services', 'co_occurring', null, 'Co-occurring care'],
+    ['Payment', 'payment', [['medicaid', 'Medicaid'], ['medicare', 'Medicare'], ['private', 'Private insurance'], ['sliding_fee', 'Sliding fee'], ['state_funded', 'State funded']]],
+    ['Age', 'age', [['children', 'Children / adolescents'], ['young_adults', 'Young adults'], ['adults', 'Adults'], ['seniors', 'Seniors']]],
+    ['Gender served', 'gender', [['female', 'Female'], ['male', 'Male']]],
+    ['Population', 'population', [['pregnant_postpartum', 'Pregnant / postpartum'], ['veterans', 'Veterans'], ['justice_involved', 'Justice involved'], ['adolescents', 'Adolescents']]]
+  ];
+  var MX_TEXT = [['admission_rules', 'Admission rules'], ['referral_paperwork', 'Referral paperwork'], ['medicaid_level', 'Medicaid level'], ['licensed_level', 'Licensed level']];
+  var ST = {
+    y: { tip: 'Yes', body: '<circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/>' },
+    n: { tip: 'No', body: '<circle cx="12" cy="12" r="9"/><path d="M8 12h8"/>' },
+    u: { tip: 'Not reported', body: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/>' }
+  };
+
+  // y = yes, n = no, u = the directory does not say
+  function mxState(r, facetKey, key) {
+    var f = (r.facets || {})[facetKey];
+    if (!f || f.value === undefined || f.value === null) return 'u';
+    var v = f.value;
+    if (Array.isArray(v)) {
+      if (facetKey === 'language' && f.reported === false) return 'u';
+      if (!v.length) return 'u';
+      return v.indexOf(key) !== -1 ? 'y' : 'n';
+    }
+    if (typeof v === 'object') return v[key] === 'yes' ? 'y' : (v[key] === 'no' ? 'n' : 'u');
+    if (typeof v === 'string' && key === null) return v === 'yes' ? 'y' : (v === 'no' ? 'n' : 'u');
+    return 'u';
+  }
+
+  function stIcon(state, label) {
+    var d = ST[state];
+    var sp = el('span', 'finder-st st-' + state);
+    sp.setAttribute('role', 'img');
+    sp.setAttribute('aria-label', (label ? label + ': ' : '') + d.tip);
+    sp.title = (label ? label + ': ' : '') + d.tip;
+    sp.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d.body + '</svg>';
+    return sp;
+  }
+
+  // Rows for these programs. A row no program answers is left out and named
+  // in the returned note, so a wall of question marks never competes with facts.
+  function matrixRows(recs, firstCol) {
+    var specs = [];
+    MX_ROWS.forEach(function (g) {
+      if (g[2]) g[2].forEach(function (o) { specs.push({ group: g[0], facet: g[1], key: o[0], label: o[1] }); });
+      else specs.push({ group: g[0], facet: g[1], key: null, label: g[3] });
+    });
+    var langs = [];
+    recs.forEach(function (r) {
+      var f = (r.facets || {}).language;
+      if (f && Array.isArray(f.value) && f.reported !== false) f.value.forEach(function (l) { if (langs.indexOf(l) === -1) langs.push(l); });
+    });
+    langs.forEach(function (l) { specs.push({ group: 'Language', facet: 'language', key: l, label: humanize(l) }); });
+    if (!langs.length) specs.push({ group: 'Language', facet: 'language', key: null, label: 'Language', silent: true });
+    // A group is shown whole when any program answers any of its rows;
+    // a group nobody answers is named once in the note instead.
+    var order = [];
+    var byGroup = {};
+    specs.forEach(function (sp) { if (!byGroup[sp.group]) { byGroup[sp.group] = []; order.push(sp.group); } byGroup[sp.group].push(sp); });
+    var rows = [];
+    var unknownNames = [];
+    order.forEach(function (g) {
+      var list = byGroup[g];
+      var answered = list.some(function (sp) {
+        return !sp.silent && recs.some(function (r) { return mxState(r, sp.facet, sp.key) !== 'u'; });
+      });
+      if (!answered) { unknownNames.push(g === 'Services' ? 'Services (detox, medication, co-occurring)' : g); return; }
+      var gh = el('tr', 'finder-mx-group');
+      var gth = el('th', null, g); gth.colSpan = recs.length + 1; gth.scope = 'colgroup';
+      gh.appendChild(gth); rows.push(gh);
+      list.forEach(function (sp) {
+        var tr = el('tr');
+        var th = el('th', null, sp.label); th.scope = 'row'; tr.appendChild(th);
+        recs.forEach(function (r) { var td = el('td', 'finder-mx-cell'); td.appendChild(stIcon(mxState(r, sp.facet, sp.key), sp.label)); tr.appendChild(td); });
+        rows.push(tr);
+      });
+    });
+    MX_TEXT.forEach(function (t) {
+      var texts = recs.map(function (r) { var parts = facetValue(t[0], (r.facets || {})[t[0]]); return parts[0] && !parts[0][1] ? parts.map(function (x) { return x[0]; }).join('; ') : null; });
+      // Fields the directory does not carry yet stay out of the note; they appear as rows once any program has text.
+      if (texts.every(function (x) { return x === null; })) return;
+      var tr = el('tr'); var th = el('th', null, t[1]); th.scope = 'row'; tr.appendChild(th);
+      texts.forEach(function (x) { tr.appendChild(el('td', x === null ? 'finder-unknown' : null, x === null ? 'Not reported' : x)); });
+      rows.push(tr);
+    });
+    return { rows: rows, note: unknownNames.length ? 'Not reported: ' + unknownNames.join(', ') : '' };
+  }
+
+  function mxLegend() {
+    var lg = el('p', 'finder-mx-legend');
+    [['y', 'Yes'], ['n', 'No'], ['u', 'Not reported']].forEach(function (x) {
+      var sp = el('span', 'finder-mx-key'); sp.appendChild(stIcon(x[0], '')); sp.appendChild(document.createTextNode(' ' + x[1])); lg.appendChild(sp);
+    });
+    return lg;
+  }
+
+  function matrixTable(recs) {
+    var mx = matrixRows(recs);
+    var t = el('table', 'finder-mx');
+    var tb = el('tbody');
+    mx.rows.forEach(function (tr) { tb.appendChild(tr); });
+    t.appendChild(tb);
+    return { table: t, note: mx.note };
+  }
+
+  function buildDetail(r, withAddr) {
+    var detail = el('div', 'finder-detail');
     var addr = [];
     if (r.kind !== 'residence') {
       if (r.street) addr.push(r.street);
@@ -241,9 +497,9 @@
     }
     var townLine = [r.town, r.kind !== 'residence' ? r.zip : null].filter(Boolean).join(' ');
     if (townLine) addr.push(townLine);
-    if (addr.length) li.appendChild(el('p', 'finder-addr', addr.join(', ')));
+    if (addr.length && withAddr) detail.appendChild(el('p', 'finder-addr', addr.join(', ')));
 
-    if (r.kind !== 'residence' && r.phone) {
+    if (r.kind !== 'residence' && r.phone && withAddr) {
       var ph = el('p', 'finder-phone');
       if (TEL_RE.test(String(r.phone))) {
         var a = el('a', null, r.phone);
@@ -252,37 +508,293 @@
       } else {
         ph.appendChild(document.createTextNode(String(r.phone)));
       }
-      li.appendChild(ph);
+      detail.appendChild(ph);
     }
 
     if (typeof r.lat !== 'number' || typeof r.lng !== 'number') {
-      li.appendChild(el('p', 'finder-nopin', 'No map location'));
+      detail.appendChild(el('p', 'finder-nopin', 'No map location'));
+    } else {
+      var sm = el('button', 'finder-showmap btn btn-secondary', 'Show on map');
+      sm.type = 'button';
+      sm.addEventListener('click', function () { setView('map'); if (map) map.easeTo({ center: [r.lng, r.lat], zoom: Math.max(map.getZoom(), 13) }); });
+      detail.appendChild(sm);
     }
 
-    if (r.match === 'partial' && Array.isArray(r.unknown_filters) && r.unknown_filters.length) {
-      li.appendChild(el('p', 'finder-unk-note',
-        'The directory says nothing about: ' + r.unknown_filters.map(function (f) { return FILTER_NAMES[f] || humanize(f); }).join(', ')));
-    }
-
-    var dl = el('dl', 'finder-facets');
-    var facets = r.facets || {};
-    FACETS.forEach(function (pair) {
-      dl.appendChild(el('dt', null, pair[1]));
-      var dd = el('dd');
-      facetValue(pair[0], facets[pair[0]]).forEach(function (part, i) {
-        if (i) dd.appendChild(document.createTextNode('; '));
-        dd.appendChild(el('span', part[1] ? 'finder-unknown' : null, part[0]));
-      });
-      dl.appendChild(dd);
-    });
-    li.appendChild(dl);
+    var mt = matrixTable([r]);
+    if (mt.table.querySelector('tr')) { detail.appendChild(mt.table); detail.appendChild(mxLegend()); }
+    if (mt.note) detail.appendChild(el('p', 'finder-unk-note', mt.note));
 
     var c = r.checked || {};
     var line = 'Checked against ' + (c.source || 'FindTreatment.gov') + ' on ' + (c.on || 'an unknown date');
     if (c.source_as_of) line += ' (source dated ' + c.source_as_of + ')';
-    li.appendChild(el('p', 'finder-checked', line));
+    detail.appendChild(el('p', 'finder-checked', line));
+    return detail;
+  }
+
+  function renderItem(r, inGroup) {
+    var li = el('li', 'finder-item');
+    li.id = 'finder-r-' + String(r.id).replace(/[^A-Za-z0-9_-]/g, '_');
+    li.setAttribute('data-id', String(r.id));
+
+    // Compact row: what you compare on. One button toggles the full record.
+    var cmp = el('label', 'finder-cmp');
+    var cb = el('input'); cb.type = 'checkbox'; cb.value = String(r.id);
+    cb.checked = !!compare.recs[r.id];
+    cb.setAttribute('aria-label', 'Compare ' + (r.name || 'program'));
+    cb.addEventListener('change', function () { toggleCompare(r, cb.checked); });
+    cmp.appendChild(cb);
+    cmp.appendChild(el('span', null, 'Compare'));
+    li.appendChild(cmp);
+    var head = el('button', 'finder-row');
+    head.type = 'button';
+    head.setAttribute('aria-expanded', 'false');
+    var h = el('span', 'finder-row-name', inGroup ? (r.type_label || r.name || '') : (r.name || ''));
+    if (r.subname && r.subname !== r.name) {
+      h.appendChild(document.createTextNode(' '));
+      h.appendChild(el('span', 'finder-sub', '(' + r.subname + ')'));
+    }
+    head.appendChild(h);
+    var meta = inGroup ? '' : [r.type_label, r.town].filter(Boolean).join(' · ');
+    if (meta) head.appendChild(el('span', 'finder-row-meta', meta));
+    var tags = compactTags(r);
+    if (tags.length) {
+      var tg = el('span', 'finder-tags');
+      tags.forEach(function (t) { tg.appendChild(el('span', 'finder-tag', t)); });
+      head.appendChild(tg);
+    }
+    var strip = iconStrip(r, false);
+    if (strip) head.appendChild(strip);
+    if (r.match === 'partial') head.appendChild(el('span', 'finder-row-partial', 'Some answers unknown'));
+    li.appendChild(head);
+
+    // Full record: built once, shown only when selected (inline on small screens, in the right panel on wide ones).
+    var detail = buildDetail(r, !inGroup);
+    detail.hidden = true;
+    li.appendChild(detail);
+
+    head.addEventListener('click', function () {
+      if (li.classList.contains('is-active')) { selectItem(null); } else { selectItem(r.id, true); }
+    });
     return li;
   }
+
+  // ── wide screens: map stage with a results drawer (left) and a details panel (right) ──
+  var selectedId = null;
+  var stageMq = window.matchMedia('(min-width: 1024px)');
+  var stage = root.querySelector('.finder-stage');
+  var panel = document.getElementById('finder-panel');
+  var resultsToggle = document.getElementById('finder-results-toggle');
+
+  function padObj() {
+    if (!stageMq.matches) return { top: 0, left: 0, right: 0, bottom: 0 };
+    return { top: 84, left: stage.getAttribute('data-results') === 'open' ? 392 : 0, right: stage.getAttribute('data-panel') === 'open' ? 372 : 0, bottom: 0 };
+  }
+  // Fit padding keeps pins out from under the drawer, the panel and the search bar.
+  function fitPad() {
+    if (!stageMq.matches) return 40;
+    var p = padObj();
+    return { top: p.top + 24, left: p.left + 40, right: p.right + 40, bottom: 60 };
+  }
+
+  function setResultsOpen(open) {
+    stage.setAttribute('data-results', open ? 'open' : 'closed');
+    resultsToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  resultsToggle.addEventListener('click', function () { setResultsOpen(stage.getAttribute('data-results') !== 'open'); });
+
+  function hidePanel() {
+    stage.setAttribute('data-panel', 'closed');
+    panel.hidden = true;
+    clear(panel);
+  }
+
+  function showPanel(r) {
+    clear(panel);
+    var head = el('div', 'finder-panel-head');
+    var close = el('button', 'finder-panel-x', '\u00d7');
+    close.type = 'button';
+    close.setAttribute('aria-label', 'Close details');
+    close.addEventListener('click', function () { selectItem(null); });
+    head.appendChild(close);
+    var h = el('h2', 'finder-panel-name', r.name || '');
+    if (r.subname && r.subname !== r.name) { h.appendChild(document.createTextNode(' ')); h.appendChild(el('span', 'finder-sub', '(' + r.subname + ')')); }
+    head.appendChild(h);
+    var meta = [r.type_label, r.town].filter(Boolean).join(' · ');
+    if (meta) head.appendChild(el('p', 'finder-row-meta', meta));
+    var strip = iconStrip(r, true);
+    if (strip) head.appendChild(strip);
+    panel.appendChild(head);
+    var d = buildDetail(r, true);
+    var cb = el('label', 'finder-panel-cmp');
+    var box = el('input'); box.type = 'checkbox'; box.checked = !!compare.recs[r.id];
+    box.disabled = !box.checked && compare.ids.length >= compare.max;
+    box.addEventListener('change', function () { toggleCompare(r, box.checked); });
+    cb.appendChild(box); cb.appendChild(el('span', null, 'Add to compare'));
+    d.insertBefore(cb, d.firstChild);
+    panel.appendChild(d);
+    panel.hidden = false;
+    panel.scrollTop = 0;
+    stage.setAttribute('data-panel', 'open');
+  }
+
+  // One record open at a time; the map pin and the row stay in step.
+  function selectItem(id, fromList) {
+    Array.prototype.forEach.call(root.querySelectorAll('.finder-item.is-active'), function (n) {
+      n.classList.remove('is-active');
+      var d = n.querySelector('.finder-detail'); if (d) d.hidden = true;
+      var b = n.querySelector('.finder-row'); if (b) b.setAttribute('aria-expanded', 'false');
+    });
+    selectedId = (id === null || id === undefined) ? null : id;
+    if (id === null || id === undefined) { hidePanel(); return; }
+    var item = document.getElementById('finder-r-' + String(id).replace(/[^A-Za-z0-9_-]/g, '_'));
+    if (!item) return;
+    var rec = state.results.filter(function (x) { return String(x.id) === String(id); })[0];
+    item.classList.add('is-active');
+    item.querySelector('.finder-row').setAttribute('aria-expanded', 'true');
+    var wide = stageMq.matches;
+    if (wide && rec) { showPanel(rec); } else { item.querySelector('.finder-detail').hidden = false; }
+    // Scroll the list box, never the page, so the map stays in view.
+    var list = root.querySelector('.finder-list');
+    var headH = list.querySelector('.finder-listhead') ? list.querySelector('.finder-listhead').offsetHeight : 0;
+    if (list) list.scrollTo({ top: Math.max(0, item.offsetTop - headH - 8), behavior: 'smooth' });
+    if (fromList && map && rec && typeof rec.lat === 'number' && typeof rec.lng === 'number') {
+      map.easeTo({ center: [rec.lng, rec.lat], zoom: Math.max(map.getZoom(), 12), padding: padObj() });
+    }
+  }
+
+  // Group programs the directory places at one verified location: the same
+  // name, street and zip across records. Different names at one address stay
+  // separate (two operators may share a building). Facets are never merged:
+  // each program keeps its own row and its own answers.
+  function norm(x) { return String(x || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim(); }
+  function groupKey(r) {
+    if (r.kind === 'residence' || !r.street || !r.zip || !r.name) return null;
+    return [norm(r.name), norm(r.street), norm(r.street2), String(r.zip)].join('|');
+  }
+  function renderList(into, recs) {
+    var order = [];
+    var byKey = {};
+    recs.forEach(function (r) {
+      var k = groupKey(r);
+      if (k === null) { order.push({ one: r }); return; }
+      if (!byKey[k]) { byKey[k] = { members: [] }; order.push(byKey[k]); }
+      byKey[k].members.push(r);
+    });
+    order.forEach(function (g) {
+      var members = g.one ? [g.one] : g.members;
+      if (members.length === 1) { into.appendChild(renderItem(members[0], false)); return; }
+      var r0 = members[0];
+      var gi = el('li', 'finder-group');
+      var gh = el('div', 'finder-group-head');
+      gh.appendChild(el('h3', 'finder-group-name', r0.name));
+      var a = [r0.street, r0.street2, [r0.town, r0.zip].filter(Boolean).join(' ')].filter(Boolean).join(', ');
+      gh.appendChild(el('p', 'finder-addr', a + ' · ' + members.length + ' programs'));
+      if (r0.phone) {
+        var ph = el('p', 'finder-phone');
+        if (TEL_RE.test(String(r0.phone))) { var al = el('a', null, r0.phone); al.href = 'tel:' + String(r0.phone).replace(/[^0-9+]/g, ''); ph.appendChild(al); }
+        else ph.appendChild(document.createTextNode(String(r0.phone)));
+        gh.appendChild(ph);
+      }
+      gi.appendChild(gh);
+      var ul = el('ul', 'finder-programs');
+      members.forEach(function (m) { ul.appendChild(renderItem(m, true)); });
+      gi.appendChild(ul);
+      into.appendChild(gi);
+    });
+  }
+
+  // ── compare ──────────────────────────────────────────────
+  var compare = { ids: [], recs: {}, max: 4 };
+  var cmpOpen = document.getElementById('finder-compare-open');
+  var cmpDialog = document.getElementById('finder-compare-dialog');
+  var cmpBody = document.getElementById('finder-compare-body');
+  var cmpNote = '';
+
+  function noteGet(id) { try { return window.localStorage.getItem('finder-note:' + id) || ''; } catch (e) { return ''; } }
+  function noteSet(id, v) { try { window.localStorage.setItem('finder-note:' + id, v); } catch (e) { /* notes stay in the box only */ } }
+
+  function toggleCompare(r, on) {
+    var i = compare.ids.indexOf(r.id);
+    if (on && i === -1 && compare.ids.length < compare.max) { compare.ids.push(r.id); compare.recs[r.id] = r; }
+    if (!on && i !== -1) { compare.ids.splice(i, 1); delete compare.recs[r.id]; }
+    syncCompare();
+    if (cmpDialog.open) buildCompare();
+  }
+
+  function syncCompare() {
+    var n = compare.ids.length;
+    cmpOpen.hidden = n === 0;
+    cmpOpen.textContent = 'Compare (' + n + (n >= compare.max ? ', full' : '') + ')';
+    Array.prototype.forEach.call(root.querySelectorAll('.finder-cmp input'), function (cb) {
+      cb.checked = !!compare.recs[cb.value];
+      cb.disabled = !cb.checked && n >= compare.max;
+    });
+  }
+
+  function buildCompare() {
+    clear(cmpBody);
+    if (!compare.ids.length) { cmpDialog.close(); return; }
+    var t = el('table', 'finder-cmp-table');
+    var hr = el('tr'); hr.appendChild(el('th'));
+    compare.ids.forEach(function (id) {
+      var r = compare.recs[id];
+      var th = el('th'); th.scope = 'col';
+      th.appendChild(el('strong', null, r.name || ''));
+      th.appendChild(el('div', 'finder-sub', [r.type_label, r.town].filter(Boolean).join(' · ')));
+      var rm = el('button', 'finder-cmp-remove', 'Remove'); rm.type = 'button';
+      rm.addEventListener('click', function () { toggleCompare(r, false); });
+      th.appendChild(rm);
+      hr.appendChild(th);
+    });
+    t.appendChild(el('thead')).appendChild(hr);
+    var tb = el('tbody');
+    var info = [['Address', function (r) { return [r.street, r.street2, [r.town, r.zip].filter(Boolean).join(' ')].filter(Boolean).join(', ') || 'Not reported'; }],
+                ['Phone', function (r) { return r.phone || 'Not reported'; }]];
+    info.forEach(function (row) {
+      var tr = el('tr'); tr.appendChild(el('th', null, row[0])).scope = 'row';
+      compare.ids.forEach(function (id) { tr.appendChild(el('td', null, row[1](compare.recs[id]))); });
+      tb.appendChild(tr);
+    });
+    var cm = matrixRows(compare.ids.map(function (id) { return compare.recs[id]; }));
+    cm.rows.forEach(function (tr) { tb.appendChild(tr); });
+    cmpNote = cm.note;
+    var nr = el('tr'); var nth = el('th', null, 'Your notes'); nth.scope = 'row'; nr.appendChild(nth);
+    compare.ids.forEach(function (id) {
+      var td = el('td'); var ta = el('textarea', 'finder-note');
+      ta.rows = 5; ta.value = noteGet(id); ta.setAttribute('aria-label', 'Notes on ' + (compare.recs[id].name || 'program'));
+      ta.addEventListener('input', function () { noteSet(id, ta.value); });
+      td.appendChild(ta); nr.appendChild(td);
+    });
+    tb.appendChild(nr);
+    t.appendChild(tb);
+    cmpBody.appendChild(mxLegend());
+    cmpBody.appendChild(t);
+    if (cmpNote) cmpBody.appendChild(el('p', 'finder-unk-note', cmpNote + ' (for every program selected)'));
+  }
+
+  cmpOpen.addEventListener('click', function () { buildCompare(); if (compare.ids.length) cmpDialog.showModal(); });
+  document.getElementById('finder-compare-close').addEventListener('click', function () { cmpDialog.close(); });
+  document.getElementById('finder-compare-clear').addEventListener('click', function () {
+    compare.ids = []; compare.recs = {}; syncCompare(); cmpDialog.close();
+  });
+
+  // ── mobile: List or Map ──────────────────────────────────
+  var mobileMq = window.matchMedia('(max-width: 767.98px)');
+  var lastFit = null;
+  function setView(v) {
+    root.setAttribute('data-view', v);
+    Array.prototype.forEach.call(root.querySelectorAll('.finder-tabs [data-view]'), function (b) {
+      b.setAttribute('aria-selected', b.getAttribute('data-view') === v ? 'true' : 'false');
+    });
+    if (v === 'map' && map) {
+      map.resize();
+      if (lastFit) { try { map.fitBounds(lastFit, { animate: false, padding: fitPad(), maxZoom: 13 }); } catch (e) { /* keep view */ } lastFit = null; }
+    }
+  }
+  Array.prototype.forEach.call(root.querySelectorAll('.finder-tabs [data-view]'), function (b) {
+    b.addEventListener('click', function () { setView(b.getAttribute('data-view')); });
+  });
+  root.setAttribute('data-view', 'list');
 
   function render() {
     clear(fullEl);
@@ -291,8 +803,14 @@
     var partial = [];
     state.results.forEach(function (r) { (r.match === 'partial' ? partial : full).push(r); });
 
-    full.forEach(function (r) { fullEl.appendChild(renderItem(r)); });
-    partial.forEach(function (r) { partialEl.appendChild(renderItem(r)); });
+    resultsToggle.textContent = 'Results (' + state.results.length + (state.total > state.results.length ? ' of ' + state.total : '') + ')';
+    renderList(fullEl, full);
+    renderList(partialEl, partial);
+    syncCompare();
+    if (selectedId !== null) {
+      var again = document.getElementById('finder-r-' + String(selectedId).replace(/[^A-Za-z0-9_-]/g, '_'));
+      if (again) again.classList.add('is-active'); else { selectedId = null; hidePanel(); }
+    }
 
     if (partial.length) {
       var names = [];
@@ -393,7 +911,9 @@
       w = Math.min(w, r.lng); e = Math.max(e, r.lng);
       s = Math.min(s, r.lat); n = Math.max(n, r.lat);
     });
-    try { map.fitBounds([[w, s], [e, n]], { animate: false, padding: 40, maxZoom: 13 }); } catch (err) { /* keep the current view */ }
+    lastFit = [[w, s], [e, n]];
+    try { map.fitBounds(lastFit, { animate: false, padding: fitPad(), maxZoom: 13 }); } catch (err) { /* keep the current view */ }
+    if (!mobileMq.matches || root.getAttribute('data-view') === 'map') lastFit = null;
   }
 
   // Called when a new search starts: show or hide the strip and drop stale
@@ -447,17 +967,52 @@
         return { type: 'Feature', geometry: { type: 'Point', coordinates: [r.lng, r.lat] }, properties: { id: String(r.id) } };
       })
     };
+    lastFC = fc;
     map.getSource('results').setData(fc);
   }
 
-  function focusItem(id) {
-    var prev = root.querySelectorAll('.finder-item.is-active');
-    Array.prototype.forEach.call(prev, function (n) { n.classList.remove('is-active'); });
-    var item = document.getElementById('finder-r-' + String(id).replace(/[^A-Za-z0-9_-]/g, '_'));
-    if (!item) return;
-    item.classList.add('is-active');
-    item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  // 3D is the streets style tilted and zoomed to where buildings draw (zoom 14+).
+  // Centre: the current view when already close, else the middle of the pins.
+  function tilt(on) {
+    if (!map) return;
+    if (!on) { map.easeTo({ pitch: 0, bearing: 0, duration: 600 }); return; }
+    var opts = { pitch: 60, bearing: -20, duration: 900 };
+    if (map.getZoom() < 14) {
+      var f = lastFC.features;
+      if (f.length) {
+        opts.center = [median(f.map(function (x) { return x.geometry.coordinates[0]; })),
+                       median(f.map(function (x) { return x.geometry.coordinates[1]; }))];
+      }
+      opts.zoom = 14.8;
+    }
+    map.easeTo(opts);
   }
+
+  var prevKey = null;
+
+  function setBasemap(key) {
+    if (!map || !BASEMAPS[key] || key === basemap) return;
+    prevKey = basemap;
+    basemap = key;
+    try { window.localStorage.setItem(BASEMAP_KEY, key); } catch (e) { /* storage blocked */ }
+    // Streets and 3D share one style URL: switching between them keeps the loaded map.
+    if (BASEMAPS[key] !== BASEMAPS[prevKey]) map.setStyle(BASEMAPS[key]);
+    tilt(key === '3d');
+    markBasemap();
+  }
+
+  function markBasemap() {
+    Array.prototype.forEach.call(root.querySelectorAll('[data-basemap]'), function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-basemap') === basemap ? 'true' : 'false');
+    });
+  }
+
+  Array.prototype.forEach.call(root.querySelectorAll('[data-basemap]'), function (b) {
+    b.addEventListener('click', function () { setBasemap(b.getAttribute('data-basemap')); });
+  });
+  markBasemap();
+
+  function focusItem(id) { selectItem(id, false); }
 
   function initMap() {
     if (!window.maplibregl) {
@@ -467,7 +1022,7 @@
     }
     try {
       map = new window.maplibregl.Map({
-        container: 'finder-map', style: STYLE_URL, center: VA_CENTER, zoom: 6,
+        container: 'finder-map', style: BASEMAPS[basemap], center: VA_CENTER, zoom: 6,
         attributionControl: { compact: true }
       });
     } catch (e) {
@@ -476,14 +1031,19 @@
       return;
     }
     map.addControl(new window.maplibregl.NavigationControl({ showCompass: false }), 'top-right');
-    map.on('load', function () {
-      map.addSource('results', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+    // A style change drops custom sources and layers, so the pins are re-added
+    // on every style load from the last results.
+    map.on('style.load', function () {
+      if (map.getSource('results')) return;
+      map.addSource('results', { type: 'geojson', data: lastFC });
       map.addLayer({
         id: 'results-pins', type: 'circle', source: 'results',
         paint: { 'circle-radius': 6, 'circle-color': accent(), 'circle-stroke-width': 1.5, 'circle-stroke-color': '#ffffff' }
       });
+    });
+    map.on('load', function () {
       map.on('click', 'results-pins', function (e) {
-        if (e.features && e.features[0]) focusItem(e.features[0].properties.id);
+        if (e.features && e.features[0]) { if (mobileMq.matches) setView('list'); focusItem(e.features[0].properties.id); }
       });
       map.on('mouseenter', 'results-pins', function () { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', 'results-pins', function () { map.getCanvas().style.cursor = ''; });
@@ -492,7 +1052,11 @@
       if (wsen) {
         try { map.fitBounds([[wsen[0], wsen[1]], [wsen[2], wsen[3]]], { animate: false }); } catch (e) { /* bad bbox: keep default view */ }
       }
-      areaBtn.hidden = false;
+      if (basemap === '3d') tilt(true);
+      map.on('moveend', function (ev) { if (ev.originalEvent) { areaBtn.hidden = false; lastFit = null; } });
+      document.getElementById('finder-map').addEventListener('click', function (ev) {
+        if (ev.target.closest && ev.target.closest('.maplibregl-ctrl-zoom-in, .maplibregl-ctrl-zoom-out')) areaBtn.hidden = false;
+      });
       if (state.pending) { setPins(state.pending); state.pending = null; }
     });
   }
@@ -502,12 +1066,18 @@
     e.preventDefault();
     var p = readForm();
     pushLocation(p);
-    search(p, false);
+    run(p, false);
   });
+
+  form.addEventListener('input', function (e) { if (e.target && e.target.name === 'miles') showMiles(); });
+  form.addEventListener('change', syncReveal);
+  syncReveal();
 
   form.addEventListener('reset', function () {
     window.setTimeout(function () {
       pushLocation({});
+      syncReveal();
+      showMiles();
       search({}, false);
     }, 0);
   });
@@ -519,15 +1089,129 @@
     var b = map.getBounds();
     var p = readForm();
     p.bbox = [b.getWest(), b.getSouth(), b.getEast(), b.getNorth()].map(function (x) { return x.toFixed(5); }).join(',');
+    areaBtn.hidden = true;
     pushLocation(p);
-    search(p, false);
+    var q = {};
+    Object.keys(p).forEach(function (k) { if (k !== 'miles') q[k] = p[k]; });
+    search(mapSettingParams(q), false);
   });
 
-  if (details && window.matchMedia && window.matchMedia('(max-width: 767.98px)').matches) details.open = false;
+
+  // ── filter drawer ────────────────────────────────────────
+  var drawer = document.getElementById('finder-drawer');
+  var backdrop = document.getElementById('finder-backdrop');
+  var openBtn = document.getElementById('finder-drawer-open');
+  var closeBtn = document.getElementById('finder-drawer-close');
+  var countEl = document.getElementById('finder-filter-count');
+
+  function setDrawer(open) {
+    drawer.hidden = !open;
+    backdrop.hidden = !open;
+    openBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.classList.toggle('finder-drawer-open', open);
+    (open ? closeBtn : openBtn).focus();
+  }
+
+  // Filters set inside the drawer; the bar's own fields (name, distance) are not counted.
+  function updateCount() {
+    var p = readForm();
+    var n = 0;
+    Object.keys(p).forEach(function (k) {
+      if (k === 'q' || k === 'miles' || k === 'town') return;
+      n += String(p[k]).split(',').length;
+    });
+    countEl.textContent = String(n);
+    countEl.hidden = n === 0;
+  }
+
+  // Live count: how many programs match the filters as set right now. The API
+  // lists full matches first, so paging stops at the first partial result.
+  var liveEl = document.getElementById('finder-live');
+  var showBtn = document.getElementById('finder-show');
+  var liveSeq = 0, liveTimer = null, lastFull = null;
+
+  function countMatches(api) {
+    var full = 0;
+    function page(offset) {
+      var q = {}; Object.keys(api).forEach(function (k) { q[k] = api[k]; });
+      q.limit = 200; q.offset = offset;
+      return getJSON('/v1/search', q).then(function (body) {
+        var rs = (body && body.results) || [];
+        var sawPartial = false;
+        rs.forEach(function (r) { if (r.match === 'full') full++; else sawPartial = true; });
+        var total = body && typeof body.total === 'number' ? body.total : rs.length;
+        if (sawPartial || !rs.length || offset + rs.length >= total) return { full: full, total: total };
+        return page(offset + rs.length);
+      });
+    }
+    return page(0);
+  }
+
+  function refreshLive() {
+    var seq = ++liveSeq;
+    liveEl.textContent = 'Counting…';
+    apiParamsFor(readForm()).then(countMatches).then(function (c) {
+      if (seq !== liveSeq) return;
+      var more = c.total - c.full;
+      var text = c.full + (c.full === 1 ? ' program matches' : ' programs match');
+      if (more > 0) text += ' · ' + more + ' more with unknown answers';
+      if (lastFull !== null && lastFull !== c.full) text += ' · ' + (c.full < lastFull ? 'down ' : 'up ') + Math.abs(c.full - lastFull) + ' from before';
+      lastFull = c.full;
+      liveEl.textContent = text;
+      showBtn.textContent = 'Show ' + c.full + (c.full === 1 ? ' result' : ' results');
+    }).catch(function () {
+      if (seq !== liveSeq) return;
+      liveEl.textContent = '';
+      showBtn.textContent = 'Show results';
+    });
+  }
+
+  function scheduleLive() {
+    window.clearTimeout(liveTimer);
+    liveTimer = window.setTimeout(refreshLive, 250);
+  }
+
+  form.addEventListener('change', scheduleLive);
+  form.addEventListener('input', function (e) { if (e.target && e.target.name === 'miles') scheduleLive(); });
+  form.addEventListener('reset', function () { lastFull = null; window.setTimeout(scheduleLive, 0); });
+  openBtn.addEventListener('click', function () { setDrawer(true); refreshLive(); });
+  closeBtn.addEventListener('click', function () { setDrawer(false); });
+  backdrop.addEventListener('click', function () { setDrawer(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !drawer.hidden) setDrawer(false); });
+  form.addEventListener('change', updateCount);
+  form.addEventListener('reset', function () { window.setTimeout(updateCount, 0); });
+  form.addEventListener('submit', function () { if (!drawer.hidden) setDrawer(false); });
+
+  // ── search bar: collapses to a slim, obvious search strip on wide screens ──
+  var bar = form.querySelector('.f-bar');
+  var barText = document.getElementById('finder-bar-text');
+  var barState = false;
+  function barSummary() {
+    var p = readForm();
+    var parts = [];
+    if (p.q) parts.push('\u201c' + p.q + '\u201d');
+    if (p.town) parts.push(p.town + (p.miles ? ' \u00b7 within ' + p.miles + ' mi' : ''));
+    return parts.length ? parts.join(' in ') : 'Search by provider, program or town';
+  }
+  function setBarCollapsed(c) {
+    barState = c;
+    barText.textContent = barSummary();
+    bar.setAttribute('data-collapsed', c && stageMq.matches ? 'true' : 'false');
+  }
+  document.getElementById('finder-bar-summary').addEventListener('click', function () {
+    setBarCollapsed(false);
+    var q = form.querySelector('[name="q"]'); if (q) q.focus();
+  });
+  document.getElementById('finder-bar-collapse').addEventListener('click', function () { setBarCollapsed(true); });
+  form.addEventListener('submit', function () { setBarCollapsed(true); });
+  stageMq.addEventListener('change', function () { setBarCollapsed(barState); selectItem(null); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && stage.getAttribute('data-panel') === 'open' && drawer.hidden && !cmpDialog.open) selectItem(null); });
 
   var initial = paramsFromLocation();
   writeForm(initial);
+  setBarCollapsed(Object.keys(initial).length > 0);
   initialBbox = initial.bbox || '';
   initMap();
-  search(initial, false);
+  updateCount();
+  run(initial, false);
 })();
