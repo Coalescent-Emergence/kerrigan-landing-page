@@ -30,7 +30,7 @@
 - `grep '^Sitemap:' public/robots.txt` — `Sitemap: https://latentworx.com/sitemap.xml`
 - `grep -c '"@context":"https://schema.org","@type":"Organization"' public/index.html public/privacy/index.html public/articles/ai-scribes-42-cfr-part-2/index.html` — `1`, `0`, `0`
 - `grep -c '"description":"An AI scribe for behavioral' public/index.html` — `1`
-- `grep -c 'By <a href="/">LatentWorx</a>' public/articles/*/index.html` — `1` each
-- `grep -c 'href="/articles/"' public/index.html public/privacy/index.html` — each ≥`1`
+- `grep -cE 'By <a href="?/"?>LatentWorx</a>' public/articles/*/index.html` — `1` each
+- `grep -cE 'href="?/articles/"?' public/index.html public/privacy/index.html` — each ≥`1`
 - `grep -o '<loc>' public/sitemap.xml | wc -l` — `7`
-- `for f in public/index.html public/articles/*/index.html; do grep -o '<script type="application/ld+json">[^<]*' "$f" | sed 's/^[^>]*>//' | jq -e . >/dev/null || echo "BAD $f"; done` — no output
+- `for f in public/index.html public/articles/*/index.html; do grep -oE '<script type="?application/ld\+json"?>[^<]*' "$f" | sed 's/^[^>]*>//' | jq -e . >/dev/null || echo "BAD $f"; done` — no output
