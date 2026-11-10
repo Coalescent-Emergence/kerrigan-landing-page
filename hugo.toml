@@ -33,6 +33,7 @@ disableKinds = ["taxonomy", "term"]
   #   hugo server --config hugo.toml,/tmp/finder-on.toml
   finderEnabled = false
   finderApiBase = "https://api.jhax.dev/finder"
+  kerrApiBase = "https://api.jhax.dev"
   twitterHandle = "@LatentWorx"
   ogImage = "/img/og-kerrigan.png"
 
