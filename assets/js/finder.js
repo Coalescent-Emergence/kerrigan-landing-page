@@ -52,6 +52,11 @@
   var signinMsg = document.getElementById('finder-signin-msg');
   var signedInBox = document.getElementById('finder-signedin');
   var signoutBtn = document.getElementById('finder-signout');
+  var listOpen = document.getElementById('finder-shortlist-open');
+  var listDialog = document.getElementById('finder-shortlist-dialog');
+  var listBody = document.getElementById('finder-shortlist-body');
+  var hoDialog = document.getElementById('finder-handout-dialog');
+  var hoBody = document.getElementById('finder-handout-body');
 
   // Filters in the API contract, in form order. Multi-valued ones are sent comma-joined.
   // 'miles' is page-only: it becomes a map box around the place typed in q (see run).
@@ -292,13 +297,14 @@
       if (session) window.sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
       else window.sessionStorage.removeItem(SESSION_KEY);
     } catch (e) { /* storage blocked: the session lasts until reload */ }
-    if (!session) streetCache = {};
+    if (!session) { streetCache = {}; clearLists(); }
     updateAuthUI();
   }
 
   function updateAuthUI() {
     if (signinBox) signinBox.hidden = !!session;
     if (signedInBox) signedInBox.hidden = !session;
+    syncSaves();
   }
 
   // POST JSON to the Kerrigan API; resolves {status, body}.
@@ -335,18 +341,21 @@
   }
 
   // ── fetch ────────────────────────────────────────────────
-  function getJSON(path, params, retried) {
+  // One request to the finder API. Signed in, the Kerrigan token goes in the
+  // Authorization header only. GET answers {…}; PUT and DELETE (shortlist items)
+  // answer 204 and resolve null.
+  function call(method, path, params, retried) {
     var sp = new URLSearchParams();
     Object.keys(params || {}).forEach(function (k) { sp.set(k, params[k]); });
     var url = API + path + (sp.toString() ? '?' + sp.toString() : '');
     var headers = { Accept: 'application/json' };
     var sent = session;
     if (sent) headers.Authorization = 'Bearer ' + sent.access;
-    return fetch(url, { credentials: 'omit', headers: headers })
+    return fetch(url, { method: method, credentials: 'omit', headers: headers })
       .then(function (res) {
         if (res.status === 401 && sent && !retried) {
           // Expired or rejected token: refresh once, else fall back to signed out.
-          return refreshSession().then(function () { return getJSON(path, params, true); });
+          return refreshSession().then(function () { return call(method, path, params, true); });
         }
         return res.json().catch(function () { return null; }).then(function (body) {
           if (!res.ok) {
@@ -357,6 +366,8 @@
         });
       });
   }
+
+  function getJSON(path, params, retried) { return call('GET', path, params, retried); }
 
   var TEL_RE = /^\+?[0-9\s().-]+$/;
 
@@ -659,6 +670,7 @@
     cmp.appendChild(cb);
     cmp.appendChild(el('span', null, 'Compare'));
     li.appendChild(cmp);
+    li.appendChild(saveButton(r));
     var head = el('button', 'finder-row');
     head.type = 'button';
     head.setAttribute('aria-expanded', 'false');
@@ -745,6 +757,7 @@
     box.addEventListener('change', function () { toggleCompare(r, box.checked); });
     cb.appendChild(box); cb.appendChild(el('span', null, 'Add to compare'));
     d.insertBefore(cb, d.firstChild);
+    d.insertBefore(saveButton(r), d.firstChild);
     panel.appendChild(d);
     panel.hidden = false;
     panel.scrollTop = 0;
@@ -824,9 +837,6 @@
   var cmpBody = document.getElementById('finder-compare-body');
   var cmpNote = '';
 
-  function noteGet(id) { try { return window.localStorage.getItem('finder-note:' + id) || ''; } catch (e) { return ''; } }
-  function noteSet(id, v) { try { window.localStorage.setItem('finder-note:' + id, v); } catch (e) { /* notes stay in the box only */ } }
-
   function toggleCompare(r, on) {
     var i = compare.ids.indexOf(r.id);
     if (on && i === -1 && compare.ids.length < compare.max) { compare.ids.push(r.id); compare.recs[r.id] = r; }
@@ -848,6 +858,7 @@
   function buildCompare() {
     clear(cmpBody);
     if (!compare.ids.length) { cmpDialog.close(); return; }
+    var recs = compare.ids.map(function (id) { return compare.recs[id]; });
     var t = el('table', 'finder-cmp-table');
     var hr = el('tr'); hr.appendChild(el('th'));
     compare.ids.forEach(function (id) {
@@ -869,14 +880,29 @@
       compare.ids.forEach(function (id) { tr.appendChild(el('td', null, row[1](compare.recs[id]))); });
       tb.appendChild(tr);
     });
-    var cm = matrixRows(compare.ids.map(function (id) { return compare.recs[id]; }));
-    cm.rows.forEach(function (tr) { tb.appendChild(tr); });
+    // The shortlist's named fields as text (setting or level, payment, medication,
+    // population; phone is the row above; transit time joins with the transit slice).
+    window.FinderLists.compareRows(recs, facetValue).forEach(function (row) {
+      if (row.label === 'Phone') return;
+      var tr = el('tr'); var th = el('th', null, row.label); th.scope = 'row'; tr.appendChild(th);
+      row.cells.forEach(function (c) { tr.appendChild(el('td', c === 'Not reported' ? 'finder-unknown' : null, c)); });
+      tb.appendChild(tr);
+    });
+    // The owner's matrix: a row per fact, an icon per program, unknown shown as unknown.
+    var cm = matrixRows(recs);
     cmpNote = cm.note;
+    cm.rows.forEach(function (tr) { tb.appendChild(tr); });
     var nr = el('tr'); var nth = el('th', null, 'Your notes'); nth.scope = 'row'; nr.appendChild(nth);
     compare.ids.forEach(function (id) {
-      var td = el('td'); var ta = el('textarea', 'finder-note');
-      ta.rows = 5; ta.value = noteGet(id); ta.setAttribute('aria-label', 'Notes on ' + (compare.recs[id].name || 'program'));
-      ta.addEventListener('input', function () { noteSet(id, ta.value); });
+      var td = el('td');
+      var warnId = 'finder-note-warn-' + String(id).replace(/[^A-Za-z0-9_-]/g, '_');
+      td.appendChild(el('p', 'finder-note-warn', window.FinderLists.NOTE_WARNING)).id = warnId;
+      var ta = el('textarea', 'finder-note');
+      ta.rows = 5; ta.maxLength = 5000;
+      ta.value = window.FinderLists.getNote(notesStore(), lists.account, id);
+      ta.setAttribute('aria-label', 'Notes on ' + (compare.recs[id].name || 'program'));
+      ta.setAttribute('aria-describedby', warnId);
+      ta.addEventListener('input', function () { window.FinderLists.setNote(notesStore(), lists.account, id, ta.value); });
       td.appendChild(ta); nr.appendChild(td);
     });
     tb.appendChild(nr);
@@ -950,6 +976,321 @@
     setPins(pinned);
     showStreets();
   }
+
+  // ── shortlists, notes and the handout (tracker 252) ──────
+  // The server keeps ids only (GET/POST /v1/me/shortlists, PUT/DELETE
+  // .../items/{id}). List names and notes stay in this browser's localStorage,
+  // and the handout is built here: nothing typed or printed is sent anywhere.
+  var lists = { account: null, shortlists: [], active: null, ready: false };
+  var listRecs = {}; // id -> record the dialog read; null = no longer listed
+  var picked = []; // ids ticked in the shortlist dialog
+  var armedDelete = false;
+
+  // localStorage can throw on access; a stand-in that remembers nothing keeps notes working in the box.
+  var NO_STORE = { getItem: function () { return null; }, setItem: function () {}, removeItem: function () {} };
+  function notesStore() { try { return window.localStorage || NO_STORE; } catch (e) { return NO_STORE; } }
+
+  function clearLists() {
+    lists = { account: null, shortlists: [], active: null, ready: false };
+    listRecs = {}; picked = []; armedDelete = false;
+    if (listDialog && listDialog.open) listDialog.close();
+    if (hoDialog && hoDialog.open) hoDialog.close();
+    if (cmpDialog && cmpDialog.open) buildCompare();
+  }
+
+  function activeList() {
+    for (var i = 0; i < lists.shortlists.length; i++) if (lists.shortlists[i].id === lists.active) return lists.shortlists[i];
+    return null;
+  }
+
+  function isSaved(id) { var l = activeList(); return !!l && l.items.indexOf(id) !== -1; }
+
+  function loadLists() {
+    if (!session) return Promise.resolve();
+    return getJSON('/v1/me/shortlists').then(function (b) {
+      if (!session || !b || !Array.isArray(b.shortlists)) return;
+      lists.account = b.account || null;
+      lists.shortlists = b.shortlists.map(function (l) { return { id: l.id, items: Array.isArray(l.items) ? l.items : [] }; });
+      // A merge can re-point a saved item to the surviving facility: carry the note along.
+      b.shortlists.forEach(function (l) { window.FinderLists.moveReplacedNotes(notesStore(), lists.account, l.replaced); });
+      lists.ready = true;
+      if (!activeList()) lists.active = lists.shortlists.length ? lists.shortlists[0].id : null;
+      syncSaves();
+      if (cmpDialog.open) buildCompare();
+    }).catch(function () { /* shortlists are optional: search and compare still work */ });
+  }
+
+  function saveButton(r) {
+    var b = el('button', 'finder-save btn btn-secondary', 'Save');
+    b.type = 'button';
+    b.setAttribute('data-id', String(r.id));
+    b.setAttribute('aria-pressed', 'false');
+    b.hidden = !lists.ready;
+    b.addEventListener('click', function () { setSaved(r, !isSaved(r.id)); });
+    paintSave(b);
+    return b;
+  }
+
+  function paintSave(b) {
+    var on = isSaved(b.getAttribute('data-id'));
+    b.textContent = on ? 'Saved' : 'Save';
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    b.hidden = !lists.ready;
+  }
+
+  function syncSaves() {
+    if (!root) return;
+    Array.prototype.forEach.call(root.querySelectorAll('.finder-save'), paintSave);
+    if (listOpen) {
+      var l = activeList();
+      listOpen.hidden = !lists.ready;
+      listOpen.textContent = 'Shortlist (' + (l ? l.items.length : 0) + ')';
+    }
+  }
+
+  function ensureList() {
+    var l = activeList();
+    if (l) return Promise.resolve(l);
+    return call('POST', '/v1/me/shortlists').then(function (b) {
+      var nl = { id: b.id, items: [] };
+      lists.shortlists.push(nl);
+      lists.active = nl.id;
+      return nl;
+    });
+  }
+
+  function setSaved(r, on) {
+    return ensureList().then(function (l) {
+      return call(on ? 'PUT' : 'DELETE', '/v1/me/shortlists/' + l.id + '/items/' + encodeURIComponent(r.id)).then(function () {
+        var i = l.items.indexOf(r.id);
+        if (on && i === -1) { l.items.push(r.id); listRecs[r.id] = r; }
+        if (!on && i !== -1) l.items.splice(i, 1);
+        hideError();
+        syncSaves();
+        if (listDialog.open) renderShortlist();
+      });
+    }).catch(function (err) { showError('Your shortlist could not be updated (' + err.message + ').'); });
+  }
+
+  // The record behind a shortlist id, read once. null when the directory no longer lists it.
+  function recFor(id) {
+    if (Object.prototype.hasOwnProperty.call(listRecs, id)) return Promise.resolve(listRecs[id]);
+    var path = String(id).indexOf('res-') === 0 ? '/v1/residences/' : '/v1/services/';
+    return getJSON(path + encodeURIComponent(id)).then(function (rec) {
+      listRecs[id] = rec || null;
+      return listRecs[id];
+    }, function () { listRecs[id] = null; return null; });
+  }
+
+  function listLabel(l, i) { return window.FinderLists.listName(notesStore(), lists.account, l.id, i + 1); }
+
+  function renderShortlist() {
+    clear(listBody);
+    var l = activeList();
+    var bar = el('div', 'finder-sl-bar');
+    var sel = el('select', 'finder-sl-select');
+    sel.setAttribute('aria-label', 'Shortlist');
+    lists.shortlists.forEach(function (x, i) {
+      var o = el('option', null, listLabel(x, i)); o.value = String(x.id); if (l && x.id === l.id) o.selected = true; sel.appendChild(o);
+    });
+    sel.addEventListener('change', function () { lists.active = Number(sel.value); picked = []; armedDelete = false; renderShortlist(); syncSaves(); });
+    if (lists.shortlists.length) bar.appendChild(sel);
+    if (l) {
+      var name = el('input', 'finder-sl-name'); name.type = 'text'; name.maxLength = 60;
+      name.setAttribute('aria-label', 'Name of this shortlist (kept in this browser only)');
+      name.value = listLabel(l, lists.shortlists.indexOf(l));
+      name.addEventListener('change', function () {
+        window.FinderLists.setListName(notesStore(), lists.account, l.id, name.value);
+        var opt = sel.options[sel.selectedIndex]; if (opt) opt.textContent = listLabel(l, lists.shortlists.indexOf(l));
+      });
+      bar.appendChild(name);
+    }
+    var nw = el('button', 'btn btn-secondary', 'New list'); nw.type = 'button';
+    nw.addEventListener('click', function () {
+      call('POST', '/v1/me/shortlists').then(function (b) {
+        lists.shortlists.push({ id: b.id, items: [] }); lists.active = b.id; picked = []; renderShortlist(); syncSaves();
+      }).catch(function (err) { showError('Could not start a new shortlist (' + err.message + ').'); });
+    });
+    bar.appendChild(nw);
+    if (l) {
+      var del = el('button', 'btn btn-secondary', armedDelete ? 'Really delete this list?' : 'Delete list'); del.type = 'button';
+      del.addEventListener('click', function () {
+        if (!armedDelete) { armedDelete = true; renderShortlist(); return; }
+        armedDelete = false;
+        call('DELETE', '/v1/me/shortlists/' + l.id).then(function () {
+          lists.shortlists = lists.shortlists.filter(function (x) { return x.id !== l.id; });
+          lists.active = lists.shortlists.length ? lists.shortlists[0].id : null; picked = [];
+          renderShortlist(); syncSaves();
+        }).catch(function (err) { showError('Could not delete the list (' + err.message + ').'); });
+      });
+      bar.appendChild(del);
+    }
+    listBody.appendChild(bar);
+    if (!l || !l.items.length) {
+      listBody.appendChild(el('p', 'finder-sl-empty', 'Nothing saved here yet. Use Save on a result to add it.'));
+      return;
+    }
+    listBody.appendChild(el('p', 'finder-compare-hint', 'Tick entries to compare them (up to 4) or to put them on a client handout. With none ticked, compare takes the first four and the handout takes all.'));
+    var ol = el('ol', 'finder-sl-items');
+    l.items.forEach(function (id) {
+      var li = el('li', 'finder-sl-item');
+      var lab = el('label', 'finder-sl-pick');
+      var cb = el('input'); cb.type = 'checkbox'; cb.checked = picked.indexOf(id) !== -1;
+      cb.addEventListener('change', function () {
+        var i = picked.indexOf(id);
+        if (cb.checked && i === -1) picked.push(id);
+        if (!cb.checked && i !== -1) picked.splice(i, 1);
+      });
+      lab.appendChild(cb);
+      var txt = el('span', 'finder-sl-name-text', 'Loading…');
+      lab.appendChild(txt);
+      li.appendChild(lab);
+      var rm = el('button', 'finder-cmp-remove', 'Remove'); rm.type = 'button';
+      rm.addEventListener('click', function () { var r = listRecs[id] || { id: id }; setSaved(r, false); });
+      li.appendChild(rm);
+      recFor(id).then(function (rec) {
+        if (rec) { txt.textContent = [rec.name, rec.type_label, rec.town].filter(Boolean).join(' · '); cb.setAttribute('aria-label', 'Select ' + (rec.name || 'entry')); }
+        else { txt.textContent = 'No longer listed in the directory'; txt.className += ' finder-unknown'; cb.disabled = true; }
+      });
+      ol.appendChild(li);
+    });
+    listBody.appendChild(ol);
+    var act = el('div', 'finder-sl-actions');
+    var cmpB = el('button', 'btn btn-primary', 'Compare'); cmpB.type = 'button';
+    cmpB.addEventListener('click', function () { compareFromShortlist(l); });
+    var hoB = el('button', 'btn btn-primary', 'Client handout'); hoB.type = 'button';
+    hoB.addEventListener('click', function () { handoutFromShortlist(l); });
+    act.appendChild(cmpB); act.appendChild(hoB);
+    listBody.appendChild(act);
+  }
+
+  // The listed entries of a list, in order, with the records read for them.
+  function loadedEntries(l) {
+    return Promise.all(l.items.map(function (id) { return recFor(id).then(function (rec) { return { id: id, rec: rec }; }); }))
+      .then(function (all) { return all.filter(function (e) { return e.rec; }); });
+  }
+
+  function compareFromShortlist(l) {
+    loadedEntries(l).then(function (entries) {
+      var chosen = window.FinderLists.pickForCompare(entries, picked);
+      if (!chosen.length) return;
+      compare.ids = []; compare.recs = {};
+      chosen.forEach(function (e) { compare.ids.push(e.id); compare.recs[e.id] = e.rec; });
+      syncCompare();
+      listDialog.close();
+      buildCompare();
+      cmpDialog.showModal();
+    });
+  }
+
+  function addressOf(r) {
+    var street = r.kind === 'residence' ? window.FinderStreet.streetLine(streetCache[r.id], r) : null;
+    if (street) return street;
+    var first = r.kind === 'residence' ? '' : [r.street, r.street2].filter(Boolean).join(', ');
+    var rest = [r.town, r.kind === 'residence' ? '' : r.zip].filter(Boolean).join(' ');
+    return [first, rest].filter(Boolean).join(', ');
+  }
+
+  // The crisis lines of the area each entry is in. The one request each makes
+  // carries a facility's public coordinates and nothing else.
+  function crisisAreas(recs) {
+    var points = [];
+    recs.forEach(function (r) {
+      if (!validPoint(r)) return;
+      var k = r.lat.toFixed(4) + ',' + r.lng.toFixed(4);
+      if (points.indexOf(k) === -1) points.push(k);
+    });
+    return Promise.all(points.map(function (k) {
+      var ll = k.split(',');
+      return getJSON('/v1/crisis', { lat: ll[0], lng: ll[1] }).catch(function () { return null; });
+    })).then(function (bodies) {
+      // Localities served by one authority share one block of lines.
+      var byKey = {};
+      var order = [];
+      bodies.forEach(function (b) {
+        if (!b) return;
+        var loc = b.locality, auth = b.authority;
+        var lines = (b.lines || []).filter(function (ln) { return ln.kind !== '988' && ln.phone; })
+          .map(function (ln) { return { name: ln.name || '', phone: ln.phone, hours: ln.hours || '' }; });
+        if (!lines.length) return;
+        var key = auth && auth.code ? 'a:' + auth.code : (loc && loc.fips ? 'l:' + loc.fips : 'virginia');
+        if (!byKey[key]) { byKey[key] = { places: [], authority: auth && auth.name ? auth.name : '', lines: lines }; order.push(key); }
+        if (loc && loc.name && byKey[key].places.indexOf(loc.name) === -1) byKey[key].places.push(loc.name);
+      });
+      return order.map(function (k) {
+        var a = byKey[k];
+        return { area: 'Crisis lines for ' + (a.places.length ? a.places.join(', ') : 'Virginia') + (a.authority ? ' (' + a.authority + ')' : ''), lines: a.lines };
+      });
+    });
+  }
+
+  function handoutFromShortlist(l) {
+    loadedEntries(l).then(function (entries) {
+      var chosen = entries.filter(function (e) { return picked.indexOf(e.id) !== -1; });
+      if (!chosen.length) chosen = entries;
+      var recs = chosen.map(function (e) { return e.rec; }).slice(0, window.FinderLists.HANDOUT_MAX);
+      if (!recs.length) return;
+      var streets = recs.filter(function (r) { return r.kind === 'residence' && session && !streetCache[r.id]; }).map(function (r) {
+        return getJSON('/v1/me/residences/' + encodeURIComponent(r.id)).then(function (d) { if (d) streetCache[r.id] = d; }, function () { /* the town line stays */ });
+      });
+      return Promise.all(streets).then(function () { return crisisAreas(recs); }).then(function (areas) {
+        showHandout(window.FinderLists.handoutModel(recs, addressOf, areas));
+      });
+    });
+  }
+
+  var HANDOUT_TITLE = 'Treatment options';
+
+  function lineText(l) { return (l.name ? l.name + ': ' : '') + l.phone + (l.hours ? ' (' + l.hours + ')' : ''); }
+
+  function showHandout(model) {
+    clear(hoBody);
+    hoBody.appendChild(el('h2', 'finder-ho-title', HANDOUT_TITLE));
+    hoBody.appendChild(el('p', 'finder-ho-lede', 'Places to call. Call ahead to confirm before you go.'));
+    model.entries.forEach(function (e) {
+      var a = el('article', 'finder-ho-entry');
+      a.appendChild(el('h3', null, e.name));
+      if (e.address) a.appendChild(el('p', null, 'Address: ' + e.address));
+      a.appendChild(el('p', null, 'Phone: ' + (e.phone || 'not listed')));
+      if (e.hours) a.appendChild(el('p', null, 'Hours: ' + e.hours));
+      hoBody.appendChild(a);
+    });
+    hoBody.appendChild(el('h3', 'finder-ho-crisis', 'If you need help right now'));
+    var ul = el('ul');
+    window.FinderLists.ALWAYS.forEach(function (l) { ul.appendChild(el('li', null, lineText(l))); });
+    model.crisis.forEach(function (a) {
+      var li = el('li', null, a.area);
+      var inner = el('ul');
+      a.lines.forEach(function (l) { inner.appendChild(el('li', null, lineText(l))); });
+      li.appendChild(inner);
+      ul.appendChild(li);
+    });
+    hoBody.appendChild(ul);
+    hoModel = model;
+    listDialog.close();
+    hoDialog.showModal();
+  }
+
+  var hoModel = null;
+  document.getElementById('finder-handout-close').addEventListener('click', function () { hoDialog.close(); });
+  document.getElementById('finder-handout-print').addEventListener('click', function () {
+    document.body.classList.add('finder-printing');
+    window.print();
+  });
+  window.addEventListener('afterprint', function () { document.body.classList.remove('finder-printing'); });
+  // The PDF is made here from the same model; it is handed to the browser as a download, never uploaded.
+  document.getElementById('finder-handout-pdf').addEventListener('click', function () {
+    if (!hoModel) return;
+    var blob = new Blob([window.FinderLists.buildPdf(hoModel, HANDOUT_TITLE)], { type: 'application/pdf' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = 'treatment-options.pdf';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  });
+  hoDialog.addEventListener('close', function () { clear(hoBody); hoModel = null; document.body.classList.remove('finder-printing'); });
+  listOpen.addEventListener('click', function () { if (lists.ready) { renderShortlist(); listDialog.showModal(); } });
+  document.getElementById('finder-shortlist-close').addEventListener('click', function () { listDialog.close(); });
 
   // ── signed-in street (tracker 251) ───────────────────────
   // Search results never carry a residence street. When signed in, each
@@ -1422,5 +1763,5 @@
   initMap();
   updateAuthUI();
   updateCount();
-  landing().then(function () { run(initial, false); });
+  landing().then(function () { loadLists(); run(initial, false); });
 })();

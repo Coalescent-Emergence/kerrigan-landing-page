@@ -7,6 +7,7 @@
 {{- $css := resources.Get "css/finder.css" | minify | fingerprint -}}
 {{- $cert := resources.Get "js/finder-cert.js" | minify | fingerprint -}}
 {{- $street := resources.Get "js/finder-street.js" | minify | fingerprint -}}
+{{- $lists := resources.Get "js/finder-lists.js" | minify | fingerprint -}}
 {{- $js := resources.Get "js/finder.js" | minify | fingerprint -}}
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.css" integrity="sha384-uTttxo/aOKbdE5RlD/SPzSDoDmNvGlUYPjONi2MN/b7c9HPSvW07OIuyP7uL6jxK" crossorigin="anonymous">
@@ -291,6 +292,7 @@
         <details class="finder-about"><summary>About these results</summary><p class="finder-lede">Virginia addiction and mental health treatment as listed on FindTreatment.gov. Where the directory says nothing about something you filter on, the result still shows, marked <strong>Unknown</strong>. Call the program to confirm before you refer.</p></details>
         <p id="finder-status" class="finder-status" role="status" aria-live="polite"></p>
         <button id="finder-compare-open" type="button" class="btn btn-secondary" hidden>Compare (0)</button>
+        <button id="finder-shortlist-open" type="button" class="btn btn-secondary" hidden>Shortlist (0)</button>
       </div>
       <ol id="finder-full" class="finder-results"></ol>
       <h2 id="finder-partial-head" class="finder-partial-head" hidden></h2>
@@ -323,6 +325,28 @@
     <div id="finder-compare-body" class="finder-compare-body"></div>
   </dialog>
 
+  <dialog id="finder-shortlist-dialog" class="finder-compare finder-shortlist" aria-labelledby="finder-shortlist-title">
+    <div class="finder-compare-head">
+      <h2 id="finder-shortlist-title">Your shortlists</h2>
+      <button type="button" id="finder-shortlist-close" class="btn btn-primary">Close</button>
+    </div>
+    <p class="finder-compare-hint">Saved with your Kerrigan account: only which programs are on each list. List names and notes stay in this browser.</p>
+    <div id="finder-shortlist-body" class="finder-shortlist-body"></div>
+  </dialog>
+
+  <dialog id="finder-handout-dialog" class="finder-compare finder-handout" aria-labelledby="finder-handout-title">
+    <div class="finder-compare-head finder-ho-controls">
+      <h2 id="finder-handout-title">Client handout</h2>
+      <div>
+        <button type="button" id="finder-handout-print" class="btn btn-secondary">Print</button>
+        <button type="button" id="finder-handout-pdf" class="btn btn-secondary">Download PDF</button>
+        <button type="button" id="finder-handout-close" class="btn btn-primary">Close</button>
+      </div>
+    </div>
+    <p class="finder-compare-hint finder-ho-controls">Made in this browser from the entries you chose. Nothing about your client is sent or stored, and your notes are not on it.</p>
+    <div id="finder-handout-body" class="finder-handout-body"></div>
+  </dialog>
+
   <p class="finder-signup">
     <a href="{{ $signupHref }}" class="btn btn-primary" data-analytics-event="cta_click_subscribe" data-analytics-label="finder_signup">Save lists and see residence addresses with a Kerrigan account</a>
   </p>
@@ -331,5 +355,6 @@
 <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.js" integrity="sha384-5+cfbwT0iiub6VsQAdn6yz16nr6sDiQoHx6tm4O8OVYXHYOxcffFmCJBL0dgdvGp" crossorigin="anonymous" defer></script>
 <script src="{{ $cert.RelPermalink }}" integrity="{{ $cert.Data.Integrity }}" defer></script>
 <script src="{{ $street.RelPermalink }}" integrity="{{ $street.Data.Integrity }}" defer></script>
+<script src="{{ $lists.RelPermalink }}" integrity="{{ $lists.Data.Integrity }}" defer></script>
 <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
 {{ end }}

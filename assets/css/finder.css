@@ -524,3 +524,27 @@ body.finder-drawer-open { overflow: hidden; }
 .finder-signin .finder-text { flex: 1 1 260px; }
 .finder-signin .finder-text input { border: 1px solid var(--color-border); background: var(--input-bg); }
 .finder-signedin, .finder-signin-msg { margin: 0 0 var(--wp-space-3); font-size: var(--wp-text-sm); }
+
+/* ── Shortlists, notes and the client handout (tracker 252) ── */
+.finder-save { order: 2; margin: var(--wp-space-2) var(--wp-space-2) 0 0; padding: var(--wp-space-1) var(--wp-space-3); font-size: var(--wp-text-xs); }
+.finder-save[hidden], #finder-shortlist-open[hidden] { display: none; }
+.finder-panel .finder-save { margin: 0 0 var(--wp-space-2); }
+.finder-note-warn { margin: 0 0 var(--wp-space-1); font-size: var(--wp-text-xs); color: var(--color-text-secondary); }
+.finder-sl-bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--wp-space-2); margin: var(--wp-space-3) 0; }
+.finder-sl-select, .finder-sl-name { background: var(--color-bg-surface); color: inherit; border: 1px solid var(--color-border); padding: var(--wp-space-2); font: inherit; }
+.finder-sl-items { list-style: none; margin: 0; padding: 0; }
+.finder-sl-item { display: flex; justify-content: space-between; align-items: center; gap: var(--wp-space-3); padding: var(--wp-space-2) 0; border-bottom: 1px solid var(--color-border); }
+.finder-sl-pick { display: flex; align-items: center; gap: var(--wp-space-2); cursor: pointer; }
+.finder-sl-actions { display: flex; gap: var(--wp-space-2); margin-top: var(--wp-space-3); }
+.finder-handout-body { background: #fff; padding: var(--wp-space-4); margin-top: var(--wp-space-3); }
+.finder-handout-body, .finder-handout-body * { color: #000; }
+.finder-ho-title { margin-top: 0; }
+.finder-ho-entry h3, .finder-ho-crisis { margin-bottom: var(--wp-space-1); }
+.finder-ho-entry p { margin: 0 0 var(--wp-space-1); }
+@media print {
+  html:has(body.finder-printing), body.finder-printing { background: #fff !important; }
+  body.finder-printing > *:not(main#finder), body.finder-printing #finder > *:not(#finder-handout-dialog) { display: none !important; }
+  body.finder-printing #finder-handout-dialog { position: static; display: block; width: auto; max-width: none; max-height: none; height: auto; overflow: visible; border: 0; padding: 0; background: #fff; color: #000; }
+  body.finder-printing #finder-handout-dialog .finder-ho-controls { display: none; }
+  body.finder-printing .finder-handout-body { padding: 0; margin: 0; }
+}
