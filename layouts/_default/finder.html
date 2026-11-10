@@ -20,7 +20,6 @@
 <main id="finder" class="finder" data-api="{{ site.Params.finderApiBase }}" data-kerr-api="{{ site.Params.kerrApiBase }}" data-signup="{{ $signupHref }}">
   <header class="finder-head">
     <h1 class="finder-title">Find a placement</h1>
-    <p class="finder-lede">Virginia addiction and mental health treatment as listed on FindTreatment.gov. Where the directory says nothing about something you filter on, the result still shows, marked <strong>Unknown</strong>. Call the program to confirm before you refer.</p>
   </header>
 
   <section id="finder-signin" class="finder-signin" aria-label="Counselor sign-in">
@@ -34,95 +33,6 @@
   <p id="finder-signedin" class="finder-signedin" hidden>Signed in. Residence street addresses are shown. <button id="finder-signout" type="button" class="btn btn-secondary">Sign out</button></p>
   <p id="finder-signin-msg" class="finder-signin-msg" role="status" aria-live="polite" hidden></p>
 
-  <details class="finder-filters" open>
-    <summary>Filters</summary>
-    <form id="finder-form" class="finder-form" autocomplete="off">
-      <div class="finder-row">
-        <label class="finder-text">Name or town contains
-          <input type="search" name="q" maxlength="100">
-        </label>
-        <label class="finder-text">Town (exact)
-          <input type="text" name="town" maxlength="60">
-        </label>
-      </div>
-
-      <fieldset><legend>Type of care</legend>
-        <label><input type="checkbox" name="domain" value="addiction"> Addiction</label>
-        <label><input type="checkbox" name="domain" value="mental_health"> Mental health</label>
-        <label><input type="checkbox" name="domain" value="recovery_housing"> Recovery housing</label>
-        <label><input type="checkbox" name="domain" value="crisis"> Crisis</label>
-      </fieldset>
-
-      <fieldset><legend>Setting</legend>
-        <label><input type="checkbox" name="setting" value="outpatient"> Outpatient</label>
-        <label><input type="checkbox" name="setting" value="intensive_outpatient"> Intensive outpatient</label>
-        <label><input type="checkbox" name="setting" value="day_treatment"> Day treatment / partial hospitalization</label>
-        <label><input type="checkbox" name="setting" value="residential"> Residential</label>
-        <label><input type="checkbox" name="setting" value="hospital_inpatient"> Hospital inpatient</label>
-        <label><input type="checkbox" name="setting" value="otp"> Opioid treatment program</label>
-      </fieldset>
-
-      <fieldset><legend>Withdrawal management</legend>
-        <label><input type="checkbox" name="wm" value="yes"> Offers withdrawal management (detox)</label>
-      </fieldset>
-
-      <fieldset><legend>Length of stay</legend>
-        <label><input type="checkbox" name="length" value="short_term"> Short-term residential</label>
-        <label><input type="checkbox" name="length" value="long_term"> Long-term residential</label>
-      </fieldset>
-
-      <fieldset><legend>Payment the program reports</legend>
-        <label><input type="checkbox" name="payment" value="medicaid"> Medicaid</label>
-        <label><input type="checkbox" name="payment" value="medicare"> Medicare</label>
-        <label><input type="checkbox" name="payment" value="private"> Private insurance</label>
-        <label><input type="checkbox" name="payment" value="sliding_fee"> Sliding fee scale</label>
-        <label><input type="checkbox" name="payment" value="state_funded"> State funded</label>
-      </fieldset>
-
-      <fieldset><legend>Medication for opioid use disorder</legend>
-        <label><input type="radio" name="moud" value="" checked> Any</label>
-        <label><input type="radio" name="moud" value="yes"> Accepts clients on methadone or buprenorphine</label>
-        <label><input type="radio" name="moud" value="no"> Does not</label>
-      </fieldset>
-
-      <fieldset><legend>Co-occurring disorders</legend>
-        <label><input type="checkbox" name="co_occurring" value="yes"> Treats co-occurring mental health and substance use</label>
-      </fieldset>
-
-      <fieldset><legend>Gender served</legend>
-        <label><input type="checkbox" name="gender" value="female"> Female</label>
-        <label><input type="checkbox" name="gender" value="male"> Male</label>
-      </fieldset>
-
-      <fieldset><legend>Age</legend>
-        <label><input type="checkbox" name="age" value="children"> Children / adolescents</label>
-        <label><input type="checkbox" name="age" value="young_adults"> Young adults</label>
-        <label><input type="checkbox" name="age" value="adults"> Adults</label>
-        <label><input type="checkbox" name="age" value="seniors"> Seniors</label>
-      </fieldset>
-
-      <fieldset><legend>Population</legend>
-        <label><input type="checkbox" name="population" value="pregnant_postpartum"> Pregnant / postpartum</label>
-        <label><input type="checkbox" name="population" value="veterans"> Veterans</label>
-        <label><input type="checkbox" name="population" value="justice_involved"> Justice involved</label>
-        <label><input type="checkbox" name="population" value="adolescents"> Adolescents</label>
-      </fieldset>
-
-      <fieldset><legend>Language</legend>
-        <label><input type="checkbox" name="language" value="spanish"> Spanish</label>
-        <label><input type="checkbox" name="language" value="asl"> Sign language (ASL)</label>
-        <label><input type="checkbox" name="language" value="arabic"> Arabic</label>
-        <label><input type="checkbox" name="language" value="chinese"> Chinese</label>
-        <label><input type="checkbox" name="language" value="russian"> Russian</label>
-      </fieldset>
-
-      <div class="finder-actions">
-        <button type="submit" class="btn btn-primary">Search</button>
-        <button type="reset" class="btn btn-secondary">Clear</button>
-      </div>
-    </form>
-  </details>
-
   <section id="finder-crisis" class="finder-crisis" role="note" aria-label="Emergency and crisis numbers" hidden>
     <p><strong>A medical emergency: call 911 or go to the nearest emergency department.</strong></p>
     <p><strong>Crisis: call or text <a href="tel:988">988</a>.</strong></p>
@@ -130,22 +40,288 @@
     <ul id="finder-crisis-extra" class="finder-crisis-extra"></ul>
   </section>
 
-  <p id="finder-status" class="finder-status" role="status" aria-live="polite"></p>
+  <div class="finder-stage" data-results="open" data-panel="closed">
+  <div class="finder-filters">
+    <form id="finder-form" class="finder-form" autocomplete="off">
+      <div class="f-bar" data-collapsed="false">
+        <button type="button" id="finder-bar-summary" class="f-summary" aria-label="Edit search"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span id="finder-bar-text" class="f-summary-text">Search by provider, program or town</span><span class="f-summary-edit">Edit</span></button>
+        <div class="f-bar-fields">
+      <label class="finder-text f-bar-name">Provider or program name
+          <input type="search" name="q" maxlength="100" placeholder="e.g. BrightView, Acadia, a program you heard of">
+        </label>
+        <label class="finder-text f-bar-town">Town
+          <input type="text" name="town" maxlength="60" list="finder-towns" placeholder="Start typing a town">
+          <datalist id="finder-towns">
+          <option value="Abingdon">
+          <option value="Alexandria">
+          <option value="Amelia Court House">
+          <option value="Annandale">
+          <option value="Arlington">
+          <option value="Ashburn">
+          <option value="Ashland">
+          <option value="Bassett">
+          <option value="Big Stone Gap">
+          <option value="Blacksburg">
+          <option value="Bluefield">
+          <option value="Boydton">
+          <option value="Bristol">
+          <option value="Cedar Bluff">
+          <option value="Chantilly">
+          <option value="Charlotte Court House">
+          <option value="Charlottesville">
+          <option value="Chesapeake">
+          <option value="Chester">
+          <option value="Chesterfield">
+          <option value="Christiansburg">
+          <option value="Clintwood">
+          <option value="Coeburn">
+          <option value="Covington">
+          <option value="Cross Junction">
+          <option value="Culpeper">
+          <option value="Danville">
+          <option value="Dinwiddie">
+          <option value="Dublin">
+          <option value="Dumfries">
+          <option value="Emporia">
+          <option value="Fairfax">
+          <option value="Fairfax Station">
+          <option value="Falls Church">
+          <option value="Farmville">
+          <option value="Floyd">
+          <option value="Forest">
+          <option value="Franklin">
+          <option value="Fredericksburg">
+          <option value="Front Royal">
+          <option value="Galax">
+          <option value="Glen Allen">
+          <option value="Gloucester">
+          <option value="Goochland">
+          <option value="Great Falls">
+          <option value="Gretna">
+          <option value="Grundy">
+          <option value="Hampton">
+          <option value="Hanover">
+          <option value="Harrisonburg">
+          <option value="Hayes">
+          <option value="Henrico">
+          <option value="Herndon">
+          <option value="Hillsville">
+          <option value="Honaker">
+          <option value="Hopewell">
+          <option value="Hurley">
+          <option value="Independence">
+          <option value="Jonesville">
+          <option value="Kilmarnock">
+          <option value="King George">
+          <option value="Lancaster">
+          <option value="Lawrenceville">
+          <option value="Lebanon">
+          <option value="Leesburg">
+          <option value="Lexington">
+          <option value="Lunenburg">
+          <option value="Luray">
+          <option value="Lynchburg">
+          <option value="Manassas">
+          <option value="Marion">
+          <option value="Martinsville">
+          <option value="Mc Lean">
+          <option value="McLean">
+          <option value="Mechanicsville">
+          <option value="Milford">
+          <option value="Newport News">
+          <option value="Norfolk">
+          <option value="North Chesterfield">
+          <option value="Norton">
+          <option value="Oakwood">
+          <option value="Parksley">
+          <option value="Pearisburg">
+          <option value="Pennington Gap">
+          <option value="Petersburg">
+          <option value="Portsmouth">
+          <option value="Powhatan">
+          <option value="Prince George">
+          <option value="Providence Forge">
+          <option value="Pulaski">
+          <option value="Radford">
+          <option value="Reston">
+          <option value="Richlands">
+          <option value="Richmond">
+          <option value="Roanoke">
+          <option value="Rocky Mount">
+          <option value="Ruther Glen">
+          <option value="Salem">
+          <option value="Sandston">
+          <option value="Smithfield">
+          <option value="South Boston">
+          <option value="South Hill">
+          <option value="Spotsylvania">
+          <option value="Springfield">
+          <option value="Stafford">
+          <option value="Staunton">
+          <option value="Sterling">
+          <option value="Stuart">
+          <option value="Suffolk">
+          <option value="Tappahannock">
+          <option value="Vansant">
+          <option value="Verona">
+          <option value="Vienna">
+          <option value="Virginia Beach">
+          <option value="Warrenton">
+          <option value="Waverly">
+          <option value="Waynesboro">
+          <option value="Weber City">
+          <option value="Williamsburg">
+          <option value="Winchester">
+          <option value="Woodbridge">
+          <option value="Woodstock">
+          <option value="Wytheville">
+          <option value="Yorktown">
+          </datalist>
+        </label>
+        <label class="finder-text f-bar-miles f-miles">Distance from that town
+          <span class="f-miles-row"><input type="range" name="miles" min="0" max="100" step="5" value="0" aria-describedby="finder-miles-out"><output id="finder-miles-out" for="finder-miles">Anywhere</output></span>
+        </label>
+        </div>
+        <div class="f-bar-actions">
+          <button type="button" id="finder-drawer-open" class="btn btn-secondary f-filters-btn" aria-controls="finder-drawer" aria-expanded="false">Filters <span id="finder-filter-count" class="f-count" hidden></span></button>
+          <button type="submit" class="btn btn-primary">Search</button>
+          <button type="button" id="finder-bar-collapse" class="f-collapse" aria-label="Collapse search bar">Hide &#9650;</button>
+        </div>
+      </div>
+      <div id="finder-backdrop" class="f-backdrop" hidden></div>
+      <aside id="finder-drawer" class="f-drawer" role="dialog" aria-modal="true" aria-labelledby="finder-drawer-title" hidden>
+        <div class="f-drawer-head"><div><h2 id="finder-drawer-title">Filters</h2><p id="finder-live" class="f-live" role="status" aria-live="polite"></p></div><button type="button" id="finder-drawer-close" class="f-drawer-x" aria-label="Close filters">&times;</button></div>
+        <div class="f-drawer-body">
+      <section class="f-sec"><div class="f-sec-head"><h3>Kind of care</h3><p>What the program offers</p></div>
+        <div class="f-sec-body">
+      <div class="f-group" role="radiogroup" aria-label="Type of care"><span class="f-label">Type of care</span><div class="seg">
+        <label><input type="radio" name="domain" value="" checked><span>Any</span></label>
+        <label><input type="radio" name="domain" value="addiction"><span>Addiction</span></label>
+        <label><input type="radio" name="domain" value="mental_health"><span>Mental health</span></label>
+      </div></div>
+      <fieldset class="f-group"><legend class="f-label">Setting</legend>
+        <div class="chips">
+          <label><input type="checkbox" name="setting" value="outpatient"><span>Outpatient</span></label>
+          <label><input type="checkbox" name="setting" value="residential"><span>Residential</span></label>
+          <label><input type="checkbox" name="setting" value="hospital_inpatient"><span>Hospital inpatient</span></label>
+          <label><input type="checkbox" name="setting" value="otp"><span>Opioid treatment program</span></label>
+        </div>
+        <div class="f-sub" data-showif="setting=outpatient"><span class="f-sublabel">Outpatient level</span>
+          <div class="chips"><label><input type="checkbox" name="setting" value="intensive_outpatient"><span>Intensive outpatient only</span></label></div>
+        </div>
+        <div class="f-sub" data-showif="setting=residential|hospital_inpatient"><span class="f-sublabel">Length of stay</span>
+          <div class="chips">
+            <label><input type="checkbox" name="length" value="short_term"><span>Short-term</span></label>
+            <label><input type="checkbox" name="length" value="long_term"><span>Long-term</span></label>
+          </div>
+        </div>
+      </fieldset>
+        </div></section>
+      <section class="f-sec"><div class="f-sec-head"><h3>Services</h3><p>Switch on what the client needs</p></div>
+        <div class="f-sec-body">
+        <div class="f-group f-toggles f-s12">
+        <label class="tog"><input type="checkbox" name="moud" value="yes" role="switch"><span class="tog-track"></span><span>Accepts clients on methadone or buprenorphine</span></label>
+        <label class="tog"><input type="checkbox" name="wm" value="yes" role="switch"><span class="tog-track"></span><span>Offers withdrawal management (detox)</span></label>
+        <label class="tog"><input type="checkbox" name="co_occurring" value="yes" role="switch"><span class="tog-track"></span><span>Treats co-occurring mental health and substance use</span></label>
+        </div>
+        </div></section>
+      <section class="f-sec"><div class="f-sec-head"><h3>Who it serves</h3><p>Client age, gender, language</p></div>
+        <div class="f-sec-body">
+      <div class="f-group" role="radiogroup" aria-label="Age"><span class="f-label">Age</span><div class="seg">
+        <label><input type="radio" name="age" value="" checked><span>Any</span></label>
+        <label><input type="radio" name="age" value="children"><span>Children / adolescents</span></label>
+        <label><input type="radio" name="age" value="young_adults"><span>Young adults</span></label>
+        <label><input type="radio" name="age" value="adults"><span>Adults</span></label>
+        <label><input type="radio" name="age" value="seniors"><span>Seniors</span></label>
+      </div></div>
+      <div class="f-group" role="radiogroup" aria-label="Gender served"><span class="f-label">Gender served</span><div class="seg">
+        <label><input type="radio" name="gender" value="" checked><span>Any</span></label>
+        <label><input type="radio" name="gender" value="female"><span>Female</span></label>
+        <label><input type="radio" name="gender" value="male"><span>Male</span></label>
+      </div></div>
+      <label class="f-group f-select f-s4"><span class="f-label">Language</span>
+        <select name="language">
+          <option value="">Any</option>
+          <option value="spanish">Spanish</option>
+          <option value="asl">Sign language (ASL)</option>
+          <option value="arabic">Arabic</option>
+          <option value="chinese">Chinese</option>
+          <option value="russian">Russian</option>
+        </select>
+      </label>
+      <details class="f-more f-s12"><summary>More: population</summary>
+      <fieldset class="f-group"><legend class="f-label">Population</legend><div class="chips">
+        <label><input type="checkbox" name="population" value="pregnant_postpartum"><span>Pregnant / postpartum</span></label>
+        <label><input type="checkbox" name="population" value="veterans"><span>Veterans</span></label>
+        <label><input type="checkbox" name="population" value="justice_involved"><span>Justice involved</span></label>
+        <label><input type="checkbox" name="population" value="adolescents"><span>Adolescents</span></label>
+      </div></fieldset>
+      </details>
+        </div></section>
+      <section class="f-sec"><div class="f-sec-head"><h3>Payment</h3><p>What the program reports taking</p></div>
+        <div class="f-sec-body">
+      <fieldset class="f-group"><legend class="f-label">Payment the program reports</legend><div class="chips">
+        <label><input type="checkbox" name="payment" value="medicaid"><span>Medicaid</span></label>
+        <label><input type="checkbox" name="payment" value="medicare"><span>Medicare</span></label>
+        <label><input type="checkbox" name="payment" value="private"><span>Private insurance</span></label>
+        <label><input type="checkbox" name="payment" value="sliding_fee"><span>Sliding fee</span></label>
+        <label><input type="checkbox" name="payment" value="state_funded"><span>State funded</span></label>
+      </div></fieldset>
+        </div></section>
+        </div>
+        <div class="f-drawer-foot">
+          <button type="reset" class="btn btn-secondary">Clear all</button>
+          <button type="submit" id="finder-show" class="btn btn-primary">Show results</button>
+        </div>
+      </aside>
+    </form>
+  </div>
+
   <p id="finder-error" class="finder-error" role="alert" hidden></p>
+  <div class="finder-toolbar">
+    <div class="finder-tabs" role="tablist" aria-label="Show list or map">
+      <button type="button" role="tab" data-view="list" aria-selected="true">List</button>
+      <button type="button" role="tab" data-view="map" aria-selected="false">Map</button>
+    </div>
+  </div>
 
   <div class="finder-grid">
-    <section class="finder-list" aria-label="Results">
+    <section id="finder-list" class="finder-list" aria-label="Results">
+      <div class="finder-listhead">
+        <details class="finder-about"><summary>About these results</summary><p class="finder-lede">Virginia addiction and mental health treatment as listed on FindTreatment.gov. Where the directory says nothing about something you filter on, the result still shows, marked <strong>Unknown</strong>. Call the program to confirm before you refer.</p></details>
+        <p id="finder-status" class="finder-status" role="status" aria-live="polite"></p>
+        <button id="finder-compare-open" type="button" class="btn btn-secondary" hidden>Compare (0)</button>
+      </div>
       <ol id="finder-full" class="finder-results"></ol>
       <h2 id="finder-partial-head" class="finder-partial-head" hidden></h2>
       <ol id="finder-partial" class="finder-results"></ol>
       <button id="finder-more" type="button" class="btn btn-secondary finder-more" hidden>Show more</button>
     </section>
     <section class="finder-mapwrap" aria-label="Map">
+      <div class="finder-basemaps" role="group" aria-label="Map style">
+        <button type="button" data-basemap="dark" aria-pressed="true">Dark</button>
+        <button type="button" data-basemap="light" aria-pressed="false">Light</button>
+        <button type="button" data-basemap="streets" aria-pressed="false">Streets</button>
+        <button type="button" data-basemap="3d" aria-pressed="false">3D</button>
+        <button type="button" data-basemap="satellite" aria-pressed="false">Satellite</button>
+      </div>
       <div id="finder-map" class="finder-map"></div>
       <button id="finder-area" type="button" class="btn btn-secondary finder-area" hidden>Search this map area</button>
       <p id="finder-map-note" class="finder-map-note" hidden></p>
     </section>
+    <aside id="finder-panel" class="finder-panel" aria-label="Program details" hidden></aside>
   </div>
+  <button id="finder-results-toggle" type="button" class="finder-results-toggle" aria-expanded="true" aria-controls="finder-list">Results</button>
+  </div>
+
+  <dialog id="finder-compare-dialog" class="finder-compare" aria-labelledby="finder-compare-title">
+    <div class="finder-compare-head">
+      <h2 id="finder-compare-title">Compare programs</h2>
+      <div><button type="button" id="finder-compare-clear" class="btn btn-secondary">Clear all</button> <button type="button" id="finder-compare-close" class="btn btn-primary">Close</button></div>
+    </div>
+    <p class="finder-compare-hint">Up to 4 programs. Notes are saved in this browser only.</p>
+    <div id="finder-compare-body" class="finder-compare-body"></div>
+  </dialog>
 
   <p class="finder-signup">
     <a href="{{ $signupHref }}" class="btn btn-primary" data-analytics-event="cta_click_subscribe" data-analytics-label="finder_signup">Save lists and see residence addresses with a Kerrigan account</a>
