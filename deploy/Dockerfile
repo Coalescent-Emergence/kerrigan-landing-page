@@ -2,6 +2,7 @@
 # Dev-only image: builds the landing site with the finder switched on
 # (deploy/finder-dev.toml) and serves it via nginx. Production is built by
 # .github/workflows/deploy.yml and never reads this file.
+# The dev image also builds drafts (--buildDrafts); production does not.
 # The site has no Go module, npm or Sass step, so only Hugo extended is needed
 # (version matches HUGO_VERSION in deploy.yml). Download is verified against
 # the release's published checksum.
@@ -22,7 +23,7 @@ RUN curl -fsSL "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSI
 
 WORKDIR /src
 COPY . .
-RUN hugo --gc --minify --baseURL "${BASEURL}" --config hugo.toml,deploy/finder-dev.toml
+RUN hugo --gc --minify --buildDrafts --baseURL "${BASEURL}" --config hugo.toml,deploy/finder-dev.toml
 
 FROM nginx:1.27-alpine
 COPY --from=build /src/public /usr/share/nginx/html
