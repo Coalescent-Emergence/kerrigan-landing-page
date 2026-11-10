@@ -835,6 +835,7 @@
   var cmpOpen = document.getElementById('finder-compare-open');
   var cmpDialog = document.getElementById('finder-compare-dialog');
   var cmpBody = document.getElementById('finder-compare-body');
+  var cmpNote = '';
 
   function toggleCompare(r, on) {
     var i = compare.ids.indexOf(r.id);
@@ -864,7 +865,7 @@
       var r = compare.recs[id];
       var th = el('th'); th.scope = 'col';
       th.appendChild(el('strong', null, r.name || ''));
-      th.appendChild(el('div', 'finder-sub', [r.type_label, r.town].filter(Boolean).join(' \u00b7 ')));
+      th.appendChild(el('div', 'finder-sub', [r.type_label, r.town].filter(Boolean).join(' · ')));
       var rm = el('button', 'finder-cmp-remove', 'Remove'); rm.type = 'button';
       rm.addEventListener('click', function () { toggleCompare(r, false); });
       th.appendChild(rm);
@@ -872,13 +873,25 @@
     });
     t.appendChild(el('thead')).appendChild(hr);
     var tb = el('tbody');
-    // The six named fields (setting or level, payment, medication, population,
-    // phone; transit time joins them with the transit slice).
+    var info = [['Address', function (r) { return [r.street, r.street2, [r.town, r.zip].filter(Boolean).join(' ')].filter(Boolean).join(', ') || 'Not reported'; }],
+                ['Phone', function (r) { return r.phone || 'Not reported'; }]];
+    info.forEach(function (row) {
+      var tr = el('tr'); tr.appendChild(el('th', null, row[0])).scope = 'row';
+      compare.ids.forEach(function (id) { tr.appendChild(el('td', null, row[1](compare.recs[id]))); });
+      tb.appendChild(tr);
+    });
+    // The shortlist's named fields as text (setting or level, payment, medication,
+    // population; phone is the row above; transit time joins with the transit slice).
     window.FinderLists.compareRows(recs, facetValue).forEach(function (row) {
+      if (row.label === 'Phone') return;
       var tr = el('tr'); var th = el('th', null, row.label); th.scope = 'row'; tr.appendChild(th);
       row.cells.forEach(function (c) { tr.appendChild(el('td', c === 'Not reported' ? 'finder-unknown' : null, c)); });
       tb.appendChild(tr);
     });
+    // The owner's matrix: a row per fact, an icon per program, unknown shown as unknown.
+    var cm = matrixRows(recs);
+    cmpNote = cm.note;
+    cm.rows.forEach(function (tr) { tb.appendChild(tr); });
     var nr = el('tr'); var nth = el('th', null, 'Your notes'); nth.scope = 'row'; nr.appendChild(nth);
     compare.ids.forEach(function (id) {
       var td = el('td');
@@ -894,7 +907,9 @@
     });
     tb.appendChild(nr);
     t.appendChild(tb);
+    cmpBody.appendChild(mxLegend());
     cmpBody.appendChild(t);
+    if (cmpNote) cmpBody.appendChild(el('p', 'finder-unk-note', cmpNote + ' (for every program selected)'));
   }
 
   cmpOpen.addEventListener('click', function () { buildCompare(); if (compare.ids.length) cmpDialog.showModal(); });
@@ -996,6 +1011,8 @@
       if (!session || !b || !Array.isArray(b.shortlists)) return;
       lists.account = b.account || null;
       lists.shortlists = b.shortlists.map(function (l) { return { id: l.id, items: Array.isArray(l.items) ? l.items : [] }; });
+      // A merge can re-point a saved item to the surviving facility: carry the note along.
+      b.shortlists.forEach(function (l) { window.FinderLists.moveReplacedNotes(notesStore(), lists.account, l.replaced); });
       lists.ready = true;
       if (!activeList()) lists.active = lists.shortlists.length ? lists.shortlists[0].id : null;
       syncSaves();

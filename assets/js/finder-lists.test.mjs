@@ -43,6 +43,30 @@ test('migration never overwrites a note already kept under the account', () => {
   assert.equal(s.getItem('finder-note:svc-3'), null);
 });
 
+test('a merge that re-points a saved item carries its note to the new id', () => {
+  const s = fakeStore({ 'finder-note:u-1:svc-3': 'quiet street', 'finder-note:u-1:svc-4': 'ask for Lee', 'finder-note:u-2:svc-3': 'not mine' });
+  L.moveReplacedNotes(s, 'u-1', { 'svc-9': ['svc-3'], 'svc-8': ['svc-4'] });
+  assert.equal(s.getItem('finder-note:u-1:svc-9'), 'quiet street');
+  assert.equal(s.getItem('finder-note:u-1:svc-3'), null);
+  assert.equal(s.getItem('finder-note:u-1:svc-8'), 'ask for Lee');
+  assert.equal(s.getItem('finder-note:u-2:svc-3'), 'not mine', 'another account is untouched');
+  L.moveReplacedNotes(s, 'u-1', { 'svc-9': ['svc-3'] }); // a second load changes nothing
+  assert.equal(s.getItem('finder-note:u-1:svc-9'), 'quiet street');
+});
+
+test('an existing note on the new id is kept, and the old one is left alone', () => {
+  const s = fakeStore({ 'finder-note:u-1:svc-3': 'old', 'finder-note:u-1:svc-9': 'new' });
+  L.moveReplacedNotes(s, 'u-1', { 'svc-9': ['svc-3'] });
+  assert.equal(s.getItem('finder-note:u-1:svc-9'), 'new');
+  assert.equal(s.getItem('finder-note:u-1:svc-3'), 'old');
+});
+
+test('nothing replaced, or no account, moves nothing', () => {
+  const s = fakeStore({ 'finder-note:u-1:svc-3': 'x' });
+  L.moveReplacedNotes(s, 'u-1', undefined); L.moveReplacedNotes(s, null, { 'svc-9': ['svc-3'] });
+  assert.deepEqual(s.keys(), ['finder-note:u-1:svc-3']);
+});
+
 test('an emptied note removes its key', () => {
   const s = fakeStore();
   L.setNote(s, 'u-1', 'svc-3', 'x');

@@ -46,6 +46,21 @@
     else safeDel(store, noteKey(account, id));
   }
 
+  // The finder says an item replaced older ids when a merge re-pointed it
+  // ({"svc-9": ["svc-3"]}). Move each old note to the new id unless the new id
+  // already has one; the old key is cleared either way once its text is kept.
+  function moveReplacedNotes(store, account, replaced) {
+    if (!account || !replaced) return;
+    Object.keys(replaced).forEach(function (id) {
+      (Array.isArray(replaced[id]) ? replaced[id] : []).forEach(function (old) {
+        if (old === id) return;
+        var text = safeGet(store, noteKey(account, old));
+        if (text === null) return;
+        if (!safeGet(store, noteKey(account, id))) { safeSet(store, noteKey(account, id), text); safeDel(store, noteKey(account, old)); }
+      });
+    });
+  }
+
   function listName(store, account, listId, position) {
     return safeGet(store, listNameKey(account, listId)) || (position === 1 ? 'My shortlist' : 'Shortlist ' + position);
   }
@@ -211,7 +226,7 @@
   var api = {
     NOTE_WARNING: NOTE_WARNING, COMPARE_MAX: COMPARE_MAX, HANDOUT_MAX: HANDOUT_MAX, ALWAYS: ALWAYS,
     noteKey: noteKey, legacyNoteKey: legacyNoteKey, listNameKey: listNameKey,
-    getNote: getNote, setNote: setNote, migrateNote: migrateNote, listName: listName, setListName: setListName,
+    getNote: getNote, moveReplacedNotes: moveReplacedNotes, setNote: setNote, migrateNote: migrateNote, listName: listName, setListName: setListName,
     compareRows: compareRows, pickForCompare: pickForCompare, handoutModel: handoutModel, buildPdf: buildPdf
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
