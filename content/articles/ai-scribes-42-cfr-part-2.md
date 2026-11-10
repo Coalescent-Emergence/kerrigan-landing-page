@@ -18,9 +18,9 @@ draft: false
 
 Your clinicians are behind on notes. Someone is pitching you an AI scribe. Your compliance officer has one question, and it is the right one: where does the session go?
 
-**The short answer:** 42 CFR Part 2 (Title 42 of the Code of Federal Regulations (CFR), the rule on substance use disorder (SUD) patient records) does not mention AI, so it neither bans AI scribes nor approves them. What you verify is how a vendor handles your patients' records under rules Part 2 already has: what counts as a record, who may act as your outside service provider, and security. Four checks cover it.
+**The short answer:** Title 42 of the Code of Federal Regulations (CFR), Part 2, the rule on substance use disorder (SUD) patient records, does not mention AI, so it neither bans AI scribes nor approves them. What you verify is how a vendor handles your patients' records under rules Part 2 already has: what counts as a record, who may act as your outside service provider, and security. Four checks cover it.
 
-This article answers the question from the regulation itself, section by section, and every regulatory statement links to the section it comes from. Use it to start the conversation with your compliance officer from the rule text, not a sales deck.
+This article answers the question from the regulation itself, section by section, and every regulatory statement links to the section it comes from. Use it to start the conversation from the rule text, not a sales deck.
 
 ## Why the question got harder in 2026
 
@@ -36,7 +36,7 @@ Any vendor you approve now is approved while that program is running.
 
 ## Is AI transcription allowed under Part 2?
 
-Part 2 does not mention AI. We searched the current eCFR (electronic Code of Federal Regulations) text of the regulation: it contains no reference to artificial intelligence, transcription or audio. The rule neither bans AI scribes nor approves them.
+Part 2 does not mention AI. We searched the current eCFR (electronic Code of Federal Regulations) text of the regulation: it contains no reference to artificial intelligence, transcription or audio.
 
 So the real question is narrower. Does this vendor's handling of your patients' information fit the rules Part 2 already has for records, for outside service providers, and for security? Answering that takes four checks.
 
@@ -52,7 +52,7 @@ An AI scribe produces more than a note. List every artifact it creates:
 - every revision before signature
 - logs, metadata and anything kept for "quality improvement"
 
-Next to each item, ask your compliance officer whether it is a Part 2 record and who holds it. The rule never names AI output, so treating all of it as a record until told otherwise is the cautious place to start.
+Next to each item, note whether it is a Part 2 record and who holds it. The rule never names AI output, so treating all of it as a record until told otherwise is the cautious place to start.
 
 ## 2. Pin down the vendor relationship: the qualified service organization agreement (QSOA) for an AI vendor
 
@@ -65,15 +65,13 @@ Both quotes are from [42 CFR 2.11, Qualified service organization](https://www.e
 
 Three details matter for an AI vendor.
 
-**A business associate agreement (BAA) may also count, under conditions.** The 2024 rule expressly includes HIPAA business associates as QSOs "where the QSO meets the definition of business associate for a covered entity that is also a part 2 program" ([final rule, summary of §2.11](https://www.federalregister.gov/documents/2024/02/16/2024-02544/confidentiality-of-substance-use-disorder-sud-patient-records)). Whether your vendor's BAA alone is enough, or you also need QSOA language, is your compliance officer's call. Ask the vendor which document it will sign, and get the actual text.
+**A business associate agreement (BAA) may also count, under conditions.** The 2024 rule expressly includes HIPAA business associates as QSOs "where the QSO meets the definition of business associate for a covered entity that is also a part 2 program" ([final rule, summary of §2.11](https://www.federalregister.gov/documents/2024/02/16/2024-02544/confidentiality-of-substance-use-disorder-sud-patient-records)). Whether your vendor's BAA alone is enough, or you also need QSOA language, is a question to settle before signing. Ask the vendor which document it will sign, and get the actual text.
 
 **"Needed" is a limit.** The exception covers information the QSO needs to provide its service. Ask what the vendor keeps after the note is signed, and why.
 
-**Downstream parties are the real test.** A QSO may not re-disclose your records to a third party unless that party is its contract agent, helping it provide the services in the QSOA. Even then, the agent may disclose the information only back to the QSO or to your program.
+**Downstream parties are the real test.** SAMHSA (the Substance Abuse and Mental Health Services Administration) guidance, quoted in the 2018 rule and repeated in the preamble to the 2024 rule, is that "a QSOA does not permit a QSO to re-disclose information to a third party unless that third party is a contract agent of the QSO, helping them provide services described in the QSOA" ([2024 final rule preamble](https://www.federalregister.gov/documents/2024/02/16/2024-02544/confidentiality-of-substance-use-disorder-sud-patient-records)).
 
-That is guidance from SAMHSA (the Substance Abuse and Mental Health Services Administration), quoted in the 2018 rule and repeated in the 2024 rule's preamble, published in the Federal Register (FR) ([89 FR 12504](https://www.federalregister.gov/documents/2024/02/16/2024-02544/confidentiality-of-substance-use-disorder-sud-patient-records)).
-
-The wording is that "a QSOA does not permit a QSO to re-disclose information to a third party unless that third party is a contract agent of the QSO, helping them provide services described in the QSOA, and only as long as the agent only further discloses the information back to the QSO or to the part 2 program from which it came."
+The agent may further disclose the information only back to the QSO or to the Part 2 program it came from.
 
 So for each company in the vendor's pipeline, ask: is it a contract agent, and does the data only flow back? That leads straight to architecture.
 
@@ -103,7 +101,7 @@ Recordings sit outside the category. The preamble says the definition, "like the
 
 Because a transcript captures the conversation itself, it may be argued to sit near that definition. That is not a settled reading.
 
-If your program keeps separate counseling notes, ask your compliance officer how AI transcripts and drafts fit that practice. Then ask the vendor where those artifacts live and whether they ever land in the main record without a clinician deciding they should.
+If your program keeps separate counseling notes, ask how AI transcripts and drafts fit that practice. Then ask the vendor where those artifacts live and whether they ever land in the main record without a clinician deciding they should.
 
 ## Security, deletion and breach
 
@@ -126,6 +124,8 @@ Ask whether anything can change a signed note without the clinician approving th
 
 ## The short version for your meeting
 
+Bring these to your compliance officer and the vendor.
+
 1. Which document will you sign: a QSOA, a BAA, or both? Send the text.
 2. Name every company that touches audio, transcripts or drafts.
 3. Which of those steps run on infrastructure you control?
@@ -140,4 +140,4 @@ We cover most of these, with what good and bad answers sound like, in [the quest
 
 To see Kerrigan, visit [our home page](https://latentworx.com/).
 
-*This article is not legal advice. Take what you find to your compliance officer, who knows your program, your state and your contracts.*
+*This article is not legal advice. Check what you find against your program, your state and your contracts.*
