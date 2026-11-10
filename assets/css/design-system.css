@@ -1705,6 +1705,8 @@ tr:nth-child(even) .danger-container::after,
   text-transform: uppercase;
 }
 
+.article-meta a { color: var(--color-accent-secondary); }
+
 .article-back {
   font-size: var(--wp-text-sm);
   color: var(--color-accent-secondary);
