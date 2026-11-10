@@ -254,8 +254,267 @@
 @media (max-width: 767.98px) {
   .finder { padding: var(--wp-space-4) var(--gutter-mobile) var(--wp-space-8); }
   .finder-grid { grid-template-columns: minmax(0, 1fr); }
-  .finder-mapwrap { order: -1; position: static; }
-  .finder-map { height: 50vh; min-height: 240px; }
+  .finder-mapwrap { position: static; }
+  .finder-map { height: 70vh; min-height: 280px; }
   .finder-facets { grid-template-columns: minmax(0, 1fr); }
   .finder-facets dd { margin-bottom: var(--wp-space-1); }
+}
+
+/* ── Filter devices (tracker 267): segmented, chips, switches ─────── */
+.finder-form .f-group { border: 0; padding: 0; margin: 0; min-width: 0; display: flex; flex-direction: column; gap: var(--wp-space-2); }
+.finder-form .f-label { font-size: var(--wp-text-sm); font-weight: 600; padding: 0; }
+.finder-form .f-group input[type="radio"],
+.finder-form .f-group input[type="checkbox"] { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.finder-form .seg, .finder-form .chips { display: flex; flex-wrap: wrap; gap: var(--wp-space-2); }
+.finder-form .seg { gap: 0; }
+.finder-form .seg label, .finder-form .chips label {
+  position: relative; display: inline-flex; align-items: center; min-height: 40px; padding: 0 var(--wp-space-3);
+  border: 1px solid var(--color-border); background: var(--input-bg); color: var(--color-text-secondary);
+  font-size: var(--wp-text-sm); cursor: pointer; user-select: none;
+}
+.finder-form .seg label + label { margin-left: -1px; }
+.finder-form .chips label { border-radius: 999px; }
+.finder-form .seg label:has(input:checked), .finder-form .chips label:has(input:checked) {
+  background: var(--color-accent-primary); border-color: var(--color-accent-primary); color: var(--color-bg-container); font-weight: 600; z-index: 1;
+}
+.finder-form .seg label:has(input:focus-visible), .finder-form .chips label:has(input:focus-visible),
+.finder-form .tog:has(input:focus-visible) { outline: 2px solid var(--color-border-active); outline-offset: 2px; }
+.finder-form .f-toggles { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; gap: var(--wp-space-4) var(--wp-space-6); }
+.finder-form .tog { position: relative; display: inline-flex; align-items: center; gap: var(--wp-space-2); min-height: 40px; font-size: var(--wp-text-sm); color: var(--color-text-secondary); cursor: pointer; }
+.finder-form .tog-track { width: 36px; height: 20px; border-radius: 999px; background: var(--color-border); position: relative; flex: none; transition: background .15s; }
+.finder-form .tog-track::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--color-bg-container); transition: transform .15s; }
+.finder-form .tog input:checked + .tog-track { background: var(--color-accent-primary); }
+.finder-form .tog input:checked + .tog-track::after { transform: translateX(16px); }
+.finder-form .f-select select { min-height: var(--input-height); background: var(--input-bg); border: 1px solid var(--input-border); color: var(--input-text); font: inherit; padding: 0 var(--wp-space-3); }
+.finder-form .f-more { grid-column: 1 / -1; }
+.finder-form .f-more summary { cursor: pointer; font-size: var(--wp-text-sm); font-weight: 600; min-height: 40px; display: flex; align-items: center; }
+@media (prefers-reduced-motion: reduce) { .finder-form .tog-track, .finder-form .tog-track::after { transition: none; } }
+
+/* ── Sections: titled blocks, heading left, controls right (tracker 267) ── */
+.finder-form { display: block; padding: 0; border-top: 1px solid var(--color-border); }
+.finder-form .f-sec { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: var(--wp-space-6); padding: var(--wp-space-6) var(--wp-space-5); border-bottom: 1px solid var(--color-border); }
+.finder-form .f-sec-head h3 { margin: 0 0 var(--wp-space-1); font-family: var(--finder-font); font-size: var(--wp-text-lg, 1.125rem); font-weight: 700; color: var(--color-text-primary); }
+.finder-form .f-sec-head p { margin: 0; font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
+.finder-form .f-sec-body { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--wp-space-5) var(--wp-space-6); align-items: start; }
+.finder-form .f-sec-body > * { grid-column: 1 / -1; }
+.finder-form .f-s6 { grid-column: span 6; }
+.finder-form .f-s4, .finder-form .f-group:has(input[name="gender"]) { grid-column: span 4; }
+.finder-form .f-group:has(input[name="age"]) { grid-column: span 8; }
+.finder-form .f-group:has(input[name="domain"]) { grid-column: span 7; }
+.finder-form .f-label { font-size: var(--wp-text-sm); font-weight: 600; color: var(--color-text-secondary); text-transform: none; }
+.finder-form .f-select select { width: 100%; }
+.finder-form .seg { width: 100%; }
+.finder-form .seg label { flex: 1 1 0; justify-content: center; text-align: center; padding: 0 var(--wp-space-2); white-space: nowrap; }
+.finder-form .f-toggles { flex-direction: column; gap: var(--wp-space-1); }
+.finder-form .f-toggles .tog { padding: var(--wp-space-1) 0; }
+.finder-form .finder-actions { padding: var(--wp-space-5); }
+@media (max-width: 900px) {
+  .finder-form .f-sec { grid-template-columns: 1fr; gap: var(--wp-space-3); }
+  .finder-form .f-sec-body > .f-group, .finder-form .f-sec-body > .f-s6 { grid-column: 1 / -1 !important; }
+  .finder-form .seg { flex-wrap: wrap; }
+  .finder-form .seg label { flex: 1 1 auto; white-space: normal; }
+}
+.finder-form .f-miles-row { display: flex; align-items: center; gap: var(--wp-space-4); min-height: var(--input-height); }
+.finder-form .f-miles-row input[type="range"] { flex: 1 1 auto; accent-color: var(--color-accent-primary); min-width: 0; }
+.finder-form .f-miles-row output { flex: none; min-width: 9ch; font-size: var(--wp-text-sm); color: var(--color-text-primary); font-weight: 600; }
+
+/* ── Bar + drawer (tracker 267): filters live in a slide-out, not on the page ── */
+.finder-filters { border: 0; background: none; }
+.finder-form { border: 0; }
+.finder-form [hidden] { display: none !important; }
+.f-bar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--wp-space-4); padding: var(--wp-space-4); border: 1px solid var(--color-border); background: var(--color-bg-container); }
+.f-bar-fields { display: flex; flex-wrap: wrap; gap: var(--wp-space-4) var(--wp-space-6); flex: 1 1 420px; min-width: 0; }
+.f-bar-fields > label { flex: 1 1 260px; min-width: 0; }
+.f-bar-actions { display: flex; gap: var(--wp-space-3); align-items: center; }
+.f-count { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; margin-left: var(--wp-space-2); padding: 0 6px; border-radius: 999px; background: var(--color-accent-primary); color: var(--color-bg-container); font-size: var(--wp-text-sm); font-weight: 700; }
+.f-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, .6); z-index: 1090; }
+.f-drawer { position: fixed; top: 0; bottom: 0; left: 0; z-index: 1100; width: min(460px, 100vw); display: flex; flex-direction: column; background: var(--color-bg-container); border-right: 1px solid var(--color-border); box-shadow: 8px 0 32px rgba(0, 0, 0, .5); }
+.f-drawer-head { display: flex; align-items: center; justify-content: space-between; padding: var(--wp-space-4) var(--wp-space-5); border-bottom: 1px solid var(--color-border); }
+.f-drawer-head h2 { margin: 0; font-family: var(--finder-font); font-size: var(--wp-text-xl, 1.25rem); }
+.f-drawer-x { min-width: 44px; min-height: 44px; background: none; border: 0; color: var(--color-text-primary); font-size: 1.75rem; line-height: 1; cursor: pointer; }
+.f-drawer-x:focus-visible { outline: 2px solid var(--color-border-active); }
+.f-drawer-body { flex: 1 1 auto; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; }
+.f-drawer-foot { display: flex; justify-content: space-between; gap: var(--wp-space-3); padding: var(--wp-space-4) var(--wp-space-5); border-top: 1px solid var(--color-border); }
+.f-drawer .f-sec { grid-template-columns: 1fr; gap: var(--wp-space-3); padding: var(--wp-space-5); }
+.f-drawer .f-sec-body > .f-group { grid-column: 1 / -1 !important; }
+.f-drawer .seg { flex-wrap: wrap; }
+.f-drawer .seg label { flex: 1 1 auto; white-space: normal; }
+body.finder-drawer-open { overflow: hidden; }
+.f-live { margin: var(--wp-space-1) 0 0; font-size: var(--wp-text-sm); color: var(--color-text-secondary); max-width: 34ch; }
+.f-drawer-head h2 + .f-live { color: var(--color-text-primary); }
+
+/* ── Basemap switcher (tracker 267) ───────────────────────── */
+.finder-basemaps { display: flex; margin-bottom: var(--wp-space-3); }
+.finder-basemaps button { flex: 1 1 0; min-height: 40px; padding: 0 var(--wp-space-3); border: 1px solid var(--color-border); background: var(--input-bg); color: var(--color-text-secondary); font: inherit; font-size: var(--wp-text-sm); cursor: pointer; }
+.finder-basemaps button + button { margin-left: -1px; }
+.finder-basemaps button[aria-pressed="true"] { background: var(--color-accent-primary); border-color: var(--color-accent-primary); color: var(--color-bg-container); font-weight: 600; position: relative; z-index: 1; }
+.finder-basemaps button:focus-visible { outline: 2px solid var(--color-border-active); outline-offset: 2px; }
+
+/* ── Bar fields and scrolling list (tracker 267) ──────────── */
+.f-bar-fields > .f-bar-name { flex: 2 1 280px; }
+.f-bar-fields > .f-bar-town { flex: 1 1 200px; }
+.f-bar-fields > .f-bar-miles { flex: 1.4 1 260px; }
+.finder-list { position: relative; max-height: calc(100vh - 140px); min-height: 320px; overflow-y: auto; padding-right: var(--wp-space-2); scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; overscroll-behavior: contain; }
+@media (max-width: 767.98px) { .finder-list { max-height: 70vh; } }
+
+/* ── Compact results (tracker 267): one row per program, full record on select ── */
+.finder-results { gap: 0; border: 1px solid var(--color-border); }
+.finder-item { border: 0; border-bottom: 1px solid var(--color-border); padding: 0; box-shadow: none; }
+.finder-item:last-child { border-bottom: 0; }
+.finder-item.is-active { box-shadow: none; background: var(--color-bg-surface); border-left: 3px solid var(--color-accent-primary); }
+.finder-row { display: grid; gap: 2px; width: 100%; text-align: left; background: none; border: 0; color: inherit; font: inherit; padding: var(--wp-space-2) var(--wp-space-3); cursor: pointer; }
+.finder-row:hover { background: var(--color-bg-surface); }
+.finder-row-name { font-weight: 700; }
+.finder-row-meta { font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
+.finder-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+.finder-tag { font-size: var(--wp-text-xs); padding: 0 var(--wp-space-2); border: 1px solid var(--color-accent-secondary); }
+.finder-row-partial { font-size: var(--wp-text-xs); color: var(--color-status-warning-text); }
+.finder-detail { padding: 0 var(--wp-space-3) var(--wp-space-3); }
+.finder-detail[hidden] { display: none; }
+
+/* ── Compare, groups, area button, mobile tabs (tracker 267) ── */
+.finder-toolbar { display: flex; align-items: center; justify-content: space-between; gap: var(--wp-space-3); margin: var(--wp-space-2) 0; }
+.finder-tabs { display: none; }
+.finder-item { display: flex; flex-wrap: wrap; align-items: flex-start; }
+.finder-item .finder-row { order: 1; flex: 1 1 0; min-width: 0; }
+.finder-cmp { order: 2; display: flex; align-items: center; gap: 4px; font-size: var(--wp-text-xs); padding: var(--wp-space-3) var(--wp-space-3) 0 var(--wp-space-2); color: var(--color-text-secondary); cursor: pointer; }
+.finder-item .finder-detail { order: 3; flex: 0 0 100%; box-sizing: border-box; }
+.finder-group { border-bottom: 1px solid var(--color-border); list-style: none; }
+.finder-group:last-child { border-bottom: 0; }
+.finder-group-head { padding: var(--wp-space-2) var(--wp-space-3) var(--wp-space-1); }
+.finder-group-name { font-family: var(--finder-font); font-size: var(--wp-text-base); font-weight: 700; margin: 0; }
+.finder-group-head p { margin: 0; }
+.finder-programs { list-style: none; margin: 0; padding: 0 0 0 var(--wp-space-4); border-left: 3px solid var(--color-border); margin-left: var(--wp-space-3); margin-bottom: var(--wp-space-2); }
+.finder-programs .finder-item { border-bottom: 1px solid var(--color-border); }
+.finder-programs .finder-item:last-child { border-bottom: 0; }
+.finder-showmap { display: none; margin-top: var(--wp-space-2); }
+.finder-area { position: absolute; left: 50%; transform: translateX(-50%); bottom: 44px; z-index: 5; margin: 0; }
+.finder-mapwrap { position: sticky; }
+.finder-compare { width: min(1100px, 96vw); max-height: 92vh; overflow: auto; background: var(--color-bg-container); color: var(--color-text-primary); border: 1px solid var(--color-border); padding: var(--wp-space-4); }
+.finder-compare::backdrop { background: rgba(0, 0, 0, 0.6); }
+.finder-compare-head { display: flex; justify-content: space-between; align-items: center; gap: var(--wp-space-3); flex-wrap: wrap; }
+.finder-compare-head h2 { margin: 0; }
+.finder-compare-hint { font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
+.finder-compare-body { overflow-x: auto; }
+.finder-cmp-table { border-collapse: collapse; width: 100%; font-size: var(--wp-text-sm); }
+.finder-cmp-table th, .finder-cmp-table td { border: 1px solid var(--color-border); padding: var(--wp-space-2); text-align: left; vertical-align: top; min-width: 160px; }
+.finder-cmp-table tbody th { width: 140px; min-width: 120px; color: var(--color-text-secondary); font-weight: 600; }
+.finder-cmp-remove { display: block; margin-top: 4px; background: none; border: 0; color: var(--color-text-secondary); text-decoration: underline; cursor: pointer; padding: 0; font: inherit; font-size: var(--wp-text-xs); }
+.finder-note { width: 100%; box-sizing: border-box; background: var(--color-bg-surface); color: inherit; border: 1px solid var(--color-border); padding: var(--wp-space-2); font: inherit; }
+@media (max-width: 767.98px) {
+  .finder-tabs { display: grid; grid-template-columns: 1fr 1fr; flex: 1 1 auto; border: 1px solid var(--color-border); }
+  .finder-tabs button { background: none; border: 0; color: inherit; font: inherit; font-weight: 600; padding: var(--wp-space-3); cursor: pointer; }
+  .finder-tabs button[aria-selected="true"] { background: var(--color-accent-primary); color: var(--color-bg-page, #000); }
+  .finder[data-view="list"] .finder-mapwrap { display: none; }
+  .finder[data-view="map"] .finder-list { display: none; }
+  .finder-list { max-height: none; overflow: visible; }
+  .finder-showmap { display: inline-block; }
+  .finder-compare { width: 100vw; max-width: 100vw; max-height: 100vh; height: 100vh; }
+}
+#finder-compare-open[hidden], .finder-area[hidden] { display: none; }
+.finder-form .f-sub { margin: var(--wp-space-2) 0 0 var(--wp-space-4); padding-left: var(--wp-space-3); border-left: 3px solid var(--color-border); display: flex; flex-direction: column; gap: var(--wp-space-1); }
+.finder-form .f-sub[hidden] { display: none; }
+.finder-form .f-sublabel { font-size: var(--wp-text-xs); color: var(--color-text-secondary); font-weight: 600; }
+
+/* ── Icons, details panel, stage (tracker 267) ── */
+.finder-icons { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.finder-icons.is-labelled { flex-direction: column; gap: 6px; }
+.finder-ico { position: relative; display: inline-flex; align-items: center; gap: 8px; color: var(--color-accent-primary); cursor: help; }
+.finder-ico svg { flex: 0 0 auto; }
+.finder-ico-label { color: var(--color-text-primary); font-size: var(--wp-text-sm); }
+.finder-icons:not(.is-labelled) .finder-ico:hover::after,
+.finder-icons:not(.is-labelled) .finder-ico:focus::after { content: attr(data-tip); position: absolute; left: 0; bottom: calc(100% + 6px); z-index: 30; width: max-content; max-width: 240px; padding: 6px 8px; background: var(--color-bg-page, #000); color: var(--color-text-primary); border: 1px solid var(--color-border); font-size: var(--wp-text-xs); font-weight: 400; line-height: 1.3; pointer-events: none; }
+.finder-listhead { padding: var(--wp-space-2) 0; }
+.finder-listhead .finder-lede { font-size: var(--wp-text-sm); margin: 0 0 var(--wp-space-2); }
+.finder-listhead .finder-status { margin: 0 0 var(--wp-space-2); }
+.finder-results-toggle, .finder-panel, .f-summary, .f-collapse { display: none; }
+.finder-error { margin: var(--wp-space-2) 0; }
+.finder-panel-head { padding-bottom: var(--wp-space-2); border-bottom: 1px solid var(--color-border); margin-bottom: var(--wp-space-2); position: relative; }
+.finder-panel-name { font-family: var(--finder-font); font-size: var(--wp-text-xl); margin: 0 var(--wp-space-8) var(--wp-space-1) 0; }
+.finder-panel-x { position: absolute; top: 0; right: 0; width: 36px; height: 36px; background: none; border: 1px solid var(--color-border); color: inherit; font-size: 24px; line-height: 1; cursor: pointer; }
+.finder-panel-cmp { display: flex; align-items: center; gap: var(--wp-space-2); margin-bottom: var(--wp-space-2); font-size: var(--wp-text-sm); cursor: pointer; }
+.finder-panel .finder-detail { padding: 0; }
+
+@media (min-width: 1024px) {
+  .finder { max-width: none; padding: var(--wp-space-2) var(--wp-space-4) var(--wp-space-4); }
+  .finder-head { margin: 0 0 var(--wp-space-2); }
+  .finder-title { font-size: var(--wp-text-xl); margin: 0; }
+  .finder-toolbar { display: none; }
+  .finder-stage { position: relative; height: calc(100vh - 170px); min-height: 560px; border: 1px solid var(--color-border); overflow: hidden; background: var(--color-bg-surface); }
+  .finder-grid { position: absolute; inset: 0; display: block; }
+  .finder-mapwrap { position: absolute; inset: 0; }
+  .finder-map { height: 100%; min-height: 0; border: 0; }
+  .finder-filters { position: absolute; top: 10px; left: 10px; right: 10px; z-index: 20; margin: 0; box-shadow: 0 6px 24px rgba(0, 0, 0, .5); }
+  .finder-error { position: absolute; top: 84px; left: 50%; transform: translateX(-50%); z-index: 25; background: var(--color-bg-container); border: 1px solid var(--color-border); padding: var(--wp-space-2) var(--wp-space-3); margin: 0; }
+  .finder-error[hidden] { display: none; }
+  .finder-list { position: absolute; top: 84px; left: 10px; bottom: 10px; width: 380px; max-height: none; min-height: 0; z-index: 15; background: var(--color-bg-container); border: 1px solid var(--color-border); padding: 0 var(--wp-space-3) var(--wp-space-3); transition: transform .2s ease; }
+  .finder-listhead { position: sticky; top: 0; z-index: 2; background: var(--color-bg-container); }
+  .finder-stage[data-results="closed"] .finder-list { transform: translateX(calc(-100% - 20px)); }
+  .finder-results-toggle { display: block; position: absolute; top: 96px; left: 400px; z-index: 16; background: var(--color-bg-container); color: var(--color-text-primary); border: 1px solid var(--color-border); padding: var(--wp-space-2) var(--wp-space-3); font: inherit; font-size: var(--wp-text-sm); font-weight: 600; cursor: pointer; transition: left .2s ease; }
+  .finder-stage[data-results="closed"] .finder-results-toggle { left: 10px; }
+  .finder-panel { display: block; position: absolute; top: 84px; right: 10px; bottom: 10px; width: 360px; z-index: 15; overflow-y: auto; background: var(--color-bg-container); border: 1px solid var(--color-border); padding: var(--wp-space-3); }
+  .finder-panel[hidden] { display: none; }
+  .finder-list .finder-detail { display: none !important; }
+  .finder-list .finder-showmap { display: none; }
+  .finder-basemaps { position: absolute; left: 50%; transform: translateX(-50%); bottom: 10px; z-index: 5; margin: 0; box-shadow: 0 2px 12px rgba(0, 0, 0, .5); }
+  .finder-basemaps button { padding: 0 var(--wp-space-4); }
+  .finder-area { bottom: 58px; }
+  .finder-stage .maplibregl-ctrl-top-right { top: 84px; }
+  .finder-stage[data-panel="open"] .maplibregl-ctrl-top-right { right: 372px; }
+  .finder-signup { margin-top: var(--wp-space-4); }
+
+  /* Search bar: full fields, or one slim strip that still reads as a search box. */
+  .finder-filters .f-bar { padding: var(--wp-space-2) var(--wp-space-3); }
+  .f-collapse { display: inline-flex; align-items: center; background: none; border: 0; color: var(--color-text-secondary); font: inherit; font-size: var(--wp-text-sm); cursor: pointer; padding: 0 var(--wp-space-2); }
+  .f-bar[data-collapsed="true"] .f-bar-fields, .f-bar[data-collapsed="true"] .f-collapse { display: none; }
+  .f-bar[data-collapsed="true"] { display: flex; align-items: center; gap: var(--wp-space-3); padding: var(--wp-space-2); }
+  .f-bar[data-collapsed="true"] .f-summary { display: flex; }
+  .f-summary { align-items: center; gap: var(--wp-space-3); flex: 1 1 auto; min-width: 0; min-height: 44px; padding: 0 var(--wp-space-4); background: var(--input-bg); border: 1px solid var(--color-accent-primary); color: var(--color-text-primary); font: inherit; text-align: left; cursor: text; }
+  .f-summary svg { flex: 0 0 auto; color: var(--color-accent-primary); }
+  .f-summary-text { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .f-summary-edit { color: var(--color-accent-primary); font-size: var(--wp-text-sm); font-weight: 600; }
+}
+.finder-more[hidden], .finder-partial-head[hidden], .finder-ico[hidden] { display: none; }
+.finder-panel, .finder-list { scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; }
+
+/* Icon colours: one hue per fact so they read apart at a glance. */
+.finder-ico[data-k="medicaid"] { color: #3ecf8e; }
+.finder-ico[data-k="medicare"] { color: #5aa9ff; }
+.finder-ico[data-k="mat"] { color: #ff8a5b; }
+.finder-ico[data-k="housing"] { color: #f5c542; }
+.finder-ico[data-k="detox"] { color: #4fd1d9; }
+.finder-ico[data-k="dual"] { color: #d58bff; }
+.finder-about { margin: 0 0 var(--wp-space-2); font-size: var(--wp-text-sm); }
+.finder-about summary { cursor: pointer; color: var(--color-text-secondary); font-weight: 600; padding: 2px 0; }
+.finder-about .finder-lede { margin: var(--wp-space-2) 0 0; }
+
+/* ── Facts matrix ── */
+.finder-mx { border-collapse: collapse; width: 100%; font-size: var(--wp-text-sm); margin: var(--wp-space-2) 0; }
+.finder-mx th, .finder-mx td { padding: 4px var(--wp-space-2); text-align: left; border-bottom: 1px solid var(--color-border); }
+.finder-mx tbody th[scope="row"] { font-weight: 400; color: var(--color-text-primary); }
+.finder-mx-group th { padding-top: var(--wp-space-3); color: var(--color-text-secondary); font-size: var(--wp-text-xs); text-transform: uppercase; letter-spacing: .04em; border-bottom: 1px solid var(--color-text-secondary); }
+.finder-mx-cell { text-align: center !important; width: 1%; }
+.finder-cmp-table .finder-mx-cell { width: auto; }
+.finder-st { display: inline-flex; vertical-align: middle; }
+.finder-st.st-y { color: #3ecf8e; }
+.finder-st.st-n { color: var(--color-text-secondary); opacity: .55; }
+.finder-st.st-u { color: var(--color-status-warning-text, #f0a63c); }
+.finder-mx-legend { display: flex; gap: var(--wp-space-4); font-size: var(--wp-text-xs); color: var(--color-text-secondary); margin: var(--wp-space-2) 0; }
+.finder-mx-key { display: inline-flex; align-items: center; gap: 4px; }
+.finder-compare { scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; }
+
+/* ── Listing rhythm and compact crisis strip (tracker 267) ──
+   Name first, then type · town · distance, then tags and icons, with room between rows. */
+.finder-row { gap: var(--wp-space-1); padding: var(--wp-space-3) var(--wp-space-3) var(--wp-space-4); }
+.finder-row-name { font-size: var(--wp-text-base); line-height: 1.3; }
+.finder-row-meta { color: var(--color-text-primary); }
+.finder-tags { margin-top: var(--wp-space-2); gap: 6px; }
+.finder-icons { margin-top: var(--wp-space-2); }
+.finder-item + .finder-item { border-top: 1px solid var(--color-border); }
+.finder-item:not(:last-child) { margin-bottom: var(--wp-space-1); }
+@media (min-width: 1024px) {
+  .finder-crisis { display: grid; grid-template-columns: auto auto 1fr; column-gap: var(--wp-space-5); padding: var(--wp-space-2) var(--wp-space-4); align-items: start; }
+  .finder-crisis p { margin: 0; }
+  .finder-crisis-head { grid-column: 1 / -1; margin: var(--wp-space-2) 0 0; }
+  .finder-crisis-extra { grid-column: 1 / -1; columns: 2; column-gap: var(--wp-space-5); font-size: var(--wp-text-sm); }
 }
