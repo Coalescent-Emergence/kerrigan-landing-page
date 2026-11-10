@@ -16,7 +16,9 @@ summary: "Each ASAM level of care from 0.5 to 4.0 in plain terms, what PHP is, h
 draft: true
 ---
 
-**ASAM levels of care are the numbers (1.0, 2.1, 2.5, 3.5) that programs, payers and regulators use to describe a treatment setting.** They tell you where treatment happens, how many hours a week, who is in the building, and what medical coverage stands behind it. Virginia Medicaid ARTS (Addiction and Recovery Treatment Services) is written to the 3rd edition (2013) of the ASAM Criteria today. A move to the 4th edition (2023) is announced and undated.
+**The American Society of Addiction Medicine (ASAM) levels of care are the numbers (1.0, 2.1, 2.5, 3.5) that programs, payers and regulators use to describe a treatment setting.** They tell you where treatment happens, how many hours a week, who is in the building, and what medical coverage stands behind it.
+
+Virginia Medicaid ARTS (Addiction and Recovery Treatment Services) is written to the 3rd edition (2013) of the ASAM Criteria today. A move to the 4th edition (2023) is announced and undated.
 
 This article explains the levels from the rule text and from ASAM's own pages. It is not clinical or billing advice.
 
@@ -44,7 +46,7 @@ The hours and staffing below are Virginia's regulatory definitions, in [12VAC35-
 
 **Level 0.5, early intervention.** The ARTS manual lists "0.5 Early Intervention/Screening Brief Intervention and Referral to Treatment (SBIRT)" as the entry point ([ARTS Provider Manual, Chapter IV](https://vamedicaid.dmas.virginia.gov/sites/default/files/2025-07/ARTS%20Provider%20Manual%20Chapter%20IV%20%28updated%207.7.25%29_Final.pdf)). The manual covers it as early intervention and screening, ahead of the treatment levels.
 
-**Level 1.0, outpatient.** Virginia defines it as "center-based substance abuse treatment delivered to individuals for fewer than nine hours of service per week for adults" (12VAC35-105-20). The licensing admission rule for 1.0 says "no more than nine hours" ([12VAC35-105-1790](https://law.lis.virginia.gov/admincodefull/title12/agency35/chapter105/partVII/)). The two texts overlap at nine, and the IOP definition below starts at nine.
+**Level 1.0, outpatient.** Virginia defines it as "center-based substance abuse treatment delivered to individuals for fewer than nine hours of service per week for adults" (12VAC35-105-20). The licensing admission rule for 1.0 says "no more than nine hours" ([12VAC35-105-1790](https://law.lis.virginia.gov/admincodefull/title12/agency35/chapter105/partVII/)). The two texts overlap at nine, and the intensive outpatient (IOP) definition below starts at nine.
 
 **Level 2.1, intensive outpatient (IOP).** Structured treatment, mainly counseling and education, for "nine to 19 hours of services per week for adults" in Virginia's definition. Psychiatric and medical needs are generally handled by consultation and referral (12VAC35-105-20).
 
@@ -89,7 +91,7 @@ Housing is its own subject, because a recovery residence is not a treatment leve
 
 ## What the 4th edition changed
 
-ASAM released the Third Edition in 2013 and the Fourth Edition in 2023 ([ASAM, About The ASAM Criteria](https://www.asam.org/asam-criteria/about-the-asam-criteria)). The adult volume came out digitally in October 2023 and in print in December 2023 ([ASAM FAQ](https://www.asam.org/asam-criteria/criteria-faq)). ASAM's own list of what changed ([ASAM, Fourth Edition](https://www.asam.org/asam-criteria/asam-criteria-4th-edition)):
+ASAM released the Third Edition in 2013 and the Fourth Edition in 2023 ([ASAM, About The ASAM Criteria](https://www.asam.org/asam-criteria/about-the-asam-criteria)). The adult volume came out digitally in October 2023 and in print in December 2023 ([ASAM frequently asked questions (FAQ)](https://www.asam.org/asam-criteria/criteria-faq)). ASAM's own list of what changed ([ASAM, Fourth Edition](https://www.asam.org/asam-criteria/asam-criteria-4th-edition)):
 
 - **Withdrawal management moved into the main continuum.** The Third Edition's separate withdrawal management (WM) levels map to Fourth Edition levels: 1-WM to 1.7, 2-WM to 2.7, 3.2-WM to 3.5, and 3.7-WM to 3.7 (ASAM FAQ).
 - **Readiness to change stopped being its own dimension.** The Third Edition's Dimension 4 "does not contribute independently to the recommended level of care" and is replaced by "Dimension 6: Person-Centered Considerations."
@@ -101,7 +103,7 @@ The ASAM pages we read do not say what became of Level 3.3 in the Fourth Edition
 
 ## Which edition Virginia uses today
 
-**Medicaid ARTS is written to the Third Edition, as of today.** The regulation points to the ASAM treatment criteria "Third Edition" ([12VAC30-130-5010](https://law.lis.virginia.gov/admincode/title12/agency30/chapter130/section5010/)), and another section cites "(Third Edition, 2013)" ([12VAC30-130-5040](https://law.lis.virginia.gov/admincode/title12/agency30/chapter130/section5040/)). The ARTS manual, last revised 7/7/2025, says "DMAS is utilizing the treatment criteria for addictive, substance-related conditions as published by the ASAM (third edition 2013)" (ARTS Provider Manual, Chapter IV). DMAS is the Department of Medical Assistance Services.
+**Medicaid ARTS is written to the Third Edition, as of today.** The regulation points to the ASAM treatment criteria "Third Edition" ([12VAC30-130-5010](https://law.lis.virginia.gov/admincode/title12/agency30/chapter130/section5010/)), and another section cites "(Third Edition, 2013)" ([12VAC30-130-5040](https://law.lis.virginia.gov/admincode/title12/agency30/chapter130/section5040/)). The ARTS manual, last revised 7/7/2025, comes from the Department of Medical Assistance Services (DMAS). It says "DMAS is utilizing the treatment criteria for addictive, substance-related conditions as published by the ASAM (third edition 2013)" (ARTS Provider Manual, Chapter IV).
 
 **A move is announced and not dated.** The DMAS 2026 to 2028 Quality Strategy lists it among "three primary initiatives" it says are planned, and says: "Virginia will transition service descriptions and expectations to the Fourth Edition of the ASAM continuum of care" ([DMAS Quality Strategy](https://www.dmas.virginia.gov/media/njopayhu/2026-2028-quality-strategy.pdf)). We found no effective date.
 
@@ -115,6 +117,6 @@ Rules change. Check the current text of the sections linked above, and take any 
 
 For how these levels connect to the assessment that places a person in one, see [ASAM dimensions explained](/articles/asam-dimensions-explained/).
 
-We build Kerrigan for SUD counselors. Kerrigan writes ASAM 6-dimension, DAP and narrative notes, and each draft goes through an automatic check-and-revise step.
+We build Kerrigan for substance use disorder (SUD) counselors. Kerrigan writes ASAM 6-dimension, DAP (Data, Assessment, Plan) and narrative notes, and each draft goes through an automatic check-and-revise step.
 
 **Request access through the form on the [LatentWorx home page](https://latentworx.com/).**

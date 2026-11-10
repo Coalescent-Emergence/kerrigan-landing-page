@@ -9,7 +9,9 @@ summary: "Ten questions a substance use or behavioral health program should put 
 draft: false
 ---
 
-An AI scribe hears everything said in the room. In a substance use program that includes the fact Part 2 exists to protect: that this person has been diagnosed with, treated for, or referred for treatment of a substance use disorder ([42 CFR 2.11](https://www.law.cornell.edu/cfr/text/42/2.11), definition of "disclose"). Before any vendor gets a recording, someone at your program should be able to answer the ten questions below from documents, not from a sales call.
+An AI scribe hears everything said in the room. In a substance use program that includes the fact that Part 2 of Title 42 of the Code of Federal Regulations (CFR) exists to protect: that this person has been diagnosed with, treated for, or referred for treatment of a substance use disorder ([42 CFR 2.11](https://www.law.cornell.edu/cfr/text/42/2.11), definition of "disclose").
+
+Before any vendor gets a recording, someone at your program should be able to answer the ten questions below from documents, not from a sales call.
 
 This list goes past the Health Insurance Portability and Accountability Act (HIPAA) to the layer a substance use program actually lives under: 42 CFR Part 2 records, the qualified service organization agreement (QSOA), group sessions, and what happens to the audio itself. Each question gives why it matters, what to ask for, and what a bad answer sounds like. Hand the list to your compliance officer and score any vendor honestly.
 
@@ -42,7 +44,7 @@ A provider becomes a QSO through a written agreement in which it:
 - acknowledges it "is fully bound by the regulations in this part," and
 - will, if necessary, "resist in judicial proceedings any efforts to obtain access" to patient identifying information, except as Part 2 permits ([42 CFR 2.11](https://www.law.cornell.edu/cfr/text/42/2.11)).
 
-Since the 2024 final rule, a business associate of a program that is also a HIPAA covered entity can qualify as a QSO for Part 2 records ([89 FR 12475](https://www.federalregister.gov/documents/2024/02/16/2024-02544/confidentiality-of-substance-use-disorder-sud-patient-records); 2.11, paragraph (3) of the QSO definition). Whether your program takes that route or signs a separate QSOA is a call for your compliance officer.
+Since the 2024 final rule, a business associate of a program that is also a HIPAA covered entity can qualify as a QSO for Part 2 records (published in the Federal Register (FR): [89 FR 12475](https://www.federalregister.gov/documents/2024/02/16/2024-02544/confidentiality-of-substance-use-disorder-sud-patient-records); 2.11, paragraph (3) of the QSO definition). Whether your program takes that route or signs a separate QSOA is a call for your compliance officer.
 
 **Ask for:** the QSOA, or the BAA language that carries both Part 2 commitments above. Read for the words "fully bound" and "resist in judicial proceedings."
 

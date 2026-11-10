@@ -16,7 +16,7 @@ summary: "The six ASAM dimensions in the 3rd and 4th editions, what changed betw
 draft: true
 ---
 
-**Virginia Medicaid and Virginia licensing both name the 3rd edition (2013) of the ASAM Criteria. A move to the 4th edition (2023) is planned, with no date we found.** So when a form says "Dimension 4," the 3rd edition means readiness to change, and the 4th edition means substance use-related risks. Check which edition the form was written against.
+**Virginia Medicaid and Virginia licensing both name the 3rd edition (2013) of the ASAM Criteria, the standards of the American Society of Addiction Medicine (ASAM). A move to the 4th edition (2023) is planned, with no date we found.** So when a form says "Dimension 4," the 3rd edition means readiness to change, and the 4th edition means substance use-related risks. Check which edition the form was written against.
 
 This article lists the six ASAM dimensions in each edition, shows where the two differ, and gives the sources for Virginia's edition. It is not clinical, billing or legal advice.
 
@@ -32,7 +32,7 @@ This article lists the six ASAM dimensions in each edition, shows where the two 
 
 The dimensions are the assessment frame for placing a person in treatment. The treatment plan rests on the same assessment. ASAM says level of care recommendations and treatment plans "are developed based on multidimensional patient assessments," and that a patient entering treatment should get a standard assessment covering all six dimensions ([ASAM, About The ASAM Criteria](https://www.asam.org/asam-criteria/about-the-asam-criteria)). The 3rd edition page says the six dimensions "inform the level of care recommendation and the treatment plan" ([ASAM, 3rd edition](https://www.asam.org/asam-criteria/asam-criteria-3rd-edition)).
 
-The ASAM Criteria are the American Society of Addiction Medicine's standards for placing patients in addiction treatment. ASAM describes them as "the most widely used and comprehensive set of standards for placement, continued service, and transfer of patients" with addiction and co-occurring conditions. They were first published in 1991 as the ASAM patient placement criteria. The name changed with the Third Edition in 2013, and the Fourth Edition was released in 2023 (same ASAM page).
+The ASAM Criteria are the American Society of Addiction Medicine's standards for placing patients in addiction treatment. ASAM describes them as "the most widely used and comprehensive set of standards for placement, continued service, and transfer of patients" with addiction and co-occurring conditions. They were first published in 1991 as the ASAM patient placement criteria. The name changed with the Third Edition in 2013, and the Fourth Edition was released in 2023 ([ASAM, About The ASAM Criteria](https://www.asam.org/asam-criteria/about-the-asam-criteria)).
 
 ## The six dimensions in the 3rd edition (2013)
 
@@ -45,9 +45,9 @@ Virginia's Medicaid manual lists the six dimensions in its own wording, which fo
 5. Dimension 5: Relapse, continued use, or continued problem potential
 6. Dimension 6: Recovery/living environment
 
-In plain terms, the first three ask what is happening in the body and mind right now. Dimension 4 asks where the person stands on change. Dimensions 5 and 6 ask what pulls them back toward use and what their surroundings support.
+In plain terms (this gloss is ours; the manual only lists the names), the first three ask what is happening in the body and mind right now. Dimension 4 asks where the person stands on change. Dimensions 5 and 6 ask what pulls them back toward use and what their surroundings support.
 
-The 3rd edition also includes "a framework for rating risks in each dimension," but its "dimensional admission criteria do not reference the risk ratings" ([ASAM, Criteria FAQ](https://www.asam.org/asam-criteria/criteria-faq)). That difference drives the section on risk ratings below.
+The 3rd edition also includes "a framework for rating risks in each dimension," but its "dimensional admission criteria do not reference the risk ratings" ([ASAM, Criteria frequently asked questions (FAQ)](https://www.asam.org/asam-criteria/criteria-faq)). That difference drives the section on risk ratings below.
 
 ## The six dimensions in the 4th edition (2023)
 
@@ -66,7 +66,7 @@ Two differences matter for paperwork.
 
 **The 4th edition describes subdimensions.** Dimensions 1 through 5 are used to develop a level of care recommendation. Dimension 6 is assessed with the patient "using a shared decision-making framework," covering barriers to care, including social determinants of health, and patient preferences (ASAM, 4th edition).
 
-ASAM's public pages give no one-to-one map from the old dimensions 5 and 6 to the new 4 and 5. If a form uses the 4th edition names, read the edition itself before you treat "Dimension 5" in two documents as the same thing.
+We did not find a one-to-one map from the old dimensions 5 and 6 to the new 4 and 5 on ASAM's public pages. If a form uses the 4th edition names, read the edition itself before you treat "Dimension 5" in two documents as the same thing.
 
 ## Risk ratings: the difference that changes the decision rules
 
@@ -78,7 +78,7 @@ This article describes structure, not how to rate anyone. The rating scales and 
 
 ## The continuum changed too
 
-The dimensions feed a level of care, so the level numbers matter. ASAM's FAQ says 3rd edition Levels 1 WM, 2 WM, 3.2 WM and 3.7 WM map to 4th edition Levels 1.7, 2.7, 3.5 and 3.7. It also says "High Intensity Outpatient is used to refer to Level 2.5" (ASAM, Criteria FAQ). The 4th edition page describes "integration of medically managed levels of care" and a new Level 1.0 called "Long-Term Remission Monitoring" (ASAM, 4th edition).
+The dimensions feed a level of care, so the level numbers matter. ASAM's FAQ says 3rd edition Levels 1 WM (withdrawal management), 2 WM, 3.2 WM and 3.7 WM map to 4th edition Levels 1.7, 2.7, 3.5 and 3.7. It also says "High Intensity Outpatient is used to refer to Level 2.5" (ASAM, Criteria FAQ). The 4th edition page describes "integration of medically managed levels of care" and a new Level 1.0 called "Long-Term Remission Monitoring" (ASAM, 4th edition).
 
 **The new Level 1.0 creates a numbering collision.** Virginia's licensing rules define "Substance abuse outpatient service" as "Level of care 1.0" ([12VAC35-105-20](https://law.lis.virginia.gov/admincode/title12/agency35/chapter105/section20/)). The ARTS rule lists "substance use outpatient services (ASAM Level 1.0)" ([12VAC30-130-5040 A.2](https://law.lis.virginia.gov/admincode/title12/agency30/chapter130/section5040/)). Our reading, from those two sources next to ASAM's description, is that a Virginia document saying 1.0 and a 4th edition document saying 1.0 can point at different services. Check which edition a document means before you map one to the other.
 
@@ -98,7 +98,7 @@ The chapter's list of documents incorporated by reference does name one: "The AS
 
 **A move to the 4th edition is planned. We found no date.** DMAS's 2026 to 2028 Quality Strategy says "Virginia will transition service descriptions and expectations to the Fourth Edition of the ASAM continuum of care" ([DMAS 2026-2028 Quality Strategy](https://www.dmas.virginia.gov/media/njopayhu/2026-2028-quality-strategy.pdf), SUD treatment gaps section, after p. 47).
 
-Until that happens, the 3rd edition is the one in force:
+Until that happens, the regulation as written names the 3rd edition, and the planned transition may change that:
 
 - The ARTS regulation, as written, still names the 2013 edition.
 - The ARTS manual library lists Chapter IV as updated 7.7.25 and does not mention the move ([DMAS ARTS manual library](https://vamedicaid.dmas.virginia.gov/pdf_chapter/addiction-and-recovery-treatment-services)).
@@ -126,6 +126,6 @@ For the level numbers themselves, see [ASAM levels of care explained](/articles/
 
 ## Our interest in this
 
-We build Kerrigan for SUD counselors. Kerrigan writes ASAM 6-dimension, DAP and narrative notes, and each draft goes through an automatic check-and-revise step.
+We build Kerrigan for substance use disorder (SUD) counselors. Kerrigan writes ASAM 6-dimension, DAP (Data, Assessment, Plan) and narrative notes, and each draft goes through an automatic check-and-revise step.
 
 **Request access through the form on the [LatentWorx home page](https://latentworx.com/).**

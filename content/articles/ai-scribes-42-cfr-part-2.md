@@ -18,7 +18,7 @@ draft: false
 
 Your clinicians are behind on notes. Someone is pitching you an AI scribe. Your compliance officer has one question, and it is the right one: where does the session go?
 
-**The short answer:** 42 CFR Part 2 (the Code of Federal Regulations rule on substance use disorder (SUD) patient records) does not mention AI, so it neither bans AI scribes nor approves them. What you verify is how a vendor handles your patients' records under rules Part 2 already has: what counts as a record, who may act as your outside service provider, and security. Four checks cover it.
+**The short answer:** 42 CFR Part 2 (Title 42 of the Code of Federal Regulations (CFR), the rule on substance use disorder (SUD) patient records) does not mention AI, so it neither bans AI scribes nor approves them. What you verify is how a vendor handles your patients' records under rules Part 2 already has: what counts as a record, who may act as your outside service provider, and security. Four checks cover it.
 
 This article answers the question from the regulation itself, section by section, and every regulatory statement links to the section it comes from. Use it to start the conversation with your compliance officer from the rule text, not a sales deck.
 
@@ -54,7 +54,7 @@ An AI scribe produces more than a note. List every artifact it creates:
 
 Next to each item, ask your compliance officer whether it is a Part 2 record and who holds it. The rule never names AI output, so treating all of it as a record until told otherwise is the cautious place to start.
 
-## 2. Pin down the vendor relationship: the QSOA for an AI vendor
+## 2. Pin down the vendor relationship: the qualified service organization agreement (QSOA) for an AI vendor
 
 Part 2's mechanism for outside service providers is the **qualified service organization** (QSO). The definition covers someone who provides services to a Part 2 program "such as data processing," and who has signed a written agreement with the program, usually called a qualified service organization agreement (QSOA), in which it:
 
@@ -71,7 +71,7 @@ Three details matter for an AI vendor.
 
 **Downstream parties are the real test.** A QSO may not re-disclose your records to a third party unless that party is its contract agent, helping it provide the services in the QSOA. Even then, the agent may disclose the information only back to the QSO or to your program.
 
-That is guidance from SAMHSA (the Substance Abuse and Mental Health Services Administration), quoted in the 2018 rule and repeated in the 2024 rule's preamble ([89 FR 12504](https://www.federalregister.gov/documents/2024/02/16/2024-02544/confidentiality-of-substance-use-disorder-sud-patient-records)).
+That is guidance from SAMHSA (the Substance Abuse and Mental Health Services Administration), quoted in the 2018 rule and repeated in the 2024 rule's preamble, published in the Federal Register (FR) ([89 FR 12504](https://www.federalregister.gov/documents/2024/02/16/2024-02544/confidentiality-of-substance-use-disorder-sud-patient-records)).
 
 The wording is that "a QSOA does not permit a QSO to re-disclose information to a third party unless that third party is a contract agent of the QSO, helping them provide services described in the QSOA, and only as long as the agent only further discloses the information back to the QSO or to the part 2 program from which it came."
 

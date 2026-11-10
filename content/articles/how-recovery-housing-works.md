@@ -16,13 +16,13 @@ summary: "What a recovery residence is and is not, how NARR levels and Oxford Ho
 draft: true
 ---
 
-Recovery housing is a place to live, not a treatment level. A recovery residence is alcohol-free and drug-free housing where residents support each other, and in Virginia it offers no clinical treatment by definition. Clients combine it with treatment, often outpatient, that they get from a separate provider. The two connect through the client and through you, so you are the one who checks the house.
+Recovery housing is a place to live, not a treatment level. A recovery residence is alcohol-free and illicit-drug-free housing where residents support each other, and in Virginia it offers no clinical treatment by definition. Clients combine it with treatment, often outpatient, that they get from a separate provider. The two connect through the client and through you, so you are the one who checks the house.
 
 **In brief**
 
 - Virginia law says a recovery residence "does not include clinical treatment services" ([Va. Code § 37.2-431.1(A)](https://law.lis.virginia.gov/vacode/37.2-431.1/)).
 - The National Alliance for Recovery Residences (NARR) sorts housing into four levels of support, from peer-run Oxford Houses to clinical programs.
-- Virginia requires certification to operate, but certification is not a clinical license, and the state does not currently inspect.
+- Virginia requires certification to operate, but in our reading certification is not a clinical license, and as of the latest report the state does not currently inspect.
 - Before you refer, check who owns the house, whether the stay depends on one program, and what the written agreement says. The questions are at the end.
 
 A client finishes a residential stay, or starts intensive outpatient, and needs somewhere stable to live that is not the place they used. The rest of this article explains how recovery housing works, how it sits next to treatment, and how to check a house.
@@ -147,8 +147,8 @@ If the answers to the first three are unclear, take the question to your complia
 
 ## Where this leaves you
 
-Recovery housing sits next to treatment and works alongside it. Virginia certification tells you a house holds a credential and a state listing; in our reading it says little about how well the house is run. The checks above are yours to make, with the sources linked. We wrote this for counselors who have to answer "where can my client live?" with the sources in hand,.
+Recovery housing sits next to treatment and works alongside it. Virginia certification tells you a house holds a credential and a state listing; in our reading it says little about how well the house is run. The checks above are yours to make, with the sources linked. We wrote this for counselors who have to answer "where can my client live?" with the sources in hand.
 
-We build Kerrigan for SUD counselors. **Request access through the form on the [LatentWorx home page](https://latentworx.com/).**
+We build Kerrigan for substance use disorder (SUD) counselors. **Request access through the form on the [LatentWorx home page](https://latentworx.com/).**
 
 *This is not legal advice. Statements of fact link to their source, and our own readings are marked as such. Virginia law changes, so verify the current text with your compliance officer or the state office before you rely on it.*
