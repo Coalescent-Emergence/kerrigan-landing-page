@@ -5,17 +5,25 @@
    4. clicking the shortcut or "Back to top" opens the list
    5. a table that scrolls sideways becomes keyboard focusable */
 (function () {
-  /* A table that scrolls sideways must be reachable by keyboard (axe: scrollable-region-focusable) */
+  /* A table that scrolls sideways sits in a focusable, labelled wrapper (axe:
+     scrollable-region-focusable); the table keeps its native role */
   function tables() {
     Array.prototype.forEach.call(document.querySelectorAll('.article-content table'), function (t) {
-      if (t.scrollWidth > t.clientWidth) {
-        t.setAttribute('tabindex', '0');
-        t.setAttribute('role', 'region');
-        t.setAttribute('aria-label', 'Table, scrolls sideways');
+      var w = t.parentNode;
+      if (!w.classList || !w.classList.contains('table-scroll')) {
+        w = document.createElement('div');
+        w.className = 'table-scroll';
+        t.parentNode.insertBefore(w, t);
+        w.appendChild(t);
+      }
+      if (w.scrollWidth > w.clientWidth) {
+        w.setAttribute('tabindex', '0');
+        w.setAttribute('role', 'region');
+        w.setAttribute('aria-label', 'Table, scrolls sideways');
       } else {
-        t.removeAttribute('tabindex');
-        t.removeAttribute('role');
-        t.removeAttribute('aria-label');
+        w.removeAttribute('tabindex');
+        w.removeAttribute('role');
+        w.removeAttribute('aria-label');
       }
     });
   }

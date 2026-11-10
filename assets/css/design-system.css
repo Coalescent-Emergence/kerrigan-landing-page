@@ -1827,7 +1827,7 @@ tr:nth-child(even) .danger-container::after,
 }
 
 /* headings: space first, quiet colour, one small bar */
-.article-content :is(h2, h3, h4), #article-title { scroll-margin-top: 96px; }
+.article-content :is(h2, h3, h4), #article-title, .article-toc { scroll-margin-top: 96px; }
 .article-content h2 {
   position: relative;
   font-family: var(--font-heading);
@@ -1934,8 +1934,13 @@ tr:nth-child(even) .danger-container::after,
   color: #ffffff;
   border-bottom: 2px solid var(--article-cobalt-soft);
 }
+/* article-toc.js wraps each table in .table-scroll, which owns the sideways scroll
+   (so the table keeps its native role); a bare table keeps the block fallback above */
+.article-content .table-scroll { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.article-content .table-scroll:focus-visible { outline: 2px solid #00e5ff; outline-offset: 2px; }
+.article-content .table-scroll > table { display: table; overflow: visible; max-width: none; background: none; }
 /* scroll cue: edge shadows that appear only where more content is hidden */
-.article-content table {
+.article-content table, .article-content .table-scroll {
   background:
     linear-gradient(to right, var(--color-bg-container) 30%, transparent) left center / 2rem 100% no-repeat local,
     linear-gradient(to left, var(--color-bg-container) 30%, transparent) right center / 2rem 100% no-repeat local,
