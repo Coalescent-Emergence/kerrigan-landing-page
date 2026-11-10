@@ -1,18 +1,17 @@
 {{- /* The one site navigation bar, used by every layout. Context: a dict with
-       "home" true on the home page (Pricing link, in-page #access anchor),
+       "home" true on the home page (Pricing and the trial button use in-page anchors;
+       every other page links to /#pricing and /#access),
        "finder" true on the finder page (adds the signed-in upgrade button that
        assets/js/finder.js reveals; it opens the plan choice).
-       Articles and Find a placement hang as a tab under the bar on phones
-       (<=480px): the bar already fills 375px with logo, Pricing and the
-       trial button. The style is inline so flag-off pages keep one CSS file. */ -}}
+       Pricing, Articles and Find a placement sit together (right-aligned) and hang as a
+       tab under the bar on phones (<=480px): the bar already fills 375px with logo and
+       the trial button. The style is inline so flag-off pages keep one CSS file. */ -}}
 {{- $signups := and site.Params.signupsEnabled (ne site.Params.signupUrl "") -}}
-<style>.site-nav [hidden]{display:none}.site-nav .nav-more{display:contents}.site-nav .nav-link~.nav-link,.site-nav .nav-more .nav-link{margin-left:0}.site-nav .nav-more .nav-link:first-child{margin-left:auto}.site-nav .nav-more .nav-find{margin-left:0}@media (max-width:480px){.site-nav .nav-more{display:flex;gap:var(--wp-space-3);position:absolute;top:100%;right:var(--gutter-mobile);background:var(--color-bg-canvas);border:1px solid var(--color-border);border-top:0}.site-nav .nav-more .nav-link,.site-nav .nav-more .nav-link:first-child{margin:0;min-height:32px;padding:0 var(--wp-space-3)}.site-nav #nav-upgrade{white-space:nowrap;padding:0 10px;font-size:11px;letter-spacing:0}}</style>
+<style>.site-nav [hidden]{display:none}.site-nav .nav-more{display:contents}.site-nav .nav-more .nav-link{margin-left:0;min-height:36px;padding:0 var(--wp-space-4);border:1px solid var(--color-accent-tertiary);border-radius:999px;background:rgba(16,185,129,.12);color:var(--color-accent-tertiary);text-decoration:none;box-shadow:0 0 10px rgba(16,185,129,.45)}.site-nav .nav-more .nav-link:hover,.site-nav .nav-more .nav-link:focus-visible{background:rgba(16,185,129,.24);color:var(--color-text-primary);text-decoration:none;box-shadow:0 0 16px rgba(16,185,129,.7)}.site-nav .nav-more .nav-link[aria-current=page]{background:var(--color-accent-tertiary);color:var(--color-bg-canvas)}.site-nav .nav-more{gap:var(--wp-space-2)}.site-nav .nav-more .nav-link:first-child{margin-left:auto}.site-nav .nav-more .nav-find{margin-left:0}@media (max-width:480px){.site-nav .nav-more{display:flex;gap:var(--wp-space-2);position:absolute;top:100%;right:var(--gutter-mobile);background:var(--color-bg-canvas);border:1px solid var(--color-border);border-top:0}.site-nav .nav-more .nav-link,.site-nav .nav-more .nav-link:first-child{margin:0;min-height:32px;padding:0 var(--wp-space-3);background-color:rgba(16,185,129,.12)}.site-nav #nav-upgrade{white-space:nowrap;padding:0 10px;font-size:11px;letter-spacing:0}}</style>
 <nav class="site-nav">
   {{ partial "logo.html" . }}
-  {{- if .home }}
-  <a href="#pricing" class="nav-link" data-analytics-event="nav_click" data-analytics-label="nav_pricing">Pricing</a>
-  {{- end }}
   <span class="nav-more">
+    <a href="{{ if .home }}#pricing{{ else }}/#pricing{{ end }}" class="nav-link" data-analytics-event="nav_click" data-analytics-label="nav_pricing">Pricing</a>
     <a href="/articles/" class="nav-link" data-analytics-event="nav_click" data-analytics-label="nav_articles">Articles</a>
     {{- partial "finder-nav-link.html" (dict "current" .finder) }}
   </span>

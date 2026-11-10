@@ -1,4 +1,4 @@
-.PHONY: serve-lan theme-editor dev stop finder-preview
+.PHONY: serve-lan theme-editor dev stop finder-preview nav-check
 
 serve-lan:
 	@IP=$$(hostname -I | awk '{print $$1}'); \
@@ -34,3 +34,8 @@ stop:
 # from http://localhost:1313 or http://127.0.0.1:1313, so the port is fixed.
 finder-preview:
 	hugo server --config hugo.toml,deploy/finder-dev.toml --bind 127.0.0.1 --port 1313
+
+# Browser check that the site-nav links are visible and not covered on the finder page, at
+# 1400px and 375px. Needs geckodriver running (geckodriver --port 4444) and finder-preview up.
+nav-check:
+	node scripts/finder-nav-check.mjs http://127.0.0.1:1313/finder/
