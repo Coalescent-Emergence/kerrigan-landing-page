@@ -1,0 +1,10 @@
+{{- /* Header link to /articles/. Context: a dict with "follows" true when the
+       link sits after another nav link (the home nav), "current" true inside
+       the articles section. Always built; no gate.
+       The home nav already fills a 375 px phone, so below 480 px the home
+       link hangs as a tab under the sticky nav, on the left, mirroring the
+       finder tab on the right. */ -}}
+{{- if .follows }}
+<style>.nav-articles-follow{margin-left:0}@media (max-width:480px){.nav-articles-follow{position:absolute;top:100%;left:var(--gutter-mobile);min-height:32px;padding:0 var(--wp-space-3);background:var(--color-bg-canvas);border:1px solid var(--color-border);border-top:0}}</style>
+{{- end }}
+<a href="/articles/" class="nav-link{{ if .follows }} nav-articles-follow{{ end }}"{{ if .current }} aria-current="page"{{ end }} data-analytics-event="nav_click" data-analytics-label="nav_articles">Articles</a>
