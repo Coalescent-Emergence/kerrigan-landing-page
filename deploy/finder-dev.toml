@@ -1,5 +1,8 @@
-# Dev-only overlay: turns the finder on. Used by deploy/Dockerfile.
-# The production build (.github/workflows/deploy.yml) does not read this file.
-# finderApiBase stays as set in hugo.toml.
+# Dev-only overlay: the finder on, talking to the DEV services. Used by deploy/Dockerfile and
+# `make finder-preview`. The production build (.github/workflows/deploy.yml) does not read
+# this file; since the finder's production go-live (Kerrigan tracker 256) hugo.toml carries
+# the production values, so the dev values live here.
 [params]
   finderEnabled = true
+  finderApiBase = "https://api.jhax.dev/finder"
+  kerrApiBase = "https://api.jhax.dev"
