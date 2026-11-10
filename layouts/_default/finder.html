@@ -16,11 +16,22 @@
   {{ partial "finder-nav-link.html" (dict "current" true) }}
 </nav>
 
-<main id="finder" class="finder" data-api="{{ site.Params.finderApiBase }}" data-signup="{{ $signupHref }}">
+<main id="finder" class="finder" data-api="{{ site.Params.finderApiBase }}" data-kerr-api="{{ site.Params.kerrApiBase }}" data-signup="{{ $signupHref }}">
   <header class="finder-head">
     <h1 class="finder-title">Find a placement</h1>
     <p class="finder-lede">Virginia addiction and mental health treatment as listed on FindTreatment.gov. Where the directory says nothing about something you filter on, the result still shows, marked <strong>Unknown</strong>. Call the program to confirm before you refer.</p>
   </header>
+
+  <section id="finder-signin" class="finder-signin" aria-label="Counselor sign-in">
+    <form id="finder-signin-form" class="finder-form" novalidate>
+      <label class="finder-text">Counselors: sign in free to see residence street addresses
+        <input type="email" id="finder-signin-email" name="email" autocomplete="email" maxlength="254" required>
+      </label>
+      <button type="submit" class="btn btn-secondary">Email me a sign-in link</button>
+    </form>
+  </section>
+  <p id="finder-signedin" class="finder-signedin" hidden>Signed in. Residence street addresses are shown. <button id="finder-signout" type="button" class="btn btn-secondary">Sign out</button></p>
+  <p id="finder-signin-msg" class="finder-signin-msg" role="status" aria-live="polite" hidden></p>
 
   <details class="finder-filters" open>
     <summary>Filters</summary>

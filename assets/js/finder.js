@@ -8,6 +8,7 @@
   if (!root) return;
 
   var API = (root.getAttribute('data-api') || '').replace(/\/+$/, '');
+  var KERR_API = (root.getAttribute('data-kerr-api') || '').replace(/\/+$/, '');
   var PAGE_SIZE = 200;
   var VA_CENTER = [-79.4, 37.5];
   var STYLE_URL = 'https://tiles.openfreemap.org/styles/positron';
@@ -25,6 +26,12 @@
   var crisisEl = document.getElementById('finder-crisis');
   var crisisExtra = document.getElementById('finder-crisis-extra');
   var crisisHead = document.getElementById('finder-crisis-head');
+  var signinBox = document.getElementById('finder-signin');
+  var signinForm = document.getElementById('finder-signin-form');
+  var signinEmail = document.getElementById('finder-signin-email');
+  var signinMsg = document.getElementById('finder-signin-msg');
+  var signedInBox = document.getElementById('finder-signedin');
+  var signoutBtn = document.getElementById('finder-signout');
 
   // Filters in the API contract, in form order. Multi-valued ones are sent comma-joined.
   var FILTERS = ['q', 'town', 'domain', 'setting', 'wm', 'length', 'payment', 'moud',
@@ -139,13 +146,82 @@
     try { window.history.replaceState(null, '', url); } catch (e) { /* ignore */ }
   }
 
+  // ── session (tracker 251) ────────────────────────────────
+  // The Kerrigan tokens live in sessionStorage only: gone when the tab closes,
+  // never written to a URL, a cookie or a request line (header only).
+  var SESSION_KEY = 'finder.session';
+  var session = loadSession();
+  var streetCache = {};
+
+  function loadSession() {
+    try {
+      var s = JSON.parse(window.sessionStorage.getItem(SESSION_KEY) || 'null');
+      return s && typeof s.access === 'string' && s.access ? s : null;
+    } catch (e) { return null; }
+  }
+
+  function saveSession(access, refresh) {
+    session = access ? { access: access, refresh: refresh || '' } : null;
+    try {
+      if (session) window.sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+      else window.sessionStorage.removeItem(SESSION_KEY);
+    } catch (e) { /* storage blocked: the session lasts until reload */ }
+    if (!session) streetCache = {};
+    updateAuthUI();
+  }
+
+  function updateAuthUI() {
+    if (signinBox) signinBox.hidden = !!session;
+    if (signedInBox) signedInBox.hidden = !session;
+  }
+
+  // POST JSON to the Kerrigan API; resolves {status, body}.
+  function kerrPost(path, payload) {
+    return fetch(KERR_API + path, {
+      method: 'POST', credentials: 'omit',
+      headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      return res.json().catch(function () { return null; }).then(function (body) {
+        return { status: res.status, body: body };
+      });
+    });
+  }
+
+  // One refresh at a time. Resolves true when a new access token is held.
+  var refreshing = null;
+  function refreshSession() {
+    if (!session || !session.refresh) { saveSession(null); return Promise.resolve(false); }
+    if (!refreshing) {
+      refreshing = kerrPost('/api/auth/refresh', { refresh_token: session.refresh })
+        .then(function (r) {
+          if (r.status === 200 && r.body && r.body.access_token) {
+            saveSession(r.body.access_token, r.body.refresh_token || session.refresh);
+            return true;
+          }
+          saveSession(null);
+          return false;
+        })
+        .catch(function () { return false; })
+        .then(function (ok) { refreshing = null; return ok; });
+    }
+    return refreshing;
+  }
+
   // ── fetch ────────────────────────────────────────────────
-  function getJSON(path, params) {
+  function getJSON(path, params, retried) {
     var sp = new URLSearchParams();
     Object.keys(params || {}).forEach(function (k) { sp.set(k, params[k]); });
     var url = API + path + (sp.toString() ? '?' + sp.toString() : '');
-    return fetch(url, { credentials: 'omit', headers: { Accept: 'application/json' } })
+    var headers = { Accept: 'application/json' };
+    var sent = session;
+    if (sent) headers.Authorization = 'Bearer ' + sent.access;
+    return fetch(url, { credentials: 'omit', headers: headers })
       .then(function (res) {
+        if (res.status === 401 && sent && !retried) {
+          // Expired or rejected token: refresh once, else fall back to signed out.
+          return refreshSession().then(function () { return getJSON(path, params, true); });
+        }
         return res.json().catch(function () { return null; }).then(function (body) {
           if (!res.ok) {
             var msg = body && body.error ? body.error : 'HTTP ' + res.status;
@@ -320,7 +396,91 @@
 
     var pinned = state.results.filter(function (r) { return typeof r.lat === 'number' && typeof r.lng === 'number'; });
     setPins(pinned);
+    showStreets();
   }
+
+  // ── signed-in street (tracker 251) ───────────────────────
+  // Search results never carry a residence street. When signed in, each
+  // residence's address line is completed from GET /v1/me/residences/{id}
+  // (house_number, street, zip). Signed out, nothing here runs.
+  function streetLine(d, r) {
+    var first = [d.house_number, d.street].filter(Boolean).join(' ');
+    var rest = [d.town || r.town, d.zip].filter(Boolean).join(' ');
+    return [first, rest].filter(Boolean).join(', ');
+  }
+
+  function paintStreet(r) {
+    var li = document.getElementById('finder-r-' + String(r.id).replace(/[^A-Za-z0-9_-]/g, '_'));
+    var d = streetCache[r.id];
+    if (!li || !d || !d.street) return;
+    var addr = li.querySelector('.finder-addr');
+    if (!addr) { addr = el('p', 'finder-addr'); li.appendChild(addr); }
+    addr.textContent = streetLine(d, r);
+  }
+
+  function showStreets() {
+    if (!session) return;
+    var todo = state.results.filter(function (r) { return r.kind === 'residence'; });
+    var queue = [];
+    todo.forEach(function (r) {
+      if (streetCache[r.id]) paintStreet(r); else queue.push(r);
+    });
+    var seq = state.seq;
+    function next() {
+      var r = queue.shift();
+      if (!r || !session || seq !== state.seq) return;
+      getJSON('/v1/me/residences/' + encodeURIComponent(r.id)).then(function (d) {
+        if (d && session) { streetCache[r.id] = d; paintStreet(r); }
+      }).catch(function () { /* the town line stays; street is optional */ })
+        .then(next);
+    }
+    for (var i = 0; i < 4; i++) next();
+  }
+
+  // ── sign-in block and magic-link landing (tracker 251) ───
+  var SIGNIN_SENT = 'If that address can receive email, a sign-in link is on its way. Open it on this device.';
+
+  function setSigninMsg(t) { if (signinMsg) { signinMsg.textContent = t; signinMsg.hidden = !t; } }
+
+  function requestSignin(email) {
+    // Every 202 gets the same text: the page cannot tell a known address from a new one.
+    return kerrPost('/api/auth/finder-signup', { email: email }).then(function (r) {
+      if (r.status === 202) setSigninMsg(SIGNIN_SENT);
+      else if (r.status === 429) setSigninMsg('Too many requests. Wait a few minutes and try again.');
+      else if (r.status === 400) setSigninMsg('Enter a valid email address.');
+      else setSigninMsg('Sign-in is not available right now. Try again later.');
+    }).catch(function () { setSigninMsg('Sign-in is not available right now. Try again later.'); });
+  }
+
+  // The link from the email lands on /finder/#t=<one-time token>. The fragment
+  // is read, then removed from the address bar before any request is made, so
+  // a copied or shared URL carries nothing. The token goes to the redeem call
+  // in a POST body, never in a URL.
+  function landing() {
+    var m = /^#t=([^&]+)/.exec(window.location.hash || '');
+    if (!m) return Promise.resolve();
+    var tok = m[1];
+    try { window.history.replaceState(null, '', window.location.pathname + window.location.search); } catch (e) { /* ignore */ }
+    return kerrPost('/api/auth/magic-link/redeem', { token: decodeURIComponent(tok) }).then(function (r) {
+      if (r.status === 200 && r.body && r.body.access_token) {
+        saveSession(r.body.access_token, r.body.refresh_token);
+        setSigninMsg('');
+      } else {
+        setSigninMsg('That sign-in link has expired or was already used. Request a new one.');
+      }
+    }).catch(function () { setSigninMsg('Sign-in is not available right now. Try again later.'); });
+  }
+
+  if (signinForm) signinForm.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var email = (signinEmail.value || '').trim();
+    if (!email) { setSigninMsg('Enter your email address.'); return; }
+    requestSignin(email);
+  });
+  if (signoutBtn) signoutBtn.addEventListener('click', function () {
+    saveSession(null);
+    render();
+  });
 
   // ── crisis strip ─────────────────────────────────────────
   // Centre of a "west,south,east,north" bbox as {lat, lng}, or null if it is not one.
@@ -533,5 +693,6 @@
   writeForm(initial);
   initialBbox = initial.bbox || '';
   initMap();
-  search(initial, false);
+  updateAuthUI();
+  landing().then(function () { search(initial, false); });
 })();
