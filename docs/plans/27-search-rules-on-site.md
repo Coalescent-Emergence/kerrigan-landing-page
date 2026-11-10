@@ -17,7 +17,6 @@
 - Training-crawler stance: unchanged, admitted by `*` as today.
 - Home canonical (LinkedIn trade-off), about page, AI disclosure, sameAs: owner calls.
 - `legalName`: no formation document; drafts only.
-- Bing token: Microsoft page is a JS shell; `*` admits it.
 - Article image set: needs new artwork.
 - Home sitemap `lastmod`; IndexNow, Rich Results Test (tracker 28).
 

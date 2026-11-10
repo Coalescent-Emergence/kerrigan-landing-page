@@ -25,4 +25,7 @@ Allow: /
 User-agent: Applebot
 Allow: /
 
+User-agent: bingbot
+Allow: /
+
 Sitemap: {{ .Site.BaseURL }}sitemap.xml
