@@ -1,0 +1,30 @@
+{{ define "main" }}
+
+<nav class="site-nav">
+  {{ partial "logo.html" . }}
+</nav>
+
+<article class="legal-shell">
+  <div class="section-container" style="max-width:860px;margin:0 auto;">
+    <a href="/articles/" class="article-back">&larr; All articles</a>
+    <h1 class="section-title" style="margin:var(--wp-space-4) 0 var(--wp-space-3);">{{ .Title }}</h1>
+    <p class="article-meta" style="margin-bottom:var(--wp-space-6);">
+      Published <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+      {{ if and (not .Lastmod.IsZero) (ne (.Lastmod.Format "2006-01-02") (.Date.Format "2006-01-02")) }}
+      &middot; Updated <time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "January 2, 2006" }}</time>
+      {{ end }}
+    </p>
+    <div class="legal-card sacred-card">
+      <div class="legal-content">
+      {{ .Content }}
+      </div>
+    </div>
+    <p style="margin-top:var(--wp-space-8);">
+      <a href="/articles/" class="btn btn-secondary">&larr; All articles</a>
+    </p>
+  </div>
+</article>
+
+{{ partial "site-footer.html" . }}
+
+{{ end }}
