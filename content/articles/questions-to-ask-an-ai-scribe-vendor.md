@@ -9,11 +9,9 @@ summary: "Ten questions a substance use or behavioral health program should put 
 draft: false
 ---
 
-An AI scribe hears everything said in the room. In a substance use program that includes the fact Part 2 exists to protect: that this person has been diagnosed with, treated for, or referred for treatment of a substance use disorder ([42 CFR 2.11](https://www.law.cornell.edu/cfr/text/42/2.11), definition of "disclose"). Before any vendor gets a recording, someone at your program should be able to answer the questions below from documents, not from a sales call.
+An AI scribe hears everything said in the room. In a substance use program that includes the fact Part 2 exists to protect: that this person has been diagnosed with, treated for, or referred for treatment of a substance use disorder ([42 CFR 2.11](https://www.law.cornell.edu/cfr/text/42/2.11), definition of "disclose"). Before any vendor gets a recording, someone at your program should be able to answer the ten questions below from documents, not from a sales call.
 
-This list goes past HIPAA to the layer a substance use program actually lives under: 42 CFR Part 2 records, the qualified service organization agreement, group sessions, and what happens to the audio itself. For each question you get why it matters, what to ask for, and what a bad answer sounds like, so you can hand the list to your compliance officer and score any vendor honestly.
-
-This is not legal advice. It is a list of things to verify with your compliance officer, who knows your program, your state and your contracts.
+This list goes past the Health Insurance Portability and Accountability Act (HIPAA) to the layer a substance use program actually lives under: 42 CFR Part 2 records, the qualified service organization agreement (QSOA), group sessions, and what happens to the audio itself. Each question gives why it matters, what to ask for, and what a bad answer sounds like. Hand the list to your compliance officer and score any vendor honestly.
 
 ## How to score
 
@@ -27,7 +25,7 @@ For each question, mark the answer one of three ways: **documented** (they hande
 
 **A bad answer sounds like:** "We work with leading AI partners" or "Everything stays in a secure cloud." If they cannot name the company that turns speech into text, they either do not know or do not want you to.
 
-## 2. Will you sign a BAA, and does it reach every subprocessor?
+## 2. Will you sign a business associate agreement (BAA), and does it reach every subprocessor?
 
 **Why it matters:** HIPAA lets a covered entity hand protected health information to a business associate only with written "satisfactory assurance" that it will be safeguarded ([45 CFR 164.502(e)](https://www.law.cornell.edu/cfr/text/45/164.502)). The contract must require the vendor to "ensure that any subcontractors that create, receive, maintain, or transmit protected health information on behalf of the business associate agree to the same restrictions and conditions" ([45 CFR 164.504(e)(2)(ii)(D)](https://www.law.cornell.edu/cfr/text/45/164.504)).
 
@@ -35,9 +33,16 @@ For each question, mark the answer one of three ways: **documented** (they hande
 
 **A bad answer sounds like:** "Our terms of service cover HIPAA," or a BAA offered only on an enterprise tier you are not buying.
 
-## 3. Will you sign a qualified service organization agreement?
+## 3. Will you sign a qualified service organization agreement (QSOA)?
 
-**Why it matters:** the usual route Part 2 provides for sharing records with a service provider without patient consent is the qualified service organization (QSO). The exception covers "information needed by the qualified service organization to provide services to or on behalf of the program" ([42 CFR 2.12(c)(4)](https://www.law.cornell.edu/cfr/text/42/2.12)). A QSO is defined by a written agreement in which it acknowledges it "is fully bound by the regulations in this part" and will, if necessary, "resist in judicial proceedings any efforts to obtain access" to patient identifying information except as Part 2 permits ([42 CFR 2.11](https://www.law.cornell.edu/cfr/text/42/2.11)). Since the 2024 final rule, a business associate of a program that is also a HIPAA covered entity can qualify as a QSO for Part 2 records ([89 FR 12475](https://www.federalregister.gov/documents/2024/02/16/2024-02544/confidentiality-of-substance-use-disorder-sud-patient-records); 2.11, paragraph (3) of the QSO definition). Whether your program takes that route or signs a separate QSOA is a call for your compliance officer.
+**Why it matters:** to share records with a service provider without patient consent, Part 2's usual route is to make the provider a qualified service organization (QSO). The exception covers "information needed by the qualified service organization to provide services to or on behalf of the program" ([42 CFR 2.12(c)(4)](https://www.law.cornell.edu/cfr/text/42/2.12)).
+
+A provider becomes a QSO through a written agreement in which it:
+
+- acknowledges it "is fully bound by the regulations in this part," and
+- will, if necessary, "resist in judicial proceedings any efforts to obtain access" to patient identifying information, except as Part 2 permits ([42 CFR 2.11](https://www.law.cornell.edu/cfr/text/42/2.11)).
+
+Since the 2024 final rule, a business associate of a program that is also a HIPAA covered entity can qualify as a QSO for Part 2 records ([89 FR 12475](https://www.federalregister.gov/documents/2024/02/16/2024-02544/confidentiality-of-substance-use-disorder-sud-patient-records); 2.11, paragraph (3) of the QSO definition). Whether your program takes that route or signs a separate QSOA is a call for your compliance officer.
 
 **Ask for:** the QSOA, or the BAA language that carries both Part 2 commitments above. Read for the words "fully bound" and "resist in judicial proceedings."
 
@@ -69,7 +74,7 @@ For each question, mark the answer one of three ways: **documented** (they hande
 
 ## 7. If there is a breach, when and how do you tell us?
 
-**Why it matters:** the BAA must require the vendor to report "breaches of unsecured protected health information" ([45 CFR 164.504(e)(2)(ii)(C)](https://www.law.cornell.edu/cfr/text/45/164.504)), and the 2024 final rule applies the HITECH breach notification provisions to breaches of Part 2 records ([89 FR 12472](https://www.federalregister.gov/documents/2024/02/16/2024-02544/confidentiality-of-substance-use-disorder-sud-patient-records); [42 CFR 2.16(b)](https://www.law.cornell.edu/cfr/text/42/2.16)). You cannot act on a breach you have not been told about.
+**Why it matters:** the BAA must require the vendor to report "breaches of unsecured protected health information" ([45 CFR 164.504(e)(2)(ii)(C)](https://www.law.cornell.edu/cfr/text/45/164.504)), and the 2024 final rule applies the breach notification provisions of the Health Information Technology for Economic and Clinical Health (HITECH) Act to breaches of Part 2 records ([89 FR 12472](https://www.federalregister.gov/documents/2024/02/16/2024-02544/confidentiality-of-substance-use-disorder-sud-patient-records); [42 CFR 2.16(b)](https://www.law.cornell.edu/cfr/text/42/2.16)). You cannot act on a breach you have not been told about.
 
 **Ask for:** the breach clause in the BAA, the vendor's incident response contact, and their notification timeline in writing.
 
@@ -102,3 +107,5 @@ For each question, mark the answer one of three ways: **documented** (they hande
 For the regulation in more depth, read the companion piece, [AI scribes and 42 CFR Part 2](/articles/ai-scribes-42-cfr-part-2/).
 
 To see Kerrigan, visit [our home page](https://latentworx.com/).
+
+*This is not legal advice. It is a list of things to verify with your compliance officer, who knows your program, your state and your contracts.*
