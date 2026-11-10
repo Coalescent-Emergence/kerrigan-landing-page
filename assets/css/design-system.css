@@ -1782,7 +1782,7 @@ tr:nth-child(even) .danger-container::after,
   max-width: 60ch;
 }
 .article-card { padding: var(--wp-space-8); }
-.article-content { max-width: 60ch; }
+.article-content { max-width: 540px; }
 .article-content table {
   display: block;
   max-width: 100%;
@@ -1795,9 +1795,20 @@ tr:nth-child(even) .danger-container::after,
   border: 1px solid var(--color-border);
   text-align: left;
   vertical-align: top;
-  min-width: 8rem;
+  min-width: 6rem;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: manual;
 }
-.article-content { overflow-wrap: anywhere; }
+.article-content { overflow-wrap: break-word; }
+/* scroll cue: edge shadows that appear only where more content is hidden */
+.article-content table {
+  background:
+    linear-gradient(to right, var(--color-bg-container) 30%, transparent) left center / 2rem 100% no-repeat local,
+    linear-gradient(to left, var(--color-bg-container) 30%, transparent) right center / 2rem 100% no-repeat local,
+    linear-gradient(to right, rgba(255,255,255,.22), transparent) left center / .75rem 100% no-repeat scroll,
+    linear-gradient(to left, rgba(255,255,255,.22), transparent) right center / .75rem 100% no-repeat scroll;
+}
 @media (max-width: 640px) {
   .article-shell { padding-left: var(--wp-space-3); padding-right: var(--wp-space-3); }
   .article-container { padding-left: 0; padding-right: 0; }
