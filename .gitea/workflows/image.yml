@@ -1,0 +1,57 @@
+# Builds the dev preview image (deploy/Dockerfile, default BASEURL) on every
+# push and pushes it to the forge registry tagged by commit sha.
+# Needs repo secrets REGISTRY_PUSH_USER and REGISTRY_PUSH_TOKEN; without
+# REGISTRY_PUSH_TOKEN the image is built but not pushed (job stays green).
+# Gitea ignores .github/workflows while this directory exists; production
+# deploy stays in .github/workflows/deploy.yml (GitHub, via the mirror).
+name: image
+
+on:
+  push:
+  workflow_dispatch:
+
+env:
+  REGISTRY: git.jhax.dev:30300
+  IMAGE: git.jhax.dev:30300/latentworx-beck/kerrigan-landing
+
+jobs:
+  image:
+    runs-on: ubuntu-latest
+    env:
+      REGISTRY_PUSH_USER: ${{ secrets.REGISTRY_PUSH_USER }}
+      REGISTRY_PUSH_TOKEN: ${{ secrets.REGISTRY_PUSH_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Decide whether to push
+        id: gate
+        run: |
+          if [ -n "${REGISTRY_PUSH_TOKEN}" ] && [ -n "${REGISTRY_PUSH_USER}" ]; then
+            echo "push=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "push=false" >> "$GITHUB_OUTPUT"
+            echo "REGISTRY_PUSH_USER/REGISTRY_PUSH_TOKEN not set: building without push"
+          fi
+          echo "short=$(echo "${GITHUB_SHA}" | cut -c1-7)" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Log in to the forge registry
+        if: steps.gate.outputs.push == 'true'
+        uses: docker/login-action@v3
+        with:
+          registry: git.jhax.dev:30300
+          username: ${{ secrets.REGISTRY_PUSH_USER }}
+          password: ${{ secrets.REGISTRY_PUSH_TOKEN }}
+
+      - name: Build (and push when credentials exist)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: deploy/Dockerfile
+          platforms: linux/amd64
+          # the Gitea registry needs OCI manifests (see gitea-ci-lib images.yml)
+          outputs: type=image,push=${{ steps.gate.outputs.push == 'true' }},image-manifest=true,oci-mediatypes=true
+          tags: |
+            ${{ env.IMAGE }}:${{ steps.gate.outputs.short }}
+            ${{ env.IMAGE }}:${{ github.sha }}
