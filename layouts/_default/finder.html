@@ -8,17 +8,15 @@
 {{- $cert := resources.Get "js/finder-cert.js" | minify | fingerprint -}}
 {{- $street := resources.Get "js/finder-street.js" | minify | fingerprint -}}
 {{- $lists := resources.Get "js/finder-lists.js" | minify | fingerprint -}}
+{{- $upgrade := resources.Get "js/finder-upgrade.js" | minify | fingerprint -}}
 {{- $js := resources.Get "js/finder.js" | minify | fingerprint -}}
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.css" integrity="sha384-uTttxo/aOKbdE5RlD/SPzSDoDmNvGlUYPjONi2MN/b7c9HPSvW07OIuyP7uL6jxK" crossorigin="anonymous">
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 
-<nav class="site-nav">
-  {{ partial "logo.html" . }}
-  {{ partial "finder-nav-link.html" (dict "current" true) }}
-</nav>
+{{ partial "site-nav.html" (dict "finder" true) }}
 
-<main id="finder" class="finder" data-api="{{ site.Params.finderApiBase }}" data-kerr-api="{{ site.Params.kerrApiBase }}" data-signup="{{ $signupHref }}">
+<main id="finder" class="finder" data-api="{{ site.Params.finderApiBase }}" data-kerr-api="{{ site.Params.kerrApiBase }}" data-signup="{{ $signupHref }}" data-app="{{ site.Params.appUrl | default "https://ui.latentworx.com/" }}">
   <header class="finder-head">
     <h1 class="finder-title">Find a placement</h1>
   </header>
@@ -347,6 +345,15 @@
     <div id="finder-handout-body" class="finder-handout-body"></div>
   </dialog>
 
+  <dialog id="finder-upgrade-dialog" class="finder-compare finder-upgrade" aria-labelledby="finder-upgrade-title">
+    <div class="finder-compare-head">
+      <h2 id="finder-upgrade-title">Upgrade to full Kerrigan</h2>
+      <button type="button" id="finder-upgrade-close" class="btn btn-secondary">Close</button>
+    </div>
+    <div id="finder-upgrade-plans" class="finder-upgrade-plans"></div>
+    <p id="finder-upgrade-msg" class="finder-compare-hint" role="status" aria-live="polite"></p>
+  </dialog>
+
   <p class="finder-signup">
     <a href="{{ $signupHref }}" class="btn btn-primary" data-analytics-event="cta_click_subscribe" data-analytics-label="finder_signup">Save lists and see residence addresses with a Kerrigan account</a>
   </p>
@@ -356,5 +363,6 @@
 <script src="{{ $cert.RelPermalink }}" integrity="{{ $cert.Data.Integrity }}" defer></script>
 <script src="{{ $street.RelPermalink }}" integrity="{{ $street.Data.Integrity }}" defer></script>
 <script src="{{ $lists.RelPermalink }}" integrity="{{ $lists.Data.Integrity }}" defer></script>
+<script src="{{ $upgrade.RelPermalink }}" integrity="{{ $upgrade.Data.Integrity }}" defer></script>
 <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
 {{ end }}

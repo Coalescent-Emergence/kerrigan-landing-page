@@ -1,10 +1,6 @@
 {{ define "main" }}
 
-<!-- Minimal nav -->
-<nav class="site-nav">
-  {{ partial "logo.html" . }}
-  {{ partial "finder-nav-link.html" (dict) }}
-</nav>
+{{ partial "site-nav.html" (dict) }}
 
 {{- $signups := and .Site.Params.signupsEnabled (ne .Site.Params.signupUrl "") -}}
 {{ if eq .RelPermalink "/thank-you/" }}

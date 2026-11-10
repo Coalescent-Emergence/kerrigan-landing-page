@@ -304,7 +304,91 @@
   function updateAuthUI() {
     if (signinBox) signinBox.hidden = !!session;
     if (signedInBox) signedInBox.hidden = !session;
+    if (navUpgrade) navUpgrade.hidden = !session;
+    if (navSignup) navSignup.hidden = !!session;
     syncSaves();
+  }
+
+  // ── upgrade (nav button, signed in): plan choice, then Stripe Checkout ──
+  var navUpgrade = document.getElementById('nav-upgrade');
+  var navSignup = document.getElementById('nav-signup');
+  var upDialog = document.getElementById('finder-upgrade-dialog');
+  var upPlans = document.getElementById('finder-upgrade-plans');
+  var upMsg = document.getElementById('finder-upgrade-msg');
+  var upTitle = document.getElementById('finder-upgrade-title');
+  var APP_URL = root.getAttribute('data-app') || '';
+
+  // Kerrigan POST with the finder session's token; one refresh on 401.
+  function kerrAuthedPost(path, payload, retried) {
+    var sent = session;
+    if (!sent) return Promise.resolve({ status: 401, body: null });
+    return fetch(KERR_API + path, {
+      method: 'POST', credentials: 'omit',
+      headers: { Accept: 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer ' + sent.access },
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      return res.json().catch(function () { return null; }).then(function (body) {
+        if (res.status === 401 && !retried) {
+          return refreshSession().then(function (ok) { return ok ? kerrAuthedPost(path, payload, true) : { status: 401, body: body }; });
+        }
+        return { status: res.status, body: body };
+      });
+    });
+  }
+
+  function upShow(text, appHref) {
+    upMsg.textContent = text;
+    if (appHref) {
+      upMsg.appendChild(document.createTextNode(' '));
+      var a = el('a', 'btn btn-primary', 'Open Kerrigan');
+      a.href = appHref;
+      upMsg.appendChild(a);
+    }
+  }
+
+  function upLoadPlans() {
+    upPlans.textContent = '';
+    upShow('Loading plans…');
+    return fetch(KERR_API + '/api/signup/plans', { credentials: 'omit', headers: { Accept: 'application/json' } })
+      .then(function (res) { return res.json().catch(function () { return null; }).then(function (b) { return res.ok ? b : null; }); })
+      .catch(function () { return null; })
+      .then(function (body) {
+        var plans = window.FinderUpgrade.offered(body);
+        upPlans.textContent = '';
+        if (!plans.length) { upShow('Plans could not be loaded. Close this and try again.'); return; }
+        upTitle.textContent = window.FinderUpgrade.heading(plans);
+        upShow('');
+        plans.forEach(function (p) {
+          var b = el('button', 'btn btn-primary', window.FinderUpgrade.planLabel(p));
+          b.type = 'button';
+          b.addEventListener('click', function () { upChoose(p.code, b); });
+          upPlans.appendChild(b);
+        });
+      });
+  }
+
+  function upChoose(code, btn) {
+    var all = upPlans.querySelectorAll('button');
+    all.forEach(function (x) { x.disabled = true; });
+    upShow('Opening checkout…');
+    kerrAuthedPost('/api/billing/checkout', { plan_code: code }).then(function (res) {
+      var out = window.FinderUpgrade.checkoutOutcome(res, APP_URL);
+      if (out.go) { window.location.assign(out.go); return; }
+      upShow(out.text, out.app);
+      all.forEach(function (x) { x.disabled = false; });
+      if (out.retry) upLoadPlans().then(function () { upShow(out.text); });
+    }).catch(function () {
+      upShow('Could not start checkout. Try again in a moment.');
+      all.forEach(function (x) { x.disabled = false; });
+    });
+  }
+
+  if (navUpgrade && upDialog) {
+    navUpgrade.addEventListener('click', function () {
+      if (typeof upDialog.showModal === 'function') upDialog.showModal(); else upDialog.setAttribute('open', '');
+      upLoadPlans();
+    });
+    document.getElementById('finder-upgrade-close').addEventListener('click', function () { upDialog.close(); });
   }
 
   // POST JSON to the Kerrigan API; resolves {status, body}.

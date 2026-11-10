@@ -548,3 +548,9 @@ body.finder-drawer-open { overflow: hidden; }
   body.finder-printing #finder-handout-dialog .finder-ho-controls { display: none; }
   body.finder-printing .finder-handout-body { padding: 0; margin: 0; }
 }
+
+/* Upgrade plan choice (nav button, signed in). */
+.finder-upgrade { max-width: min(32rem, calc(100vw - 2rem)); }
+.finder-upgrade-plans { display: grid; gap: var(--wp-space-3); margin: var(--wp-space-4) 0; }
+.finder-upgrade-plans .btn { white-space: normal; text-align: center; padding-top: var(--wp-space-2); padding-bottom: var(--wp-space-2); }
+@media (max-width: 480px) { .finder-head { margin-top: 36px; } } /* clears the tab the nav links hang in */

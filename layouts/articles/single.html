@@ -1,8 +1,6 @@
 {{ define "main" }}
 
-<nav class="site-nav">
-  {{ partial "logo.html" . }}
-</nav>
+{{ partial "site-nav.html" (dict) }}
 
 <article class="legal-shell">
   <div class="section-container" style="max-width:860px;margin:0 auto;">
