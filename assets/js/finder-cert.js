@@ -19,9 +19,10 @@
   }
 
   /* Vacancies as the house posted them (Kerrigan tracker 254). vacancyView(vacancy, admission, today)
-     takes the API's residence.vacancy ({beds, chips, posted_on, stale_after_days}) and residence.admission,
-     and returns the lines the card shows as [{cls, text}]. `today` is 'YYYY-MM-DD'. Nothing here is a
-     counselor posting; those are a separate list. */
+     takes the API's residence.vacancy ({beds, posted_on, stale_after_days}) and residence.admission
+     ('interview_and_house_vote' for an Oxford House, else null), and returns the lines the card shows as
+     [{cls, text}]. `today` is 'YYYY-MM-DD'. Nothing here is a counselor posting; those are a separate list. */
+  var ADMISSION_INTERVIEW_VOTE = 'interview_and_house_vote';
   var DEFAULT_STALE_DAYS = 7;
   var DAY_MS = 86400000;
   var DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -39,8 +40,6 @@
       var bedsText = typeof beds === 'number'
         ? (beds === 0 ? 'No vacancies posted' : 'Vacancies: ' + beds + (beds === 1 ? ' bed' : ' beds'))
         : 'Vacancies: number not posted';
-      var chips = Array.isArray(v.chips) ? v.chips.filter(Boolean) : [];
-      if (chips.length) bedsText += ' (' + chips.join(', ') + ')';
       out.push({ cls: 'finder-vacancy', text: bedsText });
 
       var limit = typeof v.stale_after_days === 'number' ? v.stale_after_days : DEFAULT_STALE_DAYS;
@@ -56,7 +55,7 @@
       }
       out.push({ cls: 'finder-vacancy-posted' + (stale ? ' finder-vacancy-stale' : ''), text: posted });
     }
-    if (admission) out.push({ cls: 'finder-admission', text: 'Admission is by interview and house vote.' });
+    if (admission === ADMISSION_INTERVIEW_VOTE) out.push({ cls: 'finder-admission', text: 'Admission is by interview and house vote.' });
     return out;
   }
 

@@ -1,6 +1,105 @@
-{"note":"Hand-written sample in the plan's field shape (kerr-finder not yet producing it); replace with a recorded response once unit D lands.",
- "results":[
- {"id":"r-fresh","kind":"residence","name":"Oxford House Cottonwood","vacancy":{"beds":2,"chips":["men","no children"],"posted_on":"2026-11-04","stale_after_days":7},"admission":{"operator_key":"oxford house"}},
- {"id":"r-old","kind":"residence","name":"Oxford House Ellett","vacancy":{"beds":1,"chips":[],"posted_on":"2026-10-20","stale_after_days":7},"admission":{"operator_key":"oxford house"}},
- {"id":"r-undated","kind":"residence","name":"Oxford House Undated","vacancy":{"beds":3,"chips":["women"],"posted_on":null,"stale_after_days":7},"admission":{"operator_key":"oxford house"}},
- {"id":"r-dbhds","kind":"residence","name":"Some DBHDS Home","vacancy":null,"admission":null}]}
+{
+ "note": "Residences as kerr-finder serves them over the October 2026 DBHDS lists and Oxford Vacancies cards: recorded from its TestOxfordVacanciesEndToEnd (search result bodies, one per name). Do not hand-edit.",
+ "results": [
+  {
+   "admission": "interview_and_house_vote",
+   "certification": {
+    "accreditor": "Oxford House",
+    "expires_on": null,
+    "status": "certified"
+   },
+   "checked": {
+    "on": "2026-11-10",
+    "source": "Virginia DBHDS recovery residence lists",
+    "source_as_of": "2026-10-05",
+    "source_url": "https://dbhds.virginia.gov/office-of-recovery-services/recovery-residences"
+   },
+   "id": "res-88",
+   "kind": "residence",
+   "match": "full",
+   "name": "Oxford House Cottonwood",
+   "support_level": "self_governed_unstaffed",
+   "town": "Culpepper",
+   "unknown_filters": [],
+   "vacancy": {
+    "beds": 1,
+    "posted_on": "2026-10-26",
+    "stale_after_days": 7
+   }
+  },
+  {
+   "admission": "interview_and_house_vote",
+   "certification": {
+    "accreditor": "Oxford House",
+    "expires_on": null,
+    "status": "certified"
+   },
+   "checked": {
+    "on": "2026-11-10",
+    "source": "Virginia DBHDS recovery residence lists",
+    "source_as_of": "2026-10-05",
+    "source_url": "https://dbhds.virginia.gov/office-of-recovery-services/recovery-residences"
+   },
+   "id": "res-112",
+   "kind": "residence",
+   "match": "full",
+   "name": "Oxford House Ellet",
+   "support_level": "self_governed_unstaffed",
+   "town": "Blacksburg",
+   "unknown_filters": [],
+   "vacancy": {
+    "beds": 2,
+    "posted_on": "2026-10-26",
+    "stale_after_days": 7
+   }
+  },
+  {
+   "admission": "interview_and_house_vote",
+   "certification": {
+    "accreditor": "Oxford House",
+    "expires_on": null,
+    "status": "certified"
+   },
+   "checked": {
+    "on": "2026-11-10",
+    "source": "Virginia DBHDS recovery residence lists",
+    "source_as_of": "2026-10-05",
+    "source_url": "https://dbhds.virginia.gov/office-of-recovery-services/recovery-residences"
+   },
+   "id": "res-41",
+   "kind": "residence",
+   "match": "full",
+   "name": "Oxford House Belle Heven",
+   "support_level": "self_governed_unstaffed",
+   "town": "Alexandria",
+   "unknown_filters": [],
+   "vacancy": {
+    "beds": 1,
+    "posted_on": "2026-10-26",
+    "stale_after_days": 7
+   }
+  },
+  {
+   "admission": null,
+   "certification": {
+    "accreditor": "VARR",
+    "expires_on": null,
+    "status": "certified"
+   },
+   "checked": {
+    "on": "2026-11-10",
+    "source": "Virginia DBHDS recovery residence lists",
+    "source_as_of": "2026-10-05",
+    "source_url": "https://dbhds.virginia.gov/office-of-recovery-services/recovery-residences"
+   },
+   "id": "res-236",
+   "kind": "residence",
+   "match": "full",
+   "name": "Moton House",
+   "support_level": "2",
+   "town": "Richmond",
+   "unknown_filters": [],
+   "vacancy": null
+  }
+ ]
+}
