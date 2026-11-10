@@ -65,13 +65,13 @@ Both quotes are from [42 CFR 2.11, Qualified service organization](https://www.e
 
 Three details matter for an AI vendor.
 
-**A business associate agreement (BAA) may also count, under conditions.** The 2024 rule expressly includes HIPAA business associates as QSOs "where the QSO meets the definition of business associate for a covered entity that is also a part 2 program" ([final rule, summary of §2.11](https://www.federalregister.gov/documents/2024/02/16/2024-02544/confidentiality-of-substance-use-disorder-sud-patient-records)). Whether your vendor's BAA alone is enough, or you also need QSOA language, is a question to settle before signing. Ask the vendor which document it will sign, and get the actual text.
+**A business associate agreement (BAA) may also count, under conditions.** The 2024 rule expressly includes HIPAA business associates as QSOs "where the QSO meets the definition of business associate for a covered entity that is also a part 2 program" ([final rule, summary of §2.11](https://www.federalregister.gov/documents/2024/02/16/2024-02544/confidentiality-of-substance-use-disorder-sud-patient-records)). Whether your vendor's BAA alone is enough, or you also need QSOA language, is your compliance officer's call. Ask the vendor which document it will sign, and get the actual text.
 
 **"Needed" is a limit.** The exception covers information the QSO needs to provide its service. Ask what the vendor keeps after the note is signed, and why.
 
 **Downstream parties are the real test.** SAMHSA (the Substance Abuse and Mental Health Services Administration) guidance, quoted in the 2018 rule and repeated in the preamble to the 2024 rule, is that "a QSOA does not permit a QSO to re-disclose information to a third party unless that third party is a contract agent of the QSO, helping them provide services described in the QSOA" ([2024 final rule preamble](https://www.federalregister.gov/documents/2024/02/16/2024-02544/confidentiality-of-substance-use-disorder-sud-patient-records)).
 
-The agent may further disclose the information only back to the QSO or to the Part 2 program it came from.
+The same SAMHSA guidance says the agent may further disclose the information only back to the QSO or to the Part 2 program it came from.
 
 So for each company in the vendor's pipeline, ask: is it a contract agent, and does the data only flow back? That leads straight to architecture.
 

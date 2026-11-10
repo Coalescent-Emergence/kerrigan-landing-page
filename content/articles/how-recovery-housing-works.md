@@ -46,7 +46,7 @@ NARR sorts housing into four levels of support. It treats the terms level and ty
 - **Level III, supervised.** Adds weekly, structured programming such as peer recovery support and life skills, with staff who are "supervised, trained, or credentialed."
 - **Level IV, clinical.** NARR says Level IV "integrates the social and medical model," and programs lacking social model principles do not qualify.
 
-Level IV is where Virginia diverges. A state workgroup report says Level 4 residences "offer clinical treatment services and are required to be licensed by DBHDS," the Virginia Department of Behavioral Health and Developmental Services ([Senate Document 11, 2025](https://rga.lis.virginia.gov/Published/2025/SD11/PDF)). The DBHDS page describes houses of the Virginia Association of Recovery Residences (VARR) described as "Level Four Houses," and service providers with in-house clinical services ([DBHDS](https://dbhds.virginia.gov/office-of-recovery-services/recovery-residences)).
+Level IV is where Virginia diverges. A state workgroup report says Level 4 residences "offer clinical treatment services and are required to be licensed by DBHDS," the Virginia Department of Behavioral Health and Developmental Services ([Senate Document 11, 2025](https://rga.lis.virginia.gov/Published/2025/SD11/PDF)). The DBHDS page describes houses of the Virginia Association of Recovery Residences (VARR) as "Level Four Houses," and service providers with in-house clinical services ([DBHDS](https://dbhds.virginia.gov/office-of-recovery-services/recovery-residences)).
 
 Because the statute's definition excludes clinical services, a Level IV program is a licensed provider rather than a certified recovery residence (our reading). The certification rules below cover Levels I to III.
 
@@ -62,7 +62,7 @@ Virginia requires an Oxford House to tell prospective residents it is "self-gove
 
 ## How residents combine housing with treatment
 
-Many residents stay in recovery housing during or after outpatient treatment. SAMHSA says housing providers should "offer resources to help residents access and remain in outpatient treatment." At Levels I and II the housing relies on outside clinical services "as needed" or "available and encouraged." At Level III it is "linked with" clinical services in the community ([SAMHSA, Best Practice 10 and Table 1](https://bbh.wv.gov/media/35510/download)).
+SAMHSA notes many residents stay in recovery housing during or after outpatient treatment, and says housing providers should "offer resources to help residents access and remain in outpatient treatment." At Levels I and II the housing relies on outside clinical services "as needed" or "available and encouraged." At Level III it is "linked with" clinical services in the community ([SAMHSA, Best Practice 10 and Table 1](https://bbh.wv.gov/media/35510/download)).
 
 In practice that means two arrangements running side by side: a house with its own rules and rent, and a treatment program, such as intensive outpatient, with its own schedule and clinical record. Which housing fits which client is a clinical judgment for you and the treatment team, and this article does not make it.
 

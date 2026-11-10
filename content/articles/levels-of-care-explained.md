@@ -58,7 +58,7 @@ The hours and staffing below are Virginia's regulatory definitions, in [12VAC35-
 
 **Level 3.7, medically monitored intensive inpatient.** Defined as "24-hour care in a facility under the supervision of medical personnel" (12VAC35-105-20). A physician must be able to assess the person "in person or via telemedicine within 24 hours of admission," and a licensed nurse must complete an alcohol and drug focused assessment on admission ([12VAC30-130-5140](https://law.lis.virginia.gov/admincode/title12/agency30/chapter130/section5140/)). A hospital can also deliver 3.7, though most 3.7 services are residential (ASAM FAQ).
 
-**Level 4.0, medically managed intensive inpatient.** This is the hospital level. "ASAM Level 4 is a hospital level of care" (ASAM FAQ). The Medicaid setting is "acute care hospitals licensed by the Virginia Department of Health" as the setting, with physician management and primary nursing care "available 24 hours per day" ([12VAC30-130-5150](https://law.lis.virginia.gov/admincode/title12/agency30/chapter130/section5150/)).
+**Level 4.0, medically managed intensive inpatient.** This is the hospital level. "ASAM Level 4 is a hospital level of care" (ASAM FAQ). The Medicaid setting is "acute care hospitals licensed by the Virginia Department of Health", with physician management and primary nursing care "available 24 hours per day" ([12VAC30-130-5150](https://law.lis.virginia.gov/admincode/title12/agency30/chapter130/section5150/)).
 
 ## What PHP is
 
@@ -74,7 +74,7 @@ What Virginia requires:
 
 ## How a 2.5 program differs from a 3.x program
 
-Compare the hour minimums in the Virginia text. Level 2.5 requires 20 or more hours a week. Level 3.1 requires five hours a week of professionally directed treatment, in addition to other services. The 3.5 and 3.7 text sets no weekly hour minimum. Level 4.0 requires counseling "available 16 hours per day" (12VAC30-130-5150). What the residential levels add is the 24-hour setting, with staff and medical coverage around the clock (our reading).
+Compare the hour minimums in the Virginia text. Level 2.5 requires 20 or more hours a week. Level 3.1 requires five hours a week of professionally directed treatment, in addition to other services. The 3.5 and 3.7 text we read sets no weekly hour minimum. Level 4.0 requires counseling "available 16 hours per day" (12VAC30-130-5150). What the residential levels add is the 24-hour setting, with staff and medical coverage around the clock (our reading).
 
 | | Level 2.5 (PHP) | Levels 3.1 to 3.5 (residential) | Level 3.7 |
 |---|---|---|---|
@@ -83,7 +83,7 @@ Compare the hour minimums in the Virginia text. Level 2.5 requires 20 or more ho
 | Staffing | Interdisciplinary team; emergency services by phone when the program is not in session | Awake onsite supervision 24 hours a day | Physician-overseen team plus nursing |
 | Medical coverage | Consult by phone within 8 hours or in person or by telemedicine within 48 hours; emergency services 24/7 | Physician consultation and emergency services 24/7; at 3.5, credentialed medical staff on site or by phone around the clock | Physician assessment within 24 hours of admission; nurse assessment on admission |
 
-Sources: [12VAC35-105-20](https://law.lis.virginia.gov/admincode/title12/agency35/chapter105/section20/), [12VAC30-130-5100](https://law.lis.virginia.gov/admincode/title12/agency30/chapter130/section5100/), [5110](https://law.lis.virginia.gov/admincode/title12/agency30/chapter130/section5110/), [5130](https://law.lis.virginia.gov/admincode/title12/agency30/chapter130/section5130/) and [5140](https://law.lis.virginia.gov/admincode/title12/agency30/chapter130/section5140/). "Where the person sleeps" is our wording, not the rules'.
+Sources: [12VAC35-105-20](https://law.lis.virginia.gov/admincode/title12/agency35/chapter105/section20/), [12VAC30-130-5100](https://law.lis.virginia.gov/admincode/title12/agency30/chapter130/section5100/), [5110](https://law.lis.virginia.gov/admincode/title12/agency30/chapter130/section5110/), [5130](https://law.lis.virginia.gov/admincode/title12/agency30/chapter130/section5130/) and [5140](https://law.lis.virginia.gov/admincode/title12/agency30/chapter130/section5140/). The rule texts name residential and 24-hour settings. "Where the person sleeps" is our wording, not the rules'.
 
 Housing is its own subject, because a recovery residence is not a treatment level. We cover it in [how recovery housing works](/articles/how-recovery-housing-works/).
 

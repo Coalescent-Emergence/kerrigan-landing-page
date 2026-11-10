@@ -16,13 +16,13 @@ summary: "The six ASAM dimensions in the 3rd and 4th editions, what changed betw
 draft: true
 ---
 
-**Virginia Medicaid and Virginia licensing both name the 3rd edition (2013) of the ASAM Criteria, the standards of the American Society of Addiction Medicine (ASAM). A move to the 4th edition (2023) is planned, with no date found.** So when a form says "Dimension 4," the 3rd edition means readiness to change, and the 4th edition means substance use-related risks. Check which edition the form was written against.
+**Virginia Medicaid names the 3rd edition (2013) of the ASAM Criteria, the standards of the American Society of Addiction Medicine (ASAM), and Virginia licensing points to it as written. A move to the 4th edition (2023) is planned, with no date found.** So when a form says "Dimension 4," the 3rd edition means readiness to change, and the 4th edition means substance use-related risks. Check which edition the form was written against.
 
 This article lists the six ASAM dimensions in each edition, shows where the two differ, and gives the sources for Virginia's edition.
 
 ## In brief
 
-- Both editions have six dimensions, but the names and meanings of dimensions 4, 5 and 6 changed.
+- Both editions have six dimensions, but the names of dimensions 4, 5 and 6 changed.
 - Readiness to change was its own dimension in the 3rd edition. In the 4th it is folded into the others, and Dimension 6 is now Person-Centered Considerations.
 - Only the 4th edition builds risk ratings into its admission criteria.
 - A level number such as 1.0 can mean different services in Virginia's rules and in the 4th edition (our reading).
@@ -30,7 +30,7 @@ This article lists the six ASAM dimensions in each edition, shows where the two 
 
 ## What the dimensions are for
 
-The dimensions are the assessment frame for placing a person in treatment, and the sources we cite tie the treatment plan to the same assessment. A patient entering treatment should get a standard assessment covering all six dimensions. Level of care recommendations and treatment plans "are developed based on multidimensional patient assessments" ([ASAM, About The ASAM Criteria](https://www.asam.org/asam-criteria/about-the-asam-criteria)). The six dimensions "inform the level of care recommendation and the treatment plan" ([ASAM, 3rd edition](https://www.asam.org/asam-criteria/asam-criteria-3rd-edition)).
+The dimensions are the assessment frame for placing a person in treatment, and the sources we cite tie the treatment plan to the same assessment. Per ASAM, a patient entering treatment should get a standard assessment covering all six dimensions. Level of care recommendations and treatment plans "are developed based on multidimensional patient assessments" ([ASAM, About The ASAM Criteria](https://www.asam.org/asam-criteria/about-the-asam-criteria)). The six dimensions "inform the level of care recommendation and the treatment plan" ([ASAM, 3rd edition](https://www.asam.org/asam-criteria/asam-criteria-3rd-edition)).
 
 The ASAM Criteria are the standards for placing patients in addiction treatment, described by ASAM as "the most widely used and comprehensive set of standards for placement, continued service, and transfer of patients" with addiction and co-occurring conditions. They were first published in 1991 as the ASAM patient placement criteria. The name changed with the Third Edition in 2013, and the Fourth Edition was released in 2023 ([ASAM, About The ASAM Criteria](https://www.asam.org/asam-criteria/about-the-asam-criteria)).
 
@@ -66,7 +66,7 @@ Two differences matter for paperwork.
 
 **The 4th edition describes subdimensions.** Dimensions 1 through 5 are used to develop a level of care recommendation. Dimension 6 is assessed with the patient "using a shared decision-making framework," covering barriers to care, including social determinants of health, and patient preferences (ASAM, 4th edition).
 
-There is no one-to-one map from the old dimensions 5 and 6 to the new 4 and 5 on ASAM's public pages (see "What we could not confirm"). If a form uses the 4th edition names, read the edition itself before you treat "Dimension 5" in two documents as the same thing.
+We did not find a one-to-one map from the old dimensions 5 and 6 to the new 4 and 5 on ASAM's public pages (see "What we could not confirm"). If a form uses the 4th edition names, read the edition itself before you treat "Dimension 5" in two documents as the same thing.
 
 ## Risk ratings: the difference that changes the decision rules
 
@@ -90,7 +90,7 @@ DMAS applies the same edition: the department "is utilizing the treatment criter
 
 The regulation defines the assessment as including six dimensions. Its list includes "an individual's readiness to change" as item (iv), which fits the 3rd edition. Its wording ("home environment", "risks for relapse or continued use") differs from the manual's dimension names ([12VAC30-130-5020](https://law.lis.virginia.gov/admincode/title12/agency30/chapter130/section5020/)).
 
-ARTS requires that the multidimensional assessment be completed "by a CATP or a CSAC under the supervision of a CATP" ([12VAC30-130-5040 A.1](https://law.lis.virginia.gov/admincode/title12/agency30/chapter130/section5040/)). A CATP is a credentialed addiction treatment professional, and a CSAC is a certified substance abuse counselor. The level of care, the Individual Service Plan and recovery strategies "shall be based upon this multidimensional assessment" ([ARTS Provider Manual, p. 19](https://vamedicaid.dmas.virginia.gov/sites/default/files/2025-07/ARTS%20Provider%20Manual%20Chapter%20IV%20%28updated%207.7.25%29_Final.pdf)).
+ARTS requires that the multidimensional assessment be completed "by a CATP or a CSAC under the supervision of a CATP" ([12VAC30-130-5040 A.1](https://law.lis.virginia.gov/admincode/title12/agency30/chapter130/section5040/)). Virginia's Medicaid rules define a CATP as a credentialed addiction treatment professional and a CSAC as a certified substance abuse counselor. The level of care, the Individual Service Plan and recovery strategies "shall be based upon this multidimensional assessment" ([ARTS Provider Manual, p. 19](https://vamedicaid.dmas.virginia.gov/sites/default/files/2025-07/ARTS%20Provider%20Manual%20Chapter%20IV%20%28updated%207.7.25%29_Final.pdf)).
 
 **For licensing, as written, the rules point to the 3rd edition.** The Department of Behavioral Health and Developmental Services (DBHDS) licensing rules use ASAM level numbers. Their admission criteria for each residential, partial hospitalization and outpatient level require a person to "Meet the admission criteria" of a given level "of ASAM." Part VII itself names no edition ([12VAC35-105, Part VII](https://law.lis.virginia.gov/admincodefull/title12/agency35/chapter105/partVII/)).
 

@@ -44,7 +44,7 @@ A provider becomes a QSO through a written agreement in which it:
 - acknowledges it "is fully bound by the regulations in this part," and
 - will, if necessary, "resist in judicial proceedings any efforts to obtain access" to patient identifying information, except as Part 2 permits ([42 CFR 2.11](https://www.law.cornell.edu/cfr/text/42/2.11)).
 
-Since the 2024 final rule, a business associate of a program that is also a HIPAA covered entity can qualify as a QSO for Part 2 records (paragraph 3 of the QSO definition in [42 CFR 2.11](https://www.law.cornell.edu/cfr/text/42/2.11), explained in the [2024 final rule](https://www.federalregister.gov/documents/2024/02/16/2024-02544/confidentiality-of-substance-use-disorder-sud-patient-records)). Whether your program takes that route or signs a separate QSOA is the call to settle first.
+Since the 2024 final rule, a business associate of a program that is also a HIPAA covered entity can qualify as a QSO for Part 2 records (paragraph 3 of the QSO definition in [42 CFR 2.11](https://www.law.cornell.edu/cfr/text/42/2.11), explained in the [2024 final rule, 89 FR 12475](https://www.federalregister.gov/documents/2024/02/16/2024-02544/confidentiality-of-substance-use-disorder-sud-patient-records)). Whether your program takes that route or signs a separate QSOA is a call for your compliance officer.
 
 **Ask for:** the QSOA, or the BAA language that carries both Part 2 commitments above. Read for the words "fully bound" and "resist in judicial proceedings."
 
