@@ -1,0 +1,106 @@
+---
+title: "How recovery housing works, and how it ties to treatment"
+description: "How recovery housing works: what a recovery residence is, NARR levels I to IV, Oxford Houses, Virginia certification, and how counselors vet a house."
+date: 2026-11-09
+lastmod: 2026-11-09
+slug: how-recovery-housing-works
+keywords:
+  - how recovery housing works
+  - recovery residence vs treatment
+  - NARR levels of support
+  - Oxford House
+  - Virginia certified recovery residence
+  - sober living and outpatient treatment
+  - how to vet a recovery residence
+summary: "What a recovery residence is and is not, how NARR levels and Oxford Houses differ, what Virginia certification requires, and what a counselor should check before referring."
+draft: true
+---
+
+A client finishes a residential stay, or starts intensive outpatient, and needs somewhere stable to live that is not the place they used. You are the one who has to say where. This article explains what recovery housing is, how it fits next to treatment, and how to check a house before you send anyone there.
+
+Statements of fact below link to their source, and our own readings are marked as such. Virginia law changes, so verify the current text with your compliance officer or the state office before you rely on it. This is not legal advice.
+
+## What a recovery residence is
+
+Recovery housing is a place to live. SAMHSA calls it "a recovery support service" and says "the recovery housing setting is the service" ([SAMHSA, Best Practices for Recovery Housing, 2023, PEP23-10-00-002, copy hosted by West Virginia BBH](https://bbh.wv.gov/media/35510/download), Overview). The residents supply much of the support: shared rules, accountability to each other, and a household that stays sober.
+
+Virginia puts the line in statute. A recovery residence is alcohol-free and illicit-drug-free housing for people with substance use disorders, with or without a co-occurring mental illness, "that does not include clinical treatment services" ([Va. Code § 37.2-431.1(A)](https://law.lis.virginia.gov/vacode/37.2-431.1/)). The federal law that required SAMHSA's guidance also told it to leave out best practices for treatment services ([SAMHSA, Background](https://bbh.wv.gov/media/35510/download)).
+
+Under Virginia's definition, then, a recovery residence is not a treatment level: it delivers no clinical treatment, and a client living in one still needs treatment from a separate provider. NARR also defines a Level IV that includes clinical services, covered below. For what the treatment levels are, read [levels of care explained](/articles/levels-of-care-explained/); we will not repeat them here.
+
+## NARR levels I to IV
+
+The National Alliance for Recovery Residences (NARR) sorts housing into four levels of support. NARR says the terms level and type are interchangeable, and that its levels are informed by ASAM's categories ([NARR standards](https://narronline.org/standards/)).
+
+- **Level I, peer-run.** NARR describes these as "democratically run" homes, and names Oxford Houses as an example ([NARR](https://narronline.org/standards/)). SAMHSA's table lists no on-site paid staff ([SAMHSA, Table 1](https://bbh.wv.gov/media/35510/download)).
+- **Level II, monitored.** These are "frequently called sober homes or sober living," with house rules, peer accountability and a house manager ([NARR](https://narronline.org/standards/)).
+- **Level III, supervised.** These add "weekly, structured programming" such as peer recovery support and life skills, with staff who are "supervised, trained, or credentialed" ([NARR](https://narronline.org/standards/)).
+- **Level IV, clinical.** NARR says Level IV "integrates the social and medical model" and that programs lacking social model principles do not qualify ([NARR](https://narronline.org/standards/)).
+
+Level IV is where Virginia diverges. A state workgroup report says Level 4 residences "offer clinical treatment services and are required to be licensed by DBHDS" ([Senate Document 11, 2025](https://rga.lis.virginia.gov/Published/2025/SD11/PDF)). The DBHDS page lists VARR houses described as "Level Four Houses" and service providers with in-house clinical services ([DBHDS](https://dbhds.virginia.gov/office-of-recovery-services/recovery-residences)). Because the statute's definition excludes clinical services, our reading is that a Level IV program is a licensed provider rather than a certified recovery residence, so we scope the certification rules below to Levels I to III.
+
+## Oxford Houses
+
+NARR names Oxford Houses as an example of Level I, and they work differently from a sober living home with a manager. In Virginia, Oxford House, Inc. is its own credentialing entity. Oxford House says "there is no house manager or outside authority," and that members "elect officers to serve for terms of six months" ([Oxford House](https://www.oxfordhouse.org/)). Every member pays an equal share of expenses, and "there's no time limit on how long a member can live in an Oxford House" ([Oxford House](https://www.oxfordhouse.org/)).
+
+Two rules matter to a referring counselor. A member who "returns to using alcohol or drugs must be immediately expelled" ([Oxford House](https://www.oxfordhouse.org/)), and the house votes on who joins ([Oxford House](https://www.oxfordhouse.org/)). The traditions describe each house as self-run and self-supporting, and say the house "should remain forever non-professional" ([Oxford House traditions](https://www.oxfordhouse.org/house-traditions)).
+
+Virginia requires an Oxford House to tell prospective residents it is "self-governed and unstaffed" ([Va. Code § 37.2-431.1(B)](https://law.lis.virginia.gov/vacode/37.2-431.1/)). You can search houses and vacancies by state on [Oxford House's vacancy site](https://www.oxfordvacancies.com/).
+
+## How residents combine housing with treatment
+
+SAMHSA says "many residents stay in recovery housing during and/or after outpatient treatment," and recommends that housing providers "offer resources to help residents access and remain in outpatient treatment" ([SAMHSA, Best Practice 10](https://bbh.wv.gov/media/35510/download)). At Levels I and II the housing relies on outside clinical services "as needed" or "available and encouraged"; at Level III it is "linked with" clinical services in the community ([SAMHSA, Table 1](https://bbh.wv.gov/media/35510/download)).
+
+In practice that means two arrangements running side by side: a house with its own rules and rent, and a treatment program, such as intensive outpatient, with its own schedule and clinical record. They connect through the client and through you. Which housing fits which client is a clinical judgment for you and the treatment team, and this article does not make it.
+
+Payment follows the split. VARR, which accredits Virginia residences to NARR standards, states: "Recovery residences are self pay and are NOT COVERED BY INSURANCE." It points to the statewide Indigent Bed Program for people who cannot pay ([VARR directory](https://varronline.org/accredited-residences-2/)).
+
+## What Virginia certification requires
+
+Virginia treats certification as the entry ticket. Nobody may operate a recovery residence, or advertise or imply state certification, without certification from the Department of Behavioral Health and Developmental Services (DBHDS); a violation is a Class 1 misdemeanor ([Va. Code § 37.2-431.1(C)](https://law.lis.virginia.gov/vacode/37.2-431.1/)). The statute and regulation set these requirements. The statute lets the regulations require accreditation or membership, and the regulation does:
+
+- hold a credential, accreditation or charter from the Virginia Association of Recovery Residences (VARR) or Oxford House, Inc. ([12VAC35-260-20](https://law.lis.virginia.gov/admincodefull/title12/agency35/chapter260/)). DBHDS names those two as the credentialing entities ([DBHDS](https://dbhds.virginia.gov/office-of-recovery-services/recovery-residences)).
+- tell prospective residents its credentialing entity and its NARR level, or its Oxford House status ([§ 37.2-431.1(B)](https://law.lis.virginia.gov/vacode/37.2-431.1/)).
+- meet square-footage requirements and report any death or serious injury on its premises ([§ 37.2-431.1(C)](https://law.lis.virginia.gov/vacode/37.2-431.1/)).
+- not require residents to use medical or psychological services, including clinical SUD treatment, from which it financially benefits, directly or indirectly ([§ 37.2-431.1(C)](https://law.lis.virginia.gov/vacode/37.2-431.1/)).
+
+DBHDS must publish lists of certified and conditionally certified residences ([§ 37.2-431.1(D)](https://law.lis.virginia.gov/vacode/37.2-431.1/)). Conditional certification exists for operators still working toward accreditation, and DBHDS says it is not granted to anyone who has not begun that process ([DBHDS](https://dbhds.virginia.gov/office-of-recovery-services/recovery-residences)). State agencies may refer only to certified residences, and no court may refer or release a person to one that is not certified ([§ 37.2-431.1(F)](https://law.lis.virginia.gov/vacode/37.2-431.1/)).
+
+## What certification does not do
+
+In our reading, certification is a registration and credentialing requirement, not a clinical license or a promise of quality. Four limits are documented.
+
+- **No treatment.** By definition the residence offers no clinical services ([§ 37.2-431.1(A)](https://law.lis.virginia.gov/vacode/37.2-431.1/)).
+- **No state inspection, as of the latest report.** The 2025 workgroup report notes that DBHDS staff "do not currently inspect recovery residences" ([SD 11](https://rga.lis.virginia.gov/Published/2025/SD11/PDF)). It also found "an overreliance on third-party credentialing agencies without adequate state support and oversight." A 2026 act amends the charge of that same workgroup: the Department now convenes it, it reports annually by November 1, and it expires July 1, 2031. Local fire, building, safety and health inspection methods are among the topics it covers ([2026 Acts, Chapter 1000, enactment 6](https://law.lis.virginia.gov/uncodifiedacts/2026/session1/chapter1000/)). A DBHDS workgroup draft of 12VAC35-260 dated August 25, 2026 is not adopted. In section 12VAC35-260-50 it says the department "may conduct an inspection" on application, and accredited or chartered residences "shall not be required to have an inspection"; elsewhere it says "The department may conduct unannounced inspections of all recovery residences at any time to determine compliance with this chapter," and it also provides for inspections on complaints and serious incidents ([draft](https://dbhds.virginia.gov/wp-content/uploads/2026/08/Recovery-Residence-Workgroup-draft.pdf)). DBHDS's page says VARR does annual on-site inspections ([DBHDS](https://dbhds.virginia.gov/office-of-recovery-services/recovery-residences)), so check the current position.
+- **No insurance coverage.** See VARR's statement above.
+- **Data rules still coming.** A 2026 act orders regulations "regarding sharing of data related to recovery residences with the public"; the shared data "may include" items such as certification status, inspection results and incident counts, effective January 1, 2027 ([2026 Acts, Chapter 1000, enactments 4 and 5](https://law.lis.virginia.gov/uncodifiedacts/2026/session1/chapter1000/)). VARR and DBHDS already publish lists and VARR publishes inspection dates.
+
+## How a counselor finds and vets a house
+
+Start with the lists. DBHDS links its certified list, its conditional list, the Oxford House vacancy site and VARR's directory from one page ([DBHDS](https://dbhds.virginia.gov/office-of-recovery-services/recovery-residences)). VARR's directory shows level, population served, location and last on-site inspection date, and warns that it "may not reflect all VARR accredited recovery residence operators" ([VARR](https://varronline.org/accredited-residences-2/)). Confirm the details with the house itself.
+
+SAMHSA gives referrers a checklist: whether the home is "certified to national standards," house culture, level of support, neighborhood, living environment, current residents, and whether leadership supports medications for mental health and substance use disorders ([SAMHSA, Referral Process](https://bbh.wv.gov/media/35510/download)). SAMHSA also recommends that operators place no barriers or restrictions on prescribed medications, including buprenorphine, methadone and naltrexone ([SAMHSA, Best Practice 10](https://bbh.wv.gov/media/35510/download)).
+
+Then ask for paper. For houses credentialed under NARR standards, NARR Standard 3.0 calls for a written agreement before a resident commits, covering resident rights, financial obligations, services provided, recovery goals and relapse policies, plus a grievance process ([NARR Standard 3.0, Standards 5 and 7](https://narronline.org/wp-content/uploads/2024/05/NARR-Standard-3.0.pdf)). Oxford Houses follow Oxford House, Inc.'s own model rather than NARR's standard, so ask the house what its written terms are.
+
+## What an undisclosed treatment tie can signal
+
+A treatment program and a house can be connected. What SAMHSA names as dangerous is patient brokering: paying a third party to procure patients or residents, which SAMHSA calls "one of the more significant, life-threatening forms of healthcare/treatment fraud" ([SAMHSA, Best Practice 5](https://bbh.wv.gov/media/35510/download)). Federal law, 18 U.S.C. § 220, covers knowingly and willfully soliciting, receiving, paying or offering remuneration for referring a patient or patronage to a recovery home, clinical treatment facility or laboratory, with respect to services covered by a health care benefit program. It also lists exceptions ([18 U.S.C. § 220](https://www.law.cornell.edu/uscode/text/18/220)).
+
+A tie that nobody tells you about is a reason to ask more questions, not proof of wrongdoing, and the statute's wording targets what a house requires of residents, not the connection itself. Virginia's statute requires a residence to disclose its credentialing entity and level to residents; its text says nothing about disclosing a treatment relationship ([§ 37.2-431.1(B)](https://law.lis.virginia.gov/vacode/37.2-431.1/)). Virginia bars a residence from requiring residents to use a service it profits from ([§ 37.2-431.1(C)](https://law.lis.virginia.gov/vacode/37.2-431.1/)). The state workgroup went further and recommended amending the Code to authorize the Board to require licensing of residences that require all residents to join the same outpatient program, and a study of treatment providers that offer housing that is not licensed or certified was due by November 1, 2026 (we have not located it) ([SD 11, Recommendation 2](https://rga.lis.virginia.gov/Published/2025/SD11/PDF); [2026 Acts, Chapter 1000, enactment 2](https://law.lis.virginia.gov/uncodifiedacts/2026/session1/chapter1000/)).
+
+That leaves questions a counselor can put to any house or program before referring:
+
+- Who owns the house, and who owns the treatment program?
+- Does staying here depend on attending one particular program?
+- Does anyone pay or get paid for sending residents either way?
+- Is the house on the DBHDS certified list under the credentialing entity it claims?
+- Does the written agreement name every service and charge?
+
+If the answers to the first three are unclear, we would take the question to your compliance officer before referring. SAMHSA says placement "should be predicated upon individual needs, goals, and choice" ([SAMHSA, Best Practice 2](https://bbh.wv.gov/media/35510/download)), so the choice stays your client's.
+
+## Where this leaves you
+
+Recovery housing sits next to treatment and works alongside it. Virginia certification tells you a house holds a credential and a state listing; in our reading it says little about how well the house is run. The checks above are yours to make, with the sources linked.
+
+We build Kerrigan for SUD counselors. **Request access through the form on the [LatentWorx home page](https://latentworx.com/).**
