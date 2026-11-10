@@ -403,19 +403,14 @@
   // Search results never carry a residence street. When signed in, each
   // residence's address line is completed from GET /v1/me/residences/{id}
   // (house_number, street, zip). Signed out, nothing here runs.
-  function streetLine(d, r) {
-    var first = [d.house_number, d.street].filter(Boolean).join(' ');
-    var rest = [d.town || r.town, d.zip].filter(Boolean).join(' ');
-    return [first, rest].filter(Boolean).join(', ');
-  }
-
   function paintStreet(r) {
     var li = document.getElementById('finder-r-' + String(r.id).replace(/[^A-Za-z0-9_-]/g, '_'));
     var d = streetCache[r.id];
-    if (!li || !d || !d.street) return;
+    var line = window.FinderStreet.streetLine(d, r);
+    if (!li || !line) return;
     var addr = li.querySelector('.finder-addr');
     if (!addr) { addr = el('p', 'finder-addr'); li.appendChild(addr); }
-    addr.textContent = streetLine(d, r);
+    addr.textContent = line;
   }
 
   function showStreets() {
