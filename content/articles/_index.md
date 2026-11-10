@@ -1,4 +1,4 @@
 ---
 title: "Articles"
-description: "Notes from LatentWorx on building Kerrigan, an AI scribe for behavioral health and substance use treatment."
+description: "Plain-language guides for behavioral health and substance use programs evaluating AI scribes: 42 CFR Part 2, vendor questions and patient privacy."
 ---
