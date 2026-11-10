@@ -9,6 +9,7 @@
     <a href="/articles/" class="article-back">&larr; All articles</a>
     <h1 class="section-title" style="margin:var(--wp-space-4) 0 var(--wp-space-3);">{{ .Title }}</h1>
     <p class="article-meta" style="margin-bottom:var(--wp-space-6);">
+      By <a href="/">LatentWorx</a> &middot;
       Published <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
       {{ if and (not .Lastmod.IsZero) (ne (.Lastmod.Format "2006-01-02") (.Date.Format "2006-01-02")) }}
       &middot; Updated <time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "January 2, 2006" }}</time>

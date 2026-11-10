@@ -1,17 +1,20 @@
-{{/* Structured data. Organization on every page; Article for pages in the
+{{/* Structured data. Organization on the home page only; Article for pages in the
      articles section; VideoObject when front matter carries a `video` map.
      Nothing here declares the home page's own address: the home page has no
      canonical or og:url on purpose (see baseof.html), and only Organization,
      whose url is the company's, renders there. */}}
 {{ $logo := .Site.Params.ogImage | absURL }}
+{{ if .IsHome }}
 {{ $org := dict
   "@context" "https://schema.org"
   "@type" "Organization"
   "name" "LatentWorx"
   "url" "https://latentworx.com/"
   "logo" $logo
+  "description" .Site.Params.description
 }}
 <script type="application/ld+json">{{ $org | jsonify | safeJS }}</script>
+{{ end }}
 
 {{ $description := .Site.Params.description }}{{ with .Description }}{{ $description = . }}{{ end }}
 {{ $image := .Site.Params.ogImage }}{{ with .Params.image }}{{ $image = . }}{{ end }}
