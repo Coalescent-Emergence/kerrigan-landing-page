@@ -27,13 +27,15 @@ disableKinds = ["taxonomy", "term"]
 
   # ── FINDER GATE (Kerrigan tracker 249, epic 191) ─────────────────────────
   # While false, no finder page, header link or finder script is built.
+  # ON in production since the finder's go-live (Kerrigan tracker 256). The dev site builds
+  # with deploy/finder-dev.toml on top, which sets the dev API bases.
   # Surface reduction only. Use a real boolean, never the HUGO_PARAMS_ env var
   # ("false" from env is a truthy string). The finder's sign-up link reuses
   # signupUrl above. To run it locally, pass an untracked extra config file:
   #   hugo server --config hugo.toml,/tmp/finder-on.toml
-  finderEnabled = false
-  finderApiBase = "https://api.jhax.dev/finder"
-  kerrApiBase = "https://api.jhax.dev"
+  finderEnabled = true
+  finderApiBase = "https://api.latentworx.com/finder"
+  kerrApiBase = "https://api.latentworx.com"
   twitterHandle = "@LatentWorx"
   ogImage = "/img/og-kerrigan.png"
 

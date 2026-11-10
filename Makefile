@@ -30,7 +30,7 @@ stop:
 	@echo "🔴 Dev environment stopped."
 
 # Finder preview: finder on, reloads on save, talks to the dev search service
-# (finderApiBase in hugo.toml, house network). That service allows browser calls only
+# (finderApiBase in deploy/finder-dev.toml, house network). That service allows browser calls only
 # from http://localhost:1313 or http://127.0.0.1:1313, so the port is fixed.
 finder-preview:
 	hugo server --config hugo.toml,deploy/finder-dev.toml --bind 127.0.0.1 --port 1313

@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # Dev-only image: builds the landing site with the finder switched on
-# (deploy/finder-dev.toml) and serves it via nginx. Production is built by
+# (deploy/finder-dev.toml, which also sets the dev API bases) and serves it via nginx. Production is built by
 # .github/workflows/deploy.yml and never reads this file.
 # The site has no Go module, npm or Sass step, so only Hugo extended is needed
 # (version matches HUGO_VERSION in deploy.yml). Download is verified against
