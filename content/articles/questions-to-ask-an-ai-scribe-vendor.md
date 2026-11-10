@@ -15,6 +15,13 @@ Before any vendor gets a recording, someone at your program should be able to an
 
 This list goes past the Health Insurance Portability and Accountability Act (HIPAA) to the layer a substance use program actually lives under: Title 42 of the Code of Federal Regulations (CFR), Part 2 records, the qualified service organization agreement (QSOA), group sessions, and what happens to the audio itself. Each question gives why it matters, what to ask for, and what a bad answer sounds like. Hand the list to your compliance officer and score any vendor honestly.
 
+## In brief
+
+- Ten questions, each with why it matters, what to ask for, and what a bad answer sounds like.
+- Mark each answer documented, verbal or no. A verbal answer is not a weak yes; it is a promise you cannot enforce.
+- Ask for the BAA itself before the pilot, and written confirmation that each subprocessor is bound by its own agreement.
+- Ask for the exact clause that bars training, in the vendor's contract with you and in the model provider's terms with the vendor.
+
 ## How to score
 
 For each question, mark the answer one of three ways: **documented** (they handed you a contract clause, a diagram, a log export or a policy), **verbal** (they said it, but nothing on paper backs it), or **no**. A verbal answer is not a weak yes. It is a promise you cannot enforce.

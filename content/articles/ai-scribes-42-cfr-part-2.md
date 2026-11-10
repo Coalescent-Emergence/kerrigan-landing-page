@@ -22,6 +22,13 @@ Your clinicians are behind on notes. Someone is pitching you an AI scribe. Your 
 
 This article answers the question from the regulation itself, section by section, and every regulatory statement links to the section it comes from. Use it to start the conversation from the rule text, not a sales deck.
 
+## In brief
+
+- Part 2 does not mention AI, so it neither bans AI scribes nor approves them.
+- What you verify is how a vendor handles your patients' records under rules Part 2 already has: what counts as a record, who may act as your outside service provider, and security.
+- A qualified service organization agreement (QSOA) is Part 2's mechanism for outside service providers. Whether a vendor's business associate agreement (BAA) alone is enough, or you also need QSOA language, is your compliance officer's call.
+- Ask for a data-flow diagram that names every company that touches the audio, the transcript and the draft note.
+
 ## Why the question got harder in 2026
 
 The 2024 Part 2 final rule was published on February 16, 2024. Its compliance date was two years later: "Persons subject to this regulation must comply with the applicable requirements of this final rule by February 16, 2026" ([final rule, Dates](https://www.federalregister.gov/documents/2024/02/16/2024-02544/confidentiality-of-substance-use-disorder-sud-patient-records)).

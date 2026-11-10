@@ -22,6 +22,13 @@ A chart says "alcohol use disorder, moderate," and the code on the record is F10
 
 This article takes apart those codes, category by category and character by character, and shows how they map to severity in the DSM-5 (the American Psychiatric Association's Diagnostic and Statistical Manual of Mental Disorders, 5th edition): mild, moderate or severe.
 
+
+## In brief
+
+- In ICD-10-CM, the substance codes run from F10 to F19. The first three characters name the substance, the fourth names the pattern (use, abuse or dependence), and the fifth names what comes with it, such as intoxication, withdrawal or remission.
+- Moderate and severe collapse into one code, so severity lives in the clinician's documentation.
+- "Dependence" in a code description is a classification label, not a second diagnosis (our reading).
+- No F10 to F19 code changed in FY 2027. We compared the FY 2027 Tabular List against the FY 2026 file; we did not check how payers treat the codes.
 ## Which code set this describes
 
 This article uses the **ICD-10-CM FY 2027** (fiscal year 2027) code set, effective October 1, 2026 through September 30, 2027. FY27 codes should be used for healthcare services provided in that window, per NCHS (the National Center for Health Statistics) ([ICD-10-CM files](https://www.cdc.gov/nchs/icd/icd-10-cm/files.html)).

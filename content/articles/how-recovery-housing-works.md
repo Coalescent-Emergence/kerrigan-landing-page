@@ -18,7 +18,7 @@ draft: true
 
 Recovery housing is a place to live, not a treatment level. A recovery residence is alcohol-free and illicit-drug-free housing where residents support each other, and in Virginia it offers no clinical treatment by definition. Clients combine it with treatment, often outpatient, that they get from a separate provider. The two connect through the client and through you, so you are the one who checks the house.
 
-**In brief**
+## In brief
 
 - Virginia law says a recovery residence "does not include clinical treatment services" ([Va. Code § 37.2-431.1(A)](https://law.lis.virginia.gov/vacode/37.2-431.1/)).
 - The National Alliance for Recovery Residences (NARR) sorts housing into four levels of support, from peer-run Oxford Houses to clinical programs.
