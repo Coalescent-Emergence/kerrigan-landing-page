@@ -11,7 +11,7 @@ draft: false
 
 An AI scribe hears everything said in the room. In a substance use program that includes the fact Part 2 exists to protect: that this person has been diagnosed with, treated for, or referred for treatment of a substance use disorder ([42 CFR 2.11](https://www.law.cornell.edu/cfr/text/42/2.11), definition of "disclose"). Before any vendor gets a recording, someone at your program should be able to answer the questions below from documents, not from a sales call.
 
-This list goes past HIPAA to the layer a substance use program actually lives under: 42 CFR Part 2 records, the qualified service organization agreement, group sessions, and what happens to the audio itself. For each question you get why it matters, what to ask for, and what a bad answer sounds like, so you can hand the list to your compliance officer and score any vendor honestly. That includes us.
+This list goes past HIPAA to the layer a substance use program actually lives under: 42 CFR Part 2 records, the qualified service organization agreement, group sessions, and what happens to the audio itself. For each question you get why it matters, what to ask for, and what a bad answer sounds like, so you can hand the list to your compliance officer and score any vendor honestly.
 
 This is not legal advice. It is a list of things to verify with your compliance officer, who knows your program, your state and your contracts.
 
@@ -99,8 +99,6 @@ For each question, mark the answer one of three ways: **documented** (they hande
 
 **A bad answer sounds like:** "Just put the device in the middle of the room."
 
-## How we answer some of these
+For the regulation in more depth, read the companion piece, [AI scribes and 42 CFR Part 2](/articles/ai-scribes-42-cfr-part-2/).
 
-We build Kerrigan, so score us with the same list. Audio recorded in Kerrigan is transcribed on our own GPUs and never sent to a third-party transcription API. A transcript you import from Zoom was made by Zoom. Note generation runs on AWS Bedrock, called from our own AWS account, which is covered by our AWS Business Associate Addendum. AWS states it does not use Bedrock inputs or outputs to train models. Those GPUs run in the same AWS account, so AWS hosts both steps. Connections from the app to our servers also pass through Cloudflare, which relays them and decrypts them at its network edge. AWS and Cloudflare both belong on your diagram. On questions 2 and 3, our BAA and QSOA are published at [/legal/](/legal/). Every counselor accepts the BAA in the app before their first recording, and the QSOA too if they run a Part 2 program. Nothing changes your note in Kerrigan without you approving the diff, and notes are versioned with rollback. Administrative deletion is actor-attributed, reason-recorded and break-glass-gated. On question 5, note reads, and transcript and audio reads from the session screen, are logged. The session list, imported transcripts and chat drafts are not logged yet, so score that answer as partial. On question 6, we keep session audio and no automatic purge enforces a retention period yet, so we will not write a deletion window into your consent form. Kerrigan is built for 42 CFR Part 2 workflows: attested revisions, versioned notes, an immutable admin audit log, and ID-tagged deletion with a recorded reason. It does not write group notes, has no shipped desktop or mobile app, and does not write back to your EHR. For the regulation in more depth, read our companion piece, [AI scribes and 42 CFR Part 2](/articles/ai-scribes-42-cfr-part-2/).
-
-If you want to run this list against us with your compliance officer in the room, request access through the form on [our home page](https://latentworx.com/).
+To see Kerrigan, visit [our home page](https://latentworx.com/).
