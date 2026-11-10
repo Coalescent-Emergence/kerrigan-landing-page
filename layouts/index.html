@@ -9,20 +9,7 @@
 <!-- ┌──────────────────────────────────────────────────────────────┐
      │  NAV                                                         │
      └──────────────────────────────────────────────────────────────┘ -->
-<nav class="site-nav">
-  {{ partial "logo.html" . }}
-  <a href="#pricing" class="nav-link" data-analytics-event="nav_click" data-analytics-label="nav_pricing">Pricing</a>
-  {{ partial "finder-nav-link.html" (dict "follows" true) }}
-  {{- if $signups }}
-  <a href="{{ .Site.Params.signupUrl }}" class="btn btn-primary" data-analytics-event="cta_click_subscribe" data-analytics-label="nav_start_trial">
-    Start 14-day trial
-  </a>
-  {{- else }}
-  <a href="#access" class="btn btn-primary" data-analytics-event="cta_click_access" data-analytics-label="nav_request_access">
-    Request access
-  </a>
-  {{- end }}
-</nav>
+{{ partial "site-nav.html" (dict "home" true) }}
 
 
 <!-- ┌──────────────────────────────────────────────────────────────┐

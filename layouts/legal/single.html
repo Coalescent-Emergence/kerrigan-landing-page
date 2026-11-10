@@ -10,11 +10,7 @@
      unfinished state the app would refuse to show a customer — not a
      falsely-finished copy. */}}
 
-<!-- Minimal nav -->
-<nav class="site-nav">
-  {{ partial "logo.html" . }}
-  {{ partial "finder-nav-link.html" (dict) }}
-</nav>
+{{ partial "site-nav.html" (dict) }}
 
 <section class="legal-shell">
   <div class="section-container" style="max-width:860px;margin:0 auto;">

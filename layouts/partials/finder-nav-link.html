@@ -1,13 +1,7 @@
 {{- /* Header link to the search page, built only while finderEnabled is the
        boolean true (see content/_content.gotmpl). Context: a dict with
-       "follows" true when the link sits after another nav link (the home nav),
-       and "current" true on the page itself.
-       The home nav already fills a 375 px phone exactly, so below 480 px the
-       link hangs as a tab under the sticky nav instead of pushing the trial
-       button off screen. The style ships only with the link. */ -}}
+       "current" true on the page itself. Placed by site-nav.html, which also
+       carries the phone layout. */ -}}
 {{- if eq site.Params.finderEnabled true -}}
-{{- if .follows }}
-<style>.nav-find-follow{margin-left:0}@media (max-width:480px){.nav-find-follow{position:absolute;top:100%;right:var(--gutter-mobile);min-height:32px;padding:0 var(--wp-space-3);background:var(--color-bg-canvas);border:1px solid var(--color-border);border-top:0}}</style>
-{{- end }}
-<a href="/finder/" class="nav-link{{ if .follows }} nav-find-follow{{ end }}"{{ if .current }} aria-current="page"{{ end }} data-analytics-event="nav_click" data-analytics-label="nav_find_placement">Find a placement</a>
+<a href="/finder/" class="nav-link nav-find"{{ if .current }} aria-current="page"{{ end }} data-analytics-event="nav_click" data-analytics-label="nav_find_placement">Find a placement</a>
 {{- end -}}
