@@ -36,6 +36,8 @@ finder-preview:
 	hugo server --config hugo.toml,deploy/finder-dev.toml --bind 127.0.0.1 --port 1313
 
 # Browser check that the site-nav links are visible and not covered on the finder page, at
-# 1400px and 375px. Needs geckodriver running (geckodriver --port 4444) and finder-preview up.
+# 1400px and 375px, and that the finder and Articles pills are marked current on their pages. Needs geckodriver running (geckodriver --port 4444) and finder-preview up.
+NAV_URL ?= http://127.0.0.1:1313
 nav-check:
-	node scripts/finder-nav-check.mjs http://127.0.0.1:1313/finder/
+	CURRENT=/finder/ node scripts/finder-nav-check.mjs $(NAV_URL)/finder/
+	CURRENT=/articles/ node scripts/finder-nav-check.mjs $(NAV_URL)/articles/

@@ -1,6 +1,7 @@
 {{- /* The one site navigation bar, used by every layout. Context: a dict with
        "home" true on the home page (Pricing and the trial button use in-page anchors;
        every other page links to /#pricing and /#access),
+       "articles" true on the articles list and article pages (marks Articles current),
        "finder" true on the finder page (adds the signed-in upgrade button that
        assets/js/finder.js reveals; it opens the plan choice).
        Pricing, Articles and Find a placement sit together (right-aligned) and hang as a
@@ -12,7 +13,7 @@
   {{ partial "logo.html" . }}
   <span class="nav-more">
     <a href="{{ if .home }}#pricing{{ else }}/#pricing{{ end }}" class="nav-link" data-analytics-event="nav_click" data-analytics-label="nav_pricing">Pricing</a>
-    <a href="/articles/" class="nav-link" data-analytics-event="nav_click" data-analytics-label="nav_articles">Articles</a>
+    <a href="/articles/" class="nav-link"{{ if .articles }} aria-current="page"{{ end }} data-analytics-event="nav_click" data-analytics-label="nav_articles">Articles</a>
     {{- partial "finder-nav-link.html" (dict "current" .finder) }}
   </span>
   {{- if $signups }}

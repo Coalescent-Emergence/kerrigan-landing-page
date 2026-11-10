@@ -33,7 +33,7 @@ const PROBE = `
       top = top_ ? (top_.tagName + (top_.id ? '#' + top_.id : '') + '.' + String(top_.className).slice(0, 30)) : null;
       ok = !!top_ && (top_ === el || el.contains(top_));
     }
-    out.links.push({ text: el.textContent.trim().slice(0, 30), href: el.getAttribute('href'), x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height), shown, topmost: top, ok });
+    out.links.push({ text: el.textContent.trim().slice(0, 30), href: el.getAttribute('href'), current: el.getAttribute('aria-current'), x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height), shown, topmost: top, ok });
   }
   return out;`;
 
@@ -55,6 +55,15 @@ try {
     const res = await wd('POST', `/session/${sid}/execute/${name === 'phone' ? 'async' : 'sync'}`, { script, args: [] });
     console.log(name, JSON.stringify(res, null, 1));
     const want = ['/', '/articles/', '/finder/'];
+    // The page's own pill carries aria-current=page (finder on /finder/, Articles on /articles/);
+    // Pricing is an anchor and never current. Set CURRENT=/finder/ or /articles/ to assert it.
+    const cur = process.env.CURRENT;
+    if (cur) {
+      for (const l of res.links) {
+        const should = l.href === cur;
+        if ((l.current === 'page') !== should) { failed = true; console.log(`FAIL ${name}: ${l.href} aria-current=${l.current}, expected ${should ? 'page' : 'none'}`); }
+      }
+    }
     for (const href of want) {
       const l = res.links.find((x) => x.href === href);
       if (!l || !l.shown || !l.ok) { failed = true; console.log(`FAIL ${name}: nav link ${href} missing, hidden or covered`); }
