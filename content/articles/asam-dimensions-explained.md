@@ -126,6 +126,6 @@ For the level numbers themselves, see [ASAM levels of care explained](/articles/
 
 ## Our interest in this
 
-We build Kerrigan for SUD counselors. Kerrigan provides ASAM 6-dimension, DAP and narrative note generation with a judge/revise loop.
+We build Kerrigan for SUD counselors. Kerrigan writes ASAM 6-dimension, DAP and narrative notes, and each draft goes through an automatic check-and-revise step.
 
 **Request access through the form on the [LatentWorx home page](https://latentworx.com/).**

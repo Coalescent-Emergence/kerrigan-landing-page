@@ -91,9 +91,9 @@ Housing is its own subject, because a recovery residence is not a treatment leve
 
 ASAM released the Third Edition in 2013 and the Fourth Edition in 2023 ([ASAM, About The ASAM Criteria](https://www.asam.org/asam-criteria/about-the-asam-criteria)). The adult volume came out digitally in October 2023 and in print in December 2023 ([ASAM FAQ](https://www.asam.org/asam-criteria/criteria-faq)). ASAM's own list of what changed ([ASAM, Fourth Edition](https://www.asam.org/asam-criteria/asam-criteria-4th-edition)):
 
-- **Withdrawal management moved into the main continuum.** The Third Edition's separate withdrawal management levels map to Fourth Edition levels: 1-WM to 1.7, 2-WM to 2.7, 3.2-WM to 3.5, and 3.7-WM to 3.7 (ASAM FAQ).
+- **Withdrawal management moved into the main continuum.** The Third Edition's separate withdrawal management (WM) levels map to Fourth Edition levels: 1-WM to 1.7, 2-WM to 2.7, 3.2-WM to 3.5, and 3.7-WM to 3.7 (ASAM FAQ).
 - **Readiness to change stopped being its own dimension.** The Third Edition's Dimension 4 "does not contribute independently to the recommended level of care" and is replaced by "Dimension 6: Person-Centered Considerations."
-- **New co-occurring enhanced levels:** 1.5 COE, 1.7 COE, 2.5 COE, 2.7 COE, 3.5 COE, 3.7 COE and 4 Psychiatric, plus 3.7 BIO for programs with enhanced biomedical capabilities.
+- **New co-occurring enhanced levels:** 1.5 COE, 1.7 COE, 2.5 COE, 2.7 COE, 3.5 COE, 3.7 COE and 4 Psychiatric, plus 3.7 BIO for programs with enhanced biomedical capabilities. COE means co-occurring enhanced, and BIO marks the enhanced biomedical capabilities.
 - **A new Level 1.0 for long-term remission monitoring.** Watch the numbering: in Virginia's rules, "Level 1.0" is outpatient treatment (12VAC35-105-20).
 - **Risk ratings are built into the Dimensional Admission Criteria, and PHP gets a new label.** "High Intensity Outpatient is used to refer to Level 2.5" (ASAM FAQ).
 
@@ -115,6 +115,6 @@ Rules change. Check the current text of the sections linked above, and take any 
 
 For how these levels connect to the assessment that places a person in one, see [ASAM dimensions explained](/articles/asam-dimensions-explained/).
 
-We build Kerrigan for SUD counselors. Kerrigan provides ASAM 6-dimension, DAP and narrative note generation with a judge/revise loop.
+We build Kerrigan for SUD counselors. Kerrigan writes ASAM 6-dimension, DAP and narrative notes, and each draft goes through an automatic check-and-revise step.
 
 **Request access through the form on the [LatentWorx home page](https://latentworx.com/).**
