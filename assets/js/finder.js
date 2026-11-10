@@ -165,8 +165,11 @@
   // A distance is a map box around the town. The centre is the median of the
   // points the town matches; the box replaces the town so neighbours are included.
   // Returns the params the API takes. No matching place: the name search alone.
+  var origin = null; // {lat, lng} of the searched town, for the distance on each row
+
   function run(userParams, append) {
-    return apiParamsFor(userParams).then(function (api) {
+    if (!append) origin = null;
+    return apiParamsFor(userParams, true).then(function (api) {
       // A distance search frames the box it asked for (search() only frames results when no box was sent).
       var wsen = (parseFloat(userParams.miles) > 0 && api.bbox) ? parseBbox(api.bbox) : null;
       if (wsen && map && !append) {
@@ -196,13 +199,32 @@
     return api;
   }
 
-  function apiParamsFor(userParams) {
-    return apiParamsBase(userParams).then(mapSettingParams);
+  function apiParamsFor(userParams, keepOrigin) {
+    return apiParamsBase(userParams, keepOrigin).then(mapSettingParams);
   }
 
-  function apiParamsBase(userParams) {
+  // Straight-line miles between two points (haversine).
+  function milesBetween(a, b) {
+    var rad = Math.PI / 180, dLat = (b.lat - a.lat) * rad, dLng = (b.lng - a.lng) * rad;
+    var h = Math.pow(Math.sin(dLat / 2), 2) + Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.pow(Math.sin(dLng / 2), 2);
+    return 3958.8 * 2 * Math.asin(Math.min(1, Math.sqrt(h)));
+  }
+  function distanceText(r) {
+    if (!origin || !validPoint(r)) return '';
+    var m = milesBetween(origin, r);
+    return (m < 10 ? m.toFixed(1) : String(Math.round(m))) + '\u00a0mi';
+  }
+
+  // Program type · town · distance; the distance never wraps away from its dot.
+  function metaLine(r) {
+    var line = [r.type_label, r.town].filter(Boolean).join(' · ');
+    var d = distanceText(r);
+    return d ? (line ? line + ' \u00b7\u00a0' : '') + d : line;
+  }
+
+  function apiParamsBase(userParams, keepOrigin) {
     var miles = parseFloat(userParams.miles);
-    if (!(miles > 0) || !userParams.town) {
+    if (!userParams.town) {
       var plain = {};
       Object.keys(userParams).forEach(function (k) { if (k !== 'miles') plain[k] = userParams[k]; });
       return Promise.resolve(plain);
@@ -215,6 +237,8 @@
       if (!pts.length) return api;
       var lat = median(pts.map(function (r) { return r.lat; }));
       var lng = median(pts.map(function (r) { return r.lng; }));
+      if (keepOrigin) origin = { lat: lat, lng: lng };
+      if (!(miles > 0)) return api; // no distance asked: the town filter stays as it is
       var dLat = miles / 69;
       var dLng = miles / (69 * Math.max(0.2, Math.cos(lat * Math.PI / 180)));
       delete api.town; // the box replaces the town so neighbouring towns count
@@ -380,7 +404,7 @@
 
   // ── facts as a matrix: one row per fact, one icon per program ─────────
   var MX_ROWS = [
-    ['Setting', 'setting', [['outpatient', 'Outpatient'], ['intensive_outpatient', 'Intensive outpatient'], ['day_treatment', 'Day treatment'], ['residential', 'Residential'], ['hospital_inpatient', 'Hospital inpatient'], ['otp', 'Opioid treatment program']]],
+    ['Setting', 'setting', [['outpatient', 'Outpatient'], ['intensive_outpatient', 'Intensive outpatient'], ['residential', 'Residential'], ['hospital_inpatient', 'Hospital inpatient'], ['otp', 'Opioid treatment program']]],
     ['Length of stay', 'length', [['short_term', 'Short-term'], ['long_term', 'Long-term']]],
     ['Services', 'wm', null, 'Withdrawal management'],
     ['Services', 'moud', null, 'Medication for opioid use disorder'],
@@ -405,6 +429,8 @@
     if (Array.isArray(v)) {
       if (facetKey === 'language' && f.reported === false) return 'u';
       if (!v.length) return 'u';
+      // Day treatment is not a choice counselors make: it counts as outpatient.
+      if (facetKey === 'setting' && key === 'outpatient' && v.indexOf('day_treatment') !== -1) return 'y';
       return v.indexOf(key) !== -1 ? 'y' : 'n';
     }
     if (typeof v === 'object') return v[key] === 'yes' ? 'y' : (v[key] === 'no' ? 'n' : 'u');
@@ -560,7 +586,7 @@
       h.appendChild(el('span', 'finder-sub', '(' + r.subname + ')'));
     }
     head.appendChild(h);
-    var meta = inGroup ? '' : [r.type_label, r.town].filter(Boolean).join(' · ');
+    var meta = inGroup ? '' : metaLine(r);
     if (meta) head.appendChild(el('span', 'finder-row-meta', meta));
     var tags = compactTags(r);
     if (tags.length) {
@@ -625,7 +651,7 @@
     var h = el('h2', 'finder-panel-name', r.name || '');
     if (r.subname && r.subname !== r.name) { h.appendChild(document.createTextNode(' ')); h.appendChild(el('span', 'finder-sub', '(' + r.subname + ')')); }
     head.appendChild(h);
-    var meta = [r.type_label, r.town].filter(Boolean).join(' · ');
+    var meta = metaLine(r);
     if (meta) head.appendChild(el('p', 'finder-row-meta', meta));
     var strip = iconStrip(r, true);
     if (strip) head.appendChild(strip);

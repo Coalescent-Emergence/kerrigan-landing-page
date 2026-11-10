@@ -499,3 +499,19 @@ body.finder-drawer-open { overflow: hidden; }
 .finder-mx-legend { display: flex; gap: var(--wp-space-4); font-size: var(--wp-text-xs); color: var(--color-text-secondary); margin: var(--wp-space-2) 0; }
 .finder-mx-key { display: inline-flex; align-items: center; gap: 4px; }
 .finder-compare { scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; }
+
+/* ── Listing rhythm and compact crisis strip (tracker 267) ──
+   Name first, then type · town · distance, then tags and icons, with room between rows. */
+.finder-row { gap: var(--wp-space-1); padding: var(--wp-space-3) var(--wp-space-3) var(--wp-space-4); }
+.finder-row-name { font-size: var(--wp-text-base); line-height: 1.3; }
+.finder-row-meta { color: var(--color-text-primary); }
+.finder-tags { margin-top: var(--wp-space-2); gap: 6px; }
+.finder-icons { margin-top: var(--wp-space-2); }
+.finder-item + .finder-item { border-top: 1px solid var(--color-border); }
+.finder-item:not(:last-child) { margin-bottom: var(--wp-space-1); }
+@media (min-width: 1024px) {
+  .finder-crisis { display: grid; grid-template-columns: auto auto 1fr; column-gap: var(--wp-space-5); padding: var(--wp-space-2) var(--wp-space-4); align-items: start; }
+  .finder-crisis p { margin: 0; }
+  .finder-crisis-head { grid-column: 1 / -1; margin: var(--wp-space-2) 0 0; }
+  .finder-crisis-extra { grid-column: 1 / -1; columns: 2; column-gap: var(--wp-space-5); font-size: var(--wp-text-sm); }
+}

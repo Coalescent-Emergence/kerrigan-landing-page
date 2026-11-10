@@ -1,4 +1,4 @@
-.PHONY: serve-lan theme-editor dev stop
+.PHONY: serve-lan theme-editor dev stop finder-preview
 
 serve-lan:
 	@IP=$$(hostname -I | awk '{print $$1}'); \
@@ -28,3 +28,9 @@ stop:
 	@-if [ -f .hugo.pid ]; then kill $$(cat .hugo.pid) 2>/dev/null || true; rm .hugo.pid; fi
 	@rm -f .theme-editor-bin .editor.log .hugo.log
 	@echo "🔴 Dev environment stopped."
+
+# Finder preview: finder on, reloads on save, talks to the dev search service
+# (finderApiBase in hugo.toml, house network). That service allows browser calls only
+# from http://localhost:1313 or http://127.0.0.1:1313, so the port is fixed.
+finder-preview:
+	hugo server --config hugo.toml,deploy/finder-dev.toml --bind 127.0.0.1 --port 1313
