@@ -20,11 +20,11 @@ A chart says "alcohol use disorder, moderate," and the code on the record is F10
 
 **The codes are not arbitrary: every character carries meaning.** In ICD-10-CM (the International Classification of Diseases, 10th Revision, Clinical Modification), the substance codes run from F10 to F19. The first three characters name the substance, the fourth names the pattern (use, abuse or dependence), and the fifth names what comes with it, such as intoxication, withdrawal or remission. Once you can read them, you can check a code against the chart.
 
-This article takes apart those codes, category by category and character by character, and shows how they map to severity in the DSM-5 (the American Psychiatric Association's Diagnostic and Statistical Manual of Mental Disorders, 5th edition): mild, moderate or severe. It explains classification. It is not clinical or billing advice. Diagnosis is the clinician's judgment.
+This article takes apart those codes, category by category and character by character, and shows how they map to severity in the DSM-5 (the American Psychiatric Association's Diagnostic and Statistical Manual of Mental Disorders, 5th edition): mild, moderate or severe.
 
 ## Which code set this describes
 
-This article uses the **ICD-10-CM FY 2027** (fiscal year 2027) code set, effective October 1, 2026 through September 30, 2027. NCHS (the National Center for Health Statistics) says "FY27 ICD-10-CM codes should be used for healthcare services provided from October 1, 2026, through September 30, 2027" ([NCHS, ICD-10-CM files](https://www.cdc.gov/nchs/icd/icd-10-cm/files.html)).
+This article uses the **ICD-10-CM FY 2027** (fiscal year 2027) code set, effective October 1, 2026 through September 30, 2027. FY27 codes should be used for healthcare services provided in that window, per NCHS (the National Center for Health Statistics) ([ICD-10-CM files](https://www.cdc.gov/nchs/icd/icd-10-cm/files.html)).
 
 The Tabular List is in the [FY 2027 release from the Centers for Disease Control and Prevention (CDC)](https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/icd10cm-tabular-2027.pdf). The Centers for Medicare & Medicaid Services (CMS) hosts the same files and the [guidelines](https://www.cms.gov/files/document/fy-2027-icd-10-cm-coding-guidelines.pdf) on its [ICD-10 page](https://www.cms.gov/medicare/coding-billing/icd-10-codes). What changed this year is at the end of this article.
 
@@ -68,9 +68,9 @@ Branches differ by substance: opioid withdrawal stops at five characters (F11.23
 
 ### Character four: use, abuse or dependence
 
-Abuse (1), dependence (2) and use, unspecified (9) are three distinct branches. Each carries an Excludes1 note against the other two. The Official Guidelines define an Excludes1 note as "NOT CODED HERE!" They say the excluded code "should never be used at the same time as the code above the Excludes1 note," with an exception for unrelated conditions ([Section I.A.12.a](https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/ICD-10-CM-October-1-2026-FY27-Guidelines.pdf), pp. 9 to 10).
+Abuse (1), dependence (2) and use, unspecified (9) are three distinct branches. Each carries an Excludes1 note against the other two. An Excludes1 note means "NOT CODED HERE!": the excluded code should never be used at the same time as the code above it, except for unrelated conditions ([Official Guidelines, Section I.A.12.a](https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/ICD-10-CM-October-1-2026-FY27-Guidelines.pdf), pp. 9 to 10).
 
-The guidelines turn that into a hierarchy. When documentation refers to more than one pattern for the same substance, "only one code should be assigned," by these rules ([Official Guidelines FY 2027, Section I.C.5.b.2](https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/ICD-10-CM-October-1-2026-FY27-Guidelines.pdf), p. 43):
+The guidelines turn that into a hierarchy. When documentation refers to more than one pattern for the same substance, only one code is assigned, by these rules ([Section I.C.5.b.2](https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/ICD-10-CM-October-1-2026-FY27-Guidelines.pdf), p. 43):
 
 - Use and abuse both documented: abuse.
 - Abuse and dependence both documented: dependence.
@@ -81,21 +81,21 @@ The guidelines turn that into a hierarchy. When documentation refers to more tha
 
 The fifth character is where intoxication, withdrawal, remission and the substance-induced disorders live. Four things to know.
 
-**Intoxication and withdrawal are separate branches.** In opioid dependence, F11.22 (intoxication) and F11.23 (withdrawal) each carry an Excludes1 note pointing at the other. Alcohol is different: F10.22 and F10.23 carry Excludes2 notes against each other, which the conventions say allow both codes together. Ask your coder how the notes apply when documentation describes both in one episode.
+**Intoxication and withdrawal are separate branches.** In opioid dependence, F11.22 (intoxication) and F11.23 (withdrawal) each carry an Excludes1 note pointing at the other. Alcohol is different: F10.22 and F10.23 carry Excludes2 notes against each other, which the conventions say allow both codes together. 
 
 **Induced disorders are named for what they induce.** For alcohol dependence they are mood (4), psychotic (5), persisting amnestic (6) and persisting dementia (7). Anxiety, sexual dysfunction and sleep disorders are sixth-character detail under 8. Opioids and cannabis have fewer of these, so check the specific category.
 
-**Remission is its own character, and the code follows what the provider documented.** The guideline says "in remission" codes are assigned "only on the basis of provider documentation," and that selecting one "requires the provider's clinical judgment" ([Section I.C.5.b.1](https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/ICD-10-CM-October-1-2026-FY27-Guidelines.pdf), p. 43).
+**Remission is its own character, and the code follows what the provider documented.** An "in remission" code is assigned only on the basis of provider documentation, and selecting one requires the provider's clinical judgment ([Section I.C.5.b.1](https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/ICD-10-CM-October-1-2026-FY27-Guidelines.pdf), p. 43).
 
-**Unspecified use (the 9 branch) has a narrow rule.** The F1x.9- codes "are to be used only when the psychoactive substance use is associated with a substance related disorder... or medical condition, and such a relationship is documented by the provider" ([Section I.C.5.b.3](https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/ICD-10-CM-October-1-2026-FY27-Guidelines.pdf), p. 44). It is not a catch-all for "client uses something."
+**Unspecified use (the 9 branch) has a narrow rule.** The F1x.9- codes "are to be used only when the psychoactive substance use is associated with a substance related disorder... or medical condition, and such a relationship is documented by the provider" ([Section I.C.5.b.3](https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/ICD-10-CM-October-1-2026-FY27-Guidelines.pdf), p. 44). That is not a catch-all for "client uses something."
 
 ## How DSM-5 severity maps to the codes
 
-DSM-5 folded two older diagnoses, from the 4th edition (DSM-IV), into one. The fact sheet from the APA (American Psychiatric Association) says "Substance use disorder in DSM-5 combines the DSM-IV categories of substance abuse and substance dependence into a single disorder measured on a continuum from mild to severe," and that mild "requires two to three symptoms from a list of 11" ([APA, DSM-5 fact sheet: Substance-Related and Addictive Disorders](https://www.psychiatry.org/getContentAsset/1c36ce25-0d04-425c-8de9-b39e5781024e/dfc3d011-8f63-43f6-9ed8-4b444333a1d0/APA-DSM5-Substance-Use-Disorder.pdf?language=en)).
+DSM-5 folded two older diagnoses, abuse and dependence from the 4th edition (DSM-IV), into a single disorder measured on a continuum from mild to severe. Mild requires two to three symptoms from a list of 11, according to the fact sheet from the APA (American Psychiatric Association) ([APA, DSM-5 fact sheet: Substance-Related and Addictive Disorders](https://www.psychiatry.org/getContentAsset/1c36ce25-0d04-425c-8de9-b39e5781024e/dfc3d011-8f63-43f6-9ed8-4b444333a1d0/APA-DSM5-Substance-Use-Disorder.pdf?language=en)).
 
-NIAAA (the National Institute on Alcohol Abuse and Alcoholism), citing the same criteria for alcohol, gives the bands as "mild (two to three criteria), moderate (four to five criteria), or severe (six or more criteria)" ([NIAAA, Understanding Alcohol Use Disorder](https://www.niaaa.nih.gov/publications/brochures-and-fact-sheets/understanding-alcohol-use-disorder)).
+For alcohol, NIAAA (the National Institute on Alcohol Abuse and Alcoholism) gives the same bands: mild (two to three criteria), moderate (four to five) or severe (six or more) ([NIAAA, Understanding Alcohol Use Disorder](https://www.niaaa.nih.gov/publications/brochures-and-fact-sheets/understanding-alcohol-use-disorder)).
 
-ICD-10-CM never merged abuse and dependence, so the code set bridges them with inclusion terms written into the Tabular List. APA describes the relationship generally: "The codes that appear in DSM are the ICD codes that are equivalent to the DSM diagnoses" ([APA, Coding and Recording Procedures](https://www.psychiatry.org/getContentAsset/136283f7-0002-4ea7-ac1f-a6eb57647b4c/dfc3d011-8f63-43f6-9ed8-4b444333a1d0/APA-DSM5TR-Coding?language=en)). The bridge itself reads:
+ICD-10-CM never merged abuse and dependence, so the code set bridges them with inclusion terms written into the Tabular List. APA describes the relationship generally: the codes in DSM are the equivalent ICD codes ([APA, Coding and Recording Procedures](https://www.psychiatry.org/getContentAsset/136283f7-0002-4ea7-ac1f-a6eb57647b4c/dfc3d011-8f63-43f6-9ed8-4b444333a1d0/APA-DSM5TR-Coding?language=en)). The bridge itself reads:
 
 | DSM-5 severity | ICD-10-CM branch | Example |
 |---|---|---|
@@ -108,12 +108,8 @@ Source for every row: [Tabular List, F10.10 and F10.20](https://ftp.cdc.gov/pub/
 What follows from that table:
 
 - **Moderate and severe collapse into one code.** The code cannot tell them apart. Severity lives in the clinician's documentation.
-- **"Dependence" in a code description is a classification label, not a second diagnosis.** The APA fact sheet said of the older DSM-IV diagnosis that "the diagnosis of dependence caused much confusion," and that "dependence can be a normal body response to a substance." The Tabular List lists "Opioid use disorder, moderate" and "severe" under F11.20, "Opioid dependence, uncomplicated."
-
-  Our reading: the code title's "dependence" is the classification's label for that branch, and the use disorder terms beside it show what the code stands for.
-- **Remission follows the same split.** The guideline says "Mild substance use disorders in early or sustained remission are classified to the appropriate codes for substance abuse in remission, and moderate or severe substance use disorders in early or sustained remission are classified to the appropriate codes for substance dependence in remission" (Section I.C.5.b.1). In the Tabular List, F10.21 covers moderate and severe, early and sustained, so early and sustained remission share one code.
-
-Because this section draws on DSM-5 sources, check the severity wording against your DSM-5-TR (the DSM-5 Text Revision).
+- **"Dependence" in a code description is a classification label, not a second diagnosis (our reading).** The APA fact sheet says of the older DSM-IV diagnosis that dependence caused much confusion and can be a normal body response to a substance. The Tabular List lists "Opioid use disorder, moderate" and "severe" under F11.20, "Opioid dependence, uncomplicated," so the use disorder terms beside the title show what the code stands for.
+- **Remission follows the same split.** Mild substance use disorders in early or sustained remission go to the substance abuse in remission codes. Moderate or severe ones go to the substance dependence in remission codes ([Section I.C.5.b.1](https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/ICD-10-CM-October-1-2026-FY27-Guidelines.pdf)). In the Tabular List, F10.21 covers moderate and severe, early and sustained, so early and sustained remission share one code.
 
 ## Worked examples
 
@@ -131,15 +127,13 @@ All descriptions below are from the FY 2027 Tabular List. The chart language is 
 
 **F17.210, Nicotine dependence, cigarettes, uncomplicated.** Chart: nicotine dependence, cigarettes. F17 has no abuse branch. The Tabular List puts "Tobacco use disorder, mild," "moderate" and "severe" all under F17.200, "Nicotine dependence, unspecified, uncomplicated," so every DSM-5 severity maps to the same dependence code. F17.210 adds the product, cigarettes.
 
-**F10.20 plus a medical code.** Guideline Section I.C.5.b.4 covers medical conditions caused by substance use: "Medical conditions due to substance use, abuse, and dependence are not classified as substance-induced disorders." Its example is alcoholic pancreatitis due to alcohol dependence. Assign the pancreatitis code from K85.2 "and the appropriate code from subcategory F10.2, such as code F10.20," and "it would not be appropriate to assign code F10.288" (p. 44). Check how your coder sequences the pair.
+**F10.20 plus a medical code.** Guideline Section I.C.5.b.4 covers medical conditions caused by substance use: they are not classified as substance-induced disorders. Its example is alcoholic pancreatitis due to alcohol dependence. Assign the pancreatitis code from K85.2 and the appropriate code from subcategory F10.2, such as F10.20. Assigning F10.288 would not be appropriate (p. 44). Check how your coder sequences the pair.
 
-**One more optional code: Y90.- for blood alcohol level.** Category F10 carries a note to use an additional code from Y90.- for blood alcohol level, if applicable. The guidelines say a Y90 code "may be assigned when this information is documented and the patient's provider has documented a condition classifiable to category F10."
-
-They also say the level "does not need to be documented by the patient's provider in order for it to be coded" ([Section I.C.5.b.5](https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/ICD-10-CM-October-1-2026-FY27-Guidelines.pdf), p. 44). That section cross-references Section I.B.14 for documentation by clinicians other than the provider.
+**One more optional code: Y90.- for blood alcohol level.** Category F10 carries a note to use an additional code from Y90.- for blood alcohol level, if applicable. A Y90 code may be assigned when the level is documented and the patient's provider has documented a condition classifiable to category F10. The level itself need not be documented by the provider to be coded ([Section I.C.5.b.5](https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/ICD-10-CM-October-1-2026-FY27-Guidelines.pdf), p. 44). That section cross-references Section I.B.14 for documentation by clinicians other than the provider.
 
 ## What the code does not do
 
-A code names a diagnosis category. It does not record criteria met, symptom count beyond the mild versus moderate-or-severe line, or why the clinician chose a severity. That stays in the note. Which codes a payer accepts, and in what order, is a payer and coder question. Bring this article to your billing lead, not instead of them.
+A code names a diagnosis category. It does not record criteria met, symptom count beyond the mild versus moderate-or-severe line, or why the clinician chose a severity. That stays in the note. Which codes a payer accepts, and in what order, is a payer and coder question. 
 
 ## What changed in FY 2027
 
@@ -153,16 +147,19 @@ Some Alphabetic Index pointers did move ([Index addenda](https://ftp.cdc.gov/pub
 | Opioid-induced depressive | F11.94 | F11.24 |
 | Opioid-induced sexual dysfunction | F11.981 | F11.281 |
 | Korsakoff, alcoholic | F10.26 | F10.9-, with a "with dependence" subentry at F10.2- |
-| Alcohol-related sexual dysfunction | — | gains entries at F10.181 and F10.281 |
+| Alcohol-related sexual dysfunction | not listed | gains entries at F10.181 and F10.281 |
 
-We compared the text of the files, not claims behavior, so confirm with your coder.
+## What we could not confirm
+
+- Claims behavior. We compared the text of the FY 2027 and FY 2026 files, not how payers treat the codes.
+- The DSM-5 severity wording against the DSM-5-TR (the DSM-5 Text Revision). This article draws on DSM-5 sources.
 
 ## About this article
 
-We left out Part 2 confidentiality, which sits under different rules (Title 42 of the Code of Federal Regulations (CFR), Part 2; see [42 CFR Part 2 and AI documentation](/articles/ai-scribes-42-cfr-part-2/)). We did not cover the older ICD-10 chapters or DSM-5-TR criteria text. For those, read the sources directly.
-
-Verify code selection with your coder or billing lead.
+We left out Part 2 confidentiality, which sits under different rules: Title 42 of the Code of Federal Regulations (CFR), Part 2. See [42 CFR Part 2 and AI documentation](/articles/ai-scribes-42-cfr-part-2/). We did not cover the older ICD-10 chapters or DSM-5-TR criteria text. For those, read the sources directly.
 
 We build Kerrigan for substance use disorder (SUD) counselors.
 
 **Request access through the form on the [LatentWorx home page](https://latentworx.com/).**
+
+*This article explains classification. It is not clinical or billing advice. Diagnosis is the clinician's judgment. Verify code selection with your coder or billing lead, who also decides which codes a payer accepts and in what order.*
