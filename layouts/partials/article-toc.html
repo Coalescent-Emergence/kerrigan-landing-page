@@ -17,7 +17,7 @@
     <summary id="toc-label">On this page <span>({{ len $items }} sections)</span></summary>
     <ol>
       {{- range $items }}
-      <li><a href="#{{ .ID }}">{{ .Title }}</a></li>
+      <li><a href="#{{ .ID }}">{{ .Title | safeHTML }}</a></li>
       {{- end }}
     </ol>
     <a class="toc-top" href="#article-title">Back to top</a>

@@ -1821,7 +1821,7 @@ tr:nth-child(even) .danger-container::after,
   .article-card { padding: 48px; }
 }
 @media (max-width: 640px) {
-  .article-shell { padding-left: var(--wp-space-3); padding-right: var(--wp-space-3); }
+  .article-shell { padding-left: var(--wp-space-2); padding-right: var(--wp-space-2); }
   .article-container { padding-left: 0; padding-right: 0; }
   .article-card { padding: var(--wp-space-4) var(--wp-space-3); }
 }

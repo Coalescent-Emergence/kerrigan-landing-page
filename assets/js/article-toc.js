@@ -2,8 +2,25 @@
    1. scroll-spy: the last h2 whose top is within 120px gets aria-current on its ToC link
    2. desktop (>=1180px): list always open, summary is a static label; below: collapsible
    3. phone: a fixed "Contents" shortcut once the ToC has scrolled out of view
-   4. clicking the shortcut or "Back to top" opens the list */
+   4. clicking the shortcut or "Back to top" opens the list
+   5. a table that scrolls sideways becomes keyboard focusable */
 (function () {
+  /* A table that scrolls sideways must be reachable by keyboard (axe: scrollable-region-focusable) */
+  function tables() {
+    Array.prototype.forEach.call(document.querySelectorAll('.article-content table'), function (t) {
+      if (t.scrollWidth > t.clientWidth) {
+        t.setAttribute('tabindex', '0');
+        t.setAttribute('role', 'region');
+        t.setAttribute('aria-label', 'Table, scrolls sideways');
+      } else {
+        t.removeAttribute('tabindex');
+        t.removeAttribute('role');
+        t.removeAttribute('aria-label');
+      }
+    });
+  }
+  tables();
+  window.addEventListener('resize', tables);
   var toc = document.getElementById('contents');
   var det = document.getElementById('toc-details');
   if (!toc || !det) return;
