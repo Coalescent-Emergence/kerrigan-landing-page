@@ -7,6 +7,10 @@
 // body has anything left to scroll. Each line prints the crisis strip's state (forced or as loaded).
 // Phone: Firefox will not make a window narrower than ~500px, so 390x844 is
 // requested and the real innerWidth is printed. Desktop 1280x720 runs twice, with #finder-crisis forced hidden and forced shown.
+// Hover: at 1440x900 and the phone case a WebDriver pointer is moved onto the centre of #finder-area;
+// its rect must be unchanged (within 0.5px) 400ms later, and its ::after shimmer must be animating
+// (computed animation-name not none). The button used to slide right under the pointer because
+// the design system's hover transform replaced the centring transform.
 // Needs geckodriver on GECKO (default http://127.0.0.1:4444) and the page URL as argv[2]:
 //   geckodriver --port 4444 & node scripts/finder-controls-check.mjs http://127.0.0.1:1313/finder/
 const GECKO = process.env.GECKO || 'http://127.0.0.1:4444';
@@ -59,10 +63,10 @@ const cases = [
   { name: 'desktop 1280x720', w: 1280, h: 720, desktop: true },
   { name: 'desktop 1280x720', w: 1280, h: 720, desktop: true, crisis: 'hide' },
   { name: 'desktop 1280x720', w: 1280, h: 720, desktop: true, crisis: 'show' },
-  { name: 'desktop 1440x900', w: 1440, h: 900, desktop: true },
+  { name: 'desktop 1440x900', w: 1440, h: 900, desktop: true, hover: true },
   { name: 'desktop 1920x1080', w: 1920, h: 1080, desktop: true },
   { name: 'tablet 900x800', w: 900, h: 800, scroll: true },
-  { name: 'phone 390x844', w: 390, h: 844, scroll: true, phone: true },
+  { name: 'phone 390x844', w: 390, h: 844, scroll: true, phone: true, hover: true },
 ];
 
 const sess = await wd('POST', '/session', { capabilities: { alwaysMatch: { browserName: 'firefox', 'moz:firefoxOptions': { args: ['-headless'] } } } });
@@ -90,8 +94,24 @@ try {
     } else if (!res.anchor || !res.anchor.inMap || !res.anchor.upperThird) {
       bad.push(`#finder-area not in the upper third of #finder-map (${res.anchor ? `top ${res.anchor.top} of ${res.anchor.mapH}, inMap ${res.anchor.inMap}` : 'missing'})`);
     }
+    if (c.hover) {
+      const RECT = `const a = document.getElementById('finder-area'); const r = a.getBoundingClientRect();
+        return { x: r.x, y: r.y, w: r.width, h: r.height, anim: getComputedStyle(a, '::after').animationName, reduced: matchMedia('(prefers-reduced-motion: reduce)').matches };`;
+      const move = (x, y) => wd('POST', `/session/${sid}/actions`, { actions: [{ type: 'pointer', id: 'mouse', parameters: { pointerType: 'mouse' }, actions: [{ type: 'pointerMove', duration: 0, origin: 'viewport', x: Math.round(x), y: Math.round(y) }] }] });
+      await move(2, 2);
+      await sleep(400);
+      const before = await wd('POST', `/session/${sid}/execute/sync`, { script: RECT, args: [] });
+      await move(before.x + before.w / 2, before.y + before.h / 2);
+      await sleep(400);
+      const after = await wd('POST', `/session/${sid}/execute/sync`, { script: RECT, args: [] });
+      const d = Math.max(...['x', 'y', 'w', 'h'].map((k) => Math.abs(after[k] - before[k])));
+      if (d > 0.5) bad.push(`#finder-area moved/resized on hover by ${d.toFixed(1)}px (${before.x},${before.y} -> ${after.x},${after.y})`);
+      if (!after.reduced && after.anim === 'none') bad.push('no shimmer animation running on hover');
+      c.hoverNote = `, hover delta ${d.toFixed(1)}px, shimmer ${after.anim}`;
+      await move(2, 2);
+    }
     if (bad.length) failed = true;
-    console.log(`${bad.length ? 'FAIL' : 'PASS'} ${c.name} (crisis ${res.crisis}, innerWidth ${res.W}x${res.H}${c.desktop ? `, signup ${res.signup && res.signup.y}..${res.signup && res.signup.b}, max scroll doc ${res.maxScroll.doc} body ${res.maxScroll.body}` : ''}${c.scroll ? ', after scrollIntoView' : ''})${bad.length ? ': ' + bad.join('; ') : ''}`);
+    console.log(`${bad.length ? 'FAIL' : 'PASS'} ${c.name} (crisis ${res.crisis}, innerWidth ${res.W}x${res.H}${c.desktop ? `, signup ${res.signup && res.signup.y}..${res.signup && res.signup.b}, max scroll doc ${res.maxScroll.doc} body ${res.maxScroll.body}` : ''}${c.scroll ? ', after scrollIntoView' : ''}${c.hoverNote || ''})${bad.length ? ': ' + bad.join('; ') : ''}`);
   }
 } finally {
   await wd('DELETE', `/session/${sid}`).catch(() => {});

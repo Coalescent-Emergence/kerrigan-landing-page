@@ -394,7 +394,22 @@ body.finder-drawer-open { overflow: hidden; }
 .finder-programs .finder-item { border-bottom: 1px solid var(--color-border); }
 .finder-programs .finder-item:last-child { border-bottom: 0; }
 .finder-showmap { display: none; margin-top: var(--wp-space-2); }
-.finder-area { position: absolute; left: 50%; transform: translateX(-50%); top: calc(40px + 2 * var(--wp-space-3)); z-index: 5; margin: 0; } /* below 1024px: just under the in-flow style buttons (40px + their margin), on the visible top of the map */
+.finder-area { position: absolute; left: 0; right: 0; width: max-content; max-width: 100%; top: calc(40px + 2 * var(--wp-space-3)); z-index: 5; margin: 0 auto; } /* below 1024px: just under the in-flow style buttons (40px + their margin), on the visible top of the map */
+/* "Search this map area" must not move under the pointer. Centred with auto margins (no transform), and
+   the shared .btn:hover / :active nudge (design-system.css ~341-360, translate(-2px,-2px) replacing the
+   centring transform, which threw the button half its width to the right) is switched off here. Hover and
+   keyboard focus show a shimmer instead, ported from the Kerrigan app's skeleton loader (kerrUI
+   design-system.css:1259-1277 .shimmer-hybrid::after gradient, :1378-1381 holo-wave keyframes). */
+.btn.finder-area, .btn.finder-area:hover, .btn.finder-area:focus-visible, .btn.finder-area:active { transform: none; box-shadow: 4px 4px 0 var(--color-border); }
+.btn.finder-area { overflow: hidden; }
+.finder-area::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0;
+  background: linear-gradient(135deg, transparent 0%, color-mix(in srgb, var(--color-accent-secondary) 12%, transparent) 30%, color-mix(in srgb, var(--color-accent-secondary) 35%, transparent) 50%, color-mix(in srgb, var(--color-accent-primary) 20%, transparent) 70%, transparent 100%);
+  background-size: 200% 100%; background-position: -200% 0; }
+.finder-area:hover::after, .finder-area:focus-visible::after { opacity: 1; animation: finder-holo-wave 2.4s ease-in-out infinite; }
+@keyframes finder-holo-wave { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .finder-area:hover::after, .finder-area:focus-visible::after { animation: none; background-position: 0 0; } /* static highlight */
+}
 .finder-mapwrap { position: sticky; }
 /* Phone: no sticky. It is positioned only so #finder-area anchors to the map; the old sticky offset had to clear the nav, whose height changes with width. */
 @media (max-width: 767.98px) { .finder-mapwrap { position: relative; top: auto; } } /* top: auto, or the 80px sticky offset pushed the map down over the sign-up link and the credit */
