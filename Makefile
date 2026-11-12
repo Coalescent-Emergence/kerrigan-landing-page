@@ -43,6 +43,6 @@ nav-check:
 	CURRENT=/articles/ node scripts/finder-nav-check.mjs $(NAV_URL)/articles/
 
 # Browser check that the map-style buttons and "Search this map area" sit inside the window and are clickable
-# at 1280x720, 1440x900, 1920x1080, 900x800 and a phone window (and with the crisis strip shown). Needs geckodriver (:4444) and finder-preview up.
+# at 1280x720 (crisis strip hidden and shown), 1440x900, 1920x1080, 900x800 and a phone window, plus the sign-up link and no leftover scroll on desktop. Needs geckodriver (:4444) and finder-preview up.
 controls-check:
 	node scripts/finder-controls-check.mjs $(NAV_URL)/finder/

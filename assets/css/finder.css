@@ -446,7 +446,7 @@ body.finder-drawer-open { overflow: hidden; }
   .finder-head { margin: 0 0 var(--wp-space-2); }
   .finder-title { font-size: var(--wp-text-xl); margin: 0; }
   .finder-toolbar { display: none; }
-  .finder-stage { position: relative; flex: 1 1 auto; min-height: 360px; border: 1px solid var(--color-border); overflow: hidden; background: var(--color-bg-surface); }
+  .finder-stage { position: relative; flex: 1 1 auto; min-height: 280px; border: 1px solid var(--color-border); overflow: hidden; background: var(--color-bg-surface); }
   .finder-grid { position: absolute; inset: 0; display: block; }
   .finder-mapwrap { position: absolute; inset: 0; }
   .finder-map { height: 100%; min-height: 0; border: 0; }
