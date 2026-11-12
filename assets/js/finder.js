@@ -1765,6 +1765,31 @@
   }
 
   // ── wiring ───────────────────────────────────────────────
+  // Clear buttons (tracker 283). Deleting a box by hand fires `input` while typing and `change` on
+  // commit; the form's change listeners refresh the live count, the filter count and the reveal
+  // rules, and nothing runs a search until Search is pressed. The button does the same: it empties
+  // the box and fires those two events, so the page ends in the state a manual delete leaves it in.
+  // The distance slider keeps its value either way (it is ignored while the town is empty).
+  function syncClear() {
+    Array.prototype.forEach.call(form.querySelectorAll('.f-clear'), function (b) {
+      var box = form.querySelector('[name="' + b.getAttribute('data-clear') + '"]');
+      b.hidden = !(box && box.value);
+    });
+  }
+  Array.prototype.forEach.call(form.querySelectorAll('.f-clear'), function (b) {
+    b.addEventListener('click', function () {
+      var box = form.querySelector('[name="' + b.getAttribute('data-clear') + '"]');
+      if (!box) return;
+      box.value = '';
+      box.dispatchEvent(new Event('input', { bubbles: true }));
+      box.dispatchEvent(new Event('change', { bubbles: true }));
+      box.focus();
+    });
+  });
+  form.addEventListener('input', syncClear);
+  form.addEventListener('change', syncClear);
+  form.addEventListener('reset', function () { window.setTimeout(syncClear, 0); });
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var p = readForm();
@@ -1912,6 +1937,7 @@
 
   var initial = paramsFromLocation();
   writeForm(initial);
+  syncClear();
   setBarCollapsed(Object.keys(initial).length > 0);
   initialBbox = initial.bbox || '';
   initMap();

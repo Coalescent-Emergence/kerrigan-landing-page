@@ -46,10 +46,10 @@
         <button type="button" id="finder-bar-summary" class="f-summary" aria-label="Edit search"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span id="finder-bar-text" class="f-summary-text">Search by provider, program or town</span><span class="f-summary-edit">Edit</span></button>
         <div class="f-bar-fields">
       <label class="finder-text f-bar-name">Provider or program name
-          <input type="search" name="q" maxlength="100" placeholder="e.g. BrightView, Acadia, a program you heard of">
+          <span class="f-clearable"><input type="search" name="q" maxlength="100" placeholder="e.g. BrightView, Acadia, a program you heard of"><button type="button" class="f-clear" data-clear="q" aria-label="Clear program name" hidden><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></span>
         </label>
         <label class="finder-text f-bar-town">Town
-          <input type="text" name="town" maxlength="60" list="finder-towns" placeholder="Start typing a town">
+          <span class="f-clearable f-clearable-list"><input type="text" name="town" maxlength="60" list="finder-towns" placeholder="Start typing a town"><button type="button" class="f-clear" data-clear="town" aria-label="Clear town" hidden><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></span>
           <datalist id="finder-towns">
           <option value="Abingdon">
           <option value="Alexandria">

@@ -11,6 +11,10 @@
 // its rect must be unchanged (within 0.5px) 400ms later, and its ::after shimmer must be animating
 // (computed animation-name not none). The button used to slide right under the pointer because
 // the design system's hover transform replaced the centring transform.
+// Clear buttons: at 1440x900 and the phone case, text is typed into the program-name and town boxes
+// (real key events); each box's clear button (aria-label "Clear program name" / "Clear town") must
+// then be visible and inside the window, and a click must empty that box only, leave focus in it
+// and hide the button again.
 // Needs geckodriver on GECKO (default http://127.0.0.1:4444) and the page URL as argv[2]:
 //   geckodriver --port 4444 & node scripts/finder-controls-check.mjs http://127.0.0.1:1313/finder/
 const GECKO = process.env.GECKO || 'http://127.0.0.1:4444';
@@ -63,10 +67,10 @@ const cases = [
   { name: 'desktop 1280x720', w: 1280, h: 720, desktop: true },
   { name: 'desktop 1280x720', w: 1280, h: 720, desktop: true, crisis: 'hide' },
   { name: 'desktop 1280x720', w: 1280, h: 720, desktop: true, crisis: 'show' },
-  { name: 'desktop 1440x900', w: 1440, h: 900, desktop: true, hover: true },
+  { name: 'desktop 1440x900', w: 1440, h: 900, desktop: true, hover: true, clear: true },
   { name: 'desktop 1920x1080', w: 1920, h: 1080, desktop: true },
   { name: 'tablet 900x800', w: 900, h: 800, scroll: true },
-  { name: 'phone 390x844', w: 390, h: 844, scroll: true, phone: true, hover: true },
+  { name: 'phone 390x844', w: 390, h: 844, scroll: true, phone: true, hover: true, clear: true },
 ];
 
 const sess = await wd('POST', '/session', { capabilities: { alwaysMatch: { browserName: 'firefox', 'moz:firefoxOptions': { args: ['-headless'] } } } });
@@ -109,6 +113,45 @@ try {
       if (!after.reduced && after.anim === 'none') bad.push('no shimmer animation running on hover');
       c.hoverNote = `, hover delta ${d.toFixed(1)}px, shimmer ${after.anim}`;
       await move(2, 2);
+    }
+    if (c.clear) {
+      const boxes = [['q', 'Clear program name', 'brightview'], ['town', 'Clear town', 'Roanoke']];
+      const find = async (css) => Object.values(await wd('POST', `/session/${sid}/element`, { using: 'css selector', value: css }))[0];
+      const STATE = `const [n, lab] = arguments; const i = document.querySelector('[name=' + n + ']'), b = document.querySelector('button[aria-label="' + lab + '"]');
+        const r = b ? b.getBoundingClientRect() : null, ir = i.getBoundingClientRect();
+        return { val: i.value, focus: document.activeElement === i, btn: !!b, shown: !!r && r.width > 0 && r.height > 0,
+          inside: !!r && r.width > 0 && r.left >= 0 && r.top >= 0 && r.right <= innerWidth && r.bottom <= innerHeight,
+          size: r ? Math.round(Math.min(r.width, r.height)) : 0, inInput: !!r && r.left >= ir.left && r.right <= ir.right && r.top >= ir.top && r.bottom <= ir.bottom,
+          other: [...document.querySelectorAll('input[name=q],input[name=town]')].filter((x) => x !== i).map((x) => x.value) };`;
+      const note = [];
+      for (const [name, label, text] of boxes) {
+        const other = boxes.find((b) => b[0] !== name);
+        await wd('POST', `/session/${sid}/execute/sync`, { script: `const b = document.querySelector('[name=' + arguments[0] + ']'); b.scrollIntoView({ block: 'center' }); return 1;`, args: [name] });
+        const el = await find(`[name=${name}]`);
+        await wd('POST', `/session/${sid}/element/${el}/clear`, {});
+        const before = await wd('POST', `/session/${sid}/execute/sync`, { script: STATE, args: [name, label] });
+        if (before.btn && before.shown) bad.push(`${label} visible while the box is empty`);
+        await wd('POST', `/session/${sid}/element/${el}/value`, { text });
+        if (other) await wd('POST', `/session/${sid}/execute/sync`, { script: `const o = document.querySelector('[name=' + arguments[0] + ']'); o.value = 'keep'; o.dispatchEvent(new Event('input', { bubbles: true })); document.querySelector('[name=' + arguments[1] + ']').focus(); return 1;`, args: [other[0], name] });
+        const typed = await wd('POST', `/session/${sid}/execute/sync`, { script: STATE, args: [name, label] });
+        if (!typed.btn) bad.push(`no button "${label}"`);
+        else if (!typed.shown) bad.push(`${label} not visible with text typed`);
+        else if (!typed.inside) bad.push(`${label} outside the window`);
+        else if (!typed.inInput) bad.push(`${label} not inside its box`);
+        if (typed.btn && typed.size < (res.W < 768 ? 44 : 32)) bad.push(`${label} hit area ${typed.size}px`);
+        if (typed.btn) {
+          const bt = await find(`button[aria-label="${label}"]`);
+          await wd('POST', `/session/${sid}/element/${bt}/click`, {});
+          const after = await wd('POST', `/session/${sid}/execute/sync`, { script: STATE, args: [name, label] });
+          if (after.val !== '') bad.push(`${label}: box still holds "${after.val}"`);
+          if (!after.focus) bad.push(`${label}: focus not back in the box`);
+          if (after.shown) bad.push(`${label} still visible after clearing`);
+          if (!after.other.every((v) => v === 'keep')) bad.push(`${label} changed the other box (${after.other.join('|')})`);
+          note.push(`${name}: ${typed.size}px`);
+        }
+        if (other) await wd('POST', `/session/${sid}/execute/sync`, { script: `const o = document.querySelector('[name=' + arguments[0] + ']'); o.value = ''; o.dispatchEvent(new Event('input', { bubbles: true })); return 1;`, args: [other[0]] });
+      }
+      c.hoverNote = (c.hoverNote || '') + `, clear buttons ${note.join(' ')}`;
     }
     if (bad.length) failed = true;
     console.log(`${bad.length ? 'FAIL' : 'PASS'} ${c.name} (crisis ${res.crisis}, innerWidth ${res.W}x${res.H}${c.desktop ? `, signup ${res.signup && res.signup.y}..${res.signup && res.signup.b}, max scroll doc ${res.maxScroll.doc} body ${res.maxScroll.body}` : ''}${c.scroll ? ', after scrollIntoView' : ''}${c.hoverNote || ''})${bad.length ? ': ' + bad.join('; ') : ''}`);
