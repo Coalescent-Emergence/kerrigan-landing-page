@@ -20,12 +20,24 @@
     '3d': 'https://tiles.openfreemap.org/styles/liberty', // same style; its building layer shows from zoom 14 once the map is tilted
     satellite: {
       version: 8,
+      glyphs: 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf', // for the boundary-name labels added in addBoundaries
       sources: { usgs: { type: 'raster', tileSize: 256, maxzoom: 16,
         tiles: ['https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}'],
         attribution: 'Imagery: USGS National Map' } },
       layers: [{ id: 'usgs', type: 'raster', source: 'usgs' }]
     }
   };
+  // Our own boundary lines, drawn over each basemap (the OpenFreeMap styles draw state lines in a
+  // near-invisible grey, and positron only from zoom 8). state = OpenMapTiles boundary admin_level 4,
+  // county = admin_level 6 (the tiles carry it from zoom 9 for Virginia; checked 2026-11-12).
+  // halo is the casing drawn under each line so it reads on any ground.
+  var BOUNDARY_STYLE = {
+    dark:      { state: '#d6dbe2', halo: '#000000', haloOp: 0.7, stateOp: 0.9, county: '#9aa3ad', countyOp: 0.55 },
+    light:     { state: '#3d4452', halo: '#ffffff', haloOp: 0.8, stateOp: 0.9, county: '#6b7480', countyOp: 0.55 },
+    streets:   { state: '#3d3a5c', halo: '#ffffff', haloOp: 0.8, stateOp: 0.9, county: '#6b6a80', countyOp: 0.6 },
+    satellite: { state: '#ffffff', halo: '#000000', haloOp: 0.6, stateOp: 0.95, county: '#ffffff', countyOp: 0.5 }
+  };
+  BOUNDARY_STYLE['3d'] = BOUNDARY_STYLE.streets;
   var BASEMAP_KEY = 'finder-basemap';
   function savedBasemap() {
     try { var k = window.localStorage.getItem(BASEMAP_KEY); if (k && BASEMAPS[k]) return k; } catch (e) { /* storage blocked */ }
@@ -1658,6 +1670,43 @@
       el.classList.remove('maplibregl-compact-show');
     });
   }
+  // State and county lines over the current style, under its labels and (added after this) under the pins.
+  // Vector styles reuse their 'openmaptiles' source; satellite is raster only, so it gets the same
+  // OpenFreeMap tiles as a source of its own, plus state and city names (the USGS imagery has none).
+  function addBoundaries() {
+    if (!map || map.getLayer('finder-bnd-state')) return;
+    var c = BOUNDARY_STYLE[basemap] || BOUNDARY_STYLE.dark, src = 'openmaptiles', before;
+    if (basemap === 'satellite') {
+      src = 'finder-ofm';
+      if (!map.getSource(src)) map.addSource(src, { type: 'vector', url: 'https://tiles.openfreemap.org/planet' });
+    } else {
+      var layers = map.getStyle().layers;
+      for (var i = 0; i < layers.length; i++) { if (layers[i].type === 'symbol') { before = layers[i].id; break; } }
+    }
+    var notSea = ['!=', ['get', 'maritime'], 1];
+    var stateF = ['all', ['==', ['get', 'admin_level'], 4], notSea];
+    var countyF = ['all', ['==', ['get', 'admin_level'], 6], notSea];
+    var round = { 'line-cap': 'round', 'line-join': 'round' };
+    var w = function (a, b, d) { return ['interpolate', ['linear'], ['zoom'], 4, a, 8, b, 12, d]; };
+    map.addLayer({ id: 'finder-bnd-county', type: 'line', source: src, 'source-layer': 'boundary', minzoom: 8, filter: countyF,
+      layout: round, paint: { 'line-color': c.county, 'line-opacity': c.countyOp, 'line-width': w(0.5, 0.8, 1.4), 'line-dasharray': [3, 2] } }, before);
+    map.addLayer({ id: 'finder-bnd-state-halo', type: 'line', source: src, 'source-layer': 'boundary', filter: stateF,
+      layout: round, paint: { 'line-color': c.halo, 'line-opacity': c.haloOp, 'line-width': w(3.6, 5, 6.4), 'line-blur': 1 } }, before);
+    map.addLayer({ id: 'finder-bnd-state', type: 'line', source: src, 'source-layer': 'boundary', filter: stateF,
+      layout: round, paint: { 'line-color': c.state, 'line-opacity': c.stateOp, 'line-width': w(1.5, 2.2, 3) } }, before);
+    if (basemap === 'satellite') {
+      var txt = function (id, cls, minz, maxz, size) {
+        map.addLayer({ id: id, type: 'symbol', source: src, 'source-layer': 'place', minzoom: minz, maxzoom: maxz || 24,
+          filter: ['==', ['get', 'class'], cls],
+          layout: { 'text-field': ['coalesce', ['get', 'name_en'], ['get', 'name']], 'text-font': ['Noto Sans Regular'], 'text-size': size,
+            'text-transform': cls === 'state' ? 'uppercase' : 'none', 'text-letter-spacing': cls === 'state' ? 0.15 : 0, 'text-max-width': 8 },
+          paint: { 'text-color': '#ffffff', 'text-halo-color': 'rgba(0,0,0,0.85)', 'text-halo-width': 1.4 } });
+      };
+      txt('finder-name-state', 'state', 3, 9, ['interpolate', ['linear'], ['zoom'], 4, 10, 8, 14]);
+      txt('finder-name-city', 'city', 5, null, ['interpolate', ['linear'], ['zoom'], 5, 11, 11, 16]);
+    }
+  }
+
   function markCredit() {
     var u = document.getElementById('finder-credit-usgs');
     if (u) u.hidden = basemap !== 'satellite';
@@ -1686,6 +1735,7 @@
     // on every style load from the last results.
     map.on('style.load', function () {
       collapseCredit();
+      addBoundaries();
       if (map.getSource('results')) return;
       map.addSource('results', { type: 'geojson', data: lastFC });
       map.addLayer({
