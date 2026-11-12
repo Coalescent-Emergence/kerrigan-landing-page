@@ -15,6 +15,7 @@
 // (real key events); each box's clear button (aria-label "Clear program name" / "Clear town") must
 // then be visible and inside the window, and a click must empty that box only, leave focus in it
 // and hide the button again.
+// Every case also asserts the Type of care group holds an input with value recovery_housing.
 // Needs geckodriver on GECKO (default http://127.0.0.1:4444) and the page URL as argv[2]:
 //   geckodriver --port 4444 & node scripts/finder-controls-check.mjs http://127.0.0.1:1313/finder/
 const GECKO = process.env.GECKO || 'http://127.0.0.1:4444';
@@ -90,6 +91,8 @@ try {
       else if (!i.inside) bad.push(`${i.name} rect ${i.x},${i.y}..${i.r},${i.b} outside ${res.W}x${res.H}`);
       else if (!i.top) bad.push(`${i.name} covered at its centre`);
     }
+    const hasHousing = await wd('POST', `/session/${sid}/execute/sync`, { script: `return !!document.querySelector('[aria-label="Type of care"] input[value="recovery_housing"]');`, args: [] });
+    if (!hasHousing) bad.push('Type of care has no recovery_housing input');
     if (!c.scroll && res.scrollY !== 0) bad.push(`page scrolled to ${res.scrollY}`);
     if (c.desktop) {
       if (!res.signup) bad.push('.finder-signup missing');
