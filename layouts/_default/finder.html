@@ -16,7 +16,7 @@
 
 {{ partial "site-nav.html" (dict "finder" true) }}
 
-<main id="finder" class="finder" data-api="{{ site.Params.finderApiBase }}" data-kerr-api="{{ site.Params.kerrApiBase }}" data-signup="{{ $signupHref }}" data-app="{{ site.Params.appUrl | default "https://ui.latentworx.com/" }}">
+<main id="finder" class="finder" data-va-geojson="{{ "data/virginia.geojson" | relURL }}" data-api="{{ site.Params.finderApiBase }}" data-kerr-api="{{ site.Params.kerrApiBase }}" data-signup="{{ $signupHref }}" data-app="{{ site.Params.appUrl | default "https://ui.latentworx.com/" }}">
   <header class="finder-head">
     <h1 class="finder-title">Find a placement</h1>
   </header>
@@ -46,10 +46,10 @@
         <button type="button" id="finder-bar-summary" class="f-summary" aria-label="Edit search"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span id="finder-bar-text" class="f-summary-text">Search by provider, program or town</span><span class="f-summary-edit">Edit</span></button>
         <div class="f-bar-fields">
       <label class="finder-text f-bar-name">Provider or program name
-          <input type="search" name="q" maxlength="100" placeholder="e.g. BrightView, Acadia, a program you heard of">
+          <span class="f-clearable"><input type="search" name="q" maxlength="100" placeholder="e.g. BrightView, Acadia, a program you heard of"><button type="button" class="f-clear" data-clear="q" aria-label="Clear program name" hidden><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></span>
         </label>
         <label class="finder-text f-bar-town">Town
-          <input type="text" name="town" maxlength="60" list="finder-towns" placeholder="Start typing a town">
+          <span class="f-clearable f-clearable-list"><input type="text" name="town" maxlength="60" list="finder-towns" placeholder="Start typing a town"><button type="button" class="f-clear" data-clear="town" aria-label="Clear town" hidden><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></span>
           <datalist id="finder-towns">
           <option value="Abingdon">
           <option value="Alexandria">
@@ -197,6 +197,7 @@
         <label><input type="radio" name="domain" value="" checked><span>Any</span></label>
         <label><input type="radio" name="domain" value="addiction"><span>Addiction</span></label>
         <label><input type="radio" name="domain" value="mental_health"><span>Mental health</span></label>
+        <label><input type="radio" name="domain" value="recovery_housing"><span>Recovery housing</span></label>
       </div></div>
       <fieldset class="f-group"><legend class="f-label">Setting</legend>
         <div class="chips">
@@ -354,9 +355,12 @@
     <p id="finder-upgrade-msg" class="finder-compare-hint" role="status" aria-live="polite"></p>
   </dialog>
 
-  <p class="finder-signup">
-    <a href="{{ $signupHref }}" class="btn btn-primary" data-analytics-event="cta_click_subscribe" data-analytics-label="finder_signup">Save lists and see residence addresses with a Kerrigan account</a>
-  </p>
+  <div class="finder-foot">
+    <p class="finder-signup">
+      <a href="{{ $signupHref }}" class="btn btn-primary" data-analytics-event="cta_click_subscribe" data-analytics-label="finder_signup">Save lists and see residence addresses with a Kerrigan account</a>
+    </p>
+    <p class="finder-credit" id="finder-credit">Map: <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> <a href="https://openmaptiles.org" target="_blank" rel="noopener">&copy; OpenMapTiles</a> Data <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">&copy; OpenStreetMap contributors</a><span id="finder-credit-usgs" hidden> &middot; Imagery: USGS National Map</span></p>
+  </div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.js" integrity="sha384-5+cfbwT0iiub6VsQAdn6yz16nr6sDiQoHx6tm4O8OVYXHYOxcffFmCJBL0dgdvGp" crossorigin="anonymous" defer></script>
