@@ -1,4 +1,4 @@
-.PHONY: serve-lan theme-editor dev stop finder-preview nav-check
+.PHONY: serve-lan theme-editor dev stop finder-preview nav-check controls-check
 
 serve-lan:
 	@IP=$$(hostname -I | awk '{print $$1}'); \
@@ -41,3 +41,8 @@ NAV_URL ?= http://127.0.0.1:1313
 nav-check:
 	CURRENT=/finder/ node scripts/finder-nav-check.mjs $(NAV_URL)/finder/
 	CURRENT=/articles/ node scripts/finder-nav-check.mjs $(NAV_URL)/articles/
+
+# Browser check that the map-style buttons and "Search this map area" sit inside the window and are clickable
+# at 1280x720, 1440x900, 1920x1080, 900x800 and a phone window (and with the crisis strip shown). Needs geckodriver (:4444) and finder-preview up.
+controls-check:
+	node scripts/finder-controls-check.mjs $(NAV_URL)/finder/

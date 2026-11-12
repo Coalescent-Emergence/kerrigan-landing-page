@@ -255,7 +255,7 @@
   .finder { padding: var(--wp-space-4) var(--gutter-mobile) var(--wp-space-8); }
   .finder-grid { grid-template-columns: minmax(0, 1fr); }
   .finder-mapwrap { position: static; }
-  .finder-map { height: 70vh; min-height: 280px; }
+  .finder-map { height: 70vh; height: 70dvh; min-height: 280px; }
   .finder-facets { grid-template-columns: minmax(0, 1fr); }
   .finder-facets dd { margin-bottom: var(--wp-space-1); }
 }
@@ -388,8 +388,10 @@ body.finder-drawer-open { overflow: hidden; }
 .finder-programs .finder-item { border-bottom: 1px solid var(--color-border); }
 .finder-programs .finder-item:last-child { border-bottom: 0; }
 .finder-showmap { display: none; margin-top: var(--wp-space-2); }
-.finder-area { position: absolute; left: 50%; transform: translateX(-50%); bottom: 44px; z-index: 5; margin: 0; }
+.finder-area { position: absolute; left: 50%; transform: translateX(-50%); top: calc(40px + 2 * var(--wp-space-3)); z-index: 5; margin: 0; } /* below 1024px: just under the in-flow style buttons (40px + their margin), on the visible top of the map */
 .finder-mapwrap { position: sticky; }
+/* Phone: no sticky. It is positioned only so #finder-area anchors to the map; the old sticky offset had to clear the nav, whose height changes with width. */
+@media (max-width: 767.98px) { .finder-mapwrap { position: relative; } }
 .finder-compare { width: min(1100px, 96vw); max-height: 92vh; overflow: auto; background: var(--color-bg-container); color: var(--color-text-primary); border: 1px solid var(--color-border); padding: var(--wp-space-4); }
 .finder-compare::backdrop { background: rgba(0, 0, 0, 0.6); }
 .finder-compare-head { display: flex; justify-content: space-between; align-items: center; gap: var(--wp-space-3); flex-wrap: wrap; }
@@ -436,11 +438,15 @@ body.finder-drawer-open { overflow: hidden; }
 .finder-panel .finder-detail { padding: 0; }
 
 @media (min-width: 1024px) {
-  .finder { max-width: none; padding: var(--wp-space-2) var(--wp-space-4) var(--wp-space-4); }
+  /* The page is one window-high column: nav, then .finder fills what is left, then the stage fills .finder. */
+  body:has(> .finder) { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
+  body:has(> .finder) > .site-nav { flex: none; }
+  .finder { max-width: none; padding: var(--wp-space-2) var(--wp-space-4) var(--wp-space-4); flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+  .finder > * { flex: none; }
   .finder-head { margin: 0 0 var(--wp-space-2); }
   .finder-title { font-size: var(--wp-text-xl); margin: 0; }
   .finder-toolbar { display: none; }
-  .finder-stage { position: relative; height: calc(100vh - 170px); min-height: 560px; border: 1px solid var(--color-border); overflow: hidden; background: var(--color-bg-surface); }
+  .finder-stage { position: relative; flex: 1 1 auto; min-height: 360px; border: 1px solid var(--color-border); overflow: hidden; background: var(--color-bg-surface); }
   .finder-grid { position: absolute; inset: 0; display: block; }
   .finder-mapwrap { position: absolute; inset: 0; }
   .finder-map { height: 100%; min-height: 0; border: 0; }
@@ -458,7 +464,7 @@ body.finder-drawer-open { overflow: hidden; }
   .finder-list .finder-showmap { display: none; }
   .finder-basemaps { position: absolute; left: 50%; transform: translateX(-50%); bottom: 10px; z-index: 5; margin: 0; box-shadow: 0 2px 12px rgba(0, 0, 0, .5); }
   .finder-basemaps button { padding: 0 var(--wp-space-4); }
-  .finder-area { bottom: 58px; }
+  .finder-area { top: auto; bottom: 58px; }
   .finder-stage .maplibregl-ctrl-top-right { top: 84px; }
   .finder-stage[data-panel="open"] .maplibregl-ctrl-top-right { right: 372px; }
   .finder-signup { margin-top: var(--wp-space-4); }
