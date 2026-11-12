@@ -247,7 +247,13 @@
 
 .finder-more { margin-top: var(--wp-space-4); }
 
-.finder-signup { margin-top: var(--wp-space-8); }
+.finder-foot { margin-top: var(--wp-space-4); display: flex; flex-direction: column; }
+.finder-signup { margin: 0; }
+/* Always-visible map credit (the on-map control starts collapsed). Under the map below 1024px. */
+.finder-credit { order: -1; margin: 0 0 var(--wp-space-4); font-size: var(--wp-text-sm); line-height: 1.4; color: var(--color-text-secondary); }
+.finder-credit a { color: inherit; text-decoration: underline; }
+.finder-credit a:hover { color: var(--color-text-primary); }
+.finder-credit a + a, .finder-credit a + span { margin-left: .5em; }
 .finder-signup .btn { white-space: normal; text-align: center; padding-top: var(--wp-space-2); padding-bottom: var(--wp-space-2); max-width: 100%; }
 
 /* Below 768px: one column, map first at half the viewport, list below. */
@@ -391,7 +397,7 @@ body.finder-drawer-open { overflow: hidden; }
 .finder-area { position: absolute; left: 50%; transform: translateX(-50%); top: calc(40px + 2 * var(--wp-space-3)); z-index: 5; margin: 0; } /* below 1024px: just under the in-flow style buttons (40px + their margin), on the visible top of the map */
 .finder-mapwrap { position: sticky; }
 /* Phone: no sticky. It is positioned only so #finder-area anchors to the map; the old sticky offset had to clear the nav, whose height changes with width. */
-@media (max-width: 767.98px) { .finder-mapwrap { position: relative; } }
+@media (max-width: 767.98px) { .finder-mapwrap { position: relative; top: auto; } } /* top: auto, or the 80px sticky offset pushed the map down over the sign-up link and the credit */
 .finder-compare { width: min(1100px, 96vw); max-height: 92vh; overflow: auto; background: var(--color-bg-container); color: var(--color-text-primary); border: 1px solid var(--color-border); padding: var(--wp-space-4); }
 .finder-compare::backdrop { background: rgba(0, 0, 0, 0.6); }
 .finder-compare-head { display: flex; justify-content: space-between; align-items: center; gap: var(--wp-space-3); flex-wrap: wrap; }
@@ -467,7 +473,8 @@ body.finder-drawer-open { overflow: hidden; }
   .finder-area { top: auto; bottom: 58px; }
   .finder-stage .maplibregl-ctrl-top-right { top: 84px; }
   .finder-stage[data-panel="open"] .maplibregl-ctrl-top-right { right: 372px; }
-  .finder-signup { margin-top: var(--wp-space-4); }
+  .finder-foot { margin-top: var(--wp-space-4); flex-direction: row; align-items: center; justify-content: space-between; gap: var(--wp-space-4); }
+  .finder-credit { order: 0; margin: 0; text-align: right; font-size: var(--wp-text-xs, .75rem); }
 
   /* Search bar: full fields, or one slim strip that still reads as a search box. */
   .finder-filters .f-bar { padding: var(--wp-space-2) var(--wp-space-3); }

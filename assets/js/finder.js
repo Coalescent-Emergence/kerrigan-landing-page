@@ -1632,6 +1632,7 @@
     if (BASEMAPS[key] !== BASEMAPS[prevKey]) map.setStyle(BASEMAPS[key]);
     tilt(key === '3d');
     markBasemap();
+    markCredit();
   }
 
   function markBasemap() {
@@ -1646,6 +1647,22 @@
   markBasemap();
 
   function focusItem(id) { selectItem(id, false); }
+
+  // The on-map credit starts collapsed to its (i) button and opens on click. MapLibre's compact
+  // control opens itself when added (5.24.0: class maplibregl-compact-show); removing that class is
+  // the same state its own drag handler leaves it in. The always-visible text credit is
+  // .finder-credit under the map (OSM Foundation attribution guidelines allow collapsing the
+  // on-map control if the licence is still findable, and allow the credit adjacent to the map).
+  function collapseCredit() {
+    Array.prototype.forEach.call(document.querySelectorAll('#finder-map .maplibregl-ctrl-attrib'), function (el) {
+      el.classList.remove('maplibregl-compact-show');
+    });
+  }
+  function markCredit() {
+    var u = document.getElementById('finder-credit-usgs');
+    if (u) u.hidden = basemap !== 'satellite';
+  }
+  markCredit();
 
   function initMap() {
     if (!window.maplibregl) {
@@ -1664,9 +1681,11 @@
       return;
     }
     map.addControl(new window.maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+    collapseCredit();
     // A style change drops custom sources and layers, so the pins are re-added
     // on every style load from the last results.
     map.on('style.load', function () {
+      collapseCredit();
       if (map.getSource('results')) return;
       map.addSource('results', { type: 'geojson', data: lastFC });
       map.addLayer({
@@ -1675,6 +1694,7 @@
       });
     });
     map.on('load', function () {
+      collapseCredit();
       map.on('click', 'results-pins', function (e) {
         if (e.features && e.features[0]) { if (mobileMq.matches) setView('list'); focusItem(e.features[0].properties.id); }
       });
