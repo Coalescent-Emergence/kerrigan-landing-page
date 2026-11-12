@@ -46,8 +46,8 @@
   // halo is the casing drawn under each line so it reads on any ground.
   var BOUNDARY_STYLE = {
     dark:      { state: '#d6dbe2', halo: '#000000', haloOp: 0.7, stateOp: 0.9, county: '#9aa3ad', countyOp: 0.55 },
-    light:     { state: '#3d4452', halo: '#ffffff', haloOp: 0.8, stateOp: 0.9, county: '#6b7480', countyOp: 0.55 },
-    streets:   { state: '#3d3a5c', halo: '#ffffff', haloOp: 0.8, stateOp: 0.9, county: '#6b6a80', countyOp: 0.6 },
+    light:     { state: '#0b0f14', halo: '#ffffff', haloOp: 0.8, stateOp: 1, county: '#2b3340', countyOp: 0.75, wide: 1 },
+    streets:   { state: '#0b0f14', halo: '#ffffff', haloOp: 0.8, stateOp: 1, county: '#2b2a46', countyOp: 0.75, wide: 1 },
     satellite: { state: '#ffffff', halo: '#000000', haloOp: 0.6, stateOp: 0.95, county: '#ffffff', countyOp: 0.5 }
   };
   BOUNDARY_STYLE['3d'] = BOUNDARY_STYLE.streets;
@@ -1736,11 +1736,11 @@
     var round = { 'line-cap': 'round', 'line-join': 'round' };
     var w = function (a, b, d) { return ['interpolate', ['linear'], ['zoom'], 4, a, 8, b, 12, d]; };
     map.addLayer({ id: 'finder-bnd-county', type: 'line', source: src, 'source-layer': 'boundary', minzoom: 8, filter: countyF,
-      layout: round, paint: { 'line-color': c.county, 'line-opacity': c.countyOp, 'line-width': w(0.5, 0.8, 1.4), 'line-dasharray': [3, 2] } }, before);
+      layout: round, paint: { 'line-color': c.county, 'line-opacity': c.countyOp, 'line-width': c.wide ? w(0.8, 1.2, 1.8) : w(0.5, 0.8, 1.4), 'line-dasharray': [3, 2] } }, before);
     map.addLayer({ id: 'finder-bnd-state-halo', type: 'line', source: src, 'source-layer': 'boundary', filter: stateF,
       layout: round, paint: { 'line-color': c.halo, 'line-opacity': c.haloOp, 'line-width': w(3.6, 5, 6.4), 'line-blur': 1 } }, before);
     map.addLayer({ id: 'finder-bnd-state', type: 'line', source: src, 'source-layer': 'boundary', filter: stateF,
-      layout: round, paint: { 'line-color': c.state, 'line-opacity': c.stateOp, 'line-width': w(1.5, 2.2, 3) } }, before);
+      layout: round, paint: { 'line-color': c.state, 'line-opacity': c.stateOp, 'line-width': c.wide ? w(2.4, 3.4, 4.4) : w(1.5, 2.2, 3) } }, before);
     if (basemap === 'satellite') {
       var txt = function (id, cls, minz, maxz, size) {
         map.addLayer({ id: id, type: 'symbol', source: src, 'source-layer': 'place', minzoom: minz, maxzoom: maxz || 24,
