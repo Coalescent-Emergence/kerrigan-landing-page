@@ -1681,6 +1681,7 @@
   function collapseCredit() {
     Array.prototype.forEach.call(document.querySelectorAll('#finder-map .maplibregl-ctrl-attrib'), function (el) {
       el.classList.remove('maplibregl-compact-show');
+      el.removeAttribute('open'); // the <details> state AT reads; the library's own toggle keeps class and open in step
     });
   }
   // State and county lines over the current style, under its labels and (added after this) under the pins.
