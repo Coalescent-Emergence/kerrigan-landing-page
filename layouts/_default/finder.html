@@ -16,7 +16,7 @@
 
 {{ partial "site-nav.html" (dict "finder" true) }}
 
-<main id="finder" class="finder" data-api="{{ site.Params.finderApiBase }}" data-kerr-api="{{ site.Params.kerrApiBase }}" data-signup="{{ $signupHref }}" data-app="{{ site.Params.appUrl | default "https://ui.latentworx.com/" }}">
+<main id="finder" class="finder" data-va-geojson="{{ "data/virginia.geojson" | relURL }}" data-api="{{ site.Params.finderApiBase }}" data-kerr-api="{{ site.Params.kerrApiBase }}" data-signup="{{ $signupHref }}" data-app="{{ site.Params.appUrl | default "https://ui.latentworx.com/" }}">
   <header class="finder-head">
     <h1 class="finder-title">Find a placement</h1>
   </header>

@@ -11,6 +11,19 @@
   var KERR_API = (root.getAttribute('data-kerr-api') || '').replace(/\/+$/, '');
   var PAGE_SIZE = 200;
   var VA_CENTER = [-79.4, 37.5];
+  // Virginia's bounding box (west tip to the Eastern Shore), the map's opening frame.
+  var VA_BOUNDS = [[-83.68, 36.54], [-75.24, 39.47]];
+  var VA_URL = root.getAttribute('data-va-geojson') || '';
+  // Dim mask over everything outside Virginia: a world rectangle with Virginia cut out (tracker 283).
+  // Under the labels, our boundary lines and the pins; neighbours stay legible but secondary.
+  var MASK_STYLE = {
+    dark:      { color: '#000000', op: 0.45 },
+    light:     { color: '#1c2430', op: 0.35 },
+    streets:   { color: '#1c2430', op: 0.35 },
+    satellite: { color: '#000000', op: 0.4 }
+  };
+  MASK_STYLE['3d'] = MASK_STYLE.streets;
+  var vaMask = null; // GeoJSON Feature, fetched once
   // Basemaps, all free and keyless: OpenFreeMap vector styles, and USGS National
   // Map imagery (public domain, covers Virginia) for satellite.
   var BASEMAPS = {
@@ -1673,8 +1686,41 @@
   // State and county lines over the current style, under its labels and (added after this) under the pins.
   // Vector styles reuse their 'openmaptiles' source; satellite is raster only, so it gets the same
   // OpenFreeMap tiles as a source of its own, plus state and city names (the USGS imagery has none).
+  // Added once per style load, below our boundary layers (or the first label layer when those are
+  // not there yet). Safe to call twice: it returns when the layer exists.
+  function addMask() {
+    if (!map || !vaMask || map.getLayer('finder-va-mask')) return;
+    try {
+      if (!map.getSource('finder-va')) map.addSource('finder-va', { type: 'geojson', data: vaMask });
+      var c = MASK_STYLE[basemap] || MASK_STYLE.dark, before;
+      var ids = ['finder-bnd-county', 'finder-bnd-state-halo', 'finder-bnd-state'];
+      for (var k = 0; k < ids.length && !before; k++) { if (map.getLayer(ids[k])) before = ids[k]; }
+      if (!before) {
+        var layers = map.getStyle().layers;
+        for (var i = 0; i < layers.length; i++) { if (layers[i].type === 'symbol') { before = layers[i].id; break; } }
+      }
+      map.addLayer({ id: 'finder-va-mask', type: 'fill', source: 'finder-va', paint: { 'fill-color': c.color, 'fill-opacity': c.op, 'fill-antialias': false } }, before);
+    } catch (e) { /* style not ready: the next style load adds it */ }
+  }
+
+  // Virginia boundary (static/data/virginia.geojson): US Census Bureau cartographic boundary file
+  // cb_2023_us_state_5m (public domain), https://www2.census.gov/geo/tiger/GENZ2023/shp/cb_2023_us_state_5m.zip,
+  // Virginia only, simplified. Fetched once from our own origin, not from census.gov.
+  function loadVaMask() {
+    if (!VA_URL || !window.fetch) return;
+    window.fetch(VA_URL).then(function (r) { return r.ok ? r.json() : null; }).then(function (f) {
+      if (!f || !f.geometry) return;
+      var world = [[-180, -85], [180, -85], [180, 85], [-180, 85], [-180, -85]];
+      var holes = f.geometry.coordinates.map(function (poly) { return poly[0]; });
+      vaMask = { type: 'Feature', properties: {}, geometry: { type: 'Polygon', coordinates: [world].concat(holes) } };
+      addMask();
+    }).catch(function () { /* no mask: the map is simply undimmed */ });
+  }
+
   function addBoundaries() {
-    if (!map || map.getLayer('finder-bnd-state')) return;
+    if (!map) return;
+    addMask();
+    if (map.getLayer('finder-bnd-state')) return;
     var c = BOUNDARY_STYLE[basemap] || BOUNDARY_STYLE.dark, src = 'openmaptiles', before;
     if (basemap === 'satellite') {
       src = 'finder-ofm';
@@ -1730,6 +1776,7 @@
       return;
     }
     map.addControl(new window.maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+    loadVaMask();
     collapseCredit();
     // A style change drops custom sources and layers, so the pins are re-added
     // on every style load from the last results.
@@ -1754,6 +1801,10 @@
       var wsen = parseBbox(initialBbox);
       if (wsen) {
         try { map.fitBounds([[wsen[0], wsen[1]], [wsen[2], wsen[3]]], { animate: false }); } catch (e) { /* bad bbox: keep default view */ }
+      } else {
+        // Opening frame: all of Virginia, clear of the results drawer, the panel and the search bar.
+        try { map.fitBounds(VA_BOUNDS, { animate: false, padding: fitPad() }); } catch (e) { /* keep the default view */ }
+        if (mobileMq.matches && root.getAttribute('data-view') !== 'map') lastFit = VA_BOUNDS; // refit when the Map tab first shows
       }
       if (basemap === '3d') tilt(true);
       map.on('moveend', function (ev) { if (ev.originalEvent) { areaBtn.hidden = false; lastFit = null; } });
