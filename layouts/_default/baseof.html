@@ -24,13 +24,17 @@
   <meta property="og:description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
   <meta property="og:image" content="{{ $ogImage | absURL }}">
   {{ if not .Params.image }}<meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">{{ end }}
+  <meta property="og:image:height" content="630">{{ else if .Params.imageWidth }}<meta property="og:image:width" content="{{ .Params.imageWidth }}">
+  <meta property="og:image:height" content="{{ .Params.imageHeight }}">{{ end }}
   {{ if $isArticle }}
   <meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
   {{ if not .Lastmod.IsZero }}<meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">{{ end }}
   {{ end }}
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="{{ .Site.Params.twitterHandle }}">
+  {{ if .Params.imageWidth }}<meta name="twitter:title" content="{{ .Title }}">
+  <meta name="twitter:description" content="{{ .Description }}">
+  <meta name="twitter:image" content="{{ $ogImage | absURL }}">{{ end }}
 
   {{/* ── Structured data ─────────────────────────── */}}
   {{ partial "jsonld.html" . }}

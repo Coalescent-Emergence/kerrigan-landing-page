@@ -10,12 +10,15 @@
   {{ $.AddPage (dict
       "path" "finder"
       "kind" "page"
-      "title" "Find a placement"
+      "title" "Virginia facility finder"
+      "description" "Free search of Virginia treatment programs, certified recovery residences and crisis lines, with filters for level of care, payment, MOUD and detox. No account needed."
       "layout" "finder"
       "sitemap" (dict "disable" true)
       "params" (dict
         "noindex" true
-        "description" "Search Virginia addiction and mental health treatment listed on FindTreatment.gov, on a list and a map."
+        "image" "/img/og-finder.png"
+        "imageWidth" 1200
+        "imageHeight" 630
       )
   ) }}
 {{ end }}
