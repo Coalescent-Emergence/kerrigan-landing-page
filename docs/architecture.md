@@ -43,10 +43,12 @@ kerrigan-landing-page/
 │       ├── baseof.html        # Base skeleton (head, body wrapper)
 │       ├── single.html        # Single page template
 │       └── taxonomy.html      # Taxonomy page (unused; disableKinds applied)
-├── static/
-│   ├── CNAME                  # latentworx.com
+├── assets/
 │   └── css/
-│       └── main.css           # All site styles
+│       ├── design-system.css  # Site styles
+│       └── finder.css         # Finder page styles
+├── static/
+│   └── CNAME                  # latentworx.com
 ├── docs/                      # Governance and architectural documentation
 │   ├── architecture.md        # This file
 │   ├── development.md         # Local dev setup

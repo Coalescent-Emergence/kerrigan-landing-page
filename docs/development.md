@@ -67,7 +67,19 @@ Displayed after successful Formspree form submission. Edit freely — no special
 
 ## Styles
 
-All styles are in `static/css/main.css`. There is no preprocessor or build step for CSS — changes are reflected immediately when Hugo serves the file.
+Site styles are in `assets/css/design-system.css`; the finder page's styles are in `assets/css/finder.css`. There is no preprocessor for CSS. Hugo bundles `assets/` when it builds or serves.
+
+### Finder shell rule
+
+The finder page (`layouts/_default/finder.html`, `assets/css/finder.css`, `assets/js/finder.js`) is a fixed, window-high shell. It never scrolls as a page.
+
+- The page body is `100dvh` (with `100vh` only as the fallback line before it), never `100vh` alone.
+- The header rows and the map stage are grid or flex rows. The stage takes the remaining space (`1fr`, or `flex: 1` with `min-height: 0`).
+- No height is "window minus N px". A constant like that silently encodes the height of every row above it (the 2026-11-12 incident).
+- Overlay offsets, breakpoints and z-index values are named CSS custom properties, and `finder.js` reads the same properties instead of repeating literals.
+- Any layout change runs `make controls-check` (it needs a running finder, see the `Makefile`). It asserts the map controls are on screen, and it also runs in CI on every push.
+
+Background: [`docs/audits/2026-11-12-finder-page-structure.md`](audits/2026-11-12-finder-page-structure.md).
 
 ## Production Build
 
