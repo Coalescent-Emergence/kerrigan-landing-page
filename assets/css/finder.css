@@ -600,4 +600,5 @@ body.finder-drawer-open { overflow: hidden; }
   .f-clearable-list input { padding-right: 72px; }
 }
 .finder-row-operator { display: block; font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
+.finder-row-matched { display: block; font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
 .finder-house-note { margin: 0 0 var(--wp-space-2); font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
