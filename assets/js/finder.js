@@ -816,14 +816,24 @@
 
   // ── wide screens: map stage with a results drawer (left) and a details panel (right) ──
   var selectedId = null;
-  var stageMq = window.matchMedia('(min-width: 1024px)');
+  // Breakpoints and overlay offsets are the --bp-* (design-system.css) and --finder-* (finder.css)
+  // custom properties, read here so CSS and script cannot drift apart.
   var stage = root.querySelector('.finder-stage');
+  function cssVar(name) { return getComputedStyle(root).getPropertyValue(name).trim(); }
+  function cssPx(name) { return parseFloat(cssVar(name)) || 0; }
+  var stageMq = window.matchMedia('(min-width: ' + cssVar('--bp-desktop') + ')');
   var panel = document.getElementById('finder-panel');
   var resultsToggle = document.getElementById('finder-results-toggle');
 
   function padObj() {
     if (!stageMq.matches) return { top: 0, left: 0, right: 0, bottom: 0 };
-    return { top: 84, left: stage.getAttribute('data-results') === 'open' ? 392 : 0, right: stage.getAttribute('data-panel') === 'open' ? 372 : 0, bottom: 0 };
+    var gap = cssPx('--finder-gap'), nudge = cssPx('--finder-nudge');
+    return {
+      top: cssPx('--finder-overlay-top'),
+      left: stage.getAttribute('data-results') === 'open' ? gap + cssPx('--finder-list-w') + nudge : 0,
+      right: stage.getAttribute('data-panel') === 'open' ? gap + cssPx('--finder-panel-w') + nudge : 0,
+      bottom: 0
+    };
   }
   // Fit padding keeps pins out from under the drawer, the panel and the search bar.
   function fitPad() {
@@ -1030,7 +1040,7 @@
   });
 
   // ── mobile: List or Map ──────────────────────────────────
-  var mobileMq = window.matchMedia('(max-width: 767.98px)');
+  var mobileMq = window.matchMedia('(max-width: ' + (cssPx('--bp-tablet') - 0.02) + 'px)');
   var lastFit = null;
   function setView(v) {
     root.setAttribute('data-view', v);
