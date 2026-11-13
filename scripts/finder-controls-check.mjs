@@ -217,7 +217,9 @@ try {
     await wd('POST', `/session/${sid}/element/${q}/clear`, {});
     await wd('POST', `/session/${sid}/element/${q}/value`, { text: 'atlantic\uE007' });
     let cards = { n: 0, hit: 0 };
-    for (let t = 0; t < 20 && !cards.hit; t++) {
+    // The search service is a network call (dev API); give a slow answer two more tries before calling it failed.
+    for (let t = 0; t < 60 && !cards.hit; t++) {
+      if (t > 0 && t % 20 === 0 && !cards.n) await wd('POST', `/session/${sid}/element/${q}/value`, { text: '\uE007' });
       await sleep(500);
       cards = await wd('POST', `/session/${sid}/execute/sync`, { script: `const li = [...document.querySelectorAll('#finder-full .finder-item, #finder-partial .finder-item')]; return { n: li.length, hit: li.filter((x) => x.textContent.includes('Atlantic Outreach Group')).length };`, args: [] });
     }
