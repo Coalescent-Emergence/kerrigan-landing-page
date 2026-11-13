@@ -11,6 +11,19 @@
   var KERR_API = (root.getAttribute('data-kerr-api') || '').replace(/\/+$/, '');
   var PAGE_SIZE = 200;
   var VA_CENTER = [-79.4, 37.5];
+  // Virginia's bounding box (west tip to the Eastern Shore), the map's opening frame.
+  var VA_BOUNDS = [[-83.68, 36.54], [-75.24, 39.47]];
+  var VA_URL = root.getAttribute('data-va-geojson') || '';
+  // Dim mask over everything outside Virginia: a world rectangle with Virginia cut out (tracker 283).
+  // Under the labels, our boundary lines and the pins; neighbours stay legible but secondary.
+  var MASK_STYLE = {
+    dark:      { color: '#000000', op: 0.45 },
+    light:     { color: '#1c2430', op: 0.35 },
+    streets:   { color: '#1c2430', op: 0.35 },
+    satellite: { color: '#000000', op: 0.4 }
+  };
+  MASK_STYLE['3d'] = MASK_STYLE.streets;
+  var vaMask = null; // GeoJSON Feature, fetched once
   // Basemaps, all free and keyless: OpenFreeMap vector styles, and USGS National
   // Map imagery (public domain, covers Virginia) for satellite.
   var BASEMAPS = {
@@ -20,12 +33,24 @@
     '3d': 'https://tiles.openfreemap.org/styles/liberty', // same style; its building layer shows from zoom 14 once the map is tilted
     satellite: {
       version: 8,
+      glyphs: 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf', // for the boundary-name labels added in addBoundaries
       sources: { usgs: { type: 'raster', tileSize: 256, maxzoom: 16,
         tiles: ['https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}'],
         attribution: 'Imagery: USGS National Map' } },
       layers: [{ id: 'usgs', type: 'raster', source: 'usgs' }]
     }
   };
+  // Our own boundary lines, drawn over each basemap (the OpenFreeMap styles draw state lines in a
+  // near-invisible grey, and positron only from zoom 8). state = OpenMapTiles boundary admin_level 4,
+  // county = admin_level 6 (the tiles carry it from zoom 9 for Virginia; checked 2026-11-12).
+  // halo is the casing drawn under each line so it reads on any ground.
+  var BOUNDARY_STYLE = {
+    dark:      { state: '#d6dbe2', halo: '#000000', haloOp: 0.7, stateOp: 0.9, county: '#9aa3ad', countyOp: 0.55 },
+    light:     { state: '#0b0f14', halo: '#ffffff', haloOp: 0.8, stateOp: 1, county: '#2b3340', countyOp: 0.75, wide: 1 },
+    streets:   { state: '#0b0f14', halo: '#ffffff', haloOp: 0.8, stateOp: 1, county: '#2b2a46', countyOp: 0.75, wide: 1 },
+    satellite: { state: '#ffffff', halo: '#000000', haloOp: 0.6, stateOp: 0.95, county: '#ffffff', countyOp: 0.5 }
+  };
+  BOUNDARY_STYLE['3d'] = BOUNDARY_STYLE.streets;
   var BASEMAP_KEY = 'finder-basemap';
   function savedBasemap() {
     try { var k = window.localStorage.getItem(BASEMAP_KEY); if (k && BASEMAPS[k]) return k; } catch (e) { /* storage blocked */ }
@@ -766,6 +791,7 @@
     head.appendChild(h);
     var meta = inGroup ? '' : metaLine(r);
     if (meta) head.appendChild(el('span', 'finder-row-meta', meta));
+    if (r.kind === 'residence' && r.operator) head.appendChild(el('span', 'finder-row-operator', 'Run by ' + r.operator));
     var tags = compactTags(r);
     if (tags.length) {
       var tg = el('span', 'finder-tags');
@@ -831,6 +857,7 @@
     head.appendChild(h);
     var meta = metaLine(r);
     if (meta) head.appendChild(el('p', 'finder-row-meta', meta));
+    if (r.kind === 'residence' && r.operator) head.appendChild(el('p', 'finder-row-operator', 'Run by ' + r.operator));
     var strip = iconStrip(r, true);
     if (strip) head.appendChild(strip);
     panel.appendChild(head);
@@ -1632,6 +1659,7 @@
     if (BASEMAPS[key] !== BASEMAPS[prevKey]) map.setStyle(BASEMAPS[key]);
     tilt(key === '3d');
     markBasemap();
+    markCredit();
   }
 
   function markBasemap() {
@@ -1646,6 +1674,93 @@
   markBasemap();
 
   function focusItem(id) { selectItem(id, false); }
+
+  // The on-map credit starts collapsed to its (i) button and opens on click. MapLibre's compact
+  // control opens itself when added (5.24.0: class maplibregl-compact-show); removing that class is
+  // the same state its own drag handler leaves it in. The always-visible text credit is
+  // .finder-credit under the map (OSM Foundation attribution guidelines allow collapsing the
+  // on-map control if the licence is still findable, and allow the credit adjacent to the map).
+  function collapseCredit() {
+    Array.prototype.forEach.call(document.querySelectorAll('#finder-map .maplibregl-ctrl-attrib'), function (el) {
+      el.classList.remove('maplibregl-compact-show');
+      el.removeAttribute('open'); // the <details> state AT reads; the library's own toggle keeps class and open in step
+    });
+  }
+  // State and county lines over the current style, under its labels and (added after this) under the pins.
+  // Vector styles reuse their 'openmaptiles' source; satellite is raster only, so it gets the same
+  // OpenFreeMap tiles as a source of its own, plus state and city names (the USGS imagery has none).
+  // Added once per style load, below our boundary layers (or the first label layer when those are
+  // not there yet). Safe to call twice: it returns when the layer exists.
+  function addMask() {
+    if (!map || !vaMask || map.getLayer('finder-va-mask')) return;
+    try {
+      if (!map.getSource('finder-va')) map.addSource('finder-va', { type: 'geojson', data: vaMask });
+      var c = MASK_STYLE[basemap] || MASK_STYLE.dark, before;
+      var ids = ['finder-bnd-county', 'finder-bnd-state-halo', 'finder-bnd-state'];
+      for (var k = 0; k < ids.length && !before; k++) { if (map.getLayer(ids[k])) before = ids[k]; }
+      if (!before) {
+        var layers = map.getStyle().layers;
+        for (var i = 0; i < layers.length; i++) { if (layers[i].type === 'symbol') { before = layers[i].id; break; } }
+      }
+      map.addLayer({ id: 'finder-va-mask', type: 'fill', source: 'finder-va', paint: { 'fill-color': c.color, 'fill-opacity': c.op, 'fill-antialias': false } }, before);
+    } catch (e) { /* style not ready: the next style load adds it */ }
+  }
+
+  // Virginia boundary (static/data/virginia.geojson): US Census Bureau cartographic boundary file
+  // cb_2023_us_state_5m (public domain), https://www2.census.gov/geo/tiger/GENZ2023/shp/cb_2023_us_state_5m.zip,
+  // Virginia only, simplified. Fetched once from our own origin, not from census.gov.
+  function loadVaMask() {
+    if (!VA_URL || !window.fetch) return;
+    window.fetch(VA_URL).then(function (r) { return r.ok ? r.json() : null; }).then(function (f) {
+      if (!f || !f.geometry) return;
+      var world = [[-180, -85], [180, -85], [180, 85], [-180, 85], [-180, -85]];
+      var holes = f.geometry.coordinates.map(function (poly) { return poly[0]; });
+      vaMask = { type: 'Feature', properties: {}, geometry: { type: 'Polygon', coordinates: [world].concat(holes) } };
+      addMask();
+    }).catch(function () { /* no mask: the map is simply undimmed */ });
+  }
+
+  function addBoundaries() {
+    if (!map) return;
+    addMask();
+    if (map.getLayer('finder-bnd-state')) return;
+    var c = BOUNDARY_STYLE[basemap] || BOUNDARY_STYLE.dark, src = 'openmaptiles', before;
+    if (basemap === 'satellite') {
+      src = 'finder-ofm';
+      if (!map.getSource(src)) map.addSource(src, { type: 'vector', url: 'https://tiles.openfreemap.org/planet' });
+    } else {
+      var layers = map.getStyle().layers;
+      for (var i = 0; i < layers.length; i++) { if (layers[i].type === 'symbol') { before = layers[i].id; break; } }
+    }
+    var notSea = ['!=', ['get', 'maritime'], 1];
+    var stateF = ['all', ['==', ['get', 'admin_level'], 4], notSea];
+    var countyF = ['all', ['==', ['get', 'admin_level'], 6], notSea];
+    var round = { 'line-cap': 'round', 'line-join': 'round' };
+    var w = function (a, b, d) { return ['interpolate', ['linear'], ['zoom'], 4, a, 8, b, 12, d]; };
+    map.addLayer({ id: 'finder-bnd-county', type: 'line', source: src, 'source-layer': 'boundary', minzoom: 8, filter: countyF,
+      layout: round, paint: { 'line-color': c.county, 'line-opacity': c.countyOp, 'line-width': c.wide ? w(0.8, 1.2, 1.8) : w(0.5, 0.8, 1.4), 'line-dasharray': [3, 2] } }, before);
+    map.addLayer({ id: 'finder-bnd-state-halo', type: 'line', source: src, 'source-layer': 'boundary', filter: stateF,
+      layout: round, paint: { 'line-color': c.halo, 'line-opacity': c.haloOp, 'line-width': w(3.6, 5, 6.4), 'line-blur': 1 } }, before);
+    map.addLayer({ id: 'finder-bnd-state', type: 'line', source: src, 'source-layer': 'boundary', filter: stateF,
+      layout: round, paint: { 'line-color': c.state, 'line-opacity': c.stateOp, 'line-width': c.wide ? w(2.4, 3.4, 4.4) : w(1.5, 2.2, 3) } }, before);
+    if (basemap === 'satellite') {
+      var txt = function (id, cls, minz, maxz, size) {
+        map.addLayer({ id: id, type: 'symbol', source: src, 'source-layer': 'place', minzoom: minz, maxzoom: maxz || 24,
+          filter: ['==', ['get', 'class'], cls],
+          layout: { 'text-field': ['coalesce', ['get', 'name_en'], ['get', 'name']], 'text-font': ['Noto Sans Regular'], 'text-size': size,
+            'text-transform': cls === 'state' ? 'uppercase' : 'none', 'text-letter-spacing': cls === 'state' ? 0.15 : 0, 'text-max-width': 8 },
+          paint: { 'text-color': '#ffffff', 'text-halo-color': 'rgba(0,0,0,0.85)', 'text-halo-width': 1.4 } });
+      };
+      txt('finder-name-state', 'state', 3, 9, ['interpolate', ['linear'], ['zoom'], 4, 10, 8, 14]);
+      txt('finder-name-city', 'city', 5, null, ['interpolate', ['linear'], ['zoom'], 5, 11, 11, 16]);
+    }
+  }
+
+  function markCredit() {
+    var u = document.getElementById('finder-credit-usgs');
+    if (u) u.hidden = basemap !== 'satellite';
+  }
+  markCredit();
 
   function initMap() {
     if (!window.maplibregl) {
@@ -1664,9 +1779,13 @@
       return;
     }
     map.addControl(new window.maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+    loadVaMask();
+    collapseCredit();
     // A style change drops custom sources and layers, so the pins are re-added
     // on every style load from the last results.
     map.on('style.load', function () {
+      collapseCredit();
+      addBoundaries();
       if (map.getSource('results')) return;
       map.addSource('results', { type: 'geojson', data: lastFC });
       map.addLayer({
@@ -1675,6 +1794,7 @@
       });
     });
     map.on('load', function () {
+      collapseCredit();
       map.on('click', 'results-pins', function (e) {
         if (e.features && e.features[0]) { if (mobileMq.matches) setView('list'); focusItem(e.features[0].properties.id); }
       });
@@ -1684,6 +1804,10 @@
       var wsen = parseBbox(initialBbox);
       if (wsen) {
         try { map.fitBounds([[wsen[0], wsen[1]], [wsen[2], wsen[3]]], { animate: false }); } catch (e) { /* bad bbox: keep default view */ }
+      } else {
+        // Opening frame: all of Virginia, clear of the results drawer, the panel and the search bar.
+        try { map.fitBounds(VA_BOUNDS, { animate: false, padding: fitPad() }); } catch (e) { /* keep the default view */ }
+        if (mobileMq.matches && root.getAttribute('data-view') !== 'map') lastFit = VA_BOUNDS; // refit when the Map tab first shows
       }
       if (basemap === '3d') tilt(true);
       map.on('moveend', function (ev) { if (ev.originalEvent) { areaBtn.hidden = false; lastFit = null; } });
@@ -1695,6 +1819,40 @@
   }
 
   // ── wiring ───────────────────────────────────────────────
+  // Clear buttons (tracker 283). Deleting a box by hand fires `input` while typing and `change` on
+  // commit; the form's change listeners refresh the live count, the filter count and the reveal
+  // rules, and nothing runs a search until Search is pressed. The button does the same: it empties
+  // the box and fires those two events, so the page ends in the state a manual delete leaves it in.
+  // The distance slider keeps its value either way (it is ignored while the town is empty).
+  function syncClear() {
+    Array.prototype.forEach.call(form.querySelectorAll('.f-clear'), function (b) {
+      var box = form.querySelector('[name="' + b.getAttribute('data-clear') + '"]');
+      b.hidden = !(box && box.value);
+    });
+  }
+  Array.prototype.forEach.call(form.querySelectorAll('.f-clear'), function (b) {
+    b.addEventListener('click', function () {
+      var box = form.querySelector('[name="' + b.getAttribute('data-clear') + '"]');
+      if (!box) return;
+      box.value = '';
+      box.dispatchEvent(new Event('input', { bubbles: true }));
+      box.dispatchEvent(new Event('change', { bubbles: true }));
+      box.focus();
+    });
+  });
+  form.addEventListener('input', syncClear);
+  form.addEventListener('change', syncClear);
+  form.addEventListener('reset', function () { window.setTimeout(syncClear, 0); });
+
+  // Recovery housing has no street address or pin on this page: say so while it is the chosen type of care.
+  var houseNote = document.getElementById('finder-house-note');
+  function syncHouseNote() {
+    if (houseNote) houseNote.hidden = readForm().domain !== 'recovery_housing';
+  }
+  form.addEventListener('change', syncHouseNote);
+  form.addEventListener('reset', function () { window.setTimeout(syncHouseNote, 0); });
+  syncHouseNote();
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var p = readForm();
@@ -1841,7 +1999,8 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && stage.getAttribute('data-panel') === 'open' && drawer.hidden && !cmpDialog.open) selectItem(null); });
 
   var initial = paramsFromLocation();
-  writeForm(initial);
+  writeForm(initial); syncHouseNote();
+  syncClear();
   setBarCollapsed(Object.keys(initial).length > 0);
   initialBbox = initial.bbox || '';
   initMap();

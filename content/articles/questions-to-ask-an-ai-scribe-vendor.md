@@ -83,7 +83,7 @@ Since the 2024 final rule, a business associate of a program that is also a HIPA
 
 ## 7. If there is a breach, when and how do you tell us?
 
-**Why it matters:** the BAA must require the vendor to report "breaches of unsecured protected health information" ([45 CFR 164.504(e)(2)(ii)(C)](https://www.law.cornell.edu/cfr/text/45/164.504)), and the 2024 final rule applies the breach notification provisions of the Health Information Technology for Economic and Clinical Health (HITECH) Act to breaches of Part 2 records ([89 FR 12472](https://www.federalregister.gov/documents/2024/02/16/2024-02544/confidentiality-of-substance-use-disorder-sud-patient-records); [42 CFR 2.16(b)](https://www.law.cornell.edu/cfr/text/42/2.16)). You cannot act on a breach you have not been told about.
+**Why it matters:** the BAA must require the vendor to report "breaches of unsecured protected health information" ([45 CFR 164.504(e)(2)(ii)(C)](https://www.law.cornell.edu/cfr/text/45/164.504)), and the 2024 final rule applies the breach notification provisions of the Health Information Technology for Economic and Clinical Health (HITECH) Act to breaches of Part 2 records ([89 FR 12475](https://www.federalregister.gov/documents/2024/02/16/2024-02544/confidentiality-of-substance-use-disorder-sud-patient-records); [42 CFR 2.16(b)](https://www.law.cornell.edu/cfr/text/42/2.16)). You cannot act on a breach you have not been told about.
 
 **Ask for:** the breach clause in the BAA, the vendor's incident response contact, and their notification timeline in writing.
 

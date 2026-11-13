@@ -1,4 +1,4 @@
-.PHONY: serve-lan theme-editor dev stop finder-preview nav-check
+.PHONY: serve-lan theme-editor dev stop finder-preview nav-check controls-check
 
 serve-lan:
 	@IP=$$(hostname -I | awk '{print $$1}'); \
@@ -30,7 +30,7 @@ stop:
 	@echo "🔴 Dev environment stopped."
 
 # Finder preview: finder on, reloads on save, talks to the dev search service
-# (finderApiBase in hugo.toml, house network). That service allows browser calls only
+# (finderApiBase in deploy/finder-dev.toml, house network). That service allows browser calls only
 # from http://localhost:1313 or http://127.0.0.1:1313, so the port is fixed.
 finder-preview:
 	hugo server --config hugo.toml,deploy/finder-dev.toml --bind 127.0.0.1 --port 1313
@@ -41,3 +41,8 @@ NAV_URL ?= http://127.0.0.1:1313
 nav-check:
 	CURRENT=/finder/ node scripts/finder-nav-check.mjs $(NAV_URL)/finder/
 	CURRENT=/articles/ node scripts/finder-nav-check.mjs $(NAV_URL)/articles/
+
+# Browser check that the map-style buttons and "Search this map area" sit inside the window and are clickable
+# at 1280x720 (crisis strip hidden and shown), 1440x900, 1920x1080, 900x800 and a phone window, plus the sign-up link and no leftover scroll on desktop. Needs geckodriver (:4444) and finder-preview up.
+controls-check:
+	node scripts/finder-controls-check.mjs $(NAV_URL)/finder/
