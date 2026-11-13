@@ -29,6 +29,7 @@ Delete any folded block that would be empty.
 ## Site checks
 - [ ] `hugo --gc --minify` builds clean (nothing builds before merge; merging publishes the site)
 - [ ] Changed pages checked in a browser at desktop and phone width
+- [ ] Layout change: controls on screen — `make controls-check` passes (CI runs it)
 - [ ] No PHI, secrets or private agreement text (the repo history is public; a revert does not un-publish)
 - [ ] SEO: description and keywords, canonical and og, noindex and sitemap right for changed pages
 - [ ] `docs/decisions/` edits follow MADR
