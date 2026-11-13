@@ -489,7 +489,7 @@ body.finder-drawer-open { overflow: hidden; }
 @media (min-width: 1024px) {
   .finder-mapwrap { position: absolute; inset: 0; }
   .finder-map { border: 0; }
-  .finder-basemaps { position: absolute; left: 50%; transform: translateX(-50%); bottom: var(--finder-gap); z-index: var(--z-map-control); margin: 0; box-shadow: 0 2px 12px rgba(0, 0, 0, .5); }
+  .finder-basemaps { position: absolute; left: 50%; transform: translateX(-50%); bottom: var(--finder-gap); z-index: var(--z-map-control); margin: 0 0 0 2000px; box-shadow: 0 2px 12px rgba(0, 0, 0, .5); }
   .finder-basemaps button { padding: 0 var(--wp-space-4); }
   .finder-area { top: auto; bottom: calc(var(--finder-gap) + var(--finder-basemap-h) + var(--wp-space-2)); }
   .finder-stage .maplibregl-ctrl-top-right { top: var(--finder-overlay-top); }
