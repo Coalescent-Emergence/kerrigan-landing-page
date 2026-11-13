@@ -791,6 +791,7 @@
     head.appendChild(h);
     var meta = inGroup ? '' : metaLine(r);
     if (meta) head.appendChild(el('span', 'finder-row-meta', meta));
+    if (r.kind === 'residence' && r.operator) head.appendChild(el('span', 'finder-row-operator', 'Run by ' + r.operator));
     var tags = compactTags(r);
     if (tags.length) {
       var tg = el('span', 'finder-tags');
@@ -856,6 +857,7 @@
     head.appendChild(h);
     var meta = metaLine(r);
     if (meta) head.appendChild(el('p', 'finder-row-meta', meta));
+    if (r.kind === 'residence' && r.operator) head.appendChild(el('p', 'finder-row-operator', 'Run by ' + r.operator));
     var strip = iconStrip(r, true);
     if (strip) head.appendChild(strip);
     panel.appendChild(head);
@@ -1842,6 +1844,15 @@
   form.addEventListener('change', syncClear);
   form.addEventListener('reset', function () { window.setTimeout(syncClear, 0); });
 
+  // Recovery housing has no street address or pin on this page: say so while it is the chosen type of care.
+  var houseNote = document.getElementById('finder-house-note');
+  function syncHouseNote() {
+    if (houseNote) houseNote.hidden = readForm().domain !== 'recovery_housing';
+  }
+  form.addEventListener('change', syncHouseNote);
+  form.addEventListener('reset', function () { window.setTimeout(syncHouseNote, 0); });
+  syncHouseNote();
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var p = readForm();
@@ -1988,7 +1999,7 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && stage.getAttribute('data-panel') === 'open' && drawer.hidden && !cmpDialog.open) selectItem(null); });
 
   var initial = paramsFromLocation();
-  writeForm(initial);
+  writeForm(initial); syncHouseNote();
   syncClear();
   setBarCollapsed(Object.keys(initial).length > 0);
   initialBbox = initial.bbox || '';

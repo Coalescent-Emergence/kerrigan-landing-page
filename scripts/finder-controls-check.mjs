@@ -16,6 +16,9 @@
 // then be visible and inside the window, and a click must empty that box only, leave focus in it
 // and hide the button again.
 // Every case also asserts the Type of care group holds an input with value recovery_housing.
+// House search: with Recovery housing selected and "atlantic" typed into the program-name box (Enter),
+// at least one result card must render containing "Atlantic Outreach Group", and the privacy note
+// (#finder-house-note) must be visible; the note must be hidden again for Any type of care.
 // Needs geckodriver on GECKO (default http://127.0.0.1:4444) and the page URL as argv[2]:
 //   geckodriver --port 4444 & node scripts/finder-controls-check.mjs http://127.0.0.1:1313/finder/
 const GECKO = process.env.GECKO || 'http://127.0.0.1:4444';
@@ -158,6 +161,32 @@ try {
     }
     if (bad.length) failed = true;
     console.log(`${bad.length ? 'FAIL' : 'PASS'} ${c.name} (crisis ${res.crisis}, innerWidth ${res.W}x${res.H}${c.desktop ? `, signup ${res.signup && res.signup.y}..${res.signup && res.signup.b}, max scroll doc ${res.maxScroll.doc} body ${res.maxScroll.body}` : ''}${c.scroll ? ', after scrollIntoView' : ''}${c.hoverNote || ''})${bad.length ? ': ' + bad.join('; ') : ''}`);
+  }
+  {
+    const bad = [];
+    await wd('POST', `/session/${sid}/window/rect`, { width: 1440, height: 900 });
+    await wd('POST', `/session/${sid}/url`, { url });
+    await sleep(4000);
+    const find = async (css) => Object.values(await wd('POST', `/session/${sid}/element`, { using: 'css selector', value: css }))[0];
+    const NOTE = `const n = document.getElementById('finder-house-note'); if (!n) return 'absent'; const r = n.getBoundingClientRect(); return n.hidden || r.width === 0 || r.height === 0 ? 'hidden' : 'shown';`;
+    await wd('POST', `/session/${sid}/execute/sync`, { script: `const i = document.querySelector('[aria-label="Type of care"] input[value="recovery_housing"]'); i.click(); return 1;`, args: [] });
+    const q = await find('[name=q]');
+    await wd('POST', `/session/${sid}/element/${q}/clear`, {});
+    await wd('POST', `/session/${sid}/element/${q}/value`, { text: 'atlantic\uE007' });
+    let cards = { n: 0, hit: 0 };
+    for (let t = 0; t < 20 && !cards.hit; t++) {
+      await sleep(500);
+      cards = await wd('POST', `/session/${sid}/execute/sync`, { script: `const li = [...document.querySelectorAll('#finder-full .finder-item, #finder-partial .finder-item')]; return { n: li.length, hit: li.filter((x) => x.textContent.includes('Atlantic Outreach Group')).length };`, args: [] });
+    }
+    if (!cards.n) bad.push('no result cards rendered');
+    else if (!cards.hit) bad.push(`${cards.n} cards, none contain "Atlantic Outreach Group"`);
+    const shown = await wd('POST', `/session/${sid}/execute/sync`, { script: NOTE, args: [] });
+    if (shown !== 'shown') bad.push(`privacy note ${shown} with Recovery housing selected`);
+    await wd('POST', `/session/${sid}/execute/sync`, { script: `document.querySelector('[aria-label="Type of care"] input[name=domain][value=""]').click(); return 1;`, args: [] });
+    const other = await wd('POST', `/session/${sid}/execute/sync`, { script: NOTE, args: [] });
+    if (other === 'shown') bad.push('privacy note still shown for Any type of care');
+    if (bad.length) failed = true;
+    console.log(`${bad.length ? 'FAIL' : 'PASS'} house search "atlantic" (cards ${cards.n}, with operator ${cards.hit}, note ${shown}, note for Any ${other})${bad.length ? ': ' + bad.join('; ') : ''}`);
   }
 } finally {
   await wd('DELETE', `/session/${sid}`).catch(() => {});
