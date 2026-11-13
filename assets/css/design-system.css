@@ -1130,6 +1130,7 @@ code, pre {
   top: 0;
   z-index: 100;
   display: flex;
+  flex-wrap: wrap; /* 481-590px: logo, three links and the trial button do not fit one row; wrap instead of overflowing sideways */
   align-items: center;
   justify-content: space-between;
   gap: var(--wp-space-4);

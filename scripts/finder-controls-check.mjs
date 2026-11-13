@@ -70,7 +70,7 @@ const PROBE = `
   const sg = document.querySelector('.finder-signup'), sr = sg && sg.getBoundingClientRect();
   const map = document.getElementById('finder-map').getBoundingClientRect();
   const ar = area && area.getBoundingClientRect();
-  const out = { W, H, missing, boxes, scrollY: Math.round(window.scrollY), items: [],
+  const out = { W, H, wide: { body: document.body.scrollWidth, doc: de.scrollWidth, widest: [...document.querySelectorAll('body *')].filter((e) => e.getBoundingClientRect().right > W + 0.5 && e.getBoundingClientRect().width > 0).slice(0, 4).map((e) => (e.tagName + (e.id ? '#' + e.id : '') + (e.className && typeof e.className === 'string' ? '.' + e.className.trim().split(/\s+/).join('.') : '') + ' right ' + Math.round(e.getBoundingClientRect().right))) }, missing, boxes, scrollY: Math.round(window.scrollY), items: [],
     crisis: !cEl ? 'absent' : cEl.hidden ? 'hidden' : 'shown',
     maxScroll: { doc: de.scrollHeight - de.clientHeight, body: bo.scrollHeight - bo.clientHeight },
     signup: sr ? { y: Math.round(sr.y), b: Math.round(sr.bottom), inside: sr.top >= 0 && sr.bottom <= H && sr.left >= 0 && sr.right <= W } : null,
@@ -99,6 +99,7 @@ const cases = [
   { name: 'tablet 800x1000', w: 800, h: 1000, tablet: true },
   { name: 'tablet 900x800', w: 900, h: 800, tablet: true },
   { name: 'tablet 1000x700', w: 1000, h: 700, tablet: true },
+  { name: 'narrow 500x844', w: 500, h: 844, scroll: true, phone: true },
   { name: 'phone 390x844', w: 390, h: 844, scroll: true, phone: true, hover: true, clear: true },
 ];
 
@@ -121,6 +122,7 @@ try {
     }
     const hasHousing = await wd('POST', `/session/${sid}/execute/sync`, { script: `return !!document.querySelector('[aria-label="Type of care"] input[value="recovery_housing"]');`, args: [] });
     if (!hasHousing) bad.push('Type of care has no recovery_housing input');
+    if (res.wide.body > res.W || res.wide.doc > res.W) bad.push(`sideways overflow: body.scrollWidth ${res.wide.body}, documentElement.scrollWidth ${res.wide.doc}, window ${res.W} (${res.wide.widest.join('; ')})`);
     for (const m of res.missing) bad.push(`${m} missing`);
     for (const b of res.boxes) if (!b.inside) bad.push(`${b.name} rect ${b.x},${b.y}..${b.r},${b.b} outside ${res.W}x${res.H}`);
     if (!c.scroll && res.scrollY !== 0) bad.push(`page scrolled to ${res.scrollY}`);
