@@ -1,0 +1,64 @@
+# Finder checks on every push and pull request: builds the site (Hugo 0.161.1, same pin and
+# checksum as deploy/Dockerfile), serves it on 127.0.0.1:1313 (the one origin the dev search
+# service allows), then runs the headless-Firefox controls check (`make controls-check`) and the
+# finder style lint (`make finder-style-lint`). Either exits non-zero -> the run fails.
+# Free tooling only: Firefox and geckodriver tarballs, no paid browser service, no visible window.
+# Gitea ignores .github/workflows while this directory exists.
+name: finder-check
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  HUGO_VERSION: 0.161.1
+  HUGO_SHA256: 9b82cf3211b2321f189a005dd157e6f4bd5c65f2bf5e9eefd2f5e0803c12103c
+  GECKODRIVER_VERSION: 0.36.0
+
+jobs:
+  finder-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      MOZ_HEADLESS: "1"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - name: Install Hugo
+        run: |
+          curl -fsSL "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz" -o /tmp/hugo.tar.gz
+          echo "${HUGO_SHA256}  /tmp/hugo.tar.gz" | sha256sum -c -
+          mkdir -p "$HOME/bin"
+          tar -C "$HOME/bin" -xzf /tmp/hugo.tar.gz hugo
+          echo "$HOME/bin" >> "$GITHUB_PATH"
+
+      - name: Install Firefox and geckodriver
+        run: |
+          SUDO=""; [ "$(id -u)" -ne 0 ] && SUDO=sudo
+          $SUDO apt-get update
+          $SUDO apt-get install -y --no-install-recommends xz-utils bzip2 ca-certificates curl libgtk-3-0 libdbus-glib-1-2 libasound2t64 libx11-xcb1 libxtst6 libxt6 || \
+            $SUDO apt-get install -y --no-install-recommends xz-utils bzip2 ca-certificates curl libgtk-3-0 libdbus-glib-1-2 libasound2 libx11-xcb1 libxtst6 libxt6
+          curl -fsSL "https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=en-US" -o /tmp/firefox.tar
+          mkdir -p "$HOME/firefox" && tar -C "$HOME" -xf /tmp/firefox.tar
+          curl -fsSL "https://github.com/mozilla/geckodriver/releases/download/v${GECKODRIVER_VERSION}/geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz" | tar -C "$HOME/bin" -xz
+          echo "$HOME/firefox" >> "$GITHUB_PATH"
+          "$HOME/firefox/firefox" --version
+          "$HOME/bin/geckodriver" --version | head -1
+
+      - name: Build and serve the finder preview
+        run: |
+          hugo --gc --config hugo.toml,deploy/finder-dev.toml --baseURL http://127.0.0.1:1313/
+          nohup python3 -m http.server 1313 --bind 127.0.0.1 --directory public > /tmp/serve.log 2>&1 &
+          nohup geckodriver --port 4444 > /tmp/gecko.log 2>&1 &
+          for i in $(seq 1 30); do curl -fs http://127.0.0.1:1313/finder/ >/dev/null && curl -fs http://127.0.0.1:4444/status >/dev/null && exit 0; sleep 1; done
+          cat /tmp/serve.log /tmp/gecko.log; exit 1
+
+      - name: Controls check (headless Firefox)
+        run: make controls-check
+
+      - name: Browser logs on failure
+        if: failure()
+        run: tail -n 40 /tmp/gecko.log || true
