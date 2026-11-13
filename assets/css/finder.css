@@ -101,6 +101,7 @@
 .finder-crisis-extra { margin: 0; padding-left: var(--wp-space-5); }
 .finder-crisis-extra:empty { display: none; }
 
+.finder-house-note { margin: 0 0 var(--wp-space-2); font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
 .finder-status { color: var(--color-text-secondary); font-size: var(--wp-text-sm); margin: 0 0 var(--wp-space-3); }
 
 @media (min-width: 1024px) {
@@ -335,6 +336,8 @@ body.finder-drawer-open { overflow: hidden; }
 .finder-row:hover { background: var(--color-bg-surface); }
 .finder-row-name { font-weight: 700; font-size: var(--wp-text-base); line-height: 1.3; }
 .finder-row-meta { font-size: var(--wp-text-sm); color: var(--color-text-primary); }
+.finder-row-operator { display: block; font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
+.finder-row-matched { display: block; font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
 .finder-row-partial { font-size: var(--wp-text-xs); color: var(--color-status-warning-text); }
 .finder-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--wp-space-2); }
 .finder-tag { font-size: var(--wp-text-xs); padding: 0 var(--wp-space-2); border: 1px solid var(--color-accent-secondary); }

@@ -1,4 +1,4 @@
-.PHONY: serve-lan theme-editor dev stop finder-preview nav-check controls-check finder-style-lint
+.PHONY: matched-check serve-lan theme-editor dev stop finder-preview nav-check controls-check finder-style-lint
 
 serve-lan:
 	@IP=$$(hostname -I | awk '{print $$1}'); \
@@ -50,3 +50,8 @@ controls-check:
 # Style lint on the finder styles: duplicate selectors and vh window-height units (use dvh/svh).
 finder-style-lint:
 	node scripts/finder-style-lint.mjs assets/css/finder.css
+
+# Headless check of the "Matched: <name>" line on finder cards (string, null, absent, markup as text).
+# Builds against a stub API; needs geckodriver (:4444) and hugo.
+matched-check:
+	node scripts/finder-matched-check.mjs

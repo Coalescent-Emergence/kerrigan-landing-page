@@ -765,6 +765,11 @@
     return detail;
   }
 
+  // The name that matched the query when it differs from the shown name; null or missing means none.
+  function matchedName(r) {
+    return (typeof r.matched_name === 'string' && r.matched_name) ? r.matched_name : '';
+  }
+
   function renderItem(r, inGroup) {
     var li = el('li', 'finder-item');
     li.id = 'finder-r-' + String(r.id).replace(/[^A-Za-z0-9_-]/g, '_');
@@ -792,6 +797,7 @@
     var meta = inGroup ? '' : metaLine(r);
     if (meta) head.appendChild(el('span', 'finder-row-meta', meta));
     if (r.kind === 'residence' && r.operator) head.appendChild(el('span', 'finder-row-operator', 'Run by ' + r.operator));
+    if (matchedName(r)) head.appendChild(el('span', 'finder-row-matched', 'Matched: ' + matchedName(r)));
     var tags = compactTags(r);
     if (tags.length) {
       var tg = el('span', 'finder-tags');
@@ -868,6 +874,7 @@
     var meta = metaLine(r);
     if (meta) head.appendChild(el('p', 'finder-row-meta', meta));
     if (r.kind === 'residence' && r.operator) head.appendChild(el('p', 'finder-row-operator', 'Run by ' + r.operator));
+    if (matchedName(r)) head.appendChild(el('p', 'finder-row-matched', 'Matched: ' + matchedName(r)));
     var strip = iconStrip(r, true);
     if (strip) head.appendChild(strip);
     panel.appendChild(head);
