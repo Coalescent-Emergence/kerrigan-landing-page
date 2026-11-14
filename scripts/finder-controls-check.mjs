@@ -19,6 +19,8 @@
 // House search: with Recovery housing selected and "atlantic" typed into the program-name box (Enter),
 // at least one result card must render containing "Atlantic Outreach Group", and the privacy note
 // (#finder-house-note) must be visible; the note must be hidden again for Any type of care.
+// Live search: with no Enter, a type-of-care click and typed names change the results, an older delayed answer never overwrites a newer one,
+// focus stays in the box, #finder-status is aria-live polite, and Enter still searches.
 // Tablet (800x1000, 900x800, 1000x700) and desktop (incl. 1280x600) also assert the search bar controls (name box, town box,
 // Filters, Search), and that the results list and the map end inside the window with nothing left to scroll; desktop 1440x900
 // closes the results panel and asserts the Results toggle is still on screen and clickable.
@@ -240,6 +242,55 @@ try {
     if (other === 'shown') bad.push('privacy note still shown for Any type of care');
     if (bad.length) failed = true;
     console.log(`${bad.length ? 'FAIL' : 'PASS'} house search "atlantic" (cards ${cards.n}, with operator ${cards.hit}, note ${shown}, note for Any ${other})${bad.length ? ': ' + bad.join('; ') : ''}`);
+  }
+  {
+    // Live search (tracker 292): results change as the counselor types, with no Enter and no Search button.
+    const bad = [];
+    await wd('POST', `/session/${sid}/window/rect`, { width: 1440, height: 900 });
+    await wd('POST', `/session/${sid}/url`, { url });
+    await sleep(4000);
+    const find = async (css) => Object.values(await wd('POST', `/session/${sid}/element`, { using: 'css selector', value: css }))[0];
+    const exec = (script, args = []) => wd('POST', `/session/${sid}/execute/sync`, { script, args });
+    const SNAP = `const li = [...document.querySelectorAll('#finder-full .finder-item, #finder-partial .finder-item')];
+      const a = document.activeElement;
+      return { n: li.length, atlantic: li.filter((x) => x.textContent.includes('Atlantic Outreach Group')).length,
+        status: document.getElementById('finder-status').textContent, focusQ: !!a && a.getAttribute('name') === 'q',
+        live: document.getElementById('finder-status').getAttribute('aria-live') };`;
+    const until = async (pred, ms = 20000) => { let s; for (let t = 0; t < ms / 250; t++) { s = await exec(SNAP); if (pred(s)) return s; await sleep(250); } return s; };
+    // Filter change: Recovery housing is a type-of-care click; results must follow with no other action.
+    await exec(`document.querySelector('[aria-label="Type of care"] input[value="recovery_housing"]').click(); return 1;`);
+    const housed = await until((s) => s.atlantic > 0);
+    if (!housed.atlantic) bad.push('type-of-care change did not update the results (no Atlantic Outreach Group card)');
+    const q = await find('[name=q]');
+    await wd('POST', `/session/${sid}/element/${q}/click`, {});
+    // Typing without Enter: a name that matches nothing empties the list.
+    await wd('POST', `/session/${sid}/element/${q}/value`, { text: 'zzqqxx' });
+    const none = await until((s) => s.n === 0 && /No programs match/.test(s.status));
+    if (none.n !== 0 || !/No programs match/.test(none.status)) bad.push(`typing "zzqqxx" with no Enter left ${none.n} cards, status "${none.status}"`);
+    if (!none.focusQ) bad.push('focus left the program-name box when results updated');
+    if (none.live !== 'polite') bad.push(`results count line aria-live is "${none.live}", not polite`);
+    // Stale guard: hold back the answer to the "zzqqxx" search, type a newer one, then let the old answer land.
+    await exec(`window.__real = window.__real || window.fetch; window.__calls = 0;
+      window.fetch = function (u, o) { const p = window.__real(u, o); window.__calls++; return /[?&]q=zzqqxx/.test(String(u)) ? p.then((r) => new Promise((ok) => setTimeout(() => ok(r), 4000))) : p; }; return 1;`);
+    await wd('POST', `/session/${sid}/element/${q}/clear`, {});
+    await wd('POST', `/session/${sid}/element/${q}/value`, { text: 'zzqqxx' });
+    await sleep(900);
+    await wd('POST', `/session/${sid}/element/${q}/clear`, {});
+    await wd('POST', `/session/${sid}/element/${q}/value`, { text: 'atlantic' });
+    const fresh = await until((s) => s.atlantic > 0);
+    if (!fresh.atlantic) bad.push('typing "atlantic" with no Enter rendered no Atlantic Outreach Group card');
+    await sleep(5000);
+    const later = await exec(SNAP);
+    const calls = await exec('return window.__calls;');
+    if (!later.atlantic || /No programs match/.test(later.status)) bad.push(`older "zzqqxx" answer overwrote the newer search (cards ${later.n}, status "${later.status}")`);
+    await exec(`window.fetch = window.__real; return 1;`);
+    // Enter still searches at once.
+    await wd('POST', `/session/${sid}/element/${q}/clear`, {});
+    await wd('POST', `/session/${sid}/element/${q}/value`, { text: 'zzqqxx' });
+    const entered = await until((s) => s.n === 0 && /No programs match/.test(s.status));
+    if (entered.n !== 0) bad.push('Enter no longer searches');
+    if (bad.length) failed = true;
+    console.log(`${bad.length ? 'FAIL' : 'PASS'} live search (type of care -> ${housed.atlantic} Atlantic card(s), typed "zzqqxx" -> ${none.n} cards "${none.status}", focus kept ${none.focusQ}, newer "atlantic" -> ${fresh.atlantic}, still ${later.atlantic} after the delayed old answer, ${calls} search calls, Enter -> ${entered.n} cards)${bad.length ? ': ' + bad.join('; ') : ''}`);
   }
 } finally {
   await wd('DELETE', `/session/${sid}`).catch(() => {});
