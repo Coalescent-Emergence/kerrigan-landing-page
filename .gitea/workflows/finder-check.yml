@@ -1,6 +1,6 @@
 # Finder checks on every push and pull request: builds the site (Hugo 0.161.1, same pin and
 # checksum as deploy/Dockerfile), serves it on 127.0.0.1:1313 (the one origin the dev search
-# service allows), then runs the headless-Firefox controls check (`make controls-check`) and the
+# service allows), then runs the headless-Firefox controls check (`make controls-check`), the type-of-care check (`make domain-check`) and the
 # finder style lint (`make finder-style-lint`). Either exits non-zero -> the run fails.
 # Free tooling only: Firefox and geckodriver tarballs, no paid browser service, no visible window.
 # Gitea ignores .github/workflows while this directory exists.
@@ -61,6 +61,9 @@ jobs:
 
       - name: Controls check (headless Firefox)
         run: make controls-check
+
+      - name: Type-of-care check (Any sends all four types, Crisis care sends crisis)
+        run: make domain-check
 
       - name: Browser logs on failure
         if: failure()

@@ -241,8 +241,20 @@
     return api;
   }
 
+  // "Any" type of care sends every type the page offers, in form order, so recovery houses join
+  // programs in one search (the API matches nothing extra when domain is omitted). A chosen type is sent as is.
+  function allDomains() {
+    return Array.prototype.map.call(form.querySelectorAll('input[name="domain"]'), function (r) { return r.value; })
+      .filter(function (v) { return v; }).join(',');
+  }
+  function mapDomainParams(api) {
+    if (!api.domain) api.domain = allDomains();
+    return api;
+  }
+  function mapApiParams(api) { return mapDomainParams(mapSettingParams(api)); }
+
   function apiParamsFor(userParams, keepOrigin) {
-    return apiParamsBase(userParams, keepOrigin).then(mapSettingParams);
+    return apiParamsBase(userParams, keepOrigin).then(mapApiParams);
   }
 
   // Straight-line miles between two points (haversine).
@@ -1602,7 +1614,8 @@
   // content. Returns the sequence number the later lookup must still match.
   function resetCrisis(p) {
     var cseq = ++crisisSeq;
-    var domains = p.domain ? p.domain.split(',') : [];
+    // The all-types list (Any) contains crisis but is not a crisis search: only an explicit choice shows the strip.
+    var domains = p.domain && p.domain !== allDomains() ? p.domain.split(',') : [];
     crisisOn = domains.indexOf('crisis') !== -1 || p.wm === 'yes';
     crisisEl.hidden = !crisisOn;
     clear(crisisExtra);
@@ -1869,7 +1882,8 @@
   // Recovery housing has no street address or pin on this page: say so while it is the chosen type of care.
   var houseNote = document.getElementById('finder-house-note');
   function syncHouseNote() {
-    if (houseNote) houseNote.hidden = readForm().domain !== 'recovery_housing';
+    var d = readForm().domain;
+    if (houseNote) houseNote.hidden = d !== '' && d !== 'recovery_housing';
   }
   form.addEventListener('change', syncHouseNote);
   form.addEventListener('reset', function () { window.setTimeout(syncHouseNote, 0); });
@@ -1933,7 +1947,7 @@
     pushLocation(p);
     var q = {};
     Object.keys(p).forEach(function (k) { if (k !== 'miles') q[k] = p[k]; });
-    search(mapSettingParams(q), false);
+    search(mapApiParams(q), false);
   });
 
 
