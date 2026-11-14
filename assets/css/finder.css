@@ -602,3 +602,20 @@ body.finder-drawer-open { overflow: hidden; }
 .finder-row-operator { display: block; font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
 .finder-row-matched { display: block; font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
 .finder-house-note { margin: 0 0 var(--wp-space-2); font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
+
+/* Opening posts and reports (tracker 253). Status is text first; colour only backs it up. */
+.finder-post-chip { display: block; font-size: var(--wp-text-xs); opacity: .85; margin-top: var(--wp-space-1); }
+.finder-post-chip[hidden] { display: none; }
+.finder-post-current.finder-post-s-open { font-weight: 600; }
+.finder-post-stale, .finder-post-none, .finder-post-reported { font-style: italic; opacity: .7; }
+.finder-post { margin: var(--wp-space-3) 0; }
+.finder-post-line { margin: 0 0 var(--wp-space-2); }
+.finder-post-btns, .finder-report-row, .finder-report { display: inline-flex; flex-wrap: wrap; gap: var(--wp-space-2); align-items: center; }
+.finder-post-btn, .finder-report-btn, .finder-report-reason { padding: var(--wp-space-1) var(--wp-space-3); font-size: var(--wp-text-xs); }
+.finder-post-btn[aria-pressed="true"] { outline: 2px solid currentColor; }
+.finder-report-reasons { display: inline-flex; flex-wrap: wrap; gap: var(--wp-space-2); }
+.finder-report-reasons[hidden] { display: none; }
+.finder-post-ctl { display: flex; flex-direction: column; gap: var(--wp-space-2); align-items: flex-start; }
+.finder-post-ctl:empty { display: none; }
+.finder-post-msg { margin: var(--wp-space-1) 0 0; font-size: var(--wp-text-xs); }
+.finder-post-msg:empty { display: none; }
