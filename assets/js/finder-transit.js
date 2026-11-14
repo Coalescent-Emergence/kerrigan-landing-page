@@ -112,6 +112,9 @@
       if (old && old.getAttribute('data-key') === key) return;
       var p = document.createElement('p');
       p.className = 'finder-travel';
+      // .finder-item is a wrapping flex row (row, compare, save, detail): a full-width item of its own
+      // keeps the line under the card's text. Inline, because finder.css carries no transit rules.
+      p.style.cssText = 'order:3;flex:0 0 100%;box-sizing:border-box;margin:0;padding:var(--wp-space-1) var(--wp-space-2) var(--wp-space-2);font-size:var(--wp-text-sm)';
       p.setAttribute('data-key', key);
       p.appendChild(document.createTextNode(d.text));
       if (d.href) {

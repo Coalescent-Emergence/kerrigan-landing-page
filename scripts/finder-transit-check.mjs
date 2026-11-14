@@ -87,10 +87,11 @@ try {
     const others = log.filter((r) => r.url.indexOf('/v1/travel') === -1);
     check(others.every((r) => !(String(b.lat) && (r.url + r.body).indexOf(String(b.lat).slice(0, 7)) !== -1)), `no other stub request (${others.length}) carries the pin`);
     check(others.length === 0, `no other API request after the pin (saw ${others.map((r) => r.method + ' ' + r.url).join(', ') || 'none'})`);
-    const t = await run(`return Array.from(document.querySelectorAll('.finder-item')).map(function (li) { var p = li.querySelector('.finder-travel'); var a = p && p.querySelector('a'); return { id: li.getAttribute('data-id'), text: p ? p.textContent : null, href: a ? a.href : null, rel: a ? a.rel : null }; })`);
+    const t = await run(`return Array.from(document.querySelectorAll('.finder-item')).map(function (li) { var p = li.querySelector('.finder-travel'); var a = p && p.querySelector('a'); return { id: li.getAttribute('data-id'), text: p ? p.textContent : null, href: a ? a.href : null, rel: a ? a.rel : null, lay: (function () { var r = li.querySelector('.finder-row').getBoundingClientRect(); var t = p ? p.getBoundingClientRect() : null; var l = li.getBoundingClientRect(); return t ? { rowW: Math.round(r.width), liW: Math.round(l.width), tW: Math.round(t.width), below: t.top >= r.bottom - 1 } : null; })() }; })`);
     const by = Object.fromEntries(t.map((c) => [c.id, c]));
     check(by['svc-1'] && by['svc-1'].text === 'About 34 min by transit', `svc-1: ${by['svc-1'] && by['svc-1'].text}`);
     check(by['svc-2'] && by['svc-2'].text === '12 km straight line · Plan the trip with GRTC' && by['svc-2'].href === 'https://ridegrtc.com/', `svc-2: ${by['svc-2'] && by['svc-2'].text} -> ${by['svc-2'] && by['svc-2'].href}`);
+    check(by['svc-1'].lay && by['svc-1'].lay.below && Math.abs(by['svc-1'].lay.tW - by['svc-1'].lay.liW) < 2 && by['svc-1'].lay.rowW > by['svc-1'].lay.liW * 0.5, 'travel line sits under the card text, full width, row keeps its width: ' + JSON.stringify(by['svc-1'].lay));
     check(by['res-3'] && by['res-3'].text === null, 'residence card has no travel line');
     const pos = b.lat !== undefined ? [String(b.lat).slice(0, 7), String(b.lng).slice(0, 7)] : null;
     check(pos && urls.every((u) => u.indexOf(pos[0]) === -1 && u.indexOf(pos[1]) === -1), `none of ${urls.length} browser-fetched URLs carries the pin`);
