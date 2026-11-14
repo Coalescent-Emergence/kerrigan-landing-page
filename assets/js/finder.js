@@ -1932,7 +1932,7 @@
       pushLocation({});
       syncReveal();
       showMiles();
-      search({}, false);
+      search(mapApiParams({}), false);
     }, 0);
   });
 

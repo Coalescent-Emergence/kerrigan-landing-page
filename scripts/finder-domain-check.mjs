@@ -47,7 +47,7 @@ const check = (ok, msg) => { console.log((ok ? 'ok   ' : 'FAIL ') + msg); if (!o
 // Click a type-of-care radio, wait for the search it triggers, return its domain and the strip state.
 async function choose(value) {
   const before = seen.length;
-  await js(`document.querySelector('input[name=domain][value="${value}"]').click(); return 1;`);
+  await js(`const r = document.querySelector('input[name=domain][value="${value}"]'); if (r) r.click(); return 1;`);
   for (let i = 0; i < 30 && seen.length === before; i++) await sleep(300);
   await sleep(300);
   return { sent: seen[seen.length - 1], searched: seen.length > before, strip: await js(`return document.getElementById('finder-crisis').hidden ? 'hidden' : 'shown';`) };
@@ -58,13 +58,22 @@ try {
   for (let i = 0; i < 30 && !seen.length; i++) await sleep(300);
   check(seen[0] === ALL, `Any (initial search) sends ${ALL}; got ${seen[0]}`);
   check(await js(`return document.querySelectorAll('input[name=domain][value=crisis]').length;`) === 1, 'one Crisis care radio exists');
-  check(await js(`return document.querySelector('input[name=domain][value=crisis]').closest('label').textContent.trim();`) === 'Crisis care', 'the radio is labelled "Crisis care"');
+  check(await js(`const r = document.querySelector('input[name=domain][value=crisis]'); return r ? r.closest('label').textContent.trim() : null;`) === 'Crisis care', 'the radio is labelled "Crisis care"');
   const crisis = await choose('crisis');
   check(crisis.sent === 'crisis', `Crisis care sends domain=crisis; got ${crisis.sent}`);
   check(crisis.strip === 'shown', `crisis strip ${crisis.strip} for Crisis care`);
   const any = await choose('');
   check(any.sent === ALL, `Any sends ${ALL}; got ${any.sent}`);
   check(any.strip === 'hidden', `crisis strip ${any.strip} for Any`);
+  // Reset returns the form to Any: it must send the same four types, not no type, and hide the strip.
+  await choose('crisis');
+  const before = seen.length;
+  await js(`document.getElementById('finder-form').reset(); return 1;`);
+  for (let i = 0; i < 30 && seen.length === before; i++) await sleep(300);
+  await sleep(2000); // Reset fires a direct search and a live search; every one must carry all four types
+  const after = seen.slice(before);
+  check(after.length > 0 && after.every((d) => d === ALL), `every search after Reset sends ${ALL}; got ${JSON.stringify(after)}`);
+  check(await js(`return document.getElementById('finder-crisis').hidden ? 'hidden' : 'shown';`) === 'hidden', 'crisis strip hidden after Reset');
 } finally { await wd('DELETE', `/session/${sid}`).catch(() => {}); srv.close(); }
 console.log(failed ? 'RESULT FAIL' : 'RESULT PASS');
 process.exit(failed ? 1 : 0);
