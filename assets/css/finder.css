@@ -1,14 +1,30 @@
-/* Search page styles (Kerrigan tracker 249). Loaded only by
+/* Search page styles (Kerrigan tracker 249, structure tracker 288). Loaded only by
    layouts/_default/finder.html, so nothing here ships while the page is off.
-   Plain system fonts; colours and spacing are the site's design-system tokens. */
+   Plain system fonts; colours and spacing are the site's design-system tokens.
 
+   Structure rules (enforced by scripts/finder-style-lint.mjs in CI):
+   - one rule block per component, its breakpoints right after it; no selector twice in one context;
+   - no vh units (dvh/svh only); no !important; every @media width is a --bp-* token of design-system.css;
+   - z-index values come from the --z-* scale of design-system.css only;
+   - the shell is flex/grid with min-height: 0 and dvh; no "100vh minus N px" heights;
+   - map-overlay offsets live in the --finder-* properties below; assets/js/finder.js reads the same
+     values with getComputedStyle, so changing one here moves the map padding too. */
+
+/* ── Shell: page, stage and the shared overlay geometry ───────────────────────────── */
 .finder {
   --finder-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --finder-gap: 10px;           /* inset of every map overlay from the stage edge */
+  --finder-overlay-top: 84px;   /* top of the results list and details panel: clears the search bar */
+  --finder-list-w: 380px;       /* results list overlay width */
+  --finder-panel-w: 360px;      /* details panel overlay width */
+  --finder-nudge: 2px;          /* gap between an overlay and the map controls beside it */
+  --finder-basemap-h: 40px;     /* height of the map-style buttons */
+  --finder-stage-min: 200px;    /* the stage never gets shorter than this; below it the page scrolls instead */
   font-family: var(--finder-font);
   color: var(--color-text-primary);
   max-width: 1280px;
   margin: 0 auto;
-  padding: var(--wp-space-6) var(--gutter-desktop) var(--wp-space-12);
+  padding: var(--wp-space-4) var(--gutter-mobile) var(--wp-space-8);
   box-sizing: border-box;
   width: 100%;
 }
@@ -19,6 +35,24 @@
 
 .finder .btn { font-family: var(--finder-font); }
 
+.finder-stage { display: flex; flex-direction: column; }
+
+/* Tablet and up: the page is one window-high column (nav, then .finder fills what is left, then the
+   stage fills .finder), so list and map end inside the window at any height. */
+@media (min-width: 768px) {
+  body:has(> .finder) { display: flex; flex-direction: column; height: 100dvh; }
+  body:has(> .finder) > .site-nav { flex: none; }
+  .finder { max-width: none; padding: var(--wp-space-2) var(--wp-space-4) var(--wp-space-4); flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+  .finder > * { flex: none; }
+  .finder-stage { flex: 1 1 auto; min-height: var(--finder-stage-min); }
+}
+
+/* Desktop: the stage is the map; list, panel, search bar and style buttons float over it. */
+@media (min-width: 1024px) {
+  .finder-stage { display: block; position: relative; border: 1px solid var(--color-border); overflow: hidden; background: var(--color-bg-surface); }
+}
+
+/* ── Head, intro text ────────────────────────────────────── */
 .finder-title {
   font-family: var(--finder-font);
   font-size: var(--wp-text-3xl);
@@ -33,37 +67,67 @@
   margin: 0 0 var(--wp-space-6);
 }
 
-/* ── Filters ─────────────────────────────────────────────── */
-.finder-filters {
-  border: 1px solid var(--color-border);
-  background: var(--color-bg-container);
-  margin-bottom: var(--wp-space-6);
+.finder-about { margin: 0 0 var(--wp-space-2); font-size: var(--wp-text-sm); }
+.finder-about summary { cursor: pointer; color: var(--color-text-secondary); font-weight: 600; padding: 2px 0; }
+.finder-about .finder-lede { margin: var(--wp-space-2) 0 0; }
+
+.finder-head { margin: 0; }
+
+@media (min-width: 768px) {
+  .finder-head { margin: 0 0 var(--wp-space-2); }
+  .finder-title { font-size: var(--wp-text-xl); margin: 0; }
+}
+@media (max-width: 479.98px) {
+  .finder-head { margin-top: 36px; } /* clears the tab the nav links hang in */
 }
 
-.finder-filters > summary {
-  cursor: pointer;
-  padding: var(--wp-space-3) var(--wp-space-4);
-  font-weight: 600;
-  min-height: 44px;
-  display: flex;
-  align-items: center;
-}
+/* ── Counselor sign-in (tracker 251): a compact row above the map stage ── */
+.finder-signin .finder-form { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--wp-space-3); margin: 0 0 var(--wp-space-3); }
+.finder-signin .finder-text { flex: 1 1 260px; }
+.finder-signin .finder-text input { border: 1px solid var(--color-border); background: var(--input-bg); }
+.finder-signedin, .finder-signin-msg { margin: 0 0 var(--wp-space-3); font-size: var(--wp-text-sm); }
 
-.finder-form {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
-  gap: var(--wp-space-4);
+/* ── Crisis strip, status ────────────────────────────────── */
+.finder-crisis {
+  border: 2px solid var(--color-status-warning-border);
+  background: var(--color-status-warning-bg);
   padding: var(--wp-space-4);
-  border-top: 1px solid var(--color-border);
+  margin-bottom: var(--wp-space-4);
 }
 
-.finder-row,
-.finder-actions {
-  grid-column: 1 / -1;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--wp-space-4);
+.finder-crisis p { margin: 0 0 var(--wp-space-2); }
+.finder-crisis a { color: var(--color-text-primary); }
+.finder-crisis-head { margin: 0 0 var(--wp-space-2); font-size: var(--wp-text-base); }
+.finder-crisis-extra { margin: 0; padding-left: var(--wp-space-5); }
+.finder-crisis-extra:empty { display: none; }
+
+.finder-house-note { margin: 0 0 var(--wp-space-2); font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
+.finder-status { color: var(--color-text-secondary); font-size: var(--wp-text-sm); margin: 0 0 var(--wp-space-3); }
+
+@media (min-width: 1024px) {
+  .finder-crisis { display: grid; grid-template-columns: auto auto 1fr; column-gap: var(--wp-space-5); padding: var(--wp-space-2) var(--wp-space-4); align-items: start; }
+  .finder-crisis p { margin: 0; }
+  .finder-crisis-head { grid-column: 1 / -1; margin: var(--wp-space-2) 0 0; }
+  .finder-crisis-extra { grid-column: 1 / -1; columns: 2; column-gap: var(--wp-space-5); font-size: var(--wp-text-sm); }
 }
+
+/* ── Error message ───────────────────────────────────────── */
+.finder-error {
+  border: 1px solid var(--color-status-error-border);
+  background: var(--color-status-error-bg);
+  color: var(--color-text-primary);
+  padding: var(--wp-space-3) var(--wp-space-4);
+  margin: var(--wp-space-2) 0;
+}
+
+@media (min-width: 1024px) {
+  .finder-error { position: absolute; top: var(--finder-overlay-top); left: 50%; transform: translateX(-50%); z-index: var(--z-notice); background: var(--color-bg-container); border: 1px solid var(--color-border); padding: var(--wp-space-2) var(--wp-space-3); margin: 0; }
+}
+
+/* ── Search bar and filter drawer (trackers 249, 267) ─────── */
+.finder-filters { border: 0; background: none; margin-bottom: var(--wp-space-6); }
+
+.finder-form { display: block; padding: 0; border: 0; }
 
 .finder-text {
   display: flex;
@@ -93,405 +157,103 @@
   outline-offset: 1px;
 }
 
-.finder-form fieldset {
-  border: 1px solid var(--color-border);
-  margin: 0;
-  padding: var(--wp-space-3);
-  min-width: 0;
-}
+.f-bar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--wp-space-4); padding: var(--wp-space-4); border: 1px solid var(--color-border); background: var(--color-bg-container); }
+.f-bar-fields { display: flex; flex-wrap: wrap; gap: var(--wp-space-4) var(--wp-space-6); flex: 1 1 420px; min-width: 0; }
+.f-bar-fields > label { flex: 1 1 260px; min-width: 0; }
+.f-bar-fields > .f-bar-name { flex: 2 1 280px; }
+.f-bar-fields > .f-bar-town { flex: 1 1 200px; }
+.f-bar-fields > .f-bar-miles { flex: 1.4 1 260px; }
+.f-bar-actions { display: flex; gap: var(--wp-space-3); align-items: center; }
+.f-count { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; margin-left: var(--wp-space-2); padding: 0 6px; border-radius: 999px; background: var(--color-accent-primary); color: var(--color-bg-container); font-size: var(--wp-text-sm); font-weight: 700; }
+.f-summary, .f-collapse { display: none; }
+.f-miles-row { display: flex; align-items: center; gap: var(--wp-space-4); min-height: var(--input-height); }
+.f-miles-row input[type="range"] { flex: 1 1 auto; accent-color: var(--color-accent-primary); min-width: 0; }
+.f-miles-row output { flex: none; min-width: 9ch; font-size: var(--wp-text-sm); color: var(--color-text-primary); font-weight: 600; }
 
-.finder-form legend {
-  font-size: var(--wp-text-sm);
-  font-weight: 600;
-  padding: 0 var(--wp-space-1);
-}
+.f-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, .6); z-index: var(--z-backdrop); }
+.f-drawer { position: fixed; top: 0; bottom: 0; left: 0; z-index: var(--z-drawer); width: min(460px, 100vw); display: flex; flex-direction: column; background: var(--color-bg-container); border-right: 1px solid var(--color-border); box-shadow: 8px 0 32px rgba(0, 0, 0, .5); }
+.f-drawer-head { display: flex; align-items: center; justify-content: space-between; padding: var(--wp-space-4) var(--wp-space-5); border-bottom: 1px solid var(--color-border); }
+.f-drawer-head h2 { margin: 0; font-family: var(--finder-font); font-size: var(--wp-text-xl, 1.25rem); }
+.f-drawer-head h2 + .f-live { color: var(--color-text-primary); }
+.f-drawer-x { min-width: 44px; min-height: 44px; background: none; border: 0; color: var(--color-text-primary); font-size: 1.75rem; line-height: 1; cursor: pointer; }
+.f-drawer-x:focus-visible { outline: 2px solid var(--color-border-active); }
+.f-drawer-body { flex: 1 1 auto; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; }
+.f-drawer-foot { display: flex; justify-content: space-between; gap: var(--wp-space-3); padding: var(--wp-space-4) var(--wp-space-5); border-top: 1px solid var(--color-border); }
+.f-live { margin: var(--wp-space-1) 0 0; font-size: var(--wp-text-sm); color: var(--color-text-secondary); max-width: 34ch; }
+body.finder-drawer-open { overflow: hidden; }
 
-.finder-form fieldset label {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--wp-space-2);
-  font-size: var(--wp-text-sm);
-  color: var(--color-text-secondary);
-  padding: var(--wp-space-1) 0;
-  min-height: 32px;
-}
+/* Drawer sections: a heading above its controls, one column. */
+.finder-form .f-sec { display: grid; grid-template-columns: 1fr; gap: var(--wp-space-3); padding: var(--wp-space-5); border-bottom: 1px solid var(--color-border); }
+.finder-form .f-sec-head h3 { margin: 0 0 var(--wp-space-1); font-family: var(--finder-font); font-size: var(--wp-text-lg, 1.125rem); font-weight: 700; color: var(--color-text-primary); }
+.finder-form .f-sec-head p { margin: 0; font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
+.finder-form .f-sec-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--wp-space-5); align-items: start; }
 
-.finder-form fieldset input { margin-top: 3px; accent-color: var(--color-accent-primary); }
-
-/* ── Crisis strip, status, errors ────────────────────────── */
-.finder-crisis {
-  border: 2px solid var(--color-status-warning-border);
-  background: var(--color-status-warning-bg);
-  padding: var(--wp-space-4);
-  margin-bottom: var(--wp-space-4);
-}
-
-.finder-crisis p { margin: 0 0 var(--wp-space-2); }
-.finder-crisis a { color: var(--color-text-primary); }
-.finder-crisis-head { margin: 0 0 var(--wp-space-2); font-size: var(--wp-text-base); }
-.finder-crisis-extra { margin: 0; padding-left: var(--wp-space-5); }
-.finder-crisis-extra:empty { display: none; }
-
-.finder-status { color: var(--color-text-secondary); font-size: var(--wp-text-sm); margin: 0 0 var(--wp-space-3); }
-
-.finder-error {
-  border: 1px solid var(--color-status-error-border);
-  background: var(--color-status-error-bg);
-  color: var(--color-text-primary);
-  padding: var(--wp-space-3) var(--wp-space-4);
-  margin: 0 0 var(--wp-space-4);
-}
-
-/* ── List and map ────────────────────────────────────────── */
-.finder-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: var(--wp-space-6);
-  align-items: start;
-}
-
-.finder-list,
-.finder-mapwrap { min-width: 0; }
-
-.finder-mapwrap {
-  position: sticky;
-  top: 80px;
-}
-
-.finder-map {
-  width: 100%;
-  max-width: 100%;
-  height: calc(100vh - 140px);
-  min-height: 320px;
-  border: 1px solid var(--color-border);
-  background: var(--color-bg-surface);
-}
-
-.finder-map canvas { max-width: 100%; }
-
-.finder-area { margin-top: var(--wp-space-3); }
-.finder-map-note { color: var(--color-text-secondary); font-size: var(--wp-text-sm); }
-
-.finder-results {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: var(--wp-space-3);
-}
-
-.finder-item {
-  border: 1px solid var(--color-border);
-  background: var(--color-bg-container);
-  padding: var(--wp-space-4);
-  min-width: 0;
-  overflow-wrap: anywhere;
-}
-
-.finder-item.is-active {
-  border-color: var(--color-accent-primary);
-  box-shadow: 4px 4px 0 var(--color-accent-primary);
-}
-
-.finder-item h3 {
-  font-family: var(--finder-font);
-  font-size: var(--wp-text-lg);
-  font-weight: 700;
-  margin: 0 0 var(--wp-space-1);
-}
-
-.finder-sub { color: var(--color-text-secondary); font-weight: 400; }
-
-.finder-chip {
-  display: inline-block;
-  font-size: var(--wp-text-xs);
-  font-weight: 600;
-  padding: 2px var(--wp-space-2);
-  border: 1px solid var(--color-accent-secondary);
-  color: var(--color-text-primary);
-  margin-bottom: var(--wp-space-2);
-}
-
-.finder-addr,
-.finder-phone,
-.finder-nopin { margin: 0 0 var(--wp-space-1); font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
-.finder-phone a { color: var(--color-text-primary); }
-.finder-nopin { font-style: italic; }
-
-.finder-facets {
-  display: grid;
-  grid-template-columns: minmax(0, max-content) minmax(0, 1fr);
-  gap: 2px var(--wp-space-3);
-  margin: var(--wp-space-3) 0;
-  font-size: var(--wp-text-sm);
-}
-
-.finder-facets dt { color: var(--color-text-secondary); }
-.finder-facets dd { margin: 0; }
-.finder-unknown { color: var(--color-status-warning-text); }
-
-.finder-cert { margin: 0 0 var(--wp-space-1); font-size: var(--wp-text-sm); font-weight: 600; }
-.finder-support { margin: 0 0 var(--wp-space-1); font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
-.finder-vacancy { margin: 0 0 var(--wp-space-1); font-size: var(--wp-text-sm); font-weight: 600; }
-.finder-vacancy-posted, .finder-admission { margin: 0 0 var(--wp-space-1); font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
-.finder-vacancy-stale { color: var(--color-status-warning-text); }
-.finder-checked { margin: 0; font-size: var(--wp-text-xs); color: var(--color-text-secondary); }
-.finder-unk-note { margin: 0 0 var(--wp-space-2); font-size: var(--wp-text-xs); color: var(--color-status-warning-text); }
-
-.finder-partial-head {
-  font-family: var(--finder-font);
-  font-size: var(--wp-text-lg);
-  font-weight: 600;
-  margin: var(--wp-space-6) 0 var(--wp-space-3);
-}
-
-.finder-more { margin-top: var(--wp-space-4); }
-
-.finder-foot { margin-top: var(--wp-space-4); display: flex; flex-direction: column; }
-.finder-signup { margin: 0; }
-/* Always-visible map credit (the on-map control starts collapsed). Under the map below 1024px. */
-.finder-credit { order: -1; margin: 0 0 var(--wp-space-4); font-size: var(--wp-text-sm); line-height: 1.4; color: var(--color-text-secondary); }
-.finder-credit a { color: inherit; text-decoration: underline; }
-.finder-credit a:hover { color: var(--color-text-primary); }
-.finder-credit a + a, .finder-credit a + span { margin-left: .5em; }
-.finder-signup .btn { white-space: normal; text-align: center; padding-top: var(--wp-space-2); padding-bottom: var(--wp-space-2); max-width: 100%; }
-
-/* Below 768px: one column, map first at half the viewport, list below. */
-@media (max-width: 767.98px) {
-  .finder { padding: var(--wp-space-4) var(--gutter-mobile) var(--wp-space-8); }
-  .finder-grid { grid-template-columns: minmax(0, 1fr); }
-  .finder-mapwrap { position: static; }
-  .finder-map { height: 70vh; height: 70dvh; min-height: 280px; }
-  .finder-facets { grid-template-columns: minmax(0, 1fr); }
-  .finder-facets dd { margin-bottom: var(--wp-space-1); }
-}
-
-/* ── Filter devices (tracker 267): segmented, chips, switches ─────── */
+/* Filter devices: groups, segmented buttons, chips, switches */
 .finder-form .f-group { border: 0; padding: 0; margin: 0; min-width: 0; display: flex; flex-direction: column; gap: var(--wp-space-2); }
-.finder-form .f-label { font-size: var(--wp-text-sm); font-weight: 600; padding: 0; }
+.finder-form .f-label { font-size: var(--wp-text-sm); font-weight: 600; padding: 0; color: var(--color-text-secondary); text-transform: none; }
 .finder-form .f-group input[type="radio"],
 .finder-form .f-group input[type="checkbox"] { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
-.finder-form .seg, .finder-form .chips { display: flex; flex-wrap: wrap; gap: var(--wp-space-2); }
-.finder-form .seg { gap: 0; }
-.finder-form .seg label, .finder-form .chips label {
-  position: relative; display: inline-flex; align-items: center; min-height: 40px; padding: 0 var(--wp-space-3);
+.finder-form .chips { display: flex; flex-wrap: wrap; gap: var(--wp-space-2); }
+.finder-form .seg { display: flex; flex-wrap: wrap; gap: 0; width: 100%; }
+.finder-form .seg label {
+  position: relative; display: inline-flex; align-items: center; min-height: 40px; padding: 0 var(--wp-space-2);
   border: 1px solid var(--color-border); background: var(--input-bg); color: var(--color-text-secondary);
   font-size: var(--wp-text-sm); cursor: pointer; user-select: none;
+  flex: 1 1 auto; justify-content: center; text-align: center; white-space: normal;
 }
 .finder-form .seg label + label { margin-left: -1px; }
-.finder-form .chips label { border-radius: 999px; }
+.finder-form .chips label {
+  position: relative; display: inline-flex; align-items: center; min-height: 40px; padding: 0 var(--wp-space-3);
+  border: 1px solid var(--color-border); background: var(--input-bg); color: var(--color-text-secondary);
+  font-size: var(--wp-text-sm); cursor: pointer; user-select: none; border-radius: 999px;
+}
 .finder-form .seg label:has(input:checked), .finder-form .chips label:has(input:checked) {
-  background: var(--color-accent-primary); border-color: var(--color-accent-primary); color: var(--color-bg-container); font-weight: 600; z-index: 1;
+  background: var(--color-accent-primary); border-color: var(--color-accent-primary); color: var(--color-bg-container); font-weight: 600; z-index: var(--z-raised);
 }
 .finder-form .seg label:has(input:focus-visible), .finder-form .chips label:has(input:focus-visible),
 .finder-form .tog:has(input:focus-visible) { outline: 2px solid var(--color-border-active); outline-offset: 2px; }
-.finder-form .f-toggles { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; gap: var(--wp-space-4) var(--wp-space-6); }
+.finder-form .f-toggles { grid-column: 1 / -1; flex-direction: column; flex-wrap: wrap; gap: var(--wp-space-1); }
+.finder-form .f-toggles .tog { padding: var(--wp-space-1) 0; }
 .finder-form .tog { position: relative; display: inline-flex; align-items: center; gap: var(--wp-space-2); min-height: 40px; font-size: var(--wp-text-sm); color: var(--color-text-secondary); cursor: pointer; }
 .finder-form .tog-track { width: 36px; height: 20px; border-radius: 999px; background: var(--color-border); position: relative; flex: none; transition: background .15s; }
 .finder-form .tog-track::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--color-bg-container); transition: transform .15s; }
 .finder-form .tog input:checked + .tog-track { background: var(--color-accent-primary); }
 .finder-form .tog input:checked + .tog-track::after { transform: translateX(16px); }
-.finder-form .f-select select { min-height: var(--input-height); background: var(--input-bg); border: 1px solid var(--input-border); color: var(--input-text); font: inherit; padding: 0 var(--wp-space-3); }
+.finder-form .f-select select { min-height: var(--input-height); background: var(--input-bg); border: 1px solid var(--input-border); color: var(--input-text); font: inherit; padding: 0 var(--wp-space-3); width: 100%; }
 .finder-form .f-more { grid-column: 1 / -1; }
 .finder-form .f-more summary { cursor: pointer; font-size: var(--wp-text-sm); font-weight: 600; min-height: 40px; display: flex; align-items: center; }
-@media (prefers-reduced-motion: reduce) { .finder-form .tog-track, .finder-form .tog-track::after { transition: none; } }
-
-/* ── Sections: titled blocks, heading left, controls right (tracker 267) ── */
-.finder-form { display: block; padding: 0; border-top: 1px solid var(--color-border); }
-.finder-form .f-sec { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: var(--wp-space-6); padding: var(--wp-space-6) var(--wp-space-5); border-bottom: 1px solid var(--color-border); }
-.finder-form .f-sec-head h3 { margin: 0 0 var(--wp-space-1); font-family: var(--finder-font); font-size: var(--wp-text-lg, 1.125rem); font-weight: 700; color: var(--color-text-primary); }
-.finder-form .f-sec-head p { margin: 0; font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
-.finder-form .f-sec-body { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--wp-space-5) var(--wp-space-6); align-items: start; }
-.finder-form .f-sec-body > * { grid-column: 1 / -1; }
-.finder-form .f-s6 { grid-column: span 6; }
-.finder-form .f-s4, .finder-form .f-group:has(input[name="gender"]) { grid-column: span 4; }
-.finder-form .f-group:has(input[name="age"]) { grid-column: span 8; }
-.finder-form .f-group:has(input[name="domain"]) { grid-column: span 7; }
-.finder-form .f-label { font-size: var(--wp-text-sm); font-weight: 600; color: var(--color-text-secondary); text-transform: none; }
-.finder-form .f-select select { width: 100%; }
-.finder-form .seg { width: 100%; }
-.finder-form .seg label { flex: 1 1 0; justify-content: center; text-align: center; padding: 0 var(--wp-space-2); white-space: nowrap; }
-.finder-form .f-toggles { flex-direction: column; gap: var(--wp-space-1); }
-.finder-form .f-toggles .tog { padding: var(--wp-space-1) 0; }
-.finder-form .finder-actions { padding: var(--wp-space-5); }
-@media (max-width: 900px) {
-  .finder-form .f-sec { grid-template-columns: 1fr; gap: var(--wp-space-3); }
-  .finder-form .f-sec-body > .f-group, .finder-form .f-sec-body > .f-s6 { grid-column: 1 / -1 !important; }
-  .finder-form .seg { flex-wrap: wrap; }
-  .finder-form .seg label { flex: 1 1 auto; white-space: normal; }
-}
-.finder-form .f-miles-row { display: flex; align-items: center; gap: var(--wp-space-4); min-height: var(--input-height); }
-.finder-form .f-miles-row input[type="range"] { flex: 1 1 auto; accent-color: var(--color-accent-primary); min-width: 0; }
-.finder-form .f-miles-row output { flex: none; min-width: 9ch; font-size: var(--wp-text-sm); color: var(--color-text-primary); font-weight: 600; }
-
-/* ── Bar + drawer (tracker 267): filters live in a slide-out, not on the page ── */
-.finder-filters { border: 0; background: none; }
-.finder-form { border: 0; }
-.finder-form [hidden] { display: none !important; }
-.f-bar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--wp-space-4); padding: var(--wp-space-4); border: 1px solid var(--color-border); background: var(--color-bg-container); }
-.f-bar-fields { display: flex; flex-wrap: wrap; gap: var(--wp-space-4) var(--wp-space-6); flex: 1 1 420px; min-width: 0; }
-.f-bar-fields > label { flex: 1 1 260px; min-width: 0; }
-.f-bar-actions { display: flex; gap: var(--wp-space-3); align-items: center; }
-.f-count { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; margin-left: var(--wp-space-2); padding: 0 6px; border-radius: 999px; background: var(--color-accent-primary); color: var(--color-bg-container); font-size: var(--wp-text-sm); font-weight: 700; }
-.f-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, .6); z-index: 1090; }
-.f-drawer { position: fixed; top: 0; bottom: 0; left: 0; z-index: 1100; width: min(460px, 100vw); display: flex; flex-direction: column; background: var(--color-bg-container); border-right: 1px solid var(--color-border); box-shadow: 8px 0 32px rgba(0, 0, 0, .5); }
-.f-drawer-head { display: flex; align-items: center; justify-content: space-between; padding: var(--wp-space-4) var(--wp-space-5); border-bottom: 1px solid var(--color-border); }
-.f-drawer-head h2 { margin: 0; font-family: var(--finder-font); font-size: var(--wp-text-xl, 1.25rem); }
-.f-drawer-x { min-width: 44px; min-height: 44px; background: none; border: 0; color: var(--color-text-primary); font-size: 1.75rem; line-height: 1; cursor: pointer; }
-.f-drawer-x:focus-visible { outline: 2px solid var(--color-border-active); }
-.f-drawer-body { flex: 1 1 auto; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; }
-.f-drawer-foot { display: flex; justify-content: space-between; gap: var(--wp-space-3); padding: var(--wp-space-4) var(--wp-space-5); border-top: 1px solid var(--color-border); }
-.f-drawer .f-sec { grid-template-columns: 1fr; gap: var(--wp-space-3); padding: var(--wp-space-5); }
-.f-drawer .f-sec-body > .f-group { grid-column: 1 / -1 !important; }
-.f-drawer .seg { flex-wrap: wrap; }
-.f-drawer .seg label { flex: 1 1 auto; white-space: normal; }
-body.finder-drawer-open { overflow: hidden; }
-.f-live { margin: var(--wp-space-1) 0 0; font-size: var(--wp-text-sm); color: var(--color-text-secondary); max-width: 34ch; }
-.f-drawer-head h2 + .f-live { color: var(--color-text-primary); }
-
-/* ── Basemap switcher (tracker 267) ───────────────────────── */
-.finder-basemaps { display: flex; margin-bottom: var(--wp-space-3); }
-.finder-basemaps button { flex: 1 1 0; min-height: 40px; padding: 0 var(--wp-space-3); border: 1px solid var(--color-border); background: var(--input-bg); color: var(--color-text-secondary); font: inherit; font-size: var(--wp-text-sm); cursor: pointer; }
-.finder-basemaps button + button { margin-left: -1px; }
-.finder-basemaps button[aria-pressed="true"] { background: var(--color-accent-primary); border-color: var(--color-accent-primary); color: var(--color-bg-container); font-weight: 600; position: relative; z-index: 1; }
-.finder-basemaps button:focus-visible { outline: 2px solid var(--color-border-active); outline-offset: 2px; }
-
-/* ── Bar fields and scrolling list (tracker 267) ──────────── */
-.f-bar-fields > .f-bar-name { flex: 2 1 280px; }
-.f-bar-fields > .f-bar-town { flex: 1 1 200px; }
-.f-bar-fields > .f-bar-miles { flex: 1.4 1 260px; }
-.finder-list { position: relative; max-height: calc(100vh - 140px); min-height: 320px; overflow-y: auto; padding-right: var(--wp-space-2); scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; overscroll-behavior: contain; }
-@media (max-width: 767.98px) { .finder-list { max-height: 70vh; } }
-
-/* ── Compact results (tracker 267): one row per program, full record on select ── */
-.finder-results { gap: 0; border: 1px solid var(--color-border); }
-.finder-item { border: 0; border-bottom: 1px solid var(--color-border); padding: 0; box-shadow: none; }
-.finder-item:last-child { border-bottom: 0; }
-.finder-item.is-active { box-shadow: none; background: var(--color-bg-surface); border-left: 3px solid var(--color-accent-primary); }
-.finder-row { display: grid; gap: 2px; width: 100%; text-align: left; background: none; border: 0; color: inherit; font: inherit; padding: var(--wp-space-2) var(--wp-space-3); cursor: pointer; }
-.finder-row:hover { background: var(--color-bg-surface); }
-.finder-row-name { font-weight: 700; }
-.finder-row-meta { font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
-.finder-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
-.finder-tag { font-size: var(--wp-text-xs); padding: 0 var(--wp-space-2); border: 1px solid var(--color-accent-secondary); }
-.finder-row-partial { font-size: var(--wp-text-xs); color: var(--color-status-warning-text); }
-.finder-detail { padding: 0 var(--wp-space-3) var(--wp-space-3); }
-.finder-detail[hidden] { display: none; }
-
-/* ── Compare, groups, area button, mobile tabs (tracker 267) ── */
-.finder-toolbar { display: flex; align-items: center; justify-content: space-between; gap: var(--wp-space-3); margin: var(--wp-space-2) 0; }
-.finder-tabs { display: none; }
-.finder-item { display: flex; flex-wrap: wrap; align-items: flex-start; }
-.finder-item .finder-row { order: 1; flex: 1 1 0; min-width: 0; }
-.finder-cmp { order: 2; display: flex; align-items: center; gap: 4px; font-size: var(--wp-text-xs); padding: var(--wp-space-3) var(--wp-space-3) 0 var(--wp-space-2); color: var(--color-text-secondary); cursor: pointer; }
-.finder-item .finder-detail { order: 3; flex: 0 0 100%; box-sizing: border-box; }
-.finder-group { border-bottom: 1px solid var(--color-border); list-style: none; }
-.finder-group:last-child { border-bottom: 0; }
-.finder-group-head { padding: var(--wp-space-2) var(--wp-space-3) var(--wp-space-1); }
-.finder-group-name { font-family: var(--finder-font); font-size: var(--wp-text-base); font-weight: 700; margin: 0; }
-.finder-group-head p { margin: 0; }
-.finder-programs { list-style: none; margin: 0; padding: 0 0 0 var(--wp-space-4); border-left: 3px solid var(--color-border); margin-left: var(--wp-space-3); margin-bottom: var(--wp-space-2); }
-.finder-programs .finder-item { border-bottom: 1px solid var(--color-border); }
-.finder-programs .finder-item:last-child { border-bottom: 0; }
-.finder-showmap { display: none; margin-top: var(--wp-space-2); }
-.finder-area { position: absolute; left: 0; right: 0; width: max-content; max-width: 100%; top: calc(40px + 2 * var(--wp-space-3)); z-index: 5; margin: 0 auto; } /* below 1024px: just under the in-flow style buttons (40px + their margin), on the visible top of the map */
-/* "Search this map area" must not move under the pointer. Centred with auto margins (no transform), and
-   the shared .btn:hover / :active nudge (design-system.css ~341-360, translate(-2px,-2px) replacing the
-   centring transform, which threw the button half its width to the right) is switched off here. Hover and
-   keyboard focus show a shimmer instead, ported from the Kerrigan app's skeleton loader (kerrUI
-   design-system.css:1259-1277 .shimmer-hybrid::after gradient, :1378-1381 holo-wave keyframes). */
-.btn.finder-area, .btn.finder-area:hover, .btn.finder-area:focus-visible, .btn.finder-area:active { transform: none; box-shadow: 4px 4px 0 var(--color-border); }
-.btn.finder-area { overflow: hidden; }
-.finder-area::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0;
-  background: linear-gradient(135deg, transparent 0%, color-mix(in srgb, var(--color-accent-secondary) 12%, transparent) 30%, color-mix(in srgb, var(--color-accent-secondary) 35%, transparent) 50%, color-mix(in srgb, var(--color-accent-primary) 20%, transparent) 70%, transparent 100%);
-  background-size: 200% 100%; background-position: -200% 0; }
-.finder-area:hover::after, .finder-area:focus-visible::after { opacity: 1; animation: finder-holo-wave 2.4s ease-in-out infinite; }
-@keyframes finder-holo-wave { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-@media (prefers-reduced-motion: reduce) {
-  .finder-area:hover::after, .finder-area:focus-visible::after { animation: none; background-position: 0 0; } /* static highlight */
-}
-.finder-mapwrap { position: sticky; }
-/* Phone: no sticky. It is positioned only so #finder-area anchors to the map; the old sticky offset had to clear the nav, whose height changes with width. */
-@media (max-width: 767.98px) { .finder-mapwrap { position: relative; top: auto; } } /* top: auto, or the 80px sticky offset pushed the map down over the sign-up link and the credit */
-.finder-compare { width: min(1100px, 96vw); max-height: 92vh; overflow: auto; background: var(--color-bg-container); color: var(--color-text-primary); border: 1px solid var(--color-border); padding: var(--wp-space-4); }
-.finder-compare::backdrop { background: rgba(0, 0, 0, 0.6); }
-.finder-compare-head { display: flex; justify-content: space-between; align-items: center; gap: var(--wp-space-3); flex-wrap: wrap; }
-.finder-compare-head h2 { margin: 0; }
-.finder-compare-hint { font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
-.finder-compare-body { overflow-x: auto; }
-.finder-cmp-table { border-collapse: collapse; width: 100%; font-size: var(--wp-text-sm); }
-.finder-cmp-table th, .finder-cmp-table td { border: 1px solid var(--color-border); padding: var(--wp-space-2); text-align: left; vertical-align: top; min-width: 160px; }
-.finder-cmp-table tbody th { width: 140px; min-width: 120px; color: var(--color-text-secondary); font-weight: 600; }
-.finder-cmp-remove { display: block; margin-top: 4px; background: none; border: 0; color: var(--color-text-secondary); text-decoration: underline; cursor: pointer; padding: 0; font: inherit; font-size: var(--wp-text-xs); }
-.finder-note { width: 100%; box-sizing: border-box; background: var(--color-bg-surface); color: inherit; border: 1px solid var(--color-border); padding: var(--wp-space-2); font: inherit; }
-@media (max-width: 767.98px) {
-  .finder-tabs { display: grid; grid-template-columns: 1fr 1fr; flex: 1 1 auto; border: 1px solid var(--color-border); }
-  .finder-tabs button { background: none; border: 0; color: inherit; font: inherit; font-weight: 600; padding: var(--wp-space-3); cursor: pointer; }
-  .finder-tabs button[aria-selected="true"] { background: var(--color-accent-primary); color: var(--color-bg-page, #000); }
-  .finder[data-view="list"] .finder-mapwrap { display: none; }
-  .finder[data-view="map"] .finder-list { display: none; }
-  .finder-list { max-height: none; overflow: visible; }
-  .finder-showmap { display: inline-block; }
-  .finder-compare { width: 100vw; max-width: 100vw; max-height: 100vh; height: 100vh; }
-}
-#finder-compare-open[hidden], .finder-area[hidden] { display: none; }
 .finder-form .f-sub { margin: var(--wp-space-2) 0 0 var(--wp-space-4); padding-left: var(--wp-space-3); border-left: 3px solid var(--color-border); display: flex; flex-direction: column; gap: var(--wp-space-1); }
-.finder-form .f-sub[hidden] { display: none; }
 .finder-form .f-sublabel { font-size: var(--wp-text-xs); color: var(--color-text-secondary); font-weight: 600; }
+.finder-form fieldset { border: 1px solid var(--color-border); margin: 0; padding: var(--wp-space-3); min-width: 0; }
+.finder-form legend { font-size: var(--wp-text-sm); font-weight: 600; padding: 0 var(--wp-space-1); }
+.finder-form fieldset label { display: flex; align-items: flex-start; gap: var(--wp-space-2); font-size: var(--wp-text-sm); color: var(--color-text-secondary); padding: var(--wp-space-1) 0; min-height: 32px; }
+.finder-form fieldset input { margin-top: 3px; accent-color: var(--color-accent-primary); }
 
-/* ── Icons, details panel, stage (tracker 267) ── */
-.finder-icons { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-.finder-icons.is-labelled { flex-direction: column; gap: 6px; }
-.finder-ico { position: relative; display: inline-flex; align-items: center; gap: 8px; color: var(--color-accent-primary); cursor: help; }
-.finder-ico svg { flex: 0 0 auto; }
-.finder-ico-label { color: var(--color-text-primary); font-size: var(--wp-text-sm); }
-.finder-icons:not(.is-labelled) .finder-ico:hover::after,
-.finder-icons:not(.is-labelled) .finder-ico:focus::after { content: attr(data-tip); position: absolute; left: 0; bottom: calc(100% + 6px); z-index: 30; width: max-content; max-width: 240px; padding: 6px 8px; background: var(--color-bg-page, #000); color: var(--color-text-primary); border: 1px solid var(--color-border); font-size: var(--wp-text-xs); font-weight: 400; line-height: 1.3; pointer-events: none; }
-.finder-listhead { padding: var(--wp-space-2) 0; }
-.finder-listhead .finder-lede { font-size: var(--wp-text-sm); margin: 0 0 var(--wp-space-2); }
-.finder-listhead .finder-status { margin: 0 0 var(--wp-space-2); }
-.finder-results-toggle, .finder-panel, .f-summary, .f-collapse { display: none; }
-.finder-error { margin: var(--wp-space-2) 0; }
-.finder-panel-head { padding-bottom: var(--wp-space-2); border-bottom: 1px solid var(--color-border); margin-bottom: var(--wp-space-2); position: relative; }
-.finder-panel-name { font-family: var(--finder-font); font-size: var(--wp-text-xl); margin: 0 var(--wp-space-8) var(--wp-space-1) 0; }
-.finder-panel-x { position: absolute; top: 0; right: 0; width: 36px; height: 36px; background: none; border: 1px solid var(--color-border); color: inherit; font-size: 24px; line-height: 1; cursor: pointer; }
-.finder-panel-cmp { display: flex; align-items: center; gap: var(--wp-space-2); margin-bottom: var(--wp-space-2); font-size: var(--wp-text-sm); cursor: pointer; }
-.finder-panel .finder-detail { padding: 0; }
+/* Clear buttons inside the name and town boxes (tracker 283) */
+.f-clearable { position: relative; display: block; }
+.f-clearable input { padding-right: 40px; }
+.f-clearable-list input { padding-right: 64px; } /* room for the browser's datalist arrow */
+.f-clearable input[type="search"]::-webkit-search-cancel-button { appearance: none; display: none; }
+.f-clear { position: absolute; top: 50%; right: 4px; transform: translateY(-50%); width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: 0; color: var(--color-text-secondary); cursor: pointer; }
+.f-clearable-list .f-clear { right: 28px; }
+.f-clear:hover { color: var(--color-text-primary); }
+.f-clear:focus-visible { outline: 2px solid var(--color-border-active); outline-offset: -2px; }
 
+@media (prefers-reduced-motion: reduce) {
+  .finder-form .tog-track, .finder-form .tog-track::after { transition: none; }
+}
+@media (max-width: 767.98px), (pointer: coarse) {
+  .f-clear { width: 44px; height: 44px; right: 0; }
+  .f-clearable-list .f-clear { right: 24px; }
+  .f-clearable input { padding-right: 48px; }
+  .f-clearable-list input { padding-right: 72px; }
+}
+@media (min-width: 768px) {
+  .finder-filters { margin-bottom: var(--wp-space-3); }
+}
+/* Desktop: the search bar floats over the map, full fields or one slim strip that still reads as a search box. */
 @media (min-width: 1024px) {
-  /* The page is one window-high column: nav, then .finder fills what is left, then the stage fills .finder. */
-  body:has(> .finder) { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
-  body:has(> .finder) > .site-nav { flex: none; }
-  .finder { max-width: none; padding: var(--wp-space-2) var(--wp-space-4) var(--wp-space-4); flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
-  .finder > * { flex: none; }
-  .finder-head { margin: 0 0 var(--wp-space-2); }
-  .finder-title { font-size: var(--wp-text-xl); margin: 0; }
-  .finder-toolbar { display: none; }
-  .finder-stage { position: relative; flex: 1 1 auto; min-height: 280px; border: 1px solid var(--color-border); overflow: hidden; background: var(--color-bg-surface); }
-  .finder-grid { position: absolute; inset: 0; display: block; }
-  .finder-mapwrap { position: absolute; inset: 0; }
-  .finder-map { height: 100%; min-height: 0; border: 0; }
-  .finder-filters { position: absolute; top: 10px; left: 10px; right: 10px; z-index: 20; margin: 0; box-shadow: 0 6px 24px rgba(0, 0, 0, .5); }
-  .finder-error { position: absolute; top: 84px; left: 50%; transform: translateX(-50%); z-index: 25; background: var(--color-bg-container); border: 1px solid var(--color-border); padding: var(--wp-space-2) var(--wp-space-3); margin: 0; }
-  .finder-error[hidden] { display: none; }
-  .finder-list { position: absolute; top: 84px; left: 10px; bottom: 10px; width: 380px; max-height: none; min-height: 0; z-index: 15; background: var(--color-bg-container); border: 1px solid var(--color-border); padding: 0 var(--wp-space-3) var(--wp-space-3); transition: transform .2s ease; }
-  .finder-listhead { position: sticky; top: 0; z-index: 2; background: var(--color-bg-container); }
-  .finder-stage[data-results="closed"] .finder-list { transform: translateX(calc(-100% - 20px)); }
-  .finder-results-toggle { display: block; position: absolute; top: 96px; left: 400px; z-index: 16; background: var(--color-bg-container); color: var(--color-text-primary); border: 1px solid var(--color-border); padding: var(--wp-space-2) var(--wp-space-3); font: inherit; font-size: var(--wp-text-sm); font-weight: 600; cursor: pointer; transition: left .2s ease; }
-  .finder-stage[data-results="closed"] .finder-results-toggle { left: 10px; }
-  .finder-panel { display: block; position: absolute; top: 84px; right: 10px; bottom: 10px; width: 360px; z-index: 15; overflow-y: auto; background: var(--color-bg-container); border: 1px solid var(--color-border); padding: var(--wp-space-3); }
-  .finder-panel[hidden] { display: none; }
-  .finder-list .finder-detail { display: none !important; }
-  .finder-list .finder-showmap { display: none; }
-  .finder-basemaps { position: absolute; left: 50%; transform: translateX(-50%); bottom: 10px; z-index: 5; margin: 0; box-shadow: 0 2px 12px rgba(0, 0, 0, .5); }
-  .finder-basemaps button { padding: 0 var(--wp-space-4); }
-  .finder-area { top: auto; bottom: 58px; }
-  .finder-stage .maplibregl-ctrl-top-right { top: 84px; }
-  .finder-stage[data-panel="open"] .maplibregl-ctrl-top-right { right: 372px; }
-  .finder-foot { margin-top: var(--wp-space-4); flex-direction: row; align-items: center; justify-content: space-between; gap: var(--wp-space-4); }
-  .finder-credit { order: 0; margin: 0; text-align: right; font-size: var(--wp-text-xs, .75rem); }
-
-  /* Search bar: full fields, or one slim strip that still reads as a search box. */
+  .finder-filters { position: absolute; top: var(--finder-gap); left: var(--finder-gap); right: var(--finder-gap); z-index: var(--z-filters); margin: 0; box-shadow: 0 6px 24px rgba(0, 0, 0, .5); }
   .finder-filters .f-bar { padding: var(--wp-space-2) var(--wp-space-3); }
   .f-collapse { display: inline-flex; align-items: center; background: none; border: 0; color: var(--color-text-secondary); font: inherit; font-size: var(--wp-text-sm); cursor: pointer; padding: 0 var(--wp-space-2); }
   .f-bar[data-collapsed="true"] .f-bar-fields, .f-bar[data-collapsed="true"] .f-collapse { display: none; }
@@ -502,26 +264,141 @@ body.finder-drawer-open { overflow: hidden; }
   .f-summary-text { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .f-summary-edit { color: var(--color-accent-primary); font-size: var(--wp-text-sm); font-weight: 600; }
 }
-.finder-more[hidden], .finder-partial-head[hidden], .finder-ico[hidden] { display: none; }
-.finder-panel, .finder-list { scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; }
 
-/* Icon colours: one hue per fact so they read apart at a glance. */
+/* ── Stage grid: list and map ─────────────────────────────── */
+.finder-toolbar { display: flex; align-items: center; justify-content: space-between; gap: var(--wp-space-3); margin: var(--wp-space-2) 0; }
+.finder-tabs { display: grid; grid-template-columns: 1fr 1fr; flex: 1 1 auto; border: 1px solid var(--color-border); }
+.finder-tabs button { background: none; border: 0; color: inherit; font: inherit; font-weight: 600; padding: var(--wp-space-3); cursor: pointer; }
+.finder-tabs button[aria-selected="true"] { background: var(--color-accent-primary); color: var(--color-bg-page, #000); }
+
+.finder-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--wp-space-6);
+  align-items: start;
+}
+
+/* Phone: one view at a time, chosen by the List / Map tabs. */
+@media (max-width: 767.98px) {
+  .finder[data-view="list"] .finder-mapwrap { display: none; }
+  .finder[data-view="map"] .finder-list { display: none; }
+}
+
+/* Tablet: list and map side by side, filling what the stage leaves of the window. */
+@media (min-width: 768px) {
+  .finder-toolbar, .finder-tabs { display: none; }
+  .finder-grid { flex: 1 1 auto; min-height: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); gap: var(--wp-space-4); align-items: stretch; }
+}
+
+/* Desktop: the grid is the map, edge to edge. */
+@media (min-width: 1024px) {
+  .finder-grid { position: absolute; inset: 0; display: block; }
+}
+
+/* ── Results list ─────────────────────────────────────────── */
+.finder-list {
+  position: relative;
+  min-width: 0;
+  min-height: 320px;
+  padding-right: var(--wp-space-2);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+  overscroll-behavior: contain;
+}
+
+.finder-listhead { padding: var(--wp-space-2) 0; }
+.finder-listhead .finder-lede { font-size: var(--wp-text-sm); margin: 0 0 var(--wp-space-2); }
+.finder-listhead .finder-status { margin: 0 0 var(--wp-space-2); }
+
+.finder-results { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border: 1px solid var(--color-border); }
+
+.finder-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  border: 0;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-container);
+  padding: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  box-shadow: none;
+}
+.finder-item:last-child { border-bottom: 0; }
+.finder-item:not(:last-child) { margin-bottom: var(--wp-space-1); }
+.finder-item + .finder-item { border-top: 1px solid var(--color-border); }
+.finder-item.is-active { border-color: var(--color-accent-primary); background: var(--color-bg-surface); border-left: 3px solid var(--color-accent-primary); }
+.finder-item h3 { font-family: var(--finder-font); font-size: var(--wp-text-lg); font-weight: 700; margin: 0 0 var(--wp-space-1); }
+.finder-item .finder-row { order: 1; flex: 1 1 0; min-width: 0; }
+.finder-item .finder-detail { order: 3; flex: 0 0 100%; box-sizing: border-box; }
+
+.finder-row { display: grid; gap: var(--wp-space-1); width: 100%; text-align: left; background: none; border: 0; color: inherit; font: inherit; padding: var(--wp-space-3) var(--wp-space-3) var(--wp-space-4); cursor: pointer; }
+.finder-row:hover { background: var(--color-bg-surface); }
+.finder-row-name { font-weight: 700; font-size: var(--wp-text-base); line-height: 1.3; }
+.finder-row-meta { font-size: var(--wp-text-sm); color: var(--color-text-primary); }
+.finder-row-operator { display: block; font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
+.finder-row-matched { display: block; font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
+.finder-row-partial { font-size: var(--wp-text-xs); color: var(--color-status-warning-text); }
+.finder-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--wp-space-2); }
+.finder-tag { font-size: var(--wp-text-xs); padding: 0 var(--wp-space-2); border: 1px solid var(--color-accent-secondary); }
+.finder-detail { padding: 0 var(--wp-space-3) var(--wp-space-3); }
+.finder-sub { color: var(--color-text-secondary); font-weight: 400; }
+
+.finder-cmp { order: 2; display: flex; align-items: center; gap: 4px; font-size: var(--wp-text-xs); padding: var(--wp-space-3) var(--wp-space-3) 0 var(--wp-space-2); color: var(--color-text-secondary); cursor: pointer; }
+.finder-save { order: 2; margin: var(--wp-space-2) var(--wp-space-2) 0 0; padding: var(--wp-space-1) var(--wp-space-3); font-size: var(--wp-text-xs); }
+
+.finder-group { border-bottom: 1px solid var(--color-border); list-style: none; }
+.finder-group:last-child { border-bottom: 0; }
+.finder-group-head { padding: var(--wp-space-2) var(--wp-space-3) var(--wp-space-1); }
+.finder-group-head p { margin: 0; }
+.finder-group-name { font-family: var(--finder-font); font-size: var(--wp-text-base); font-weight: 700; margin: 0; }
+.finder-programs { list-style: none; margin: 0 0 var(--wp-space-2) var(--wp-space-3); padding: 0 0 0 var(--wp-space-4); border-left: 3px solid var(--color-border); }
+.finder-programs .finder-item { border-bottom: 1px solid var(--color-border); }
+.finder-programs .finder-item:last-child { border-bottom: 0; }
+
+.finder-partial-head { font-family: var(--finder-font); font-size: var(--wp-text-lg); font-weight: 600; margin: var(--wp-space-6) 0 var(--wp-space-3); }
+.finder-more { margin-top: var(--wp-space-4); }
+.finder-showmap { display: none; margin-top: var(--wp-space-2); }
+
+/* Record fields */
+.finder-chip { display: inline-block; font-size: var(--wp-text-xs); font-weight: 600; padding: 2px var(--wp-space-2); border: 1px solid var(--color-accent-secondary); color: var(--color-text-primary); margin-bottom: var(--wp-space-2); }
+.finder-addr,
+.finder-phone { margin: 0 0 var(--wp-space-1); font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
+.finder-phone a { color: var(--color-text-primary); }
+.finder-nopin { margin: 0 0 var(--wp-space-1); font-size: var(--wp-text-sm); color: var(--color-text-secondary); font-style: italic; }
+.finder-facets { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px var(--wp-space-3); margin: var(--wp-space-3) 0; font-size: var(--wp-text-sm); }
+.finder-facets dt { color: var(--color-text-secondary); }
+.finder-facets dd { margin: 0 0 var(--wp-space-1); }
+.finder-unknown { color: var(--color-status-warning-text); }
+.finder-cert { margin: 0 0 var(--wp-space-1); font-size: var(--wp-text-sm); font-weight: 600; }
+.finder-support { margin: 0 0 var(--wp-space-1); font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
+.finder-vacancy { margin: 0 0 var(--wp-space-1); font-size: var(--wp-text-sm); font-weight: 600; }
+.finder-vacancy-posted, .finder-admission { margin: 0 0 var(--wp-space-1); font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
+.finder-vacancy-stale { color: var(--color-status-warning-text); }
+.finder-checked { margin: 0; font-size: var(--wp-text-xs); color: var(--color-text-secondary); }
+.finder-unk-note { margin: 0 0 var(--wp-space-2); font-size: var(--wp-text-xs); color: var(--color-status-warning-text); }
+
+/* Icons (one hue per fact so they read apart at a glance) */
+.finder-icons { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--wp-space-2); }
+.finder-icons.is-labelled { flex-direction: column; gap: 6px; }
+.finder-ico { position: relative; display: inline-flex; align-items: center; gap: 8px; color: var(--color-accent-primary); cursor: help; }
+.finder-ico svg { flex: 0 0 auto; }
+.finder-ico-label { color: var(--color-text-primary); font-size: var(--wp-text-sm); }
+.finder-icons:not(.is-labelled) .finder-ico:hover::after,
+.finder-icons:not(.is-labelled) .finder-ico:focus::after { content: attr(data-tip); position: absolute; left: 0; bottom: calc(100% + 6px); z-index: var(--z-tooltip); width: max-content; max-width: 240px; padding: 6px 8px; background: var(--color-bg-page, #000); color: var(--color-text-primary); border: 1px solid var(--color-border); font-size: var(--wp-text-xs); font-weight: 400; line-height: 1.3; pointer-events: none; }
 .finder-ico[data-k="medicaid"] { color: #3ecf8e; }
 .finder-ico[data-k="medicare"] { color: #5aa9ff; }
 .finder-ico[data-k="mat"] { color: #ff8a5b; }
 .finder-ico[data-k="housing"] { color: #f5c542; }
 .finder-ico[data-k="detox"] { color: #4fd1d9; }
 .finder-ico[data-k="dual"] { color: #d58bff; }
-.finder-about { margin: 0 0 var(--wp-space-2); font-size: var(--wp-text-sm); }
-.finder-about summary { cursor: pointer; color: var(--color-text-secondary); font-weight: 600; padding: 2px 0; }
-.finder-about .finder-lede { margin: var(--wp-space-2) 0 0; }
 
-/* ── Facts matrix ── */
+/* Facts matrix */
 .finder-mx { border-collapse: collapse; width: 100%; font-size: var(--wp-text-sm); margin: var(--wp-space-2) 0; }
 .finder-mx th, .finder-mx td { padding: 4px var(--wp-space-2); text-align: left; border-bottom: 1px solid var(--color-border); }
 .finder-mx tbody th[scope="row"] { font-weight: 400; color: var(--color-text-primary); }
 .finder-mx-group th { padding-top: var(--wp-space-3); color: var(--color-text-secondary); font-size: var(--wp-text-xs); text-transform: uppercase; letter-spacing: .04em; border-bottom: 1px solid var(--color-text-secondary); }
-.finder-mx-cell { text-align: center !important; width: 1%; }
+.finder-mx .finder-mx-cell { text-align: center; width: 1%; }
 .finder-cmp-table .finder-mx-cell { width: auto; }
 .finder-st { display: inline-flex; vertical-align: middle; }
 .finder-st.st-y { color: #3ecf8e; }
@@ -529,34 +406,113 @@ body.finder-drawer-open { overflow: hidden; }
 .finder-st.st-u { color: var(--color-status-warning-text, #f0a63c); }
 .finder-mx-legend { display: flex; gap: var(--wp-space-4); font-size: var(--wp-text-xs); color: var(--color-text-secondary); margin: var(--wp-space-2) 0; }
 .finder-mx-key { display: inline-flex; align-items: center; gap: 4px; }
-.finder-compare { scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; }
 
-/* ── Listing rhythm and compact crisis strip (tracker 267) ──
-   Name first, then type · town · distance, then tags and icons, with room between rows. */
-.finder-row { gap: var(--wp-space-1); padding: var(--wp-space-3) var(--wp-space-3) var(--wp-space-4); }
-.finder-row-name { font-size: var(--wp-text-base); line-height: 1.3; }
-.finder-row-meta { color: var(--color-text-primary); }
-.finder-tags { margin-top: var(--wp-space-2); gap: 6px; }
-.finder-icons { margin-top: var(--wp-space-2); }
-.finder-item + .finder-item { border-top: 1px solid var(--color-border); }
-.finder-item:not(:last-child) { margin-bottom: var(--wp-space-1); }
-@media (min-width: 1024px) {
-  .finder-crisis { display: grid; grid-template-columns: auto auto 1fr; column-gap: var(--wp-space-5); padding: var(--wp-space-2) var(--wp-space-4); align-items: start; }
-  .finder-crisis p { margin: 0; }
-  .finder-crisis-head { grid-column: 1 / -1; margin: var(--wp-space-2) 0 0; }
-  .finder-crisis-extra { grid-column: 1 / -1; columns: 2; column-gap: var(--wp-space-5); font-size: var(--wp-text-sm); }
+@media (min-width: 768px) {
+  .finder-list { min-height: 0; overflow-y: auto; }
+  .finder-listhead { position: sticky; top: 0; z-index: var(--z-sticky); background: var(--color-bg-container); }
+  .finder-facets { grid-template-columns: minmax(0, max-content) minmax(0, 1fr); }
+  .finder-facets dd { margin-bottom: 0; }
+}
+@media (max-width: 767.98px) {
+  .finder-showmap { display: inline-block; }
 }
 
-/* Counselor sign-in (tracker 251): a compact row above the map stage. */
-.finder-signin .finder-form { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--wp-space-3); margin: 0 0 var(--wp-space-3); }
-.finder-signin .finder-text { flex: 1 1 260px; }
-.finder-signin .finder-text input { border: 1px solid var(--color-border); background: var(--input-bg); }
-.finder-signedin, .finder-signin-msg { margin: 0 0 var(--wp-space-3); font-size: var(--wp-text-sm); }
+/* Desktop: the list is a drawer over the left of the map; the full record opens in the panel instead. */
+@media (min-width: 1024px) {
+  .finder-list { position: absolute; top: var(--finder-overlay-top); left: var(--finder-gap); bottom: var(--finder-gap); width: var(--finder-list-w); z-index: var(--z-overlay); background: var(--color-bg-container); border: 1px solid var(--color-border); padding: 0 var(--wp-space-3) var(--wp-space-3); transition: transform .2s ease; }
+  .finder-stage[data-results="closed"] .finder-list { transform: translateX(calc(-100% - 2 * var(--finder-gap))); }
+  .finder-list .finder-detail { display: none; }
+}
 
-/* ── Shortlists, notes and the client handout (tracker 252) ── */
-.finder-save { order: 2; margin: var(--wp-space-2) var(--wp-space-2) 0 0; padding: var(--wp-space-1) var(--wp-space-3); font-size: var(--wp-text-xs); }
-.finder-save[hidden], #finder-shortlist-open[hidden] { display: none; }
+/* ── Results open/close button (desktop only) ─────────────── */
+.finder-results-toggle { display: none; }
+
+@media (min-width: 1024px) {
+  .finder-results-toggle { display: block; position: absolute; top: calc(var(--finder-overlay-top) + var(--wp-space-3)); left: calc(var(--finder-gap) + var(--finder-list-w) + var(--finder-gap)); z-index: var(--z-overlay-toggle); background: var(--color-bg-container); color: var(--color-text-primary); border: 1px solid var(--color-border); padding: var(--wp-space-2) var(--wp-space-3); font: inherit; font-size: var(--wp-text-sm); font-weight: 600; cursor: pointer; transition: left .2s ease; }
+  .finder-stage[data-results="closed"] .finder-results-toggle { left: var(--finder-gap); }
+}
+
+/* ── Details panel (desktop only) ─────────────────────────── */
+.finder-panel { display: none; scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; }
+.finder-panel-head { padding-bottom: var(--wp-space-2); border-bottom: 1px solid var(--color-border); margin-bottom: var(--wp-space-2); position: relative; }
+.finder-panel-name { font-family: var(--finder-font); font-size: var(--wp-text-xl); margin: 0 var(--wp-space-8) var(--wp-space-1) 0; }
+.finder-panel-x { position: absolute; top: 0; right: 0; width: 36px; height: 36px; background: none; border: 1px solid var(--color-border); color: inherit; font-size: 24px; line-height: 1; cursor: pointer; }
+.finder-panel-cmp { display: flex; align-items: center; gap: var(--wp-space-2); margin-bottom: var(--wp-space-2); font-size: var(--wp-text-sm); cursor: pointer; }
+.finder-panel .finder-detail { padding: 0; }
 .finder-panel .finder-save { margin: 0 0 var(--wp-space-2); }
+
+@media (min-width: 1024px) {
+  .finder-panel { display: block; position: absolute; top: var(--finder-overlay-top); right: var(--finder-gap); bottom: var(--finder-gap); width: var(--finder-panel-w); z-index: var(--z-overlay); overflow-y: auto; background: var(--color-bg-container); border: 1px solid var(--color-border); padding: var(--wp-space-3); }
+}
+
+/* ── Map, style buttons, "Search this map area" ───────────── */
+.finder-mapwrap { position: relative; display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.finder-map { width: 100%; max-width: 100%; height: 70dvh; min-height: 280px; border: 1px solid var(--color-border); background: var(--color-bg-surface); }
+.finder-map canvas { max-width: 100%; }
+.finder-map-note { color: var(--color-text-secondary); font-size: var(--wp-text-sm); }
+
+.finder-basemaps { display: flex; margin-bottom: var(--wp-space-3); }
+.finder-basemaps button { flex: 1 1 0; min-height: var(--finder-basemap-h); padding: 0 var(--wp-space-3); border: 1px solid var(--color-border); background: var(--input-bg); color: var(--color-text-secondary); font: inherit; font-size: var(--wp-text-sm); cursor: pointer; }
+.finder-basemaps button + button { margin-left: -1px; }
+.finder-basemaps button[aria-pressed="true"] { background: var(--color-accent-primary); border-color: var(--color-accent-primary); color: var(--color-bg-container); font-weight: 600; position: relative; z-index: var(--z-raised); }
+.finder-basemaps button:focus-visible { outline: 2px solid var(--color-border-active); outline-offset: 2px; }
+
+/* "Search this map area": just under the in-flow style buttons (their height and margin), on the visible top of the map.
+   It must not move under the pointer: centred with auto margins (no transform), and the shared .btn:hover / :active nudge
+   (design-system.css, translate(-2px,-2px) replacing the centring transform) is switched off. Hover and keyboard focus
+   show a shimmer instead, ported from the Kerrigan app's skeleton loader (kerrUI design-system.css .shimmer-hybrid::after
+   gradient and holo-wave keyframes). */
+.finder-area { position: absolute; left: 0; right: 0; width: max-content; max-width: 100%; top: calc(var(--finder-basemap-h) + 2 * var(--wp-space-3)); z-index: var(--z-map-control); margin: 0 auto; }
+.btn.finder-area { overflow: hidden; transform: none; box-shadow: 4px 4px 0 var(--color-border); }
+.btn.finder-area:hover, .btn.finder-area:focus-visible, .btn.finder-area:active { transform: none; box-shadow: 4px 4px 0 var(--color-border); }
+.finder-area::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0;
+  background: linear-gradient(135deg, transparent 0%, color-mix(in srgb, var(--color-accent-secondary) 12%, transparent) 30%, color-mix(in srgb, var(--color-accent-secondary) 35%, transparent) 50%, color-mix(in srgb, var(--color-accent-primary) 20%, transparent) 70%, transparent 100%);
+  background-size: 200% 100%; background-position: -200% 0; }
+.finder-area:hover::after, .finder-area:focus-visible::after { opacity: 1; animation: finder-holo-wave 2.4s ease-in-out infinite; }
+@keyframes finder-holo-wave { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .finder-area:hover::after, .finder-area:focus-visible::after { animation: none; background-position: 0 0; } /* static highlight */
+}
+
+/* Always-visible map credit (the on-map control starts collapsed). Under the map below 1024px. */
+.finder-foot { margin-top: var(--wp-space-4); display: flex; flex-direction: column; }
+.finder-signup { margin: 0; }
+.finder-signup .btn { white-space: normal; text-align: center; padding-top: var(--wp-space-2); padding-bottom: var(--wp-space-2); max-width: 100%; }
+.finder-credit { order: -1; margin: 0 0 var(--wp-space-4); font-size: var(--wp-text-sm); line-height: 1.4; color: var(--color-text-secondary); }
+.finder-credit a { color: inherit; text-decoration: underline; }
+.finder-credit a:hover { color: var(--color-text-primary); }
+.finder-credit a + a, .finder-credit a + span { margin-left: .5em; }
+
+/* Tablet: the map fills the grid cell under the style buttons. */
+@media (min-width: 768px) {
+  .finder-map { flex: 1 1 auto; height: auto; min-height: 0; }
+}
+
+/* Desktop: the map is the whole stage; the style buttons float at the bottom centre. */
+@media (min-width: 1024px) {
+  .finder-mapwrap { position: absolute; inset: 0; }
+  .finder-map { border: 0; }
+  .finder-basemaps { position: absolute; left: 50%; transform: translateX(-50%); bottom: var(--finder-gap); z-index: var(--z-map-control); margin: 0; box-shadow: 0 2px 12px rgba(0, 0, 0, .5); }
+  .finder-basemaps button { padding: 0 var(--wp-space-4); }
+  .finder-area { top: auto; bottom: calc(var(--finder-gap) + var(--finder-basemap-h) + var(--wp-space-2)); }
+  .finder-stage .maplibregl-ctrl-top-right { top: var(--finder-overlay-top); }
+  .finder-stage[data-panel="open"] .maplibregl-ctrl-top-right { right: calc(var(--finder-gap) + var(--finder-panel-w) + var(--finder-nudge)); }
+  .finder-foot { flex-direction: row; align-items: center; justify-content: space-between; gap: var(--wp-space-4); }
+  .finder-credit { order: 0; margin: 0; text-align: right; font-size: var(--wp-text-xs, .75rem); }
+}
+
+/* ── Compare, shortlist, handout and upgrade dialogs ──────── */
+.finder-compare { width: min(1100px, 96vw); max-height: 92dvh; overflow: auto; background: var(--color-bg-container); color: var(--color-text-primary); border: 1px solid var(--color-border); padding: var(--wp-space-4); scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; }
+.finder-compare::backdrop { background: rgba(0, 0, 0, 0.6); }
+.finder-compare-head { display: flex; justify-content: space-between; align-items: center; gap: var(--wp-space-3); flex-wrap: wrap; }
+.finder-compare-head h2 { margin: 0; }
+.finder-compare-hint { font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
+.finder-compare-body { overflow-x: auto; }
+.finder-cmp-table { border-collapse: collapse; width: 100%; font-size: var(--wp-text-sm); }
+.finder-cmp-table th, .finder-cmp-table td { border: 1px solid var(--color-border); padding: var(--wp-space-2); text-align: left; vertical-align: top; min-width: 160px; }
+.finder-cmp-table tbody th { width: 140px; min-width: 120px; color: var(--color-text-secondary); font-weight: 600; }
+.finder-cmp-remove { display: block; margin-top: 4px; background: none; border: 0; color: var(--color-text-secondary); text-decoration: underline; cursor: pointer; padding: 0; font: inherit; font-size: var(--wp-text-xs); }
+.finder-note { width: 100%; box-sizing: border-box; background: var(--color-bg-surface); color: inherit; border: 1px solid var(--color-border); padding: var(--wp-space-2); font: inherit; }
 .finder-note-warn { margin: 0 0 var(--wp-space-1); font-size: var(--wp-text-xs); color: var(--color-text-secondary); }
 .finder-sl-bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--wp-space-2); margin: var(--wp-space-3) 0; }
 .finder-sl-select, .finder-sl-name { background: var(--color-bg-surface); color: inherit; border: 1px solid var(--color-border); padding: var(--wp-space-2); font: inherit; }
@@ -564,41 +520,26 @@ body.finder-drawer-open { overflow: hidden; }
 .finder-sl-item { display: flex; justify-content: space-between; align-items: center; gap: var(--wp-space-3); padding: var(--wp-space-2) 0; border-bottom: 1px solid var(--color-border); }
 .finder-sl-pick { display: flex; align-items: center; gap: var(--wp-space-2); cursor: pointer; }
 .finder-sl-actions { display: flex; gap: var(--wp-space-2); margin-top: var(--wp-space-3); }
-.finder-handout-body { background: #fff; padding: var(--wp-space-4); margin-top: var(--wp-space-3); }
-.finder-handout-body, .finder-handout-body * { color: #000; }
+.finder-handout-body { background: #fff; color: #000; padding: var(--wp-space-4); margin-top: var(--wp-space-3); }
+.finder-handout-body * { color: #000; }
 .finder-ho-title { margin-top: 0; }
 .finder-ho-entry h3, .finder-ho-crisis { margin-bottom: var(--wp-space-1); }
 .finder-ho-entry p { margin: 0 0 var(--wp-space-1); }
+.finder-upgrade { max-width: min(32rem, calc(100vw - 2rem)); }
+.finder-upgrade-plans { display: grid; gap: var(--wp-space-3); margin: var(--wp-space-4) 0; }
+.finder-upgrade-plans .btn { white-space: normal; text-align: center; padding-top: var(--wp-space-2); padding-bottom: var(--wp-space-2); }
+
+@media (max-width: 767.98px) {
+  .finder-compare { width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; }
+}
+
 @media print {
-  html:has(body.finder-printing), body.finder-printing { background: #fff !important; }
-  body.finder-printing > *:not(main#finder), body.finder-printing #finder > *:not(#finder-handout-dialog) { display: none !important; }
+  html:has(body.finder-printing), body.finder-printing { background: #fff; }
+  body.finder-printing > *:not(main#finder), body.finder-printing #finder > *:not(#finder-handout-dialog) { display: none; }
   body.finder-printing #finder-handout-dialog { position: static; display: block; width: auto; max-width: none; max-height: none; height: auto; overflow: visible; border: 0; padding: 0; background: #fff; color: #000; }
   body.finder-printing #finder-handout-dialog .finder-ho-controls { display: none; }
   body.finder-printing .finder-handout-body { padding: 0; margin: 0; }
 }
 
-/* Upgrade plan choice (nav button, signed in). */
-.finder-upgrade { max-width: min(32rem, calc(100vw - 2rem)); }
-.finder-upgrade-plans { display: grid; gap: var(--wp-space-3); margin: var(--wp-space-4) 0; }
-.finder-upgrade-plans .btn { white-space: normal; text-align: center; padding-top: var(--wp-space-2); padding-bottom: var(--wp-space-2); }
-@media (max-width: 480px) { .finder-head { margin-top: 36px; } } /* clears the tab the nav links hang in */
-
-/* ── Clear buttons inside the name and town boxes (tracker 283) ── */
-.f-clearable { position: relative; display: block; }
-.f-clearable input { padding-right: 40px; }
-.f-clearable-list input { padding-right: 64px; } /* room for the browser's datalist arrow */
-.f-clearable input[type="search"]::-webkit-search-cancel-button { appearance: none; display: none; }
-.f-clear { position: absolute; top: 50%; right: 4px; transform: translateY(-50%); width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: 0; color: var(--color-text-secondary); cursor: pointer; }
-.f-clear[hidden] { display: none; }
-.f-clearable-list .f-clear { right: 28px; }
-.f-clear:hover { color: var(--color-text-primary); }
-.f-clear:focus-visible { outline: 2px solid var(--color-border-active); outline-offset: -2px; }
-@media (max-width: 767.98px), (pointer: coarse) {
-  .f-clear { width: 44px; height: 44px; right: 0; }
-  .f-clearable-list .f-clear { right: 24px; }
-  .f-clearable input { padding-right: 48px; }
-  .f-clearable-list input { padding-right: 72px; }
-}
-.finder-row-operator { display: block; font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
-.finder-row-matched { display: block; font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
-.finder-house-note { margin: 0 0 var(--wp-space-2); font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
+/* ── hidden wins over every display rule above (keep this block last) ── */
+.finder [hidden] { display: none; }

@@ -111,6 +111,25 @@
   --gutter-tablet: var(--wp-space-4);    /* 16px Tablet gutter */
   --gutter-mobile: var(--wp-space-3);    /* 12px Mobile gutter */
 
+  /* Breakpoints. @media cannot read custom properties, so every @media width in finder.css must
+     equal one of these (max-width queries use the value minus 0.02px); scripts/finder-style-lint.mjs
+     fails the build otherwise. Scripts read these with getComputedStyle. */
+  --bp-narrow: 480px;
+  --bp-tablet: 768px;
+  --bp-desktop: 1024px;
+
+  /* z-index scale: the only z-index values finder.css may use. */
+  --z-raised: 1;          /* checked segment over its neighbour's border */
+  --z-sticky: 2;          /* sticky list header inside a scrolling list */
+  --z-map-control: 5;     /* style buttons and "Search this map area" over the map */
+  --z-overlay: 15;        /* results list and details panel over the map */
+  --z-overlay-toggle: 16; /* Results open/close button, beside the list */
+  --z-filters: 20;        /* search bar over the list and panel */
+  --z-notice: 25;         /* error message over the search bar */
+  --z-tooltip: 30;        /* icon tooltips */
+  --z-backdrop: 1090;     /* filter drawer backdrop */
+  --z-drawer: 1100;       /* filter drawer */
+
   /* Typography Semantics */
   --font-heading: var(--wp-font-sans);
   --font-body: var(--wp-font-inter);
@@ -1111,6 +1130,7 @@ code, pre {
   top: 0;
   z-index: 100;
   display: flex;
+  flex-wrap: wrap; /* 481-590px: logo, three links and the trial button do not fit one row; wrap instead of overflowing sideways */
   align-items: center;
   justify-content: space-between;
   gap: var(--wp-space-4);
