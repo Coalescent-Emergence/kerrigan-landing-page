@@ -1,0 +1,6 @@
+# CI overlay (finder-check, tracker 293): the finder on, talking to the local stub API
+# (scripts/finder-stub-api.mjs, port 1314) so the layout check never calls the live dev service.
+[params]
+  finderEnabled = true
+  finderApiBase = "http://127.0.0.1:1314/finder"
+  kerrApiBase = "http://127.0.0.1:1314"
