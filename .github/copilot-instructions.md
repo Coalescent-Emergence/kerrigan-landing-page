@@ -6,7 +6,7 @@ This repository contains the public-facing landing page for **Kerrigan** — AI-
 
 - **Static Site Generator**: Hugo (extended, v0.128.0)
 - **Deployment**: GitHub Pages via GitHub Actions (`.github/workflows/deploy.yml`)
-- **Styles**: Custom CSS at `static/css/main.css`
+- **Styles**: Custom CSS at `assets/css/design-system.css` (site) and `assets/css/finder.css` (finder page)
 - **Forms**: Formspree (waitlist capture, ID: `mwvreeno`)
 - **Domain**: `latentworx.com`
 
