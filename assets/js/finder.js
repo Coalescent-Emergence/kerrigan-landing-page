@@ -308,6 +308,11 @@
   var SESSION_KEY = 'finder.session';
   var session = loadSession();
   var streetCache = {};
+  // Opening posts (tracker 253): availability by item id (null = no recent report), the record
+  // behind each id (the detox/crisis rule reads it), and the last id list read.
+  var avail = {};
+  var postRecs = {};
+  var PostsLib = window.FinderPosts;
 
   function loadSession() {
     try {
@@ -324,6 +329,7 @@
     } catch (e) { /* storage blocked: the session lasts until reload */ }
     if (!session) { streetCache = {}; clearLists(); }
     updateAuthUI();
+    loadAvail();
   }
 
   function updateAuthUI() {
@@ -332,6 +338,7 @@
     if (navUpgrade) navUpgrade.hidden = !session;
     if (navSignup) navSignup.hidden = !!session;
     syncSaves();
+    paintPosts();
   }
 
   // ── upgrade (nav button, signed in): plan choice, then Stripe Checkout ──
@@ -453,23 +460,27 @@
   // One request to the finder API. Signed in, the Kerrigan token goes in the
   // Authorization header only. GET answers {…}; PUT and DELETE (shortlist items)
   // answer 204 and resolve null.
-  function call(method, path, params, retried) {
+  function call(method, path, params, retried, body) {
     var sp = new URLSearchParams();
     Object.keys(params || {}).forEach(function (k) { sp.set(k, params[k]); });
     var url = API + path + (sp.toString() ? '?' + sp.toString() : '');
     var headers = { Accept: 'application/json' };
     var sent = session;
     if (sent) headers.Authorization = 'Bearer ' + sent.access;
-    return fetch(url, { method: method, credentials: 'omit', headers: headers })
+    var init = { method: method, credentials: 'omit', headers: headers };
+    if (body !== undefined) { headers['Content-Type'] = 'application/json'; init.body = JSON.stringify(body); }
+    return fetch(url, init)
       .then(function (res) {
         if (res.status === 401 && sent && !retried) {
           // Expired or rejected token: refresh once, else fall back to signed out.
-          return refreshSession().then(function () { return call(method, path, params, true); });
+          return refreshSession().then(function () { return call(method, path, params, true, body); });
         }
         return res.json().catch(function () { return null; }).then(function (body) {
           if (!res.ok) {
             var msg = body && body.error ? body.error : 'HTTP ' + res.status;
-            throw new Error(msg);
+            var e = new Error(typeof msg === 'string' ? msg : 'HTTP ' + res.status);
+            e.status = res.status;
+            throw e;
           }
           return body;
         });
@@ -508,6 +519,7 @@
         lookupCrisis(params, cseq, crisisPoint(params, body, results));
       }
       render();
+      loadAvail();
     }).catch(function (err) {
       if (seq !== state.seq) return;
       statusEl.textContent = '';
@@ -762,6 +774,7 @@
     var line = 'Checked against ' + (c.source || (r.kind === 'residence' ? 'the DBHDS list' : 'FindTreatment.gov')) + ' on ' + (c.on || 'an unknown date');
     if (c.source_as_of) line += ' (source dated ' + c.source_as_of + ')';
     detail.appendChild(el('p', 'finder-checked', line));
+    detail.appendChild(postBox(r));
     return detail;
   }
 
@@ -807,6 +820,11 @@
     var strip = iconStrip(r, false);
     if (strip) head.appendChild(strip);
     if (r.match === 'partial') head.appendChild(el('span', 'finder-row-partial', 'Some answers unknown'));
+    postRecs[r.id] = r;
+    var chip = el('span', 'finder-post-chip');
+    chip.setAttribute('data-id', String(r.id));
+    head.appendChild(chip);
+    paintChip(chip);
     li.appendChild(head);
 
     // Full record: built once, shown only when selected (inline on small screens, in the right panel on wide ones).
@@ -1117,6 +1135,150 @@
   // localStorage can throw on access; a stand-in that remembers nothing keeps notes working in the box.
   var NO_STORE = { getItem: function () { return null; }, setItem: function () {}, removeItem: function () {} };
   function notesStore() { try { return window.localStorage || NO_STORE; } catch (e) { return NO_STORE; } }
+
+  // ── opening posts and reports (tracker 253) ──────────────
+  // Everyone sees the newest post per result (public read). A signed-in counselor also gets the
+  // post buttons and Report: Report only ever renders with a token. The author is never shown.
+  var postSeq = 0;
+
+  function todayStr() { return new Date().toISOString().slice(0, 10); }
+
+  function postView(id) {
+    var rec = postRecs[id];
+    return PostsLib.view(avail[id], rec, todayStr(), crisisOn);
+  }
+
+  function paintChip(chip) {
+    var id = chip.getAttribute('data-id');
+    if (!Object.prototype.hasOwnProperty.call(avail, id)) { chip.textContent = ''; chip.hidden = true; return; }
+    var v = postView(id);
+    chip.hidden = false;
+    chip.textContent = v.text;
+    chip.className = 'finder-post-chip finder-post-' + v.kind + (v.status ? ' finder-post-s-' + v.status : '');
+  }
+
+  // The controls exist only while signed in: signed out, the box holds the status line and
+  // nothing else (no post buttons, no Report). Rebuilt on every paint, so a sign-out removes them.
+  function paintBox(box) {
+    var id = box.getAttribute('data-id');
+    var line = box.querySelector('.finder-post-line');
+    var known = Object.prototype.hasOwnProperty.call(avail, id);
+    var v = postView(id);
+    line.textContent = known ? v.text : '';
+    line.className = 'finder-post-line finder-post-' + (known ? v.kind : 'none');
+    var ctl = box.querySelector('.finder-post-ctl');
+    clear(ctl);
+    if (!session) return;
+    buildCtl(ctl, id, box.querySelector('.finder-post-msg'), known && v.kind !== 'reported' && avail[id] ? avail[id].status : '');
+  }
+
+  function paintPosts() {
+    if (!root) return;
+    Array.prototype.forEach.call(root.querySelectorAll('.finder-post-chip'), paintChip);
+    Array.prototype.forEach.call(root.querySelectorAll('.finder-post'), paintBox);
+  }
+
+  // Read availability for every result on the page. Signed in uses the /me route (it also says
+  // which posts are reported); a 401 there means the session is gone, so read the public route.
+  function loadAvail() {
+    var ids = Object.keys(postRecs);
+    var q = PostsLib.itemsParam(ids);
+    if (!q) return Promise.resolve();
+    var seq = ++postSeq;
+    var path = session ? '/v1/me/availability' : '/v1/availability';
+    return getJSON(path, { items: q }).then(function (b) {
+      if (seq !== postSeq || !b || !b.items) return;
+      avail = {};
+      ids.forEach(function (id) { avail[id] = b.items[id] || null; });
+      paintPosts();
+    }).catch(function () { /* availability is optional: the page still searches */ });
+  }
+
+  function postAction(id, status, msg) {
+    return call('POST', '/v1/me/posts', null, false, { item: id, status: status }).then(function (b) {
+      avail[id] = { post_id: b.post_id, status: b.status || status, posted_on: b.posted_on || todayStr(), stale: false, author_kind: 'counselor', reported: false };
+      msg.textContent = '';
+      hideError();
+      paintPosts();
+    }).catch(function (err) { msg.textContent = PostsLib.failText(err.status || 0, 'post this'); });
+  }
+
+  // Report: one tap opens the four reasons, one tap sends. target is post-N, link-N, svc-N or
+  // res-N, or a function that returns it at tap time (a post's id changes when a new one replaces it).
+  function reportButton(target, label, msg) {
+    var wrap = el('span', 'finder-report');
+    var b = el('button', 'finder-report-btn btn btn-secondary', label);
+    b.type = 'button';
+    b.setAttribute('aria-expanded', 'false');
+    var reasons = el('span', 'finder-report-reasons');
+    reasons.hidden = true;
+    PostsLib.REASONS.forEach(function (rs) {
+      var rb = el('button', 'finder-report-reason btn btn-secondary', rs[1]);
+      rb.type = 'button';
+      rb.addEventListener('click', function () {
+        var t = typeof target === 'function' ? target() : target;
+        if (!t) return;
+        call('POST', '/v1/me/reports', null, false, { target: t, reason: rs[0] }).then(function () {
+          reasons.hidden = true;
+          b.setAttribute('aria-expanded', 'false');
+          msg.textContent = 'Thanks. Reported.';
+        }).catch(function (err) { msg.textContent = PostsLib.failText(err.status || 0, 'report this'); });
+      });
+      reasons.appendChild(rb);
+    });
+    b.addEventListener('click', function () {
+      var open = reasons.hidden;
+      reasons.hidden = !open;
+      b.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    wrap.appendChild(b);
+    wrap.appendChild(reasons);
+    return wrap;
+  }
+
+  function buildCtl(ctl, id, msg, current) {
+    var r = postRecs[id] || {};
+    var grp = el('span', 'finder-post-btns');
+    grp.setAttribute('role', 'group');
+    grp.setAttribute('aria-label', 'Post what you know about openings');
+    PostsLib.STATUSES.forEach(function (s) {
+      var b = el('button', 'finder-post-btn btn btn-secondary', PostsLib.LABELS[s]);
+      b.type = 'button';
+      b.setAttribute('data-status', s);
+      b.setAttribute('aria-pressed', s === current ? 'true' : 'false');
+      b.addEventListener('click', function () { postAction(id, s, msg); });
+      grp.appendChild(b);
+    });
+    ctl.appendChild(grp);
+    var row = el('span', 'finder-report-row');
+    row.appendChild(reportButton(id, 'Report this listing', msg));
+    if (avail[id] && avail[id].post_id) {
+      row.appendChild(reportButton(function () { return avail[id] && avail[id].post_id; }, 'Report this post', msg));
+    }
+    ctl.appendChild(row);
+    // Housing links, when the record carries them (each has its own id, link-N).
+    (Array.isArray(r.links) ? r.links : []).forEach(function (l) {
+      if (!l || !/^link-[0-9]+$/.test(String(l.id))) return;
+      var lr = el('p', 'finder-link-row', l.label ? String(l.label) : 'Housing link');
+      lr.appendChild(document.createTextNode(' '));
+      lr.appendChild(reportButton(String(l.id), 'Report this link', msg));
+      ctl.appendChild(lr);
+    });
+  }
+
+  function postBox(r) {
+    var id = String(r.id);
+    postRecs[id] = r;
+    var box = el('div', 'finder-post');
+    box.setAttribute('data-id', id);
+    box.appendChild(el('p', 'finder-post-line'));
+    box.appendChild(el('div', 'finder-post-ctl'));
+    var msg = el('p', 'finder-post-msg');
+    msg.setAttribute('role', 'status');
+    box.appendChild(msg);
+    paintBox(box);
+    return box;
+  }
 
   function clearLists() {
     lists = { account: null, shortlists: [], active: null, ready: false };
