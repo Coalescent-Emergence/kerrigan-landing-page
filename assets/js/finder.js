@@ -204,9 +204,14 @@
   // Returns the params the API takes. No matching place: the name search alone.
   var origin = null; // {lat, lng} of the searched town, for the distance on each row
 
+  // runSeq: a new (non-append) run supersedes any earlier one still looking up its town, so a
+  // slow earlier lookup can never start its search after a later one (search() guards its own response).
+  var runSeq = 0;
   function run(userParams, append) {
+    var rseq = append ? runSeq : ++runSeq;
     if (!append) origin = null;
     return apiParamsFor(userParams, true).then(function (api) {
+      if (rseq !== runSeq) return;
       // A distance search frames the box it asked for (search() only frames results when no box was sent).
       var wsen = (parseFloat(userParams.miles) > 0 && api.bbox) ? parseBbox(api.bbox) : null;
       if (wsen && map && !append) {
@@ -236,8 +241,20 @@
     return api;
   }
 
+  // "Any" type of care sends every type the page offers, in form order, so recovery houses join
+  // programs in one search (the API matches nothing extra when domain is omitted). A chosen type is sent as is.
+  function allDomains() {
+    return Array.prototype.map.call(form.querySelectorAll('input[name="domain"]'), function (r) { return r.value; })
+      .filter(function (v) { return v; }).join(',');
+  }
+  function mapDomainParams(api) {
+    if (!api.domain) api.domain = allDomains();
+    return api;
+  }
+  function mapApiParams(api) { return mapDomainParams(mapSettingParams(api)); }
+
   function apiParamsFor(userParams, keepOrigin) {
-    return apiParamsBase(userParams, keepOrigin).then(mapSettingParams);
+    return apiParamsBase(userParams, keepOrigin).then(mapApiParams);
   }
 
   // Straight-line miles between two points (haversine).
@@ -822,14 +839,24 @@
 
   // ── wide screens: map stage with a results drawer (left) and a details panel (right) ──
   var selectedId = null;
-  var stageMq = window.matchMedia('(min-width: 1024px)');
+  // Breakpoints and overlay offsets are the --bp-* (design-system.css) and --finder-* (finder.css)
+  // custom properties, read here so CSS and script cannot drift apart.
   var stage = root.querySelector('.finder-stage');
+  function cssVar(name) { return getComputedStyle(root).getPropertyValue(name).trim(); }
+  function cssPx(name) { return parseFloat(cssVar(name)) || 0; }
+  var stageMq = window.matchMedia('(min-width: ' + cssVar('--bp-desktop') + ')');
   var panel = document.getElementById('finder-panel');
   var resultsToggle = document.getElementById('finder-results-toggle');
 
   function padObj() {
     if (!stageMq.matches) return { top: 0, left: 0, right: 0, bottom: 0 };
-    return { top: 84, left: stage.getAttribute('data-results') === 'open' ? 392 : 0, right: stage.getAttribute('data-panel') === 'open' ? 372 : 0, bottom: 0 };
+    var gap = cssPx('--finder-gap'), nudge = cssPx('--finder-nudge');
+    return {
+      top: cssPx('--finder-overlay-top'),
+      left: stage.getAttribute('data-results') === 'open' ? gap + cssPx('--finder-list-w') + nudge : 0,
+      right: stage.getAttribute('data-panel') === 'open' ? gap + cssPx('--finder-panel-w') + nudge : 0,
+      bottom: 0
+    };
   }
   // Fit padding keeps pins out from under the drawer, the panel and the search bar.
   function fitPad() {
@@ -1037,7 +1064,7 @@
   });
 
   // ── mobile: List or Map ──────────────────────────────────
-  var mobileMq = window.matchMedia('(max-width: 767.98px)');
+  var mobileMq = window.matchMedia('(max-width: ' + (cssPx('--bp-tablet') - 0.02) + 'px)');
   var lastFit = null;
   function setView(v) {
     root.setAttribute('data-view', v);
@@ -1587,7 +1614,8 @@
   // content. Returns the sequence number the later lookup must still match.
   function resetCrisis(p) {
     var cseq = ++crisisSeq;
-    var domains = p.domain ? p.domain.split(',') : [];
+    // The all-types list (Any) contains crisis but is not a crisis search: only an explicit choice shows the strip.
+    var domains = p.domain && p.domain !== allDomains() ? p.domain.split(',') : [];
     crisisOn = domains.indexOf('crisis') !== -1 || p.wm === 'yes';
     crisisEl.hidden = !crisisOn;
     clear(crisisExtra);
@@ -1828,7 +1856,7 @@
   // ── wiring ───────────────────────────────────────────────
   // Clear buttons (tracker 283). Deleting a box by hand fires `input` while typing and `change` on
   // commit; the form's change listeners refresh the live count, the filter count and the reveal
-  // rules, and nothing runs a search until Search is pressed. The button does the same: it empties
+  // rules, and the text boxes' own input events run the live search (tracker 292). The button does the same: it empties
   // the box and fires those two events, so the page ends in the state a manual delete leaves it in.
   // The distance slider keeps its value either way (it is ignored while the town is empty).
   function syncClear() {
@@ -1854,14 +1882,42 @@
   // Recovery housing has no street address or pin on this page: say so while it is the chosen type of care.
   var houseNote = document.getElementById('finder-house-note');
   function syncHouseNote() {
-    if (houseNote) houseNote.hidden = readForm().domain !== 'recovery_housing';
+    var d = readForm().domain;
+    if (houseNote) houseNote.hidden = d !== '' && d !== 'recovery_housing';
   }
   form.addEventListener('change', syncHouseNote);
   form.addEventListener('reset', function () { window.setTimeout(syncHouseNote, 0); });
   syncHouseNote();
 
+  // Live search (tracker 292): typing in the program-name or town box searches after a short pause
+  // (no Enter); any other control (type of care, drawer filters, distance) searches at once on change.
+  // The inputs are never re-rendered, so focus stays; the results line (#finder-status, aria-live
+  // polite) announces the new count. Enter and the Search button still submit immediately.
+  var LIVE_PAUSE_MS = 300;
+  var liveSearchTimer = null;
+  function isTextBox(t) { return !!t && t.tagName === 'INPUT' && (t.type === 'search' || t.type === 'text'); }
+  function liveSearch() {
+    window.clearTimeout(liveSearchTimer);
+    liveSearchTimer = null;
+    var p = readForm();
+    pushLocation(p);
+    run(p, false);
+  }
+  form.addEventListener('input', function (e) {
+    if (!isTextBox(e.target)) return;
+    window.clearTimeout(liveSearchTimer);
+    liveSearchTimer = window.setTimeout(liveSearch, LIVE_PAUSE_MS);
+  });
+  form.addEventListener('change', function (e) {
+    // Text boxes search from their input events; a change on blur or Enter must not repeat it.
+    if (isTextBox(e.target)) return;
+    liveSearch();
+  });
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
+    window.clearTimeout(liveSearchTimer);
+    liveSearchTimer = null;
     var p = readForm();
     pushLocation(p);
     run(p, false);
@@ -1891,7 +1947,7 @@
     pushLocation(p);
     var q = {};
     Object.keys(p).forEach(function (k) { if (k !== 'miles') q[k] = p[k]; });
-    search(mapSettingParams(q), false);
+    search(mapApiParams(q), false);
   });
 
 

@@ -1,4 +1,4 @@
-.PHONY: matched-check serve-lan theme-editor dev stop finder-preview nav-check controls-check
+.PHONY: matched-check domain-check serve-lan theme-editor dev stop finder-preview nav-check controls-check finder-style-lint
 
 serve-lan:
 	@IP=$$(hostname -I | awk '{print $$1}'); \
@@ -47,7 +47,15 @@ nav-check:
 controls-check:
 	node scripts/finder-controls-check.mjs $(NAV_URL)/finder/
 
+# Style lint on the finder styles: duplicate selectors and vh window-height units (use dvh/svh).
+finder-style-lint:
+	node scripts/finder-style-lint.mjs assets/css/finder.css
+
 # Headless check of the "Matched: <name>" line on finder cards (string, null, absent, markup as text).
 # Builds against a stub API; needs geckodriver (:4444) and hugo.
 matched-check:
 	node scripts/finder-matched-check.mjs
+
+# Browser check that Any sends all four types and Crisis care sends crisis (stub API; needs geckodriver on :4444).
+domain-check:
+	node scripts/finder-domain-check.mjs
