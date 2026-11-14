@@ -204,9 +204,14 @@
   // Returns the params the API takes. No matching place: the name search alone.
   var origin = null; // {lat, lng} of the searched town, for the distance on each row
 
+  // runSeq: a new (non-append) run supersedes any earlier one still looking up its town, so a
+  // slow earlier lookup can never start its search after a later one (search() guards its own response).
+  var runSeq = 0;
   function run(userParams, append) {
+    var rseq = append ? runSeq : ++runSeq;
     if (!append) origin = null;
     return apiParamsFor(userParams, true).then(function (api) {
+      if (rseq !== runSeq) return;
       // A distance search frames the box it asked for (search() only frames results when no box was sent).
       var wsen = (parseFloat(userParams.miles) > 0 && api.bbox) ? parseBbox(api.bbox) : null;
       if (wsen && map && !append) {
@@ -1838,7 +1843,7 @@
   // ── wiring ───────────────────────────────────────────────
   // Clear buttons (tracker 283). Deleting a box by hand fires `input` while typing and `change` on
   // commit; the form's change listeners refresh the live count, the filter count and the reveal
-  // rules, and nothing runs a search until Search is pressed. The button does the same: it empties
+  // rules, and the text boxes' own input events run the live search (tracker 292). The button does the same: it empties
   // the box and fires those two events, so the page ends in the state a manual delete leaves it in.
   // The distance slider keeps its value either way (it is ignored while the town is empty).
   function syncClear() {
@@ -1870,8 +1875,35 @@
   form.addEventListener('reset', function () { window.setTimeout(syncHouseNote, 0); });
   syncHouseNote();
 
+  // Live search (tracker 292): typing in the program-name or town box searches after a short pause
+  // (no Enter); any other control (type of care, drawer filters, distance) searches at once on change.
+  // The inputs are never re-rendered, so focus stays; the results line (#finder-status, aria-live
+  // polite) announces the new count. Enter and the Search button still submit immediately.
+  var LIVE_PAUSE_MS = 300;
+  var liveSearchTimer = null;
+  function isTextBox(t) { return !!t && t.tagName === 'INPUT' && (t.type === 'search' || t.type === 'text'); }
+  function liveSearch() {
+    window.clearTimeout(liveSearchTimer);
+    liveSearchTimer = null;
+    var p = readForm();
+    pushLocation(p);
+    run(p, false);
+  }
+  form.addEventListener('input', function (e) {
+    if (!isTextBox(e.target)) return;
+    window.clearTimeout(liveSearchTimer);
+    liveSearchTimer = window.setTimeout(liveSearch, LIVE_PAUSE_MS);
+  });
+  form.addEventListener('change', function (e) {
+    // Text boxes search from their input events; a change on blur or Enter must not repeat it.
+    if (isTextBox(e.target)) return;
+    liveSearch();
+  });
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
+    window.clearTimeout(liveSearchTimer);
+    liveSearchTimer = null;
     var p = readForm();
     pushLocation(p);
     run(p, false);
