@@ -10,6 +10,7 @@
 {{- $lists := resources.Get "js/finder-lists.js" | minify | fingerprint -}}
 {{- $upgrade := resources.Get "js/finder-upgrade.js" | minify | fingerprint -}}
 {{- $js := resources.Get "js/finder.js" | minify | fingerprint -}}
+{{- $transit := eq site.Params.finderTransit true -}}
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.css" integrity="sha384-uTttxo/aOKbdE5RlD/SPzSDoDmNvGlUYPjONi2MN/b7c9HPSvW07OIuyP7uL6jxK" crossorigin="anonymous">
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
@@ -19,6 +20,13 @@
 <main id="finder" class="finder" data-va-geojson="{{ "data/virginia.geojson" | relURL }}" data-api="{{ site.Params.finderApiBase }}" data-kerr-api="{{ site.Params.kerrApiBase }}" data-signup="{{ $signupHref }}" data-app="{{ site.Params.appUrl | default "https://ui.latentworx.com/" }}">
   <header class="finder-head">
     <h1 class="finder-title">Find a placement</h1>
+    {{- if $transit }}
+    <div class="finder-transit">
+      <button type="button" id="finder-pin-btn" class="btn btn-secondary" aria-pressed="false">Set client&rsquo;s home</button>
+      <button type="button" id="finder-pin-clear" class="btn btn-secondary" hidden>Clear pin</button>
+      <span id="finder-pin-status" class="finder-note" role="status" aria-live="polite"></span>
+    </div>
+    {{- end }}
   </header>
 
   <section id="finder-signin" class="finder-signin" aria-label="Counselor sign-in">
@@ -369,5 +377,9 @@
 <script src="{{ $street.RelPermalink }}" integrity="{{ $street.Data.Integrity }}" defer></script>
 <script src="{{ $lists.RelPermalink }}" integrity="{{ $lists.Data.Integrity }}" defer></script>
 <script src="{{ $upgrade.RelPermalink }}" integrity="{{ $upgrade.Data.Integrity }}" defer></script>
+{{- if $transit }}
+{{- $transitJs := resources.Get "js/finder-transit.js" | minify | fingerprint }}
+<script src="{{ $transitJs.RelPermalink }}" integrity="{{ $transitJs.Data.Integrity }}" defer></script>
+{{- end }}
 <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
 {{ end }}
