@@ -6,3 +6,6 @@
   finderEnabled = true
   finderApiBase = "https://api.jhax.dev/finder"
   kerrApiBase = "https://api.jhax.dev"
+  # Dev-only (Kerrigan tracker 250): the client-home pin and transit times. hugo.toml has no
+  # finderTransit, so the production build carries no pin control and no finder-transit.js.
+  finderTransit = true
