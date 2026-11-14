@@ -7,6 +7,7 @@
 //   - the cards show "About N min by transit" and "N km straight line · Plan the trip with <agency>".
 // Needs geckodriver on GECKO (default http://127.0.0.1:4444) and hugo on PATH:
 //   geckodriver --port 4444 & node scripts/finder-transit-check.mjs
+// SHOT_DIR=<dir> also saves a screenshot of the page after the pin at 1280 and 390 px wide (fix-<width>.png).
 import { createServer } from 'node:http';
 import { execFileSync } from 'node:child_process';
 import { mkdtempSync, writeFileSync, readFileSync, existsSync, statSync } from 'node:fs';
@@ -95,7 +96,16 @@ try {
     check(by['res-3'] && by['res-3'].text === null, 'residence card has no travel line');
     const pos = b.lat !== undefined ? [String(b.lat).slice(0, 7), String(b.lng).slice(0, 7)] : null;
     check(pos && urls.every((u) => u.indexOf(pos[0]) === -1 && u.indexOf(pos[1]) === -1), `none of ${urls.length} browser-fetched URLs carries the pin`);
-    console.log('network log (stub API, after the pin):'); log.forEach((r) => console.log('  ' + r.method + ' ' + r.url + (r.body ? ' ' + r.body : '')));
+    if (process.env.SHOT_DIR) {
+    for (const [w, h] of [[1280, 900], [390, 844]]) {
+      await wd('POST', `/session/${sid}/window/rect`, { width: w, height: h });
+      await sleep(1500);
+      await run(`var li = document.querySelector('.finder-item'); if (li) li.scrollIntoView({ block: 'center' })`);
+      const png = await wd('GET', `/session/${sid}/screenshot`);
+      writeFileSync(join(process.env.SHOT_DIR, `fix-${w}.png`), Buffer.from(png, 'base64'));
+    }
+  }
+  console.log('network log (stub API, after the pin):'); log.forEach((r) => console.log('  ' + r.method + ' ' + r.url + (r.body ? ' ' + r.body : '')));
   }
   if (!failed) console.log('only /api/v1/travel carried the pin');
 } finally { await wd('DELETE', `/session/${sid}`).catch(() => {}); if (srv) srv.close(); }
