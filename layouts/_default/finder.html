@@ -21,13 +21,6 @@
 <main id="finder" class="finder" data-va-geojson="{{ "data/virginia.geojson" | relURL }}" data-api="{{ site.Params.finderApiBase }}" data-kerr-api="{{ site.Params.kerrApiBase }}" data-signup="{{ $signupHref }}" data-app="{{ site.Params.appUrl | default "https://ui.latentworx.com/" }}">
   <header class="finder-head">
     <h1 class="finder-title">Find a placement</h1>
-    {{- if $transit }}
-    <div class="finder-transit">
-      <button type="button" id="finder-pin-btn" class="btn btn-secondary" aria-pressed="false">Set client&rsquo;s home</button>
-      <button type="button" id="finder-pin-clear" class="btn btn-secondary" hidden>Clear pin</button>
-      <span id="finder-pin-status" class="finder-note" role="status" aria-live="polite"></span>
-    </div>
-    {{- end }}
   </header>
 
   <section id="finder-signin" class="finder-signin" aria-label="Counselor sign-in">
@@ -317,6 +310,13 @@
         <button type="button" data-basemap="3d" aria-pressed="false">3D</button>
         <button type="button" data-basemap="satellite" aria-pressed="false">Satellite</button>
       </div>
+      {{- if $transit }}
+      <div class="finder-transit" style="position:absolute;top:3.5rem;left:50%;transform:translateX(-50%);z-index:var(--z-map-control);display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:var(--wp-space-2);max-width:calc(100% - 7rem);padding:var(--wp-space-1) var(--wp-space-2);border-radius:var(--radius-md,6px);background:var(--color-bg-surface);box-shadow:0 2px 12px rgba(0,0,0,.5)">
+        <button type="button" id="finder-pin-btn" class="btn btn-secondary" aria-pressed="false">Set client&rsquo;s home</button>
+        <button type="button" id="finder-pin-clear" class="btn btn-secondary" hidden>Clear pin</button>
+        <span id="finder-pin-status" class="finder-note" role="status" aria-live="polite"></span>
+      </div>
+      {{- end }}
       <div id="finder-map" class="finder-map"></div>
       <button id="finder-area" type="button" class="btn btn-secondary finder-area" hidden>Search this map area</button>
       <p id="finder-map-note" class="finder-map-note" hidden></p>
