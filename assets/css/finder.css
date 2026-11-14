@@ -541,32 +541,6 @@ body.finder-drawer-open { overflow: hidden; }
   body.finder-printing .finder-handout-body { padding: 0; margin: 0; }
 }
 
-/* Upgrade plan choice (nav button, signed in). */
-.finder-upgrade { max-width: min(32rem, calc(100vw - 2rem)); }
-.finder-upgrade-plans { display: grid; gap: var(--wp-space-3); margin: var(--wp-space-4) 0; }
-.finder-upgrade-plans .btn { white-space: normal; text-align: center; padding-top: var(--wp-space-2); padding-bottom: var(--wp-space-2); }
-@media (max-width: 480px) { .finder-head { margin-top: 36px; } } /* clears the tab the nav links hang in */
-
-/* ── Clear buttons inside the name and town boxes (tracker 283) ── */
-.f-clearable { position: relative; display: block; }
-.f-clearable input { padding-right: 40px; }
-.f-clearable-list input { padding-right: 64px; } /* room for the browser's datalist arrow */
-.f-clearable input[type="search"]::-webkit-search-cancel-button { appearance: none; display: none; }
-.f-clear { position: absolute; top: 50%; right: 4px; transform: translateY(-50%); width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: 0; color: var(--color-text-secondary); cursor: pointer; }
-.f-clear[hidden] { display: none; }
-.f-clearable-list .f-clear { right: 28px; }
-.f-clear:hover { color: var(--color-text-primary); }
-.f-clear:focus-visible { outline: 2px solid var(--color-border-active); outline-offset: -2px; }
-@media (max-width: 767.98px), (pointer: coarse) {
-  .f-clear { width: 44px; height: 44px; right: 0; }
-  .f-clearable-list .f-clear { right: 24px; }
-  .f-clearable input { padding-right: 48px; }
-  .f-clearable-list input { padding-right: 72px; }
-}
-.finder-row-operator { display: block; font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
-.finder-row-matched { display: block; font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
-.finder-house-note { margin: 0 0 var(--wp-space-2); font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
-
 /* Opening posts and reports (tracker 253). Status is text first; colour only backs it up. */
 .finder-post-chip { display: block; font-size: var(--wp-text-xs); opacity: .85; margin-top: var(--wp-space-1); }
 .finder-post-chip[hidden] { display: none; }
