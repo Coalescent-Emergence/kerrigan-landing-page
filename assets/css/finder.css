@@ -338,6 +338,9 @@ body.finder-drawer-open { overflow: hidden; }
 .finder-row-meta { font-size: var(--wp-text-sm); color: var(--color-text-primary); }
 .finder-row-operator { display: block; font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
 .finder-row-matched { display: block; font-size: var(--wp-text-sm); color: var(--color-text-secondary); }
+.finder-org { order: 2; flex: 0 0 100%; box-sizing: border-box; text-align: left; background: none; border: 0; padding: 0 var(--wp-space-3) var(--wp-space-3); font: inherit; font-size: var(--wp-text-sm); color: var(--color-accent-primary); text-decoration: underline; cursor: pointer; }
+.finder-orgbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--wp-space-2); margin: 0 0 var(--wp-space-2); font-weight: 700; }
+.finder-orgbar-clear { background: none; border: 1px solid var(--color-border); padding: var(--wp-space-1) var(--wp-space-3); font: inherit; font-size: var(--wp-text-sm); color: inherit; cursor: pointer; }
 .finder-row-partial { font-size: var(--wp-text-xs); color: var(--color-status-warning-text); }
 .finder-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--wp-space-2); }
 .finder-tag { font-size: var(--wp-text-xs); padding: 0 var(--wp-space-2); border: 1px solid var(--color-accent-secondary); }
@@ -435,6 +438,7 @@ body.finder-drawer-open { overflow: hidden; }
 /* ── Details panel (desktop only) ─────────────────────────── */
 .finder-panel { display: none; scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; }
 .finder-panel-head { padding-bottom: var(--wp-space-2); border-bottom: 1px solid var(--color-border); margin-bottom: var(--wp-space-2); position: relative; }
+.finder-panel-head .finder-org { padding: 0; }
 .finder-panel-name { font-family: var(--finder-font); font-size: var(--wp-text-xl); margin: 0 var(--wp-space-8) var(--wp-space-1) 0; }
 .finder-panel-x { position: absolute; top: 0; right: 0; width: 36px; height: 36px; background: none; border: 1px solid var(--color-border); color: inherit; font-size: 24px; line-height: 1; cursor: pointer; }
 .finder-panel-cmp { display: flex; align-items: center; gap: var(--wp-space-2); margin-bottom: var(--wp-space-2); font-size: var(--wp-text-sm); cursor: pointer; }
