@@ -122,6 +122,7 @@
         var a = document.createElement('a');
         a.href = d.href; a.target = '_blank'; a.rel = 'noopener noreferrer';
         a.textContent = d.linkText;
+        a.style.color = 'var(--color-accent-primary)';
         p.appendChild(a);
       }
       if (old) old.replaceWith(p);
