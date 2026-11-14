@@ -20,7 +20,7 @@ env:
 
 jobs:
   finder-check:
-    runs-on: ubuntu-latest
+    runs-on: small
     timeout-minutes: 20
     env:
       MOZ_HEADLESS: "1"
