@@ -1,4 +1,4 @@
-.PHONY: matched-check serve-lan theme-editor dev stop finder-preview nav-check controls-check finder-style-lint
+.PHONY: care-type-check matched-check serve-lan theme-editor dev stop finder-preview nav-check controls-check finder-style-lint
 
 serve-lan:
 	@IP=$$(hostname -I | awk '{print $$1}'); \
@@ -46,6 +46,12 @@ nav-check:
 # at 1280x720 (crisis strip hidden and shown), 1440x900, 1920x1080, 900x800 and a phone window, plus the sign-up link and no leftover scroll on desktop. Needs geckodriver (:4444) and finder-preview up.
 controls-check:
 	node scripts/finder-controls-check.mjs $(NAV_URL)/finder/
+
+# Fails when the search service supports a type of care the page does not offer (tracker 285). Reads the built
+# page (public/finder/index.html) and scripts/fixtures/finder-service-domains.json; no network.
+care-type-check:
+	node --test scripts/finder-care-type-check.test.mjs
+	node scripts/finder-care-type-check.mjs public/finder/index.html
 
 # Style lint on the finder styles: duplicate selectors and vh window-height units (use dvh/svh).
 finder-style-lint:

@@ -61,6 +61,9 @@ jobs:
           for i in $(seq 1 30); do curl -fs http://127.0.0.1:1313/finder/ >/dev/null && curl -fs http://127.0.0.1:4444/status >/dev/null && curl -fs 'http://127.0.0.1:1314/finder/v1/search' >/dev/null && exit 0; sleep 1; done
           cat /tmp/serve.log /tmp/gecko.log /tmp/stub.log; exit 1
 
+      - name: Care-type check (page offers every type of care the service supports)
+        run: make care-type-check
+
       - name: Controls check (headless Firefox)
         run: make controls-check
 
