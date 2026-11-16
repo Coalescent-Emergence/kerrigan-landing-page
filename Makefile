@@ -1,4 +1,4 @@
-.PHONY: matched-check domain-check serve-lan theme-editor dev stop finder-preview nav-check controls-check finder-style-lint transit-check
+.PHONY: matched-check domain-check serve-lan theme-editor dev stop finder-preview nav-check controls-check finder-style-lint transit-check org-check
 
 serve-lan:
 	@IP=$$(hostname -I | awk '{print $$1}'); \
@@ -64,3 +64,8 @@ transit-check:
 # Browser check that Any sends all four types and Crisis care sends crisis (stub API; needs geckodriver on :4444).
 domain-check:
 	node scripts/finder-domain-check.mjs
+
+# Browser check for the parent-organization link (tracker 290): org= header, row buttons, Clear. Run against
+# the stub API (scripts/finder-stub-api.mjs) with FINDER_BASE_URL set to the served site; needs geckodriver (:4444).
+org-check:
+	node scripts/finder-org-check.mjs
