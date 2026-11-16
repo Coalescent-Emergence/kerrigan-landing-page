@@ -1,4 +1,4 @@
-.PHONY: matched-check serve-lan theme-editor dev stop finder-preview nav-check controls-check finder-style-lint
+.PHONY: matched-check domain-check serve-lan theme-editor dev stop finder-preview nav-check controls-check finder-style-lint
 
 serve-lan:
 	@IP=$$(hostname -I | awk '{print $$1}'); \
@@ -55,3 +55,7 @@ finder-style-lint:
 # Builds against a stub API; needs geckodriver (:4444) and hugo.
 matched-check:
 	node scripts/finder-matched-check.mjs
+
+# Browser check that Any sends all four types and Crisis care sends crisis (stub API; needs geckodriver on :4444).
+domain-check:
+	node scripts/finder-domain-check.mjs
