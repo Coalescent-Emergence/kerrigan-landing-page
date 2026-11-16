@@ -1,4 +1,4 @@
-.PHONY: care-type-check matched-check serve-lan theme-editor dev stop finder-preview nav-check controls-check finder-style-lint
+.PHONY: care-type-check matched-check domain-check serve-lan theme-editor dev stop finder-preview nav-check controls-check finder-style-lint transit-check org-check
 
 serve-lan:
 	@IP=$$(hostname -I | awk '{print $$1}'); \
@@ -61,3 +61,17 @@ finder-style-lint:
 # Builds against a stub API; needs geckodriver (:4444) and hugo.
 matched-check:
 	node scripts/finder-matched-check.mjs
+
+# Dev-only pin check (tracker 250): builds with finderTransit on against a stub API, places a pin in
+# headless Firefox, and asserts only the travel request carries its coordinates. Needs geckodriver (:4444) and hugo.
+transit-check:
+	node scripts/finder-transit-check.mjs
+
+# Browser check that Any sends all four types and Crisis care sends crisis (stub API; needs geckodriver on :4444).
+domain-check:
+	node scripts/finder-domain-check.mjs
+
+# Browser check for the parent-organization link (tracker 290): org= header, row buttons, Clear. Run against
+# the stub API (scripts/finder-stub-api.mjs) with FINDER_BASE_URL set to the served site; needs geckodriver (:4444).
+org-check:
+	node scripts/finder-org-check.mjs
