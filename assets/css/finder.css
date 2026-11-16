@@ -84,7 +84,9 @@
 /* ── Counselor sign-in (tracker 251): a compact row above the map stage ── */
 .finder-signin .finder-form { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--wp-space-3); margin: 0 0 var(--wp-space-3); }
 .finder-signin .finder-text { flex: 1 1 260px; }
-.finder-signin .finder-text input { border: 1px solid var(--color-border); background: var(--input-bg); }
+/* The default input border (charcoal-700) is about 1.4:1 against the page: with no placeholder the field read as an empty black box (tracker 294). Charcoal-400 is about 8:1. */
+.finder-signin .finder-text input { border: 1px solid var(--wp-color-charcoal-400); background: var(--input-bg); }
+.finder-signin .finder-text input::placeholder { color: var(--color-text-secondary); opacity: 1; }
 .finder-signedin, .finder-signin-msg { margin: 0 0 var(--wp-space-3); font-size: var(--wp-text-sm); }
 
 /* ── Crisis strip, status ────────────────────────────────── */
