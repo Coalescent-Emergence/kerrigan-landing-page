@@ -24,6 +24,7 @@
 // Tablet (800x1000, 900x800, 1000x700) and desktop (incl. 1280x600) also assert the search bar controls (name box, town box,
 // Filters, Search), and that the results list and the map end inside the window with nothing left to scroll; desktop 1440x900
 // closes the results panel and asserts the Results toggle is still on screen and clickable.
+// If #finder-error is visible when a probe runs, the case fails naming the banner and its text.
 // Needs geckodriver on GECKO (default http://127.0.0.1:4444) and the page URL as argv[2]:
 //   geckodriver --port 4444 & node scripts/finder-controls-check.mjs http://127.0.0.1:1313/finder/
 const GECKO = process.env.GECKO || 'http://127.0.0.1:4444';
@@ -37,6 +38,10 @@ async function wd(method, path, body) {
   return j.value;
 }
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+// An API failure shows #finder-error over the controls. Name it, so the failure reads as "the API
+// was down" and not as a layout defect ("covered at its centre").
+const BANNER = `const e = document.getElementById('finder-error'); if (!e || e.hidden) return null; const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 ? e.textContent.trim() : null;`;
+const bannerMsg = async () => { const t = await wd('POST', `/session/${sid}/execute/sync`, { script: BANNER, args: [] }); return t ? `error banner #finder-error is showing (not a layout defect; the search API did not answer): "${t}"` : null; };
 const find0 = async (css) => Object.values(await wd('POST', `/session/${sid}/element`, { using: 'css selector', value: css }))[0];
 
 const PROBE = `
@@ -118,6 +123,8 @@ try {
     await sleep(4000);
     const res = await wd('POST', `/session/${sid}/execute/sync`, { script: PROBE, args: [!!c.scroll, c.crisis || null, !!c.phone, !!(c.desktop || c.tablet), !!c.desktop] });
     const bad = [];
+    const banner = await bannerMsg();
+    if (banner) bad.push(banner);
     if (!res.items.some((i) => i.name === '#finder-area')) bad.push('#finder-area missing');
     if (!res.items.some((i) => i.name.startsWith('basemap:'))) bad.push('no basemap buttons');
     for (const i of res.items) {
@@ -233,6 +240,7 @@ try {
       await sleep(500);
       cards = await wd('POST', `/session/${sid}/execute/sync`, { script: `const li = [...document.querySelectorAll('#finder-full .finder-item, #finder-partial .finder-item')]; return { n: li.length, hit: li.filter((x) => x.textContent.includes('Atlantic Outreach Group')).length };`, args: [] });
     }
+    { const b = await bannerMsg(); if (b) bad.push(b); }
     if (!cards.n) bad.push('no result cards rendered');
     else if (!cards.hit) bad.push(`${cards.n} cards, none contain "Atlantic Outreach Group"`);
     const shown = await wd('POST', `/session/${sid}/execute/sync`, { script: NOTE, args: [] });
@@ -260,6 +268,7 @@ try {
     // Filter change: Recovery housing is a type-of-care click; results must follow with no other action.
     await exec(`document.querySelector('[aria-label="Type of care"] input[value="recovery_housing"]').click(); return 1;`);
     const housed = await until((s) => s.atlantic > 0);
+    { const b = await bannerMsg(); if (b) bad.push(b); }
     if (!housed.atlantic) bad.push('type-of-care change did not update the results (no Atlantic Outreach Group card)');
     const q = await find('[name=q]');
     await wd('POST', `/session/${sid}/element/${q}/click`, {});
