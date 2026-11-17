@@ -680,6 +680,27 @@
   </div>
 </section>
 
+{{- /* Articles: a crawlable link to every live article (tracker 73). Draft
+       pages are not in site.RegularPages. */}}
+{{ $articles := where site.RegularPages "Section" "articles" }}
+{{ with $articles.ByDate.Reverse }}
+<section id="articles" class="section-pad-sm">
+  <div class="section-container">
+    <span class="section-eyebrow">Articles</span>
+    <h2 class="section-title">Reading for programs weighing an AI scribe</h2>
+    <ol class="article-list">
+      {{ range . }}
+      <li class="sacred-card article-list-item">
+        <h3 class="card-title article-list-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+        {{ with .Description }}<p class="article-list-desc">{{ . }}</p>{{ end }}
+      </li>
+      {{ end }}
+    </ol>
+    <p class="section-sub"><a href="/articles/">All articles</a></p>
+  </div>
+</section>
+{{ end }}
+
 
 <!-- ┌──────────────────────────────────────────────────────────────┐
      │  FOOTER                                                      │

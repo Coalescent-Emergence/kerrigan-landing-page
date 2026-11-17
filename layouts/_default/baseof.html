@@ -9,10 +9,11 @@
   {{ if .Params.noindex }}<meta name="robots" content="noindex">{{ end }}
   <meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
   {{ with .Keywords }}<meta name="keywords" content="{{ delimit . ", " }}">{{ end }}
-  {{/* The home page declares no canonical or og:url. LinkedIn points a post's
-       preview card at the declared address, which dropped the post's tags from
-       every card click (found 2026-10-08). Other pages keep theirs. */}}
-  {{ if not .IsHome }}<link rel="canonical" href="{{ .Permalink }}">{{ end }}
+  {{/* Every page, the home page included, declares its own canonical so search
+       engines have one address to index. The home page still emits no og:url
+       (below): LinkedIn points a post's preview card at og:url, which dropped
+       the post's tags from every card click (found 2026-10-08). */}}
+  <link rel="canonical" href="{{ .Permalink }}">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
   {{/* ── Open Graph ──────────────────────────────── */}}
