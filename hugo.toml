@@ -10,6 +10,9 @@ disableKinds = ["taxonomy", "term"]
   description = "An AI scribe for behavioral health and substance use treatment. Live in-session transcription in about two seconds, note drafts in seconds, and transcription that runs on our own GPUs."
   tagline = "AI Clinical Notes for Behavioral Health & Substance Use Treatment"
   formspreeID = "mwvreeno"
+  # Transit times on the live finder (tracker 250). The page code ships with PR 43; the production
+  # transit release must be synced first. deploy/finder-dev.toml carries the same flag for dev.
+  finderTransit = true
 
   # ── GO-LIVE GATE ──────────────────────────────────────────────────────────
   # Self-serve signup is ON since 2026-10-17. While false, the pricing section renders prices
