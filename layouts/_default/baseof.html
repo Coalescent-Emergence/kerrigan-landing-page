@@ -17,7 +17,7 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
   {{/* ── Open Graph ──────────────────────────────── */}}
-  {{ $isArticle := and .IsPage (eq .Section "articles") }}
+  {{ $isArticle := and .IsPage (in (slice "articles" "note-examples") .Section) }}
   {{ $ogImage := .Site.Params.ogImage }}{{ with .Params.image }}{{ $ogImage = . }}{{ end }}
   <meta property="og:type" content="{{ if $isArticle }}article{{ else }}website{{ end }}">
   {{ if not .IsHome }}<meta property="og:url" content="{{ .Permalink }}">{{ end }}
