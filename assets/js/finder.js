@@ -2084,7 +2084,8 @@
       if (lastFull !== null && lastFull !== c.full) text += ' · ' + (c.full < lastFull ? 'down ' : 'up ') + Math.abs(c.full - lastFull) + ' from before';
       lastFull = c.full;
       liveEl.textContent = text;
-      showBtn.textContent = 'Show ' + c.full + (c.full === 1 ? ' result' : ' results');
+      // The page lists every result (full and partial), so the button counts them all and notes the full matches.
+      showBtn.textContent = 'Show ' + c.total + (c.total === 1 ? ' result' : ' results') + (c.total > c.full && c.full > 0 ? ' \u00b7 ' + c.full + ' full match' + (c.full === 1 ? '' : 'es') : '');
     }).catch(function () {
       if (seq !== liveSeq) return;
       liveEl.textContent = '';

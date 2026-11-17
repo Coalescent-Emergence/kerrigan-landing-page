@@ -7,11 +7,11 @@ import { createServer } from 'node:http';
 
 const PORT = Number(process.argv[2] || 1314);
 const FPS = { id: 'org-mcd-6bdda43a-029f-46fb-a67f-d655e6edc8ad', name: 'Family Preservation Services' };
-const rec = (id, name, extra) => ({ id, kind: 'service', name, town: 'Ashburn', type_label: 'Outpatient', lat: 39.04, lng: -77.49, facets: {}, checked: {}, organizations: [], ...extra });
+const rec = (id, name, extra) => ({ id, kind: 'service', match: 'full', name, town: 'Ashburn', type_label: 'Outpatient', lat: 39.04, lng: -77.49, facets: {}, checked: {}, organizations: [], ...extra });
 export const FIXTURES = [
   rec('s1', 'Ashburn Clinic', { organizations: [FPS] }),
   rec('s2', 'Roanoke Valley Counseling', { town: 'Roanoke', lat: 37.27, lng: -79.94, organizations: [FPS] }),
-  rec('s3', 'Brightview Treatment', { town: 'Richmond', lat: 37.54, lng: -77.44, organizations: [{ id: 'org-mcd-stub-brightview', name: 'Brightview Health' }] }),
+  rec('s3', 'Brightview Treatment', { match: 'partial', town: 'Richmond', lat: 37.54, lng: -77.44, organizations: [{ id: 'org-mcd-stub-brightview', name: 'Brightview Health' }] }),
   rec('res-1', 'Atlantic House', { kind: 'residence', type_label: 'Recovery housing', operator: 'Atlantic Outreach Group', town: 'Norfolk', lat: 36.85, lng: -76.29, organizations: [{ id: 'org-op-stub-atlantic', name: 'Atlantic Outreach Group' }] }),
   rec('res-2', 'Harbor Home', { kind: 'residence', type_label: 'Recovery housing', operator: 'Harbor Recovery', town: 'Hampton', lat: 37.03, lng: -76.35, organizations: [{ id: 'org-op-stub-harbor', name: 'Harbor Recovery' }] }),
 ];

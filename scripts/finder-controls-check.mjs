@@ -26,6 +26,7 @@
 // Tablet (800x1000, 900x800, 1000x700) and desktop (incl. 1280x600) also assert the search bar controls (name box, town box,
 // Filters, Search), and that the results list and the map end inside the window with nothing left to scroll; desktop 1440x900
 // closes the results panel and asserts the Results toggle is still on screen and clickable.
+// Filters drawer: at 1440x900 and 390x844 its header (title, live count, close) is inside the window and topmost, and "Show N results" equals the page's "Showing N of" after the click.
 // If #finder-error is visible when a probe runs, the case fails naming the banner and its text.
 // Needs geckodriver on GECKO (default http://127.0.0.1:4444) and the page URL as argv[2]:
 //   geckodriver --port 4444 & node scripts/finder-controls-check.mjs http://127.0.0.1:1313/finder/
@@ -245,6 +246,45 @@ try {
     }
     if (bad.length) failed = true;
     console.log(`${bad.length ? 'FAIL' : 'PASS'} ${c.name} (crisis ${res.crisis} ${res.crisisBox ? res.crisisBox.display + '/' + res.crisisBox.h + 'px' : ''}, innerWidth ${res.W}x${res.H}${c.desktop || c.tablet ? `, signup ${res.signup && res.signup.y}..${res.signup && res.signup.b}, max scroll doc ${res.maxScroll.doc} body ${res.maxScroll.body}` : ''}${c.scroll ? ', after scrollIntoView' : ''}${c.hoverNote || ''})${bad.length ? ': ' + bad.join('; ') : ''}`);
+  }
+  for (const [w, h] of [[1440, 900], [390, 844]]) {
+    // Filters drawer (tracker 296): with it open, its header (title, live count, close button) lies inside the window and is the
+    // topmost element at its centre (the site nav must not cover it), and "Show N results" counts what the page then lists.
+    const bad = [];
+    await wd('POST', `/session/${sid}/window/rect`, { width: w, height: h });
+    await wd('POST', `/session/${sid}/url`, { url });
+    await sleep(4000);
+    const exec = (script, args = []) => wd('POST', `/session/${sid}/execute/sync`, { script, args });
+    await (async () => { const o = await find0('#finder-drawer-open'); await wd('POST', `/session/${sid}/element/${o}/click`, {}); })();
+    await sleep(1500);
+    const HEAD = `const out = [];
+      for (const [n, css] of [['title', '#finder-drawer-title'], ['live count', '#finder-live'], ['close button', '#finder-drawer-close']]) {
+        const e = document.querySelector(css); const r = e.getBoundingClientRect();
+        const hit = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
+        out.push({ n, shown: r.width > 0 && r.height > 0, inside: r.left >= 0 && r.top >= 0 && r.right <= innerWidth && r.bottom <= innerHeight, top: !!hit && (hit === e || e.contains(hit) || hit.contains(e)), y: Math.round(r.y), hit: hit ? hit.tagName + (hit.className ? '.' + String(hit.className).split(' ')[0] : '') : 'none' });
+      }
+      const nav = document.querySelector('.site-nav'); const nr = nav && nav.getBoundingClientRect();
+      return { out, navB: nr ? Math.round(nr.bottom) : null, live: document.getElementById('finder-live').textContent, show: document.getElementById('finder-show').textContent };`;
+    const hd = await exec(HEAD);
+    for (const i of hd.out) {
+      if (!i.shown) bad.push(`drawer ${i.n} not rendered`);
+      else if (!i.inside) bad.push(`drawer ${i.n} outside ${w}x${h}`);
+      else if (!i.top) bad.push(`drawer ${i.n} covered at its centre by ${i.hit} (site nav bottom ${hd.navB}px, ${i.n} at y ${i.y}px)`);
+    }
+    let show = hd.show;
+    for (let t = 0; t < 40 && !/^Show \d+ result/.test(show); t++) { await sleep(250); show = (await exec(HEAD)).show; }
+    const m = /^Show (\d+) result/.exec(show);
+    if (!m) bad.push(`Show button reads "${show}", no result count`);
+    else {
+      await wd('POST', `/session/${sid}/element/${await find0('#finder-show')}/click`, {});
+      let st = '';
+      for (let t = 0; t < 40; t++) { await sleep(250); st = await exec(`return document.getElementById('finder-status').textContent;`); const mm = /^Showing (\d+) of/.exec(st); if (mm) break; }
+      const mm = /^Showing (\d+) of/.exec(st);
+      if (!mm) bad.push(`page status after Show click is "${st}"`);
+      else if (mm[1] !== m[1]) bad.push(`Show button said ${m[1]} but the page says "${st}"`);
+    }
+    if (bad.length) failed = true;
+    console.log(`${bad.length ? 'FAIL' : 'PASS'} filters drawer ${w}x${h} (nav bottom ${hd.navB}px, header y ${hd.out.map((i) => i.y).join('/')}px, button "${show}")${bad.length ? ': ' + bad.join('; ') : ''}`);
   }
   {
     const bad = [];
