@@ -1,8 +1,7 @@
 {{/* Structured data. Organization on the home page only; Article for pages in the
      articles section; VideoObject when front matter carries a `video` map.
-     Nothing here declares the home page's own address: the home page has no
-     canonical or og:url on purpose (see baseof.html), and only Organization,
-     whose url is the company's, renders there. */}}
+     The home page declares its canonical in baseof.html but no og:url; the
+     structured data here carries only Organization, whose url is the company's. */}}
 {{ $logo := .Site.Params.ogImage | absURL }}
 {{ if .IsHome }}
 {{ $org := dict
