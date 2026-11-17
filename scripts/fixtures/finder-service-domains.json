@@ -1,0 +1,8 @@
+{
+  "source": "https://git.jhax.dev:30300/LatentWorx-Kerrigan/kerr-finder/src/commit/4b365c0de4890d384768dbd15e18193d9efb843c/internal/catalog/facets.go#L52",
+  "ref": "4b365c0de4890d384768dbd15e18193d9efb843c",
+  "domains": ["addiction", "mental_health", "recovery_housing", "crisis"],
+  "not_offered": {
+    "crisis": "the service accepts it but matches nothing yet (kerr-finder README, filter table, domain row); the page has no choice for it until the service returns results"
+  }
+}

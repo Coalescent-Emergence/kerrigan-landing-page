@@ -86,7 +86,7 @@
   // Filters in the API contract, in form order. Multi-valued ones are sent comma-joined.
   // 'miles' is page-only: it becomes a map box around the place typed in q (see run).
   var FILTERS = ['q', 'town', 'miles', 'domain', 'setting', 'wm', 'length', 'payment', 'moud',
-    'co_occurring', 'gender', 'age', 'population', 'language'];
+    'co_occurring', 'gender', 'age', 'population', 'language', 'org'];
 
   var FILTER_NAMES = {
     q: 'name or town', town: 'town', domain: 'type of care', setting: 'setting',
@@ -121,6 +121,14 @@
   var initialBbox = '';
   var mapReady = false;
   var lastFC = { type: 'FeatureCollection', features: [] };
+
+  // 'org' (tracker 290) has no visible control: a hidden field carries it so the URL, the form
+  // and the search all treat it like the other filters.
+  var orgInput = document.createElement('input');
+  orgInput.type = 'hidden';
+  orgInput.name = 'org';
+  form.appendChild(orgInput);
+  var orgNames = {}; // organization id -> name, learned from results
 
   // ── helpers ──────────────────────────────────────────────
   function el(tag, cls, text) {
@@ -787,6 +795,64 @@
     return (typeof r.matched_name === 'string' && r.matched_name) ? r.matched_name : '';
   }
 
+  // Organization buttons (tracker 290): "Part of <name>", or "Run by <name>" for recovery houses.
+  // Each sets the org filter and shows that organization's listings.
+  function orgsOf(r) {
+    return (Array.isArray(r.organizations) ? r.organizations : []).filter(function (o) {
+      return o && typeof o.id === 'string' && o.id && typeof o.name === 'string' && o.name;
+    });
+  }
+
+  function orgButtons(r, cls) {
+    return orgsOf(r).map(function (o) {
+      orgNames[o.id] = o.name;
+      var b = el('button', cls, (r.kind === 'residence' ? 'Run by ' : 'Part of ') + o.name);
+      b.type = 'button';
+      b.setAttribute('data-org', o.id);
+      b.setAttribute('aria-label', 'Show all listings of ' + o.name);
+      b.addEventListener('click', function () { showOrg(o.id); });
+      return b;
+    });
+  }
+
+  // A house with no organization keeps the plain "Run by <operator>" text.
+  function operatorText(r) {
+    return (r.kind === 'residence' && r.operator && !orgsOf(r).length);
+  }
+
+  function showOrg(id) {
+    window.clearTimeout(liveSearchTimer);
+    liveSearchTimer = null;
+    selectItem(null);
+    writeForm({ org: id }); // the organization's listings only: other filters would hide some
+    var p = readForm();
+    pushLocation(p);
+    run(p, false);
+  }
+
+  var orgBar = el('p', 'finder-orgbar');
+  orgBar.hidden = true;
+  statusEl.parentNode.insertBefore(orgBar, statusEl);
+
+  function updateOrgBar() {
+    var id = orgInput.value;
+    clear(orgBar);
+    orgBar.hidden = !id;
+    if (!id) return;
+    orgBar.appendChild(el('span', 'finder-orgbar-name', 'Listings of ' + (orgNames[id] || 'this organization')));
+    var x = el('button', 'finder-orgbar-clear', 'Clear');
+    x.type = 'button';
+    x.setAttribute('aria-label', 'Clear organization filter');
+    x.addEventListener('click', function () {
+      orgInput.value = '';
+      updateOrgBar();
+      liveSearch();
+      var list = document.getElementById('finder-list');
+      if (list) { list.setAttribute('tabindex', '-1'); list.focus(); }
+    });
+    orgBar.appendChild(x);
+  }
+
   function renderItem(r, inGroup) {
     var li = el('li', 'finder-item');
     li.id = 'finder-r-' + String(r.id).replace(/[^A-Za-z0-9_-]/g, '_');
@@ -813,7 +879,7 @@
     head.appendChild(h);
     var meta = inGroup ? '' : metaLine(r);
     if (meta) head.appendChild(el('span', 'finder-row-meta', meta));
-    if (r.kind === 'residence' && r.operator) head.appendChild(el('span', 'finder-row-operator', 'Run by ' + r.operator));
+    if (operatorText(r)) head.appendChild(el('span', 'finder-row-operator', 'Run by ' + r.operator));
     if (matchedName(r)) head.appendChild(el('span', 'finder-row-matched', 'Matched: ' + matchedName(r)));
     var tags = compactTags(r);
     if (tags.length) {
@@ -825,6 +891,8 @@
     if (strip) head.appendChild(strip);
     if (r.match === 'partial') head.appendChild(el('span', 'finder-row-partial', 'Some answers unknown'));
     li.appendChild(head);
+    // Beside the row, never inside it: a button cannot hold a button.
+    orgButtons(r, 'finder-org').forEach(function (b) { li.appendChild(b); });
 
     // Full record: built once, shown only when selected (inline on small screens, in the right panel on wide ones).
     var detail = buildDetail(r, !inGroup);
@@ -890,7 +958,8 @@
     head.appendChild(h);
     var meta = metaLine(r);
     if (meta) head.appendChild(el('p', 'finder-row-meta', meta));
-    if (r.kind === 'residence' && r.operator) head.appendChild(el('p', 'finder-row-operator', 'Run by ' + r.operator));
+    if (operatorText(r)) head.appendChild(el('p', 'finder-row-operator', 'Run by ' + r.operator));
+    orgButtons(r, 'finder-org').forEach(function (b) { head.appendChild(b); });
     if (matchedName(r)) head.appendChild(el('p', 'finder-row-matched', 'Matched: ' + matchedName(r)));
     var strip = iconStrip(r, true);
     if (strip) head.appendChild(strip);
@@ -1111,6 +1180,7 @@
       partialHead.hidden = true;
     }
 
+    updateOrgBar();
     var n = state.results.length;
     if (!n) statusEl.textContent = 'No programs match these filters.';
     else statusEl.textContent = 'Showing ' + n + ' of ' + state.total + ' (' + full.length + ' full match' +
@@ -1928,6 +1998,8 @@
   syncReveal();
 
   form.addEventListener('reset', function () {
+    orgInput.value = ''; // a hidden field keeps its value through reset
+    updateOrgBar();
     window.setTimeout(function () {
       pushLocation({});
       syncReveal();
@@ -1971,7 +2043,7 @@
     var p = readForm();
     var n = 0;
     Object.keys(p).forEach(function (k) {
-      if (k === 'q' || k === 'miles' || k === 'town') return;
+      if (k === 'q' || k === 'miles' || k === 'town' || k === 'org') return;
       n += String(p[k]).split(',').length;
     });
     countEl.textContent = String(n);
@@ -2012,7 +2084,8 @@
       if (lastFull !== null && lastFull !== c.full) text += ' · ' + (c.full < lastFull ? 'down ' : 'up ') + Math.abs(c.full - lastFull) + ' from before';
       lastFull = c.full;
       liveEl.textContent = text;
-      showBtn.textContent = 'Show ' + c.full + (c.full === 1 ? ' result' : ' results');
+      // The page lists every result (full and partial), so the button counts them all and notes the full matches.
+      showBtn.textContent = 'Show ' + c.total + (c.total === 1 ? ' result' : ' results') + (c.total > c.full && c.full > 0 ? ' \u00b7 ' + c.full + ' full match' + (c.full === 1 ? '' : 'es') : '');
     }).catch(function () {
       if (seq !== liveSeq) return;
       liveEl.textContent = '';
@@ -2062,7 +2135,7 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && stage.getAttribute('data-panel') === 'open' && drawer.hidden && !cmpDialog.open) selectItem(null); });
 
   var initial = paramsFromLocation();
-  writeForm(initial); syncHouseNote();
+  writeForm(initial); syncHouseNote(); updateOrgBar();
   syncClear();
   setBarCollapsed(Object.keys(initial).length > 0);
   initialBbox = initial.bbox || '';

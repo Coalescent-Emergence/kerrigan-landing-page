@@ -15,6 +15,8 @@
 // (real key events); each box's clear button (aria-label "Clear program name" / "Clear town") must
 // then be visible and inside the window, and a click must empty that box only, leave focus in it
 // and hide the button again.
+// Every case also asserts the sign-in email field (#finder-signin-email) is rendered, inside the window, has a placeholder
+// and a 3:1 border (tracker 294).
 // Every case also asserts the Type of care group holds an input with value recovery_housing.
 // House search: with Recovery housing selected and "atlantic" typed into the program-name box (Enter),
 // at least one result card must render containing "Atlantic Outreach Group", and the privacy note
@@ -24,6 +26,7 @@
 // Tablet (800x1000, 900x800, 1000x700) and desktop (incl. 1280x600) also assert the search bar controls (name box, town box,
 // Filters, Search), and that the results list and the map end inside the window with nothing left to scroll; desktop 1440x900
 // closes the results panel and asserts the Results toggle is still on screen and clickable.
+// Filters drawer: at 1440x900 and 390x844 its header (title, live count, close) is inside the window and topmost, and "Show N results" equals the page's "Showing N of" after the click.
 // If #finder-error is visible when a probe runs, the case fails naming the banner and its text.
 // Needs geckodriver on GECKO (default http://127.0.0.1:4444) and the page URL as argv[2]:
 //   geckodriver --port 4444 & node scripts/finder-controls-check.mjs http://127.0.0.1:1313/finder/
@@ -113,6 +116,18 @@ const cases = [
   { name: 'phone 390x844', w: 390, h: 844, scroll: true, phone: true, hover: true, clear: true },
 ];
 
+const SIGNIN_PROBE = `
+  const e = document.getElementById('finder-signin-email');
+  if (!e) return null;
+  const lum = (c) => { const m = c.match(/[\\d.]+/g).map(Number); const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(m[0]) + 0.7152 * f(m[1]) + 0.0722 * f(m[2]); };
+  let page = 'rgb(0, 0, 0)';
+  for (let n = e; n; n = n.parentElement) { const b = getComputedStyle(n).backgroundColor; if (!/rgba\\(.*, 0\\)|transparent/.test(b)) { page = b; break; } }
+  const cs = getComputedStyle(e), r = e.getBoundingClientRect();
+  const a = lum(cs.borderTopColor), b2 = lum(page);
+  return { shown: cs.display !== 'none' && cs.visibility !== 'hidden' && r.width > 0 && r.height > 0, display: cs.display, w: r.width, h: r.height, x: r.left, r: r.right,
+    placeholder: e.getAttribute('placeholder') || '', contrast: (Math.max(a, b2) + 0.05) / (Math.min(a, b2) + 0.05) };
+`;
+
 const sess = await wd('POST', '/session', { capabilities: { alwaysMatch: { browserName: 'firefox', 'moz:firefoxOptions': { args: ['-headless'] } } } });
 const sid = sess.sessionId;
 let failed = false;
@@ -134,6 +149,16 @@ try {
     }
     const hasHousing = await wd('POST', `/session/${sid}/execute/sync`, { script: `return !!document.querySelector('[aria-label="Type of care"] input[value="recovery_housing"]');`, args: [] });
     if (!hasHousing) bad.push('Type of care has no recovery_housing input');
+    // Sign-in email field (tracker 294): rendered, inside the window, labelled by a placeholder, and its border
+    // reads against the page (WCAG 1.4.11, 3:1). It once rendered as an empty black box.
+    const si = await wd('POST', `/session/${sid}/execute/sync`, { script: SIGNIN_PROBE, args: [] });
+    if (!si) bad.push('#finder-signin-email missing');
+    else {
+      if (!si.shown) bad.push(`#finder-signin-email not rendered (display ${si.display}, ${si.w}x${si.h})`);
+      else if (si.x < 0 || si.r > res.W) bad.push(`#finder-signin-email rect ${si.x}..${si.r} outside window width ${res.W}`);
+      if (!si.placeholder) bad.push('#finder-signin-email has no placeholder');
+      if (si.contrast < 3) bad.push(`#finder-signin-email border contrast ${si.contrast.toFixed(2)}:1 against the page, needs 3:1 (looks like an empty box)`);
+    }
     if (res.wide.body > res.W || res.wide.doc > res.W) bad.push(`sideways overflow: body.scrollWidth ${res.wide.body}, documentElement.scrollWidth ${res.wide.doc}, window ${res.W} (${res.wide.widest.join('; ')})`);
     if (c.crisis && !res.crisisBox) bad.push('#finder-crisis missing');
     else if (c.crisis === 'hide' && (res.crisisBox.display !== 'none' || res.crisisBox.h !== 0)) bad.push(`crisis strip hidden but display ${res.crisisBox.display}, height ${res.crisisBox.h}`);
@@ -221,6 +246,45 @@ try {
     }
     if (bad.length) failed = true;
     console.log(`${bad.length ? 'FAIL' : 'PASS'} ${c.name} (crisis ${res.crisis} ${res.crisisBox ? res.crisisBox.display + '/' + res.crisisBox.h + 'px' : ''}, innerWidth ${res.W}x${res.H}${c.desktop || c.tablet ? `, signup ${res.signup && res.signup.y}..${res.signup && res.signup.b}, max scroll doc ${res.maxScroll.doc} body ${res.maxScroll.body}` : ''}${c.scroll ? ', after scrollIntoView' : ''}${c.hoverNote || ''})${bad.length ? ': ' + bad.join('; ') : ''}`);
+  }
+  for (const [w, h] of [[1440, 900], [390, 844]]) {
+    // Filters drawer (tracker 296): with it open, its header (title, live count, close button) lies inside the window and is the
+    // topmost element at its centre (the site nav must not cover it), and "Show N results" counts what the page then lists.
+    const bad = [];
+    await wd('POST', `/session/${sid}/window/rect`, { width: w, height: h });
+    await wd('POST', `/session/${sid}/url`, { url });
+    await sleep(4000);
+    const exec = (script, args = []) => wd('POST', `/session/${sid}/execute/sync`, { script, args });
+    await (async () => { const o = await find0('#finder-drawer-open'); await wd('POST', `/session/${sid}/element/${o}/click`, {}); })();
+    await sleep(1500);
+    const HEAD = `const out = [];
+      for (const [n, css] of [['title', '#finder-drawer-title'], ['live count', '#finder-live'], ['close button', '#finder-drawer-close']]) {
+        const e = document.querySelector(css); const r = e.getBoundingClientRect();
+        const hit = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
+        out.push({ n, shown: r.width > 0 && r.height > 0, inside: r.left >= 0 && r.top >= 0 && r.right <= innerWidth && r.bottom <= innerHeight, top: !!hit && (hit === e || e.contains(hit) || hit.contains(e)), y: Math.round(r.y), hit: hit ? hit.tagName + (hit.className ? '.' + String(hit.className).split(' ')[0] : '') : 'none' });
+      }
+      const nav = document.querySelector('.site-nav'); const nr = nav && nav.getBoundingClientRect();
+      return { out, navB: nr ? Math.round(nr.bottom) : null, live: document.getElementById('finder-live').textContent, show: document.getElementById('finder-show').textContent };`;
+    const hd = await exec(HEAD);
+    for (const i of hd.out) {
+      if (!i.shown) bad.push(`drawer ${i.n} not rendered`);
+      else if (!i.inside) bad.push(`drawer ${i.n} outside ${w}x${h}`);
+      else if (!i.top) bad.push(`drawer ${i.n} covered at its centre by ${i.hit} (site nav bottom ${hd.navB}px, ${i.n} at y ${i.y}px)`);
+    }
+    let show = hd.show;
+    for (let t = 0; t < 40 && !/^Show \d+ result/.test(show); t++) { await sleep(250); show = (await exec(HEAD)).show; }
+    const m = /^Show (\d+) result/.exec(show);
+    if (!m) bad.push(`Show button reads "${show}", no result count`);
+    else {
+      await wd('POST', `/session/${sid}/element/${await find0('#finder-show')}/click`, {});
+      let st = '';
+      for (let t = 0; t < 40; t++) { await sleep(250); st = await exec(`return document.getElementById('finder-status').textContent;`); const mm = /^Showing (\d+) of/.exec(st); if (mm) break; }
+      const mm = /^Showing (\d+) of/.exec(st);
+      if (!mm) bad.push(`page status after Show click is "${st}"`);
+      else if (mm[1] !== m[1]) bad.push(`Show button said ${m[1]} but the page says "${st}"`);
+    }
+    if (bad.length) failed = true;
+    console.log(`${bad.length ? 'FAIL' : 'PASS'} filters drawer ${w}x${h} (nav bottom ${hd.navB}px, header y ${hd.out.map((i) => i.y).join('/')}px, button "${show}")${bad.length ? ': ' + bad.join('; ') : ''}`);
   }
   {
     const bad = [];
