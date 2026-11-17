@@ -5,11 +5,11 @@
 import { createServer } from 'node:http';
 
 const PORT = Number(process.argv[2] || 1314);
-const rec = (id, name, extra) => ({ id, kind: 'service', name, town: 'Ashburn', type_label: 'Outpatient', lat: 39.04, lng: -77.49, facets: {}, checked: {}, ...extra });
+const rec = (id, name, extra) => ({ id, kind: 'service', match: 'full', name, town: 'Ashburn', type_label: 'Outpatient', lat: 39.04, lng: -77.49, facets: {}, checked: {}, ...extra });
 export const FIXTURES = [
   rec('s1', 'Ashburn Clinic'),
   rec('s2', 'Roanoke Valley Counseling', { town: 'Roanoke', lat: 37.27, lng: -79.94 }),
-  rec('s3', 'Brightview Treatment', { town: 'Richmond', lat: 37.54, lng: -77.44 }),
+  rec('s3', 'Brightview Treatment', { match: 'partial', town: 'Richmond', lat: 37.54, lng: -77.44 }),
   rec('res-1', 'Atlantic House', { kind: 'residence', type_label: 'Recovery housing', operator: 'Atlantic Outreach Group', town: 'Norfolk', lat: 36.85, lng: -76.29 }),
   rec('res-2', 'Harbor Home', { kind: 'residence', type_label: 'Recovery housing', operator: 'Harbor Recovery', town: 'Hampton', lat: 37.03, lng: -76.35 }),
 ];

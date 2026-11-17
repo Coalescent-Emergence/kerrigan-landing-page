@@ -254,6 +254,8 @@ body.finder-drawer-open { overflow: hidden; }
 /* Desktop: the search bar floats over the map, full fields or one slim strip that still reads as a search box. */
 @media (min-width: 1024px) {
   .finder-filters { position: absolute; top: var(--finder-gap); left: var(--finder-gap); right: var(--finder-gap); z-index: var(--z-filters); margin: 0; box-shadow: 0 6px 24px rgba(0, 0, 0, .5); }
+  /* The filters drawer lives inside this floating bar, whose z-index makes a stacking context under the site nav; while the drawer is open the bar takes the drawer's level so its header is not covered. */
+  body.finder-drawer-open .finder-filters { z-index: var(--z-drawer); }
   .finder-filters .f-bar { padding: var(--wp-space-2) var(--wp-space-3); }
   .f-collapse { display: inline-flex; align-items: center; background: none; border: 0; color: var(--color-text-secondary); font: inherit; font-size: var(--wp-text-sm); cursor: pointer; padding: 0 var(--wp-space-2); }
   .f-bar[data-collapsed="true"] .f-bar-fields, .f-bar[data-collapsed="true"] .f-collapse { display: none; }
