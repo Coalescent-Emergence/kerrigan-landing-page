@@ -15,6 +15,8 @@
 // (real key events); each box's clear button (aria-label "Clear program name" / "Clear town") must
 // then be visible and inside the window, and a click must empty that box only, leave focus in it
 // and hide the button again.
+// Every case also asserts the sign-in email field (#finder-signin-email) is rendered, inside the window, has a placeholder
+// and a 3:1 border (tracker 294).
 // Every case also asserts the Type of care group holds an input with value recovery_housing.
 // House search: with Recovery housing selected and "atlantic" typed into the program-name box (Enter),
 // at least one result card must render containing "Atlantic Outreach Group", and the privacy note
@@ -114,6 +116,18 @@ const cases = [
   { name: 'phone 390x844', w: 390, h: 844, scroll: true, phone: true, hover: true, clear: true },
 ];
 
+const SIGNIN_PROBE = `
+  const e = document.getElementById('finder-signin-email');
+  if (!e) return null;
+  const lum = (c) => { const m = c.match(/[\\d.]+/g).map(Number); const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(m[0]) + 0.7152 * f(m[1]) + 0.0722 * f(m[2]); };
+  let page = 'rgb(0, 0, 0)';
+  for (let n = e; n; n = n.parentElement) { const b = getComputedStyle(n).backgroundColor; if (!/rgba\\(.*, 0\\)|transparent/.test(b)) { page = b; break; } }
+  const cs = getComputedStyle(e), r = e.getBoundingClientRect();
+  const a = lum(cs.borderTopColor), b2 = lum(page);
+  return { shown: cs.display !== 'none' && cs.visibility !== 'hidden' && r.width > 0 && r.height > 0, display: cs.display, w: r.width, h: r.height, x: r.left, r: r.right,
+    placeholder: e.getAttribute('placeholder') || '', contrast: (Math.max(a, b2) + 0.05) / (Math.min(a, b2) + 0.05) };
+`;
+
 const sess = await wd('POST', '/session', { capabilities: { alwaysMatch: { browserName: 'firefox', 'moz:firefoxOptions': { args: ['-headless'] } } } });
 const sid = sess.sessionId;
 let failed = false;
@@ -135,6 +149,16 @@ try {
     }
     const hasHousing = await wd('POST', `/session/${sid}/execute/sync`, { script: `return !!document.querySelector('[aria-label="Type of care"] input[value="recovery_housing"]');`, args: [] });
     if (!hasHousing) bad.push('Type of care has no recovery_housing input');
+    // Sign-in email field (tracker 294): rendered, inside the window, labelled by a placeholder, and its border
+    // reads against the page (WCAG 1.4.11, 3:1). It once rendered as an empty black box.
+    const si = await wd('POST', `/session/${sid}/execute/sync`, { script: SIGNIN_PROBE, args: [] });
+    if (!si) bad.push('#finder-signin-email missing');
+    else {
+      if (!si.shown) bad.push(`#finder-signin-email not rendered (display ${si.display}, ${si.w}x${si.h})`);
+      else if (si.x < 0 || si.r > res.W) bad.push(`#finder-signin-email rect ${si.x}..${si.r} outside window width ${res.W}`);
+      if (!si.placeholder) bad.push('#finder-signin-email has no placeholder');
+      if (si.contrast < 3) bad.push(`#finder-signin-email border contrast ${si.contrast.toFixed(2)}:1 against the page, needs 3:1 (looks like an empty box)`);
+    }
     if (res.wide.body > res.W || res.wide.doc > res.W) bad.push(`sideways overflow: body.scrollWidth ${res.wide.body}, documentElement.scrollWidth ${res.wide.doc}, window ${res.W} (${res.wide.widest.join('; ')})`);
     if (c.crisis && !res.crisisBox) bad.push('#finder-crisis missing');
     else if (c.crisis === 'hide' && (res.crisisBox.display !== 'none' || res.crisisBox.h !== 0)) bad.push(`crisis strip hidden but display ${res.crisisBox.display}, height ${res.crisisBox.h}`);
