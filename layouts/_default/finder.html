@@ -9,6 +9,7 @@
 {{- $street := resources.Get "js/finder-street.js" | minify | fingerprint -}}
 {{- $lists := resources.Get "js/finder-lists.js" | minify | fingerprint -}}
 {{- $upgrade := resources.Get "js/finder-upgrade.js" | minify | fingerprint -}}
+{{- $posts := resources.Get "js/finder-posts.js" | minify | fingerprint -}}
 {{- $js := resources.Get "js/finder.js" | minify | fingerprint -}}
 {{- $transit := eq site.Params.finderTransit true -}}
 
@@ -382,5 +383,6 @@
 {{- $transitJs := resources.Get "js/finder-transit.js" | minify | fingerprint }}
 <script src="{{ $transitJs.RelPermalink }}" integrity="{{ $transitJs.Data.Integrity }}" defer></script>
 {{- end }}
+<script src="{{ $posts.RelPermalink }}" integrity="{{ $posts.Data.Integrity }}" defer></script>
 <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
 {{ end }}

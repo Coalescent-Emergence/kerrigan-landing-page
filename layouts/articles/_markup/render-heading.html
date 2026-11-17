@@ -1,0 +1,4 @@
+{{- /* Article headings get a visible self-link (tracker 27, P7). Scoped to the
+       articles section: Hugo looks in layouts/<section>/_markup/ first, so legal
+       pages keep the default heading render. */ -}}
+<h{{ .Level }} id="{{ .Anchor }}"><a class="heading-link" href="#{{ .Anchor }}">{{ .Text }}</a></h{{ .Level }}>

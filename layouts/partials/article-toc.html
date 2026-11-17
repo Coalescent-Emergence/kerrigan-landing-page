@@ -1,0 +1,28 @@
+{{- /* "On this page" table of contents (tracker 27, P6/P8). Lists only h2s, found by
+       walking the heading tree to depth 3 so it does not depend on how Hugo nests a
+       page that has no h1. Renders with at least 3 sections. */ -}}
+{{- $items := slice -}}
+{{- range .Fragments.Headings -}}
+  {{- if eq .Level 2 }}{{ $items = $items | append . }}{{ end -}}
+  {{- range .Headings -}}
+    {{- if eq .Level 2 }}{{ $items = $items | append . }}{{ end -}}
+    {{- range .Headings -}}
+      {{- if eq .Level 2 }}{{ $items = $items | append . }}{{ end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if ge (len $items) 3 -}}
+<nav class="article-toc" id="contents" aria-labelledby="toc-label">
+  <details id="toc-details" open>
+    <summary id="toc-label">On this page <span>({{ len $items }} sections)</span></summary>
+    <ol>
+      {{- range $items }}
+      <li><a href="#{{ .ID }}">{{ .Title | safeHTML }}</a></li>
+      {{- end }}
+    </ol>
+    <a class="toc-top" href="#article-title">Back to top</a>
+  </details>
+</nav>
+<script>(function(){var d=document.getElementById('toc-details');if(d&&window.matchMedia('(max-width:1179px)').matches)d.open=false;})();</script>
+<a class="toc-fab" href="#contents">Contents &uarr;</a>
+{{- end -}}
