@@ -9,3 +9,4 @@
   # Dev-only (Kerrigan tracker 250): the client-home pin and transit times. hugo.toml has no
   # finderTransit, so the production build carries no pin control and no finder-transit.js.
   finderTransit = true
+  signupUrl = "https://ui.jhax.dev/signup"

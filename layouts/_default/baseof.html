@@ -245,6 +245,34 @@
         var el = document.getElementById(fieldMap[key]);
         if (el && attribution[key]) el.value = attribution[key];
       });
+
+      // Carry the stored post tag to the signup page so the trial records which post sent
+      // the visitor. Runs after the capture above, so a tag on this very URL counts.
+      // Only well-formed values are forwarded; nothing is added when no tag is stored.
+      var SIGNUP_URL = {{ .Site.Params.signupUrl | default "" }};
+      var CARRY_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
+      var TAG_RE = /^[a-z0-9_-]{1,64}$/;
+      if (SIGNUP_URL) {
+        var carry = [];
+        CARRY_KEYS.forEach(function (key) {
+          var v = String(attribution[key] || '').toLowerCase();
+          if (TAG_RE.test(v)) carry.push([key, v]);
+        });
+        if (carry.length) {
+          document.querySelectorAll('a[href]').forEach(function (a) {
+            var href = a.getAttribute('href');
+            if (href.indexOf(SIGNUP_URL) !== 0) return;
+            var rest = href.slice(SIGNUP_URL.length);
+            if (rest !== '' && !/^[?#]/.test(rest)) return;
+            var hash = '';
+            var h = rest.indexOf('#');
+            if (h >= 0) { hash = rest.slice(h); rest = rest.slice(0, h); }
+            var q = new URLSearchParams(rest.replace(/^\?/, ''));
+            carry.forEach(function (kv) { if (!q.has(kv[0])) q.set(kv[0], kv[1]); });
+            a.setAttribute('href', SIGNUP_URL + '?' + q.toString() + hash);
+          });
+        }
+      }
     })();
   </script>
 </body>
