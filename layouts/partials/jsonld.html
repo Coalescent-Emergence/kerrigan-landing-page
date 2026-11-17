@@ -18,7 +18,7 @@
 {{ $description := .Site.Params.description }}{{ with .Description }}{{ $description = . }}{{ end }}
 {{ $image := .Site.Params.ogImage }}{{ with .Params.image }}{{ $image = . }}{{ end }}
 
-{{ if and .IsPage (eq .Section "articles") }}
+{{ if and .IsPage (in (slice "articles" "note-examples") .Section) }}
 {{ $publisher := dict "@type" "Organization" "name" "LatentWorx" "logo" (dict "@type" "ImageObject" "url" $logo) }}
 {{ $article := dict
   "@context" "https://schema.org"
@@ -35,6 +35,16 @@
 {{ with .Keywords }}{{ $article = merge $article (dict "keywords" (delimit . ", ")) }}{{ end }}
 <script type="application/ld+json">{{ $article | jsonify | safeJS }}</script>
 {{ end }}
+
+{{- /* BreadcrumbList for pages in the note-examples section. Absolute URLs come
+     from Permalink, so they follow the build's baseURL. */}}
+{{- if and .IsPage (eq .Section "note-examples") }}
+{{- $items := slice (dict "@type" "ListItem" "position" 1 "name" "Home" "item" (.Site.Home.Permalink)) }}
+{{- with .Site.GetPage "/note-examples" }}{{ $items = $items | append (dict "@type" "ListItem" "position" 2 "name" .Title "item" .Permalink) }}{{ end }}
+{{ $items = $items | append (dict "@type" "ListItem" "position" (add (len $items) 1) "name" .Title "item" .Permalink) }}
+{{- $crumbs := dict "@context" "https://schema.org" "@type" "BreadcrumbList" "itemListElement" $items }}
+<script type="application/ld+json">{{- $crumbs | jsonify | safeJS }}</script>
+{{- end }}
 
 {{/* Hugo lowercases front-matter keys, so thumbnailUrl arrives as thumbnailurl. */}}
 {{ with .Params.video }}
