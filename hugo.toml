@@ -46,7 +46,6 @@ disableKinds = ["taxonomy", "term"]
   analyticsEnabled = false
   posthogKey = ""
   posthogHost = "https://us.i.posthog.com"
-  clarityProjectId = ""
   ga4MeasurementId = ""
 
 [markup.goldmark.renderer]
