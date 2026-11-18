@@ -1,43 +1,4 @@
-# GitHub Copilot Instructions for kerrigan-landing-page
+# Agent instructions
 
-This repository contains the public-facing landing page for **Kerrigan** — AI-powered session transcription and clinical note generation for behavioral health, powered by secure, zero-retention cloud AI architecture.
-
-## Tech Stack
-
-- **Static Site Generator**: Hugo (extended, v0.128.0)
-- **Deployment**: GitHub Pages via GitHub Actions (`.github/workflows/deploy.yml`)
-- **Styles**: Custom CSS at `assets/css/design-system.css` (site) and `assets/css/finder.css` (finder page)
-- **Forms**: Formspree (waitlist capture, ID: `mwvreeno`)
-- **Domain**: `latentworx.com`
-
-## Repository Purpose
-
-This is a **marketing / waitlist site**, not application code. It is:
-- The primary public entry point for the Kerrigan product
-- U5 (Pilot Launch) scope — part of the `mvp-control-plane` planning structure
-- Subject to the same governance rules as all LatentWorx-LTD repositories
-
-## Core Workflows
-This repository participates in the LatentWorx-LTD planning and agent framework:
-
-- **Org ADRs**: [`org-dot-github/docs/decisions/`](https://github.com/LatentWorx-LTD/.github/tree/main/docs/decisions)
-- **State Matrices**: Each issue corresponds to a Trello Card containing a verifiable State Matrix.
-- **Control plane primer**: [`mvp-control-plane/docs/primers/kerrigan-landing-page.md`](https://github.com/LatentWorx-LTD/mvp-control-plane/blob/main/docs/primers/kerrigan-landing-page.md)
-- **AI Playbook**: [`org-dot-github/AI_PLAYBOOK.md`](https://github.com/LatentWorx-LTD/.github/blob/main/AI_PLAYBOOK.md)
-- **AI agents** (org-level, inherited automatically): Technical Decomposer, Architecture Guardian, ADR Generator, MVP Clarifier, Story Generator
-
-## Guidelines
-
-- Content changes (copy, SEO) do not require a piece plan; layout/structural changes do.
-- PRs that modify `docs/decisions/` must follow MADR format (enforced by `adr-guard` workflow).
-- No PHI or patient data is ever stored here — this is a public static site.
-- Keep Hugo frontmatter in YAML; do not switch to TOML for content files.
-- SEO: maintain `description`, `keywords`, and proper heading hierarchy (`h1` → `h2` → `h3`).
-- Accessibility: use semantic HTML; alt text on all images.
-- For Hugo-specific help, consult [`docs/development.md`](./docs/development.md).
-
-## Initiative Linkage
-
-Changes beyond routine content updates should be linked to a control-plane child issue:
-- Initiative ID prefix: `MVP-U5` (Pilot Launch umbrella)
-- PR template is at [`.github/pull_request_template.md`](./.github/pull_request_template.md)
+See [`CLAUDE.md`](../CLAUDE.md) in the repository root. It is the single source for build, test,
+merge and off-limits rules for this repo.

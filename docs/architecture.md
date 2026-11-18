@@ -1,3 +1,5 @@
+> Stale as of 2026-11-18: see [`CLAUDE.md`](../CLAUDE.md) for current build, deploy and finder facts.
+
 # Architecture — kerrigan-landing-page
 
 ## Overview
