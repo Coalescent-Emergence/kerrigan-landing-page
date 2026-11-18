@@ -55,12 +55,19 @@
     {{ with .Site.Params.posthogKey }}
       <script>
         !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once unregister identify alias set_config reset opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing start_batch_senders stop_batch_senders set_person_properties set_person_properties_for_flags remove_person_properties group set_group_properties set_group_properties_once remove_group_properties reset_group_properties reset_group_properties_once capture_once capture_analytics random_url random_key isFeatureEnabled get_distinct_id getGroups get_session_id get_session_replay_url get_property set_property get_feature_flag get_feature_flag_payload reload_feature_flags updateEarlyAccessFeatureEnrollment getFlags get_flag_variants register_for_session remove_for_session unregister_for_session",n=0;n<o.split(" ").length;n++)g(u,o.split(" ")[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+        {{- /* Same file the unit test covers; inlined so no extra request or script. */}}
+        {{ (resources.Get "js/internal-traffic.js").Content | safeJS }}
+        var lwxInternal = false;
+        try { lwxInternal = LwxInternalTraffic.isInternal(location.search, localStorage, navigator.webdriver); } catch (e) { lwxInternal = navigator.webdriver === true; }
         posthog.init('{{ . }}', {
           api_host: '{{ $.Site.Params.posthogHost }}',
           person_profiles: 'identified_only',
           capture_pageview: true,
           capture_pageleave: true,
+          // Runs on every event, including the first pageview, so the property is never missing.
+          before_send: function (ev) { if (lwxInternal && ev && ev.properties) ev.properties.is_internal = true; return ev; },
         });
+        if (lwxInternal) posthog.register({ is_internal: true });
       </script>
     {{ end }}
 
