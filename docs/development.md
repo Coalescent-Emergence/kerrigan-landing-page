@@ -4,7 +4,7 @@
 
 | Tool | Version | Install |
 |------|---------|---------|
-| Hugo extended | v0.128.0 | [gohugo.io](https://gohugo.io/installation/) |
+| Hugo extended | v0.161.1 (CI pin) | [gohugo.io](https://gohugo.io/installation/) |
 | Git | any | system package manager |
 
 > **Extended** edition is required (CSS processing). Standard Hugo will fail.
@@ -17,7 +17,7 @@ brew install hugo
 
 # Verify — must show "extended"
 hugo version
-# Expected: hugo v0.128.0+extended ...
+# Expected: hugo v0.161.1+extended ...
 ```
 
 ### Install Hugo (Windows)
@@ -34,7 +34,7 @@ choco install hugo-extended
 
 ```bash
 # Clone
-git clone https://github.com/LatentWorx-LTD/kerrigan-landing-page
+git clone https://git.jhax.dev:30300/LatentWorx-Beck/kerrigan-landing-page.git
 cd kerrigan-landing-page
 
 # Start dev server with live reload
@@ -98,7 +98,7 @@ hugo --gc --minify
 
 Deployment is fully automated via `.github/workflows/deploy.yml`:
 - Trigger: push to `main`
-- Build: Hugo extended v0.128.0 with `--minify`
+- Build: Hugo extended v0.161.1 with `--minify`
 - Deploy: GitHub Pages to `latentworx.com`
 
 No manual deployment steps are needed. All changes to `main` go live within ~1 minute.
@@ -115,7 +115,7 @@ No manual deployment steps are needed. All changes to `main` go live within ~1 m
 | New external dependency | Yes |
 | Workflow / CI changes | Yes |
 
-Piece plans live in `mvp-control-plane/docs/implementation/pieces/`.
+Piece plans live in `docs/plans/` (`<issue>-<slug>.md`).
 
 ### PR checklist
 
@@ -142,7 +142,7 @@ hugo serve --port 1314
 
 ### Build warnings about missing image
 
-`og-kerrigan.png` is referenced in `hugo.toml` (`[params].ogImage`) but the file is not yet present. Add it at `static/img/og-kerrigan.png` (recommended: 1200×630px) to resolve.
+`static/img/og-kerrigan.png` (and `og-finder.png`) exist; if a build warns about a missing image, check the path in `hugo.toml` (`[params].ogImage`) against `static/img/`.
 
 ## References
 
