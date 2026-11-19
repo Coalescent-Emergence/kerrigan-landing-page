@@ -2,7 +2,7 @@
 title: "How recovery housing works, and how it ties to treatment"
 description: "How recovery housing works: what a recovery residence is, NARR levels I to IV, Oxford Houses, Virginia certification, and how counselors vet a house."
 date: 2026-11-09
-lastmod: 2026-11-09
+lastmod: 2026-11-19
 slug: how-recovery-housing-works
 keywords:
   - how recovery housing works
@@ -16,7 +16,7 @@ summary: "What a recovery residence is and is not, how NARR levels and Oxford Ho
 draft: true
 ---
 
-Recovery housing is a place to live, not a treatment level. A recovery residence is alcohol-free and illicit-drug-free housing where residents support each other, and in Virginia it offers no clinical treatment by definition. Clients combine it with treatment, often outpatient, that they get from a separate provider. The two connect through the client and through you, so you are the one who checks the house.
+Recovery housing is a place to live, not a treatment level. A recovery residence is alcohol-free and illicit-drug-free housing where residents support each other, and in Virginia it offers no clinical treatment by definition. Clients combine it with treatment, often outpatient, that they get from a separate (or sometimes the same) provider. As someone who may be connecting or referring the client to these services, it makes sense you want to know as much about these places as possible.
 
 ## In brief
 
@@ -25,21 +25,21 @@ Recovery housing is a place to live, not a treatment level. A recovery residence
 - Virginia requires certification to operate. Certification is not a clinical license (our reading), and the state does not currently inspect (as of the latest report).
 - Before you refer, check who owns the house, whether the stay depends on one program, and what the written agreement says. The questions are at the end.
 
-A client finishes a residential stay, or starts intensive outpatient, and needs somewhere stable to live that is not the place they used. The rest of this article explains how recovery housing works, how it sits next to treatment, and how to check a house.
+When a client finishes a residential stay, or starts intensive outpatient, they need somewhere stable to live. The rest of this article explains how recovery housing works, how it sits next to treatment, and how to check a house.
 
 ## What a recovery residence is
 
 SAMHSA, the Substance Abuse and Mental Health Services Administration, calls recovery housing "a recovery support service" in which "the recovery housing setting is the service" ([SAMHSA, Best Practices for Recovery Housing, 2023, PEP23-10-00-002, copy hosted by the West Virginia Bureau for Behavioral Health](https://bbh.wv.gov/media/35510/download), Overview).
 
-The residents supply much of the support: shared rules, accountability to each other, and a household that stays sober. The federal law that required SAMHSA's guidance also told it to leave out best practices for treatment services ([SAMHSA, Background](https://bbh.wv.gov/media/35510/download)).
+In recovery housing, the residents often supply much of the support: shared rules, accountability to each other, and a household that stays sober. The federal law that required SAMHSA's guidance also told it to leave out best practices for treatment services ([SAMHSA, Background](https://bbh.wv.gov/media/35510/download)).
 
 Virginia puts the line in statute. A recovery residence is alcohol-free and illicit-drug-free housing for people with substance use disorders (SUDs), with or without a co-occurring mental illness, "that does not include clinical treatment services" ([Va. Code § 37.2-431.1(A)](https://law.lis.virginia.gov/vacode/37.2-431.1/)).
 
-Under that definition a recovery residence is not a treatment level. It delivers no clinical treatment, and a client living in one still needs treatment from a separate provider. NARR also defines a Level IV that includes clinical services, covered below. For what the treatment levels are, read [levels of care explained](/articles/levels-of-care-explained/).
+Under that definition a recovery residence is not a treatment level. It delivers no clinical treatment, and a client living in one still needs treatment from a separate or partnered provider. NARR also defines a Level IV that includes clinical services, covered below. For what the treatment levels are, read [levels of care explained](/articles/levels-of-care-explained/).
 
 ## NARR levels I to IV
 
-NARR sorts housing into four levels of support. It treats the terms level and type as interchangeable, and its levels are informed by the categories of the American Society of Addiction Medicine (ASAM) ([NARR standards](https://narronline.org/standards/)).
+NARR sorts housing into four levels of support and its levels are informed by the categories of the American Society of Addiction Medicine (ASAM) ([NARR standards](https://narronline.org/standards/)).
 
 - **Level I, peer-run.** "Democratically run" homes, with Oxford Houses as an example. SAMHSA's table lists no on-site paid staff ([SAMHSA, Table 1](https://bbh.wv.gov/media/35510/download)).
 - **Level II, monitored.** Often called sober homes or sober living, with house rules, peer accountability and a house manager.
@@ -64,7 +64,7 @@ Virginia requires an Oxford House to tell prospective residents it is "self-gove
 
 SAMHSA notes many residents stay in recovery housing during or after outpatient treatment, and says housing providers should "offer resources to help residents access and remain in outpatient treatment." At Levels I and II the housing relies on outside clinical services "as needed" or "available and encouraged." At Level III it is "linked with" clinical services in the community ([SAMHSA, Best Practice 10 and Table 1](https://bbh.wv.gov/media/35510/download)).
 
-In practice that means two arrangements running side by side: a house with its own rules and rent, and a treatment program, such as intensive outpatient, with its own schedule and clinical record. Which housing fits which client is a clinical judgment for you and the treatment team, and this article does not make it.
+In practice that means two arrangements running side by side: a house with its own rules and rent, and a treatment program, such as intensive outpatient, with its own schedule and clinical record. Which housing fits which client is a clinical judgment for you and the client's treatment team.
 
 Payment follows the split. VARR, which accredits Virginia residences to NARR standards, puts it this way: "Recovery residences are self pay and are NOT COVERED BY INSURANCE." It points to the statewide Indigent Bed Program for people who cannot pay ([VARR directory](https://varronline.org/accredited-residences-2/)).
 
@@ -132,7 +132,7 @@ An undisclosed tie between a house and a program is a reason to ask more questio
 - The state workgroup recommended amending the Code to authorize the Board to require licensing of residences that require all residents to join the same outpatient program ([SD 11, Recommendation 2](https://rga.lis.virginia.gov/Published/2025/SD11/PDF)).
 - A study of treatment providers that offer housing that is not licensed or certified was due by November 1, 2026 (not located; see below) ([2026 Acts, Chapter 1000, enactment 2](https://law.lis.virginia.gov/uncodifiedacts/2026/session1/chapter1000/)).
 
-## Questions to ask before referring
+## Questions to ask before referring your clients
 
 Put these to any house or program:
 
@@ -144,7 +144,7 @@ Put these to any house or program:
 
 If the answers to the first three are unclear, we would take the question to your compliance officer before referring. SAMHSA says placement "should be predicated upon individual needs, goals, and choice" ([SAMHSA, Best Practice 2](https://bbh.wv.gov/media/35510/download)), so the choice stays your client's.
 
-## Where this leaves you
+## Where does this leave you?
 
 Recovery housing sits next to treatment and works alongside it. Virginia certification tells you a house holds a credential and a state listing; it says little about how well the house is run (our reading). The checks above are yours to make, with the sources linked.
 
