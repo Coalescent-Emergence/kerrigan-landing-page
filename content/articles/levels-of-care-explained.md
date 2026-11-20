@@ -79,7 +79,7 @@ Compare the hour minimums in the Virginia text. Level 2.5 requires 20 or more ho
 
 | | Level 2.5 (PHP) | Levels 3.1 to 3.5 (residential) | Level 3.7 |
 |---|---|---|---|
-| Housing | Not at the program; it is "nonresidential" (but more often than not partnered with a supportive housing service) | At the program; these are residential levels | At the facility, under medical supervision |
+| Where the client sleeps | Not at the program; it is "nonresidential" (but more often than not partnered with a supportive housing service) | At the program; these are residential levels | At the facility, under medical supervision |
 | Hours | 20+ per week, 5+ per service day | 3.1: 5+ hours per week, in addition to other services; 3.5: daily scheduled services, no weekly minimum stated; staff present 24 hours | 24-hour care; no weekly minimum stated |
 | Staffing | Interdisciplinary team (consisting of nursing as clinically indicated, a physician,counselors/therapists; )emergency services by phone when the program is not in session | Awake onsite supervision 24 hours a day | Physician-overseen team plus nursing |
 | Medical coverage | Consult by phone within 8 hours or in person or by telemedicine within 48 hours; emergency services 24/7 | Physician consultation and emergency services 24/7; at 3.5, credentialed medical staff on site or by phone around the clock | Physician assessment within 24 hours of admission; nurse assessment on admission |
