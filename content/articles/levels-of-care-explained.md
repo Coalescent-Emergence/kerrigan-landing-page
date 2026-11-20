@@ -35,9 +35,9 @@ The levels come from The ASAM Criteria, published by the American Society of Add
 
 ASAM is not a regulator: "Public entities, including state and local regulatory bodies, and payers will determine if and when they want to implement" the criteria ([ASAM FAQ](https://www.asam.org/asam-criteria/criteria-faq)).
 
-CMS (the Centers for Medicare & Medicaid Services) pointed states the same direction. Its 2017 letter to state Medicaid directors asked states to show they use evidence-based guidelines "such as those published by the American Society of Addiction Medicine (ASAM)." The letter covers outpatient, intensive outpatient, residential, inpatient and medically supervised withdrawal management levels ([CMS SMD 17-003](https://www.medicaid.gov/federal-policy-guidance/downloads/smd17003.pdf)).
+CMS (the Centers for Medicare & Medicaid Services) points the same direction. Its 2017 letter to state Medicaid directors asked states to show they use evidence-based guidelines "such as those published by the American Society of Addiction Medicine (ASAM)." The letter covers outpatient, intensive outpatient, residential, inpatient and medically supervised withdrawal management levels ([CMS SMD 17-003](https://www.medicaid.gov/federal-policy-guidance/downloads/smd17003.pdf)).
 
-So the level numbers are ASAM's, and the hours, staffing and licences attached to them are written by each state. Virginia's version is below.
+So the level numbers are ASAMs, and the hours, staffing and licences attached to them are written by each state. Virginia's version is below.
 
 ## The levels, one at a time
 
