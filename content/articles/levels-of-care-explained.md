@@ -115,7 +115,7 @@ Do not assume a licence category exists for a Fourth Edition level such as 2.7 o
 - A licence category for a 4th edition level such as 2.7 or 3.7 BIO. We found no licence category for one.
 - The comparison table's "Where the person sleeps" row and the 3.x "24-hour setting" point are our reading of "residential" and the hour minimums.
 
-## What to do with this
+## What does this information mean for you?
 
 Rules change. Check the current text of the sections linked above, and take any question about a specific program's licence, authorization or documentation to your compliance officer. Your own clinical judgment decides what applies to a given person.
 
@@ -125,4 +125,4 @@ We build Kerrigan for substance use disorder (SUD) counselors. Kerrigan generate
 
 **Request access through the form on the [LatentWorx home page](https://latentworx.com/).**
 
-*This article is not clinical or billing advice. It describes what the sources sa*
+*This article is not clinical or billing advice. It describes what the sources say.*
