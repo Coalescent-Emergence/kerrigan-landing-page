@@ -13,8 +13,11 @@
       &middot; Updated <time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "January 2, 2006" }}</time>
       {{ end }}
     </p>
+    {{ with .Params.last_reviewed }}
+    <p class="article-meta source-check" style="margin-bottom:var(--wp-space-6);">Sources checked on <time datetime="{{ time.AsTime . | time.Format "2006-01-02" }}">{{ time.AsTime . | time.Format "January 2, 2006" }}</time> by an AI-assisted review, used to match the article's regulatory, clinical and numeric statements to the primary sources cited here, then read and approved for publication by LatentWorx. General information, not clinical or legal advice.</p>
+    {{ end }}
     <div class="legal-card sacred-card">
-      <div class="legal-content">
+      <div class="legal-content article-content">
       {{ .Content }}
       </div>
     </div>
