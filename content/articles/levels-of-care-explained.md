@@ -25,7 +25,7 @@ Virginia Medicaid ARTS (Addiction and Recovery Treatment Services) is written to
 1. The 3x levels are residential, the 2x levels mean the client can live at home or in supportive housing, and level 4 is inpatient hospitalization.
 2. PHP (partial hospitalization program, Level 2.5) is a day program of 20 or more hours a week, not a hospital stay.
 3. Level 2.5 sets a 20 hour weekly minimum.
-4. Level 3.1 has a five hour minimum and is often combined with 2.5 or 2.1 service, but this isnt required. The residential levels add the 24-hour setting (our reading).
+4. Level 3.1 has a five hour minimum "in addition to" other treatment services, so it is often combined with 2.5 or 2.1.  The residential levels add the 24-hour setting (our reading).
 5. The 4th edition (2023) folds withdrawal management into the main levels, replaces the readiness to change dimension, and adds co-occurring enhanced levels.
 6. Virginia Medicaid ARTS is on the 3rd edition (2013) today, with a 4th edition transition announced and undated. Licensing incorporates the 3rd edition by reference.
 
