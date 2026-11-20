@@ -47,7 +47,7 @@ The hours and staffing below are Virginia's regulatory definitions, in [12VAC35-
 
 **Level 1.0, outpatient.** Virginia's definition is "center-based substance abuse treatment delivered to individuals for fewer than nine hours of service per week for adults" (12VAC35-105-20). The licensing admission rule for 1.0 allows "no more than nine hours" ([12VAC35-105-1790](https://law.lis.virginia.gov/admincodefull/title12/agency35/chapter105/partVII/)). The two texts overlap at nine, and the intensive outpatient (IOP) definition below starts at nine.
 
-**Level 2.1, intensive outpatient (IOP).** Structured treatment, mainly counseling and education, for "nine to 19 hours of services per week for adults" in Virginia's definition. Psychiatric and medical needs are generally handled by consultation and referral (12VAC35-105-20).
+**Level 2.1, intensive outpatient (IOP).** Structured treatment, mainly counseling and education, for "nine to nineteen hours of services per week for adults" in Virginia's definition. Psychiatric and medical needs are generally handled by consultation and referral (12VAC35-105-20).
 
 **Level 2.5, partial hospitalization (PHP).** The next section covers this level in full, because the name misleads people.
 
