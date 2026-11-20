@@ -46,7 +46,7 @@ Add the fields your payer wants in every note. Virginia's Medicaid progress note
 
 **P (Plan):** Client will identify two alternative meeting times and bring them next session. Counselor and client built an evening schedule with two scheduled activities, to be tried this week. Counselor will repeat the PHQ-9 in two weeks and discuss with the prescriber if the score rises again, with client consent on file. Counselor will go over what a release of information to the employer would and would not allow, so the client can decide. Next individual session: 2026-11-19.
 
-*Signed: [Counselor name, credentials], 2026-11-12*
+*Signed: \[Counselor name, credentials\], 2026-11-12*
 
 ## What makes this note strong
 
