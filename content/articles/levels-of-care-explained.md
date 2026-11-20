@@ -124,4 +124,4 @@ We build Kerrigan for substance use disorder (SUD) counselors. Kerrigan generate
 
 **Request access through the form on the [LatentWorx home page](https://latentworx.com/).**
 
-*This article is not clinical or billing advice. It describes what the sources say.*
+*This article is not clinical or billing advice. It describes what the sources say*
