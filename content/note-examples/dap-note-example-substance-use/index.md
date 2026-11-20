@@ -46,7 +46,7 @@ Many payers require a few fields in every note whatever the format. Virginia's M
 
 **P (Plan):** Client will practice urge surfing once daily and log any cravings on the card provided. He will call his sponsor before, not after, entering a conflict he expects to be hard. Counselor will raise sleep with the client's prescriber at the next scheduled contact, with his written consent already on file. Next individual session is 2026-11-17; the group session on Thursday stays on the schedule. Counselor will revisit Goal 2 and ask about the log at the next session.
 
-*Signed: [Counselor name, credentials], 2026-11-10*
+*Signed: \[Counselor name, credentials\], 2026-11-10*
 
 ## What makes this note strong
 
