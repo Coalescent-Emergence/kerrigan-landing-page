@@ -52,7 +52,7 @@ One fact to keep in mind: HIPAA's definition of psychotherapy notes, which can b
 
 **Plan:** Client will go to the basketball game on Friday and will ask his sister about holding part of his paycheck. Counselor will check on both at the next session and review the screen result. Next individual session: 2026-11-18. Group continues Thursdays.
 
-*Signed: [Counselor name, credentials], 2026-11-11*
+*Signed: \[Counselor name, credentials\], 2026-11-11*
 
 ## What makes this note strong
 
