@@ -22,7 +22,7 @@ Virginia Medicaid ARTS (Addiction and Recovery Treatment Services) is written to
 
 ## In brief
 
-1. The 3.x levels are residential, 4.0 is hospital inpatient, and 2.5 is explicitly nonresidential.
+1. The 3x levels are residential, 4.0 is hospital inpatient,
 2. PHP (partial hospitalization program, Level 2.5) is a day program of 20 or more hours a week, not a hospital stay.
 3. Level 2.5 sets a 20 hour weekly minimum. Level 3.1 sets five hours in addition to other services. The residential levels add the 24-hour setting (our reading).
 4. The 4th edition (2023) folds withdrawal management into the main levels, replaces the readiness to change dimension, and adds co-occurring enhanced levels.
