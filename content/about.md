@@ -1,16 +1,18 @@
 ---
 title: "About LatentWorx"
-description: "LatentWorx builds Kerrigan, an AI scribe for behavioral health and substance use treatment, and publishes articles for the people who run those programs."
+description: "Who writes the articles on this site, how we check their sources, and how to see the product we build for behavioral health and substance use treatment programs."
 ---
 
-LatentWorx builds Kerrigan, an AI scribe for behavioral health and substance use treatment programs. Kerrigan transcribes a session as it happens and drafts the note.
+## In brief
+
+We write the articles on this site for clinical directors, compliance officers and program managers, and we build an artificial intelligence (AI) scribe for behavioral health and substance use treatment programs. The scribe captures a session live and drafts the note once the session ends.
 
 ## About the articles
 
-The articles on this site are written by LatentWorx for clinical directors, compliance officers and program managers. They are general information, not clinical or legal advice. Check them against your own rules, your counsel and the sources they cite.
+The articles are general information, not clinical or legal advice. Check them against your own rules, the sources they cite and your compliance officer.
 
-Each article links the regulation, guideline or document behind its regulatory, clinical and numeric statements. Before an article is published, an AI-assisted review checks those statements against the sources cited. LatentWorx reads and approves every article before it goes live. When an article shows a "Sources checked" line, that line gives the date the check ran. No article claims review by a doctor or other licensed clinician.
+Some articles carry a "Sources checked" line. That line gives the date an AI-assisted review matched the article's regulatory, clinical and numeric statements to the primary sources it cites. We read and approve every article before it goes live. An article without the line has not had this review. No article claims review by a doctor or other clinician.
 
-## Contact
+## See the product
 
-To see Kerrigan, book the [product demo](/product-demo/).
+To see what we build, book the [product demo](/product-demo/).
