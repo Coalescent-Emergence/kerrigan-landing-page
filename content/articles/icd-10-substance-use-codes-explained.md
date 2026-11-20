@@ -22,13 +22,13 @@ A chart says "alcohol use disorder, moderate," and the code on the record is F10
 
 This article takes apart those codes, category by category and character by character, and shows how they map to severity in the DSM-5 (the American Psychiatric Association's Diagnostic and Statistical Manual of Mental Disorders, 5th edition): mild, moderate or severe.
 
-
 ## In brief
 
 - In ICD-10-CM, the substance codes run from F10 to F19. The first three characters name the substance, the fourth names the pattern (use, abuse or dependence), and the fifth names what comes with it, such as intoxication, withdrawal or remission.
 - Moderate and severe collapse into one code, so severity lives in the clinician's documentation.
 - "Dependence" in a code description is a classification label, not a second diagnosis (our reading).
 - No F10 to F19 code changed in FY 2027. We compared the FY 2027 Tabular List against the FY 2026 file; we did not check how payers treat the codes.
+
 ## Which code set this describes
 
 This article uses the **ICD-10-CM FY 2027** (fiscal year 2027) code set, effective October 1, 2026 through September 30, 2027. FY27 codes should be used for healthcare services provided in that window, per NCHS (the National Center for Health Statistics) ([ICD-10-CM files](https://www.cdc.gov/nchs/icd/icd-10-cm/files.html)).
@@ -88,7 +88,7 @@ The guidelines turn that into a hierarchy. When documentation refers to more tha
 
 The fifth character is where intoxication, withdrawal, remission and the substance-induced disorders live. Four things to know.
 
-**Intoxication and withdrawal are separate branches.** In opioid dependence, F11.22 (intoxication) and F11.23 (withdrawal) each carry an Excludes1 note pointing at the other. Alcohol is different: F10.22 and F10.23 carry Excludes2 notes against each other, which the conventions say allow both codes together. 
+**Intoxication and withdrawal are separate branches.** In opioid dependence, F11.22 (intoxication) and F11.23 (withdrawal) each carry an Excludes1 note pointing at the other. Alcohol is different: F10.22 and F10.23 carry Excludes2 notes against each other, which the conventions say allow both codes together.
 
 **Induced disorders are named for what they induce.** For alcohol dependence they are mood (4), psychotic (5), persisting amnestic (6) and persisting dementia (7). Anxiety, sexual dysfunction and sleep disorders are sixth-character detail under 8. Opioids and cannabis have fewer of these, so check the specific category.
 
@@ -140,7 +140,7 @@ All descriptions below are from the FY 2027 Tabular List. The chart language is 
 
 ## What the code does not do
 
-A code names a diagnosis category. It does not record criteria met, symptom count beyond the mild versus moderate-or-severe line, or why the clinician chose a severity. That stays in the note. Which codes a payer accepts, and in what order, is a payer and coder question. 
+A code names a diagnosis category. It does not record criteria met, symptom count beyond the mild versus moderate-or-severe line, or why the clinician chose a severity. That stays in the note. Which codes a payer accepts, and in what order, is a payer and coder question.
 
 ## What changed in FY 2027
 
