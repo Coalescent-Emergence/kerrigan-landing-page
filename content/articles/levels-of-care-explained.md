@@ -1,8 +1,8 @@
 ---
 title: "ASAM levels of care explained: from early intervention to 4.0, and what Virginia uses"
 description: "ASAM levels of care explained: what each level means, what PHP is, how 2.5 differs from 3.x, what the 4th edition changed, and which edition Virginia uses."
-date: 2026-11-09
-lastmod: 2026-11-09
+date: 2026-11-21
+lastmod: 2026-11-21
 slug: levels-of-care-explained
 keywords:
   - ASAM levels of care explained
@@ -13,7 +13,7 @@ keywords:
   - ASAM 4th edition changes
   - Virginia ARTS ASAM level of care
 summary: "Each ASAM level of care from 0.5 to 4.0 in plain terms, what PHP is, how Level 2.5 differs from the residential 3.x levels, what the 4th edition changed, and which edition Virginia rules use today."
-draft: true
+draft: false
 image: /img/articles/levels-of-care-explained-16x9.png
 image_alt: "Ladder of ASAM levels from 0.5 early intervention up to 4.0 inpatient hospital care"
 ---
@@ -49,7 +49,7 @@ The hours and staffing below are Virginia's regulatory definitions, in [12VAC35-
 
 **Level 0.5, early intervention.** The ARTS manual covers "0.5 Early Intervention/Screening Brief Intervention and Referral to Treatment (SBIRT)" as the entry point, ahead of the treatment levels ([ARTS Provider Manual, Chapter IV](https://vamedicaid.dmas.virginia.gov/sites/default/files/2025-07/ARTS%20Provider%20Manual%20Chapter%20IV%20%28updated%207.7.25%29_Final.pdf)).
 
-**Level 1.0, outpatient.** Virginia's definition is "center-based substance abuse treatment delivered to individuals for fewer than nine hours of service per week for adults" (12VAC35-105-20). The licensing admission rule for 1.0 allows "no more than nine hours" ([12VAC35-105-1790](https://law.lis.virginia.gov/admincodefull/title12/agency35/chapter105/partVII/)). The two texts overlap at nine, and the intensive outpatient (IOP) definition below starts at nine.
+**Level 1.0, outpatient.** Virginia's definition is "center-based substance abuse treatment delivered to individuals for fewer than nine hours of service per week for adults" (12VAC35-105-20). The licensing program rule for 1.0 allows "no more than nine hours" ([12VAC35-105-1790](https://law.lis.virginia.gov/admincodefull/title12/agency35/chapter105/partVII/)). The two texts overlap at nine, and the intensive outpatient (IOP) definition below starts at nine.
 
 **Level 2.1, intensive outpatient (IOP).** Structured treatment, mainly counseling and education, for "nine to nineteen hours of services per week for adults" in Virginia's definition. Psychiatric and medical needs are generally handled by consultation and referral (12VAC35-105-20).
 

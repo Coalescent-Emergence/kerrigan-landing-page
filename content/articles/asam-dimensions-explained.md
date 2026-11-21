@@ -1,8 +1,9 @@
 ---
 title: "ASAM dimensions explained: the six dimensions, two editions, and which one Virginia uses"
 description: "ASAM dimensions explained: the six dimensions of the ASAM Criteria, how the 3rd and 4th editions differ, and which edition Virginia Medicaid ARTS uses."
-date: 2026-11-09
-lastmod: 2026-11-09
+date: 2026-11-21
+lastmod: 2026-11-21
+last_reviewed: 2026-11-20
 slug: asam-dimensions-explained
 keywords:
   - ASAM dimensions explained
@@ -12,7 +13,7 @@ keywords:
   - ASAM multidimensional assessment
   - Virginia ARTS ASAM
 summary: "The six ASAM dimensions in the 3rd and 4th editions, what changed between them, and which edition Virginia's Medicaid rules cite today."
-draft: true
+draft: false
 image: /img/articles/asam-dimensions-explained-16x9.png
 image_alt: "Grid of the six numbered assessment dimensions used to describe patient needs"
 ---

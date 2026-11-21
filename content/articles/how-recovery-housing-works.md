@@ -1,8 +1,9 @@
 ---
 title: "How recovery housing works, and how it ties to treatment"
 description: "How recovery housing works: what a recovery residence is, NARR levels I to IV, Oxford Houses, Virginia certification, and how counselors vet a house."
-date: 2026-11-09
-lastmod: 2026-11-19
+date: 2026-11-21
+lastmod: 2026-11-21
+last_reviewed: 2026-11-20
 slug: how-recovery-housing-works
 keywords:
   - how recovery housing works
@@ -13,7 +14,7 @@ keywords:
   - sober living and outpatient treatment
   - how to vet a recovery residence
 summary: "What a recovery residence is and is not, how NARR levels and Oxford Houses differ, what Virginia certification requires, and what a counselor should check before referring."
-draft: true
+draft: false
 image: /img/articles/how-recovery-housing-works-16x9.png
 image_alt: "Diagram: recovery housing sits beside clinical treatment, linked by a written agreement"
 ---
@@ -126,7 +127,7 @@ A treatment program and a house can be connected. What SAMHSA identifies as dang
 
 Federal law covers this too. 18 U.S.C. § 220 covers knowingly and willfully soliciting, receiving, paying or offering remuneration for referring a patient or patronage to a recovery home, clinical treatment facility or laboratory, with respect to services covered by a health care benefit program. It also includes exceptions ([18 U.S.C. § 220](https://www.law.cornell.edu/uscode/text/18/220)).
 
-An undisclosed tie between a house and a program is a reason to ask more questions, not proof of wrongdoing. The statute's wording targets what a house requires of residents, not the connection itself.
+An undisclosed tie between a house and a program is a reason to ask more questions, not proof of wrongdoing. Virginia's statute's wording targets what a house requires of residents, not the connection itself.
 
 **What Virginia law says now** ([§ 37.2-431.1](https://law.lis.virginia.gov/vacode/37.2-431.1/)):
 
