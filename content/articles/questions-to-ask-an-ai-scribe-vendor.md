@@ -102,3 +102,5 @@ For each question, mark the answer one of three ways: **documented** (they hande
 For the regulation in more depth, read the companion piece, [AI scribes and 42 CFR Part 2](/articles/ai-scribes-42-cfr-part-2/).
 
 To see Kerrigan, visit [our home page](https://latentworx.com/).
+
+Or [create an account](https://ui.latentworx.com/signup). New accounts get a 14-day free trial, no card required.

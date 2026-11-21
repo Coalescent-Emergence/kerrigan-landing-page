@@ -121,3 +121,5 @@ SAMHSA's 2026 report places documentation in "the low-risk, easier-to-automate q
 We cover most of these, with what good and bad answers sound like, in [the questions to ask an AI scribe vendor](/articles/questions-to-ask-an-ai-scribe-vendor/).
 
 To see Kerrigan, visit [our home page](https://latentworx.com/).
+
+Or [create an account](https://ui.latentworx.com/signup). New accounts get a 14-day free trial, no card required.
