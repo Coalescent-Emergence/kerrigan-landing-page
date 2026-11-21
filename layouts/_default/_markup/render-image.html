@@ -1,0 +1,6 @@
+{{- /* Every Markdown image carries alt text, or the build fails (plan 84, Q4).
+       A raw <img> tag in a page bypasses this hook; use Markdown images. */ -}}
+{{- if not (strings.TrimSpace .Text) -}}
+  {{- errorf "image %q on %s has empty alt text; write a description in ![...](...)" .Destination .Page.Path -}}
+{{- end -}}
+<img src="{{ .Destination | safeURL }}" alt="{{ .Text }}"{{ with .Title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async">

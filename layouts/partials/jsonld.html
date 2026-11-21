@@ -19,6 +19,16 @@
 {{ $image := .Site.Params.ogImage }}{{ with .Params.image }}{{ $image = . }}{{ end }}
 
 {{ if and .IsPage (eq .Section "articles") }}
+{{/* Image crops: an image named <slug>-16x9.<ext> also ships -4x3 and -1x1 files
+     (plan 84 step 13); any other image is listed alone. */}}
+{{ $images := slice ($image | absURL) }}
+{{ if strings.Contains $image "-16x9." }}
+{{ $images = slice ($image | absURL) (replace $image "-16x9." "-4x3." | absURL) (replace $image "-16x9." "-1x1." | absURL) }}
+{{ end }}
+{{/* lastReviewed only when front matter sets last_reviewed: the date an AI-assisted
+     source check ran. No reviewedBy and no MedicalWebPage: the page names no reviewer. */}}
+{{ $webpage := dict "@type" "WebPage" "@id" .Permalink }}
+{{ with .Params.last_reviewed }}{{ $webpage = merge $webpage (dict "lastReviewed" (time.AsTime . | time.Format "2006-01-02")) }}{{ end }}
 {{ $publisher := dict "@type" "Organization" "name" "LatentWorx" "logo" (dict "@type" "ImageObject" "url" $logo) }}
 {{ $article := dict
   "@context" "https://schema.org"
@@ -26,14 +36,23 @@
   "headline" .Title
   "description" $description
   "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")
-  "author" (dict "@type" "Organization" "name" "LatentWorx" "url" "https://latentworx.com/")
+  "author" (dict "@type" "Organization" "name" "LatentWorx" "url" "https://latentworx.com/about/")
   "publisher" $publisher
-  "image" ($image | absURL)
-  "mainEntityOfPage" (dict "@type" "WebPage" "@id" .Permalink)
+  "image" $images
+  "mainEntityOfPage" $webpage
 }}
 {{ if not .Lastmod.IsZero }}{{ $article = merge $article (dict "dateModified" (.Lastmod.Format "2006-01-02T15:04:05Z07:00")) }}{{ end }}
 {{ with .Keywords }}{{ $article = merge $article (dict "keywords" (delimit . ", ")) }}{{ end }}
 <script type="application/ld+json">{{ $article | jsonify | safeJS }}</script>
+{{ $crumbs := dict
+  "@context" "https://schema.org"
+  "@type" "BreadcrumbList"
+  "itemListElement" (slice
+    (dict "@type" "ListItem" "position" 1 "name" "LatentWorx" "item" "https://latentworx.com/")
+    (dict "@type" "ListItem" "position" 2 "name" "Articles" "item" ("/articles/" | absURL))
+    (dict "@type" "ListItem" "position" 3 "name" .Title "item" .Permalink))
+}}
+<script type="application/ld+json">{{ $crumbs | jsonify | safeJS }}</script>
 {{ end }}
 
 {{/* Hugo lowercases front-matter keys, so thumbnailUrl arrives as thumbnailurl. */}}
