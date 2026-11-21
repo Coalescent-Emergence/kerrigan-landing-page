@@ -14,6 +14,8 @@ keywords:
   - Virginia ARTS ASAM
 summary: "The six ASAM dimensions in the 3rd and 4th editions, what changed between them, and which edition Virginia's Medicaid rules cite today."
 draft: true
+image: /img/articles/asam-dimensions-explained-16x9.png
+image_alt: "Grid of the six numbered assessment dimensions used to describe a person's needs"
 ---
 
 **Virginia Medicaid names the 3rd edition (2013) of the ASAM Criteria, the standards of the American Society of Addiction Medicine (ASAM), and Virginia licensing points to it as written. A move to the 4th edition (2023) is planned, with no date found.** So when a form says "Dimension 4," the 3rd edition means readiness to change, and the 4th edition means substance use-related risks. Check which edition the form was written against.
@@ -27,6 +29,8 @@ This article lists the six ASAM dimensions in each edition, shows where the two 
 - Only the 4th edition builds risk ratings into its admission criteria.
 - A level number such as 1.0 can mean different services in Virginia's rules and in the 4th edition (our reading).
 - For Virginia Medicaid ARTS (Addiction and Recovery Treatment Services), the rule text names the 3rd edition. The Department of Medical Assistance Services (DMAS) says Virginia will move to the 4th.
+
+![Grid of the six numbered assessment dimensions used to describe a person's needs](/img/articles/asam-dimensions-explained-16x9.png)
 
 ## What the dimensions are for
 

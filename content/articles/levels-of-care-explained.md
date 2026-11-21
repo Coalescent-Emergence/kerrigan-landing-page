@@ -14,6 +14,8 @@ keywords:
   - Virginia ARTS ASAM level of care
 summary: "Each ASAM level of care from 0.5 to 4.0 in plain terms, what PHP is, how Level 2.5 differs from the residential 3.x levels, what the 4th edition changed, and which edition Virginia rules use today."
 draft: true
+image: /img/articles/levels-of-care-explained-16x9.png
+image_alt: "Ladder of ASAM levels from 0.5 early intervention up to 4.0 inpatient hospital care"
 ---
 
 **The American Society of Addiction Medicine (ASAM) levels of care are the numbers (1.0, 2.1, 2.5, 3.5) that programs, payers and regulators use to describe a treatment setting.** They tell you where treatment happens, how many hours a week, who is in the building, and what medical coverage stands behind it.
@@ -28,6 +30,8 @@ Virginia Medicaid ARTS (Addiction and Recovery Treatment Services) is written to
 4. Level 3.1 has a five hour minimum "in addition to" other treatment services, so it is often combined with 2.5 or 2.1.  The residential levels add the 24-hour setting (our reading).
 5. The 4th edition (2023) folds withdrawal management into the main levels, replaces the readiness to change dimension, and adds co-occurring enhanced levels.
 6. Virginia Medicaid ARTS is on the 3rd edition (2013) today, with a 4th edition transition announced and undated. Licensing incorporates the 3rd edition by reference.
+
+![Ladder of ASAM levels from 0.5 early intervention up to 4.0 inpatient hospital care](/img/articles/levels-of-care-explained-16x9.png)
 
 ## What the levels are, and who owns them
 

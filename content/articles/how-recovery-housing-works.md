@@ -14,6 +14,8 @@ keywords:
   - how to vet a recovery residence
 summary: "What a recovery residence is and is not, how NARR levels and Oxford Houses differ, what Virginia certification requires, and what a counselor should check before referring."
 draft: true
+image: /img/articles/how-recovery-housing-works-16x9.png
+image_alt: "Diagram: recovery housing sits beside clinical treatment, linked by a written agreement"
 ---
 
 Recovery housing is a place to live, not a treatment level. A recovery residence is alcohol-free and illicit-drug-free housing where residents support each other, and in Virginia it offers no clinical treatment by definition. Clients combine it with treatment, often outpatient, that they get from a separate (or sometimes the same) provider. As someone who may be connecting or referring the client to these services, it makes sense you want to know as much about these places as possible.
@@ -24,6 +26,8 @@ Recovery housing is a place to live, not a treatment level. A recovery residence
 - The National Alliance for Recovery Residences (NARR) sorts housing into four levels of support, from peer-run Oxford Houses to clinical programs.
 - Virginia requires certification to operate. Certification is not a clinical license (our reading), and the state does not currently inspect (as of the latest report).
 - Before you refer, check who owns the house, whether the stay depends on one program, and what the written agreement says. The questions are at the end.
+
+![Diagram: recovery housing sits beside clinical treatment, linked by a written agreement](/img/articles/how-recovery-housing-works-16x9.png)
 
 When a client finishes a residential stay, or starts intensive outpatient, they need somewhere stable to live. The rest of this article explains how recovery housing works, how it sits next to treatment, and how to check a house.
 
