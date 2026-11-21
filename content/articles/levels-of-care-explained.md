@@ -125,8 +125,12 @@ Rules change. Check the current text of the sections linked above, and take any 
 
 For how these levels connect to the assessment that places a person in one, see [ASAM dimensions explained](/articles/asam-dimensions-explained/).
 
+If your program is weighing an automated note-taking tool, read [what clinical directors should check before adopting one](/articles/ai-scribes-42-cfr-part-2/).
+
 We build Kerrigan for substance use disorder (SUD) counselors. Kerrigan generates ASAM six-dimension, DAP (Data, Assessment, Plan) and narrative notes, with a built-in check-and-revise loop.
 
 **Request access through the form on the [LatentWorx home page](https://latentworx.com/).**
+
+Or [create an account](https://ui.latentworx.com/signup). New accounts get a 14-day free trial, no card required.
 
 *This article is not clinical or billing advice. It describes what the sources say.*

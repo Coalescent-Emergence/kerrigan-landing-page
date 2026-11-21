@@ -68,6 +68,8 @@ Virginia requires an Oxford House to tell prospective residents it is "self-gove
 
 SAMHSA notes many residents stay in recovery housing during or after outpatient treatment, and says housing providers should "offer resources to help residents access and remain in outpatient treatment." At Levels I and II the housing relies on outside clinical services "as needed" or "available and encouraged." At Level III it is "linked with" clinical services in the community ([SAMHSA, Best Practice 10 and Table 1](https://bbh.wv.gov/media/35510/download)).
 
+For the assessment that decides which treatment level a client needs, see [ASAM dimensions explained](/articles/asam-dimensions-explained/).
+
 In practice that means two arrangements running side by side: a house with its own rules and rent, and a treatment program, such as intensive outpatient, with its own schedule and clinical record. Which housing fits which client is a clinical judgment for you and the client's treatment team.
 
 Payment follows the split. VARR, which accredits Virginia residences to NARR standards, puts it this way: "Recovery residences are self pay and are NOT COVERED BY INSURANCE." It points to the statewide Indigent Bed Program for people who cannot pay ([VARR directory](https://varronline.org/accredited-residences-2/)).
@@ -158,6 +160,10 @@ Recovery housing sits next to treatment and works alongside it. Virginia certifi
 - Whether the state now inspects residences. The latest report we read says it does not, and the August 25, 2026 DBHDS draft is not adopted.
 - Whether a Level IV program is a licensed provider rather than a certified residence, and whether certification is a clinical license. Both are our reading of the statute's definition.
 
+If your program is weighing an automated note-taking tool, read [what clinical directors should check before adopting one](/articles/ai-scribes-42-cfr-part-2/).
+
 We build Kerrigan for substance use disorder (SUD) counselors. **Request access through the form on the [LatentWorx home page](https://latentworx.com/).**
+
+Or [create an account](https://ui.latentworx.com/signup). New accounts get a 14-day free trial, no card required.
 
 *This is not legal advice. Statements of fact link to their source, and our own readings are marked as such. Virginia law changes, so verify the current text with the state office before you rely on it.*

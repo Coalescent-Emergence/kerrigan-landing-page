@@ -10,7 +10,6 @@ keywords:
   - ASAM criteria dimensions
   - ASAM 3rd edition vs 4th edition
   - ASAM multidimensional assessment
-  - ASAM levels of care
   - Virginia ARTS ASAM
 summary: "The six ASAM dimensions in the 3rd and 4th editions, what changed between them, and which edition Virginia's Medicaid rules cite today."
 draft: true
@@ -48,6 +47,8 @@ Virginia's Medicaid manual words the six dimensions this way, following the 3rd 
 4. Dimension 4: Readiness to change
 5. Dimension 5: Relapse, continued use, or continued problem potential
 6. Dimension 6: Recovery/living environment
+
+Where a client lives during treatment is its own subject; see [how recovery housing works](/articles/how-recovery-housing-works/).
 
 In plain terms (our gloss; the manual gives only the names), the first three ask what is happening in the body and mind right now. Dimension 4 asks where the person stands on change. Dimensions 5 and 6 ask what pulls them back toward use and what their surroundings support.
 
@@ -137,8 +138,12 @@ For the level numbers themselves, see [ASAM levels of care explained](/articles/
 
 ## Our interest in this
 
+If your program is weighing an automated note-taking tool, read [what clinical directors should check before adopting one](/articles/ai-scribes-42-cfr-part-2/).
+
 We build Kerrigan for substance use disorder (SUD) counselors. Kerrigan generates ASAM six-dimension, DAP (Data, Assessment, Plan) and narrative notes, with a built-in check-and-revise loop.
 
 **Request access through the form on the [LatentWorx home page](https://latentworx.com/).**
+
+Or [create an account](https://ui.latentworx.com/signup). New accounts get a 14-day free trial, no card required.
 
 *This article is not clinical, billing or legal advice.*

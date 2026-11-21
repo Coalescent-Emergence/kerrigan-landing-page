@@ -1286,6 +1286,8 @@ code, pre {
 .legal-content li { margin-bottom: var(--wp-space-2); }
 .legal-content a { color: var(--color-accent-secondary); text-decoration: underline; }
 .legal-content strong { color: var(--color-text-primary); }
+.article-content table { display: block; overflow-x: auto; max-width: 100%; }
+.article-content img { max-width: 100%; height: auto; }
 
 .legal-section-card {
   padding: var(--wp-space-5);
